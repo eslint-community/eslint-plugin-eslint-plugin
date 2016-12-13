@@ -28,9 +28,13 @@
   "homepage": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin#readme",
   "dependencies": {},
   "devDependencies": {
+    "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
     "eslint": "^3.12.1",
     "eslint-config-not-an-aardvark": "^2.0.0",
     "eslint-plugin-node": "^3.0.5",
+    "espree": "^3.3.2",
+    "lodash": "^4.17.2",
     "mocha": "^2.4.5"
   },
   "peerDependencies": {

@@ -36,11 +36,13 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
     "rules": {
-        "eslint-plugin/new-report-api": "error"
+        "eslint-plugin/no-deprecated-report-api": "error"
     }
 }
 ```
 
 ## Supported Rules
 
-* None yet
+🛠 indicates that a rule is fixable.
+
+* 🛠 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md): Prohibits the deprecated `context.report(node, message)` API
