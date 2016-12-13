@@ -41,8 +41,19 @@ Then configure the rules you want to use under the rules section.
 }
 ```
 
+Additionally, you can enable all recommended rules from this plugin:
+
+```json
+{
+    "extends": [
+        "plugin:eslint-plugin/recommended"
+    ]
+}
+```
+
 ## Supported Rules
 
+✔️ indicates that a rule is recommended.
 🛠 indicates that a rule is fixable.
 
-* 🛠 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md): Prohibits the deprecated `context.report(node, message)` API
+* ✔️ 🛠 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md): Prohibits the deprecated `context.report(node, message)` API
