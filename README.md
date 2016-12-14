@@ -57,3 +57,4 @@ Additionally, you can enable all recommended rules from this plugin:
 🛠 indicates that a rule is fixable.
 
 * ✔️ 🛠 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md): Prohibits the deprecated `context.report(node, message)` API
+[report-message-format](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/report-message-format.md): Enforces a consistent format for report messages

@@ -3,6 +3,7 @@
 const util = require('util');
 const lodash = require('lodash');
 const espree = require('espree');
+const escope = require('escope');
 const assert = require('chai').assert;
 const utils = require('../../lib/utils');
 
@@ -118,6 +119,41 @@ describe('utils', () => {
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${util.inspect(ruleInfo)}\nto match\n${util.inspect(CASES[ruleSource])}`
           );
+        });
+      });
+    });
+  });
+
+  describe('getContextIdentifiers', () => {
+    const CASES = {
+      'module.exports = context => { context; context; context; }' (ast) {
+        return [
+          ast.body[0].expression.right.body.body[0].expression,
+          ast.body[0].expression.right.body.body[1].expression,
+          ast.body[0].expression.right.body.body[2].expression,
+        ];
+      },
+      'module.exports = { meta: {}, create(context, foo = context) {} }' (ast) {
+        return [ast.body[0].expression.right.properties[1].value.params[1].right];
+      },
+      'module.exports = { meta: {}, create(notContext) { notContext; notContext; notContext; } }' (ast) {
+        return [
+          ast.body[0].expression.right.properties[1].value.body.body[0].expression,
+          ast.body[0].expression.right.properties[1].value.body.body[1].expression,
+          ast.body[0].expression.right.properties[1].value.body.body[2].expression,
+        ];
+      },
+    };
+
+    Object.keys(CASES).forEach(ruleSource => {
+      it(ruleSource, () => {
+        const ast = espree.parse(ruleSource, { ecmaVersion: 6 });
+        const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script' });
+        const identifiers = utils.getContextIdentifiers(scope, ast);
+
+        assert(identifiers instanceof Set, 'getContextIdentifiers should return a Set');
+        Array.from(identifiers).forEach((identifier, index) => {
+          assert.strictEqual(identifier, CASES[ruleSource](ast)[index]);
         });
       });
     });
