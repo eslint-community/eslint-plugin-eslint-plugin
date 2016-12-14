@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern \"!.*\"",
     "pretest": "npm run lint",
     "test": "mocha tests --recursive"
   },
