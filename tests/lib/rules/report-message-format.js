@@ -123,6 +123,16 @@ ruleTester.run('report-message-format', rule, {
       `,
       options: ['bar'],
     },
+    {
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({});
+          }
+        };
+      `,
+      options: ['foo'],
+    },
   ],
 
   invalid: [
