@@ -158,4 +158,29 @@ describe('utils', () => {
       });
     });
   });
+
+  describe('getKeyName', () => {
+    const CASES = {
+      '({ foo: 1 })': 'foo',
+      '({ "foo": 1 })': 'foo',
+      '({ ["foo"]: 1 })': 'foo',
+      '({ [`foo`]: 1 })': 'foo',
+      '({ foo() {} })': 'foo',
+      '({ "foo"() {} })': 'foo',
+      '({ ["foo"]() {} })': 'foo',
+      '({ [`foo`]() {} })': 'foo',
+      '({ 5: 1 })': '5',
+      '({ 0x123: 1 })': '291',
+      '({ [foo]: 1 })': null,
+      '({ [tag`foo`]: 1 })': null,
+      '({ ["foo" + "bar"]: 1 })': null,
+    };
+    Object.keys(CASES).forEach(objectSource => {
+      it(objectSource, () => {
+        const ast = espree.parse(objectSource, { ecmaVersion: 6 });
+
+        assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES[objectSource]);
+      });
+    });
+  });
 });
