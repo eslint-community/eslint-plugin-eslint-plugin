@@ -103,14 +103,31 @@ ruleTester.run('no-deprecated-report-api', rule, {
       code: `
         module.exports = {
           create(context) {
-            context.report(theNode, theLocation, theMessage, theData, theFix);
+            context.report(theNode, { line: foo, column: bar }, theMessage, theData, theFix);
           }
         };
       `,
       output: `
         module.exports = {
           create(context) {
-            context.report({node: theNode, loc: theLocation, message: theMessage, data: theData, fix: theFix});
+            context.report({node: theNode, loc: { line: foo, column: bar }, message: theMessage, data: theData, fix: theFix});
+          }
+        };
+      `,
+      errors: [ERROR],
+    },
+    {
+      code: `
+        module.exports = {
+          create(context) {
+            context.report(theNode, "theMessage", theData, theFix);
+          }
+        };
+      `,
+      output: `
+        module.exports = {
+          create(context) {
+            context.report({node: theNode, message: "theMessage", data: theData, fix: theFix});
           }
         };
       `,
@@ -127,24 +144,24 @@ ruleTester.run('no-deprecated-report-api', rule, {
       output: `
         module.exports = {
           create(context) {
-            context.report({node: theNode, message: theMessage, data: theData, fix: theFix});
-          }
-        };
-      `,
-      errors: [ERROR],
-    },
-    {
-      code: `
-        module.exports = {
-          create(context) {
             context.report(theNode, theMessage, theData, theFix);
           }
         };
       `,
+      errors: [ERROR],
+    },
+    {
+      code: `
+        module.exports = {
+          create(context) {
+            context.report(theNode, 'foo', theData);
+          }
+        };
+      `,
       output: `
         module.exports = {
           create(context) {
-            context.report({node: theNode, message: theMessage, data: theData, fix: theFix});
+            context.report({node: theNode, message: 'foo', data: theData});
           }
         };
       `,
@@ -154,31 +171,14 @@ ruleTester.run('no-deprecated-report-api', rule, {
       code: `
         module.exports = {
           create(context) {
-            context.report(theNode, theMessage, theData);
+            context.report(theNode, 'foo');
           }
         };
       `,
       output: `
         module.exports = {
           create(context) {
-            context.report({node: theNode, message: theMessage, data: theData});
-          }
-        };
-      `,
-      errors: [ERROR],
-    },
-    {
-      code: `
-        module.exports = {
-          create(context) {
-            context.report(theNode, theMessage);
-          }
-        };
-      `,
-      output: `
-        module.exports = {
-          create(context) {
-            context.report({node: theNode, message: theMessage});
+            context.report({node: theNode, message: 'foo'});
           }
         };
       `,
@@ -195,7 +195,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
       output: `
         module.exports = {
           create(notContext) {
-            notContext.report({node: theNode, message: theMessage, data: theData, fix: theFix});
+            notContext.report(theNode, theMessage, theData, theFix);
           }
         };
       `,
@@ -204,12 +204,25 @@ ruleTester.run('no-deprecated-report-api', rule, {
     {
       code: `
         module.exports.create = context => {
-          context.report(theNode, theMessage, theData, theFix);
+          context.report(theNode, \`blah\`, theData, theFix);
         };
       `,
       output: `
         module.exports.create = context => {
-          context.report({node: theNode, message: theMessage, data: theData, fix: theFix});
+          context.report({node: theNode, message: \`blah\`, data: theData, fix: theFix});
+        };
+      `,
+      errors: [ERROR],
+    },
+    {
+      code: `
+        module.exports.create = context => {
+          context.report(theNode, 5, foo, bar);
+        };
+      `,
+      output: `
+        module.exports.create = context => {
+          context.report({node: theNode, loc: 5, message: foo, data: bar});
         };
       `,
       errors: [ERROR],
@@ -225,7 +238,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
       output: `
         module.exports = {
           create(context) {
-            context.report({node: theNode, loc: theLocation, message: theMessage, data: theData, fix: theFix});
+            context.report(theNode, theLocation, theMessage, theData, theFix, somethingElse, somethingElse, somethingElse);
           }
         };
       `,

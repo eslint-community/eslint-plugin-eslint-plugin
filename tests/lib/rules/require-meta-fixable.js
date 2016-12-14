@@ -110,6 +110,14 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       errors: [MISSING_ERROR],
     },
+    {
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) { context.report(node, message, data, fix); }
+        };
+      `,
+    },
   ],
 
   invalid: [
@@ -118,15 +126,6 @@ ruleTester.run('require-meta-fixable', rule, {
         module.exports = {
           meta: {},
           create(context) { context.report({node, message, fix: foo}); }
-        };
-      `,
-      errors: [MISSING_ERROR],
-    },
-    {
-      code: `
-        module.exports = {
-          meta: {},
-          create(context) { context.report(node, message, data, fix); }
         };
       `,
       errors: [MISSING_ERROR],
