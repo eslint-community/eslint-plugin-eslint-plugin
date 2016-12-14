@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.1 (2016-12-14)
+
+* Fix: check the type of the first arg of the old context.report() API ([29dc51c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/29dc51c81749dd66d6d6b1861f307d8bd6947b89))
+* Docs: Add require-meta-fixable to the list of rules in the readme ([45dac85](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/45dac8544547980a751532877c012c53b5e9224b))
+
 ## v0.2.0 (2016-12-14)
 
 * Chore: refactor utils.getRuleInfo ([5f8dbd8](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5f8dbd8a9a6eb4084081aef6adb543463d83474b))
