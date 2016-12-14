@@ -1,8 +1,0 @@
-extends:
-  - not-an-aardvark/node
-  - plugin:node/recommended
-plugins:
-  - node
-root: true
-rules:
-  require-jsdoc: error
