@@ -214,5 +214,22 @@ ruleTester.run('no-deprecated-report-api', rule, {
       `,
       errors: [ERROR],
     },
+    {
+      code: `
+        module.exports = {
+          create(context) {
+            context.report(theNode, theLocation, theMessage, theData, theFix, somethingElse, somethingElse, somethingElse);
+          }
+        };
+      `,
+      output: `
+        module.exports = {
+          create(context) {
+            context.report({node: theNode, loc: theLocation, message: theMessage, data: theData, fix: theFix});
+          }
+        };
+      `,
+      errors: [ERROR],
+    },
   ],
 });
