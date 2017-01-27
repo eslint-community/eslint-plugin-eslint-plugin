@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.0 (2017-01-27)
+
+* Breaking: add no-missing-placeholders to eslint-plugin:recommended ([833d094](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/833d094a2b4ee4a9460264979b5a7a61d7182595))
+* New: no-missing-placeholders rule ([a995733](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/a995733b0f3a555d946f7e8818396d0983fa8cc8))
+
 ## v0.2.1 (2016-12-14)
 
 * Fix: check the type of the first arg of the old context.report() API ([29dc51c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/29dc51c81749dd66d6d6b1861f307d8bd6947b89))
