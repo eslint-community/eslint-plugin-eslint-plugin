@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.0 (2017-02-01)
+
+* New: prefer-placeholders rule ([de03394](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/de033940546a791a12b800adc46f9bc32b24fef2))
+* Chore: unify logic for parsing context.report() arguments ([d14cd05](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d14cd055adb282d7aacfcfcadee44b0bbb8b3d4a))
+* New: add more presets ([2fa5e7f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/2fa5e7fbc664d6eaff6ffcc2aa26b1436d0b442f))
+
 ## v0.4.0 (2017-02-01)
 
 * Chore: remove errors from valid test case ([815bf07](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/815bf073f8086e98eb57b31f3a60c8dd07f4a13b))
