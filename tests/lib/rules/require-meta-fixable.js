@@ -101,15 +101,12 @@ ruleTester.run('require-meta-fixable', rule, {
         }
       };
     `,
-    {
-      code: `
-        module.exports = {
-          meta: {},
-          create(context) { context.report(node, loc, message); }
-        };
-      `,
-      errors: [MISSING_ERROR],
-    },
+    `
+      module.exports = {
+        meta: {},
+        create(context) { context.report(node, loc, message); }
+      };
+    `,
     `
       module.exports = {
         meta: {},
