@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.0 (2017-02-01)
+
+* Chore: remove errors from valid test case ([815bf07](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/815bf073f8086e98eb57b31f3a60c8dd07f4a13b))
+* Chore: enable test-case-shorthand-strings on this codebase ([558f1db](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/558f1dbc0635809e410b24b2e8be45fe9aa9b8e4))
+* Docs: Remove incorrect "recommended" marking for report-message-format ([48b7e34](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/48b7e347f8346bf66b8169ac0ec5d78e77d43cb1))
+* New: test-case-shorthand-strings rule ([cbbc49f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/cbbc49f52ab447df68f340282ef821a44800e280))
+
 ## v0.3.0 (2017-01-27)
 
 * Breaking: add no-missing-placeholders to eslint-plugin:recommended ([833d094](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/833d094a2b4ee4a9460264979b5a7a61d7182595))
