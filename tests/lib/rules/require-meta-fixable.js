@@ -110,14 +110,12 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       errors: [MISSING_ERROR],
     },
-    {
-      code: `
-        module.exports = {
-          meta: {},
-          create(context) { context.report(node, message, data, fix); }
-        };
-      `,
-    },
+    `
+      module.exports = {
+        meta: {},
+        create(context) { context.report(node, message, data, fix); }
+      };
+    `,
   ],
 
   invalid: [
