@@ -53,6 +53,7 @@ Name | ✔️ | 🛠 | Description
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ | | Requires a `meta.fixable` property for fixable rules
 [no-missing-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md) | ✔️ | | Disallows missing placeholders in rule report messages
 [test-case-shorthand-strings](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-shorthand-strings.md) | | | Enforces consistent usage of shorthand strings for test cases with no options
+[prefer-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-placeholders.md) | | | Disallows template literals as report messages
 
 ## Supported Presets
 
