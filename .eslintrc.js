@@ -24,5 +24,6 @@ module.exports = {
   rules: {
     'require-jsdoc': 'error',
     'eslint-plugin/report-message-format': ['error', '^[^a-z].*\\.$'],
+    'eslint-plugin/test-case-shorthand-strings': 'off',
   },
 };
