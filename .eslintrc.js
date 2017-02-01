@@ -18,12 +18,11 @@ module.exports = {
   extends: [
     'not-an-aardvark/node',
     'plugin:node/recommended',
-    'plugin:eslint-plugin/recommended',
+    'plugin:eslint-plugin/all',
   ],
   root: true,
   rules: {
     'require-jsdoc': 'error',
     'eslint-plugin/report-message-format': ['error', '^[^a-z].*\\.$'],
-    'eslint-plugin/test-case-shorthand-strings': 'error',
   },
 };

@@ -41,19 +41,9 @@ Then configure the rules you want to use under the rules section.
 }
 ```
 
-Additionally, you can enable all recommended rules from this plugin:
-
-```json
-{
-    "extends": [
-        "plugin:eslint-plugin/recommended"
-    ]
-}
-```
-
 ## Supported Rules
 
-✔️ indicates that a rule is recommended.
+✔️ indicates that a rule is recommended for all users.
 🛠 indicates that a rule is fixable.
 
 Name | ✔️ | 🛠 | Description
@@ -63,3 +53,25 @@ Name | ✔️ | 🛠 | Description
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ | | Requires a `meta.fixable` property for fixable rules
 [no-missing-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md) | ✔️ | | Disallows missing placeholders in rule report messages
 [test-case-shorthand-strings](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-shorthand-strings.md) | | | Enforces consistent usage of shorthand strings for test cases with no options
+
+## Supported Presets
+
+Presets are enabled by adding a line to the `extends` list in your config file. For example, to enable the `recommended` preset, use:
+
+```json
+{
+    "extends": [
+        "plugin:eslint-plugin/recommended"
+    ]
+}
+```
+
+* `recommended` enables all recommended rules from this plugin.
+* `rules-recommended` enables all recommended rules that are aimed at linting ESLint rule files.
+* `tests-recommended` enables all recommended rules that are aimed at linting ESLint test files.
+
+* `all` enables all rules in this plugin.
+* `rules` enables all rules that are aimed at linting ESLint rule files.
+* `tests` enables all rules that are aimed at linting ESLint test files.
+
+The list of recommended rules will only change in a major release of this plugin. However, new non-recommended rules might be added in a minor release of this plugin. Therefore, the using the `all`, `rules`, and `tests` presets is **not recommended for production use**, because the addition of new rules in a minor release could break your build.
