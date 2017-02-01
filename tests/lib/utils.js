@@ -287,4 +287,37 @@ describe('utils', () => {
       });
     });
   });
+
+  describe('getReportInfo', () => {
+    const CASES = new Map([
+      [[], () => null],
+      [['foo', 'bar'], () => null],
+      [['foo', '"bar"', 'baz', 'qux', 'boop'], args => ({ node: args[0], message: args[1], data: args[2], fix: args[3] })],
+      [['foo', '`bar`', 'baz', 'qux', 'boop'], args => ({ node: args[0], message: args[1], data: args[2], fix: args[3] })],
+      [
+        ['foo', '{ bar: 1 }', 'baz', 'qux', 'boop'],
+        args => ({ node: args[0], loc: args[1], message: args[2], data: args[3], fix: args[4] }),
+      ],
+      [['foo', 'bar', 'baz'], () => null],
+      [
+        ['{ node, message }'],
+        () => ({
+          node: { type: 'Identifier', name: 'node', start: 17, end: 21 },
+          message: { type: 'Identifier', name: 'message', start: 23, end: 30 },
+        }),
+      ],
+    ]);
+
+    for (const args of CASES.keys()) {
+      it(args.join(', '), () => {
+        const parsedArgs = espree.parse(
+          `context.report(${args.join(', ')})`,
+          { ecmaVersion: 6, loc: false, range: false }
+        ).body[0].expression.arguments;
+        const reportInfo = utils.getReportInfo(parsedArgs);
+
+        assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
+      });
+    }
+  });
 });
