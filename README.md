@@ -59,7 +59,7 @@ Additionally, you can enable all recommended rules from this plugin:
 Name | ✔️ | 🛠 | Description
 ----- | ----- | ----- | -----
 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md) | ✔️ | 🛠 | Prohibits the deprecated `context.report(node, message)` API
-[report-message-format](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/report-message-format.md) | ✔️ | | Enforces a consistent format for report messages
+[report-message-format](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/report-message-format.md) | | | Enforces a consistent format for report messages
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ | | Requires a `meta.fixable` property for fixable rules
 [no-missing-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md) | ✔️ | | Disallows missing placeholders in rule report messages
 [test-case-shorthand-strings](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-shorthand-strings.md) | | | Enforces consistent usage of shorthand strings for test cases with no options
