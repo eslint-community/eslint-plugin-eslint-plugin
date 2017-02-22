@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.1 (2017-02-22)
+
+* Fix: incorrect category for consistent-output ([308b048](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/308b048140e65a2b3b39023df2ab9ea814e754b4))
+
 ## v0.7.0 (2017-02-22)
 
 * New: consistent-output rule ([64ed898](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/64ed898ad504a507551f6ebcbcd88f1c34bea61a))
