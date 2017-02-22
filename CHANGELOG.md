@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0 (2017-02-22)
+
+* Docs: add travis badge to README.md ([55388b2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/55388b28acb926e517c7d1acb67ede66f0845316))
+* Breaking: add no-useless-token-range to recommended config ([277d11c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/277d11cb323130e0e3870894b145ff03a9f6bf10))
+* New: no-useless-token-range rule ([4537737](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/45377379b76ba0ce869d1179eaf4afd5e1c5ee21))
+
 ## v0.5.0 (2017-02-01)
 
 * New: prefer-placeholders rule ([de03394](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/de033940546a791a12b800adc46f9bc32b24fef2))
