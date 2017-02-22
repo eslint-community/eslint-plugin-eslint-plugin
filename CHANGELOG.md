@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.7.0 (2017-02-22)
+
+* New: consistent-output rule ([64ed898](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/64ed898ad504a507551f6ebcbcd88f1c34bea61a))
+* Docs: add directive comment to no-useless-token-range docs ([667e36f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/667e36f015efdd532678d008ea06bc1f9aacadf4))
+
 ## v0.6.0 (2017-02-22)
 
 * Docs: add travis badge to README.md ([55388b2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/55388b28acb926e517c7d1acb67ede66f0845316))
