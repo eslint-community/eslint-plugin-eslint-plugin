@@ -35,6 +35,7 @@
     "eslint-config-not-an-aardvark": "^2.0.0",
     "eslint-plugin-node": "^3.0.5",
     "espree": "^3.3.2",
+    "estraverse": "^4.2.0",
     "lodash": "^4.17.2",
     "mocha": "^2.4.5"
   },

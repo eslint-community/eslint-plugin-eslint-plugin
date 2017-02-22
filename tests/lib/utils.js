@@ -4,6 +4,7 @@ const util = require('util');
 const lodash = require('lodash');
 const espree = require('espree');
 const escope = require('escope');
+const estraverse = require('estraverse');
 const assert = require('chai').assert;
 const utils = require('../../lib/utils');
 
@@ -319,5 +320,28 @@ describe('utils', () => {
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
       });
     }
+  });
+
+  describe('getSourceCodeIdentifiers', () => {
+    const CASES = {
+      'module.exports = context => { const sourceCode = context.getSourceCode(); sourceCode; foo; }': 2,
+      'module.exports = context => { const x = 1, sc = context.getSourceCode(); sc; sc; sc; sourceCode; }': 4,
+      'module.exports = context => { const sourceCode = context.getNotSourceCode(); }': 0,
+    };
+
+    Object.keys(CASES).forEach(testSource => {
+      it(testSource, () => {
+        const ast = espree.parse(testSource, { ecmaVersion: 6 });
+        const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+
+        estraverse.traverse(ast, {
+          enter (node, parent) {
+            node.parent = parent;
+          },
+        });
+
+        assert.strictEqual(utils.getSourceCodeIdentifiers(scope, ast).size, CASES[testSource]);
+      });
+    });
   });
 });
