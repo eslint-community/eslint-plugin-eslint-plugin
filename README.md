@@ -55,6 +55,7 @@ Name | ✔️ | 🛠 | Description
 [test-case-shorthand-strings](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-shorthand-strings.md) | | | Enforces consistent usage of shorthand strings for test cases with no options
 [prefer-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-placeholders.md) | | | Disallows template literals as report messages
 [no-useless-token-range](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-useless-token-range.md) | ✔️ | 🛠 | Disallows unnecessary calls to sourceCode.getFirstToken and sourceCode.getLastToken
+[consistent-output](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/consistent-output.md) | | | Enforces consistent use of output assertions in rule tests
 
 ## Supported Presets
 
