@@ -9,6 +9,8 @@ This rule aims to avoid unnecessary calls to `sourceCode.getFirstToken` and `sou
 Examples of **incorrect** code for this rule:
 
 ```js
+/* eslint eslint-plugin/no-useless-token-range: error */
+
 module.exports = {
   create(context) {
     const sourceCode = context.getSourceCode();
@@ -22,6 +24,8 @@ module.exports = {
 Examples of **correct** code for this rule:
 
 ```js
+/* eslint eslint-plugin/no-useless-token-range: error */
+
 module.exports = {
   create(context) {
     const sourceCode = context.getSourceCode();
