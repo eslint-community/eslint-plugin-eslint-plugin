@@ -45,6 +45,11 @@ new RuleTester().run('example-rule', rule, {
       code: 'bar',
       output: 'qux',
       errors: ['baz']
+    },
+    {
+      code: 'foo',
+      output: null,
+      errors: ['baz']
     }
   ]
 });
