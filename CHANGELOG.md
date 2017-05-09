@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.7.2 (2017-05-09)
+
+* Docs: update readme to indicate test-case-shorthand-strings is fixable ([e480d08](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e480d082087064b306a489d9b101d3398ff6af22))
+* Update: add fixer for test-case-shorthand-strings ([9fcf4a6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9fcf4a6060804a30d215985c99944fb955ea8a95))
+* Docs: add example to consistent-output with output: null ([e2e3de3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e2e3de320c7f3f051df56f65fe3bea4826a23a54))
+
 ## v0.7.1 (2017-02-22)
 
 * Fix: incorrect category for consistent-output ([308b048](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/308b048140e65a2b3b39023df2ab9ea814e754b4))
