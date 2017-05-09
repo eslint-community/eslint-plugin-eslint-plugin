@@ -126,44 +126,47 @@ ruleTester.run('test-case-shorthand-strings', rule, {
     // as-needed
     {
       code: getTestCases(['{ code: "foo" }']),
+      output: getTestCases(['"foo"']),
       errors: [EXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['{ code: `foo` }']),
+      output: getTestCases(['`foo`']),
       errors: [EXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['"foo"', '{ code: `foo` }']),
+      output: getTestCases(['"foo"', '`foo`']),
       errors: [EXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['"foo"', '{ code: "foo" }', '{ code: `bar` }']),
+      output: getTestCases(['"foo"', '"foo"', '`bar`']),
       errors: [EXPECTED_SHORTHAND_ERROR, EXPECTED_SHORTHAND_ERROR],
     },
 
     // never
     {
       code: getTestCases(['"foo"']),
+      output: getTestCases(['{code: "foo"}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['foo', '"bar"']),
-      options: ['never'],
-      errors: [UNEXPECTED_SHORTHAND_ERROR],
-    },
-    {
-      code: getTestCases(['foo', '"bar"']),
+      output: getTestCases(['foo', '{code: "bar"}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['`foo`']),
+      output: getTestCases(['{code: `foo`}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['"foo"']) + getTestCases(['"foo"']),
+      output: getTestCases(['{code: "foo"}']) + getTestCases(['{code: "foo"}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR, UNEXPECTED_SHORTHAND_ERROR],
     },
@@ -171,26 +174,31 @@ ruleTester.run('test-case-shorthand-strings', rule, {
     // consistent
     {
       code: getTestCases(['"foo"', '{ code: "bar" }', '{ code: "baz" }']),
+      output: getTestCases(['"foo"', '"bar"', '"baz"']),
       errors: [EXPECTED_SHORTHAND_ERROR, EXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['{ code: "bar" }', '"foo"', '{ code: "baz" }']),
+      output: getTestCases(['"bar"', '"foo"', '"baz"']),
       errors: [EXPECTED_SHORTHAND_ERROR, EXPECTED_SHORTHAND_ERROR],
     },
 
     // consistent-as-needed
     {
       code: getTestCases(['{ code: "foo" }', '{ code: "bar" }']),
+      output: getTestCases(['"foo"', '"bar"']),
       options: ['consistent-as-needed'],
       errors: [EXPECTED_SHORTHAND_ERROR, EXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['"foo"', '"bar"', '{ code: "baz", options: ["foo"] }']),
+      output: getTestCases(['{code: "foo"}', '{code: "bar"}', '{ code: "baz", options: ["foo"] }']),
       options: ['consistent-as-needed'],
       errors: [UNEXPECTED_SHORTHAND_ERROR, UNEXPECTED_SHORTHAND_ERROR],
     },
     {
       code: getTestCases(['"foo"', '{ code: "baz", options: ["foo"] }', '"bar"']),
+      output: getTestCases(['{code: "foo"}', '{ code: "baz", options: ["foo"] }', '{code: "bar"}']),
       options: ['consistent-as-needed'],
       errors: [UNEXPECTED_SHORTHAND_ERROR, UNEXPECTED_SHORTHAND_ERROR],
     },
