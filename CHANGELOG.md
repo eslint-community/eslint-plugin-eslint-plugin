@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.4 (2017-07-01)
+
+* New: no-identical-tests rule ([#11](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/11)) ([8c19ab5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8c19ab5eb8942e35f102ca300a83ac73f67ce26f))
+
 ## v0.7.3 (2017-07-01)
 
 * Update: support ESLint v4 ([e361d63](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e361d63753092178edbdde36dbdbf5cc96b7817c))
