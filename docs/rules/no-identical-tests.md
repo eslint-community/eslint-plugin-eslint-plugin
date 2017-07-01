@@ -7,7 +7,7 @@ When a rule has a lot of tests, it's sometimes difficult to tell if any tests ar
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint eslint-plugin/consistent-output: error */
+/* eslint eslint-plugin/no-identical-tests: error */
 
 new RuleTester().run('foo', bar, {
 valid: [
@@ -22,7 +22,7 @@ invalid: []
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint eslint-plugin/consistent-output: error */
+/* eslint eslint-plugin/no-identical-tests: error */
 
 new RuleTester().run('foo', bar, {
 valid: [
