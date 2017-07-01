@@ -67,26 +67,6 @@ ruleTester.run('report-message-format', rule, {
       code: `
         module.exports = {
           create(context) {
-            context.report(node, 'not foo' + message);
-          }
-        };
-      `,
-      options: ['^foo$'],
-    },
-    {
-      code: `
-        module.exports = {
-          create(context) {
-            context.report({node, message: 'foo'});
-          }
-        };
-      `,
-      options: ['^foo$'],
-    },
-    {
-      code: `
-        module.exports = {
-          create(context) {
             context.report({node, message: 'foo'});
           }
         };
