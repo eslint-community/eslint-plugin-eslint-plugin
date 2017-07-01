@@ -12,7 +12,7 @@
 const rule = require('../../../lib/rules/no-identical-tests');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { message: 'This test case should not be identical to someone else.' };
+const ERROR = { message: 'This test case is identical to another case.' };
 
 // ------------------------------------------------------------------------------
 // Tests
