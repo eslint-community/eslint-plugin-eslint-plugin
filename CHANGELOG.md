@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.7.3 (2017-07-01)
+
+* Update: support ESLint v4 ([e361d63](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e361d63753092178edbdde36dbdbf5cc96b7817c))
+* Chore: add Node 8 to travis ([9ee1ad3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9ee1ad376fa0a6f211bbbea5880a3962103c708f))
+* Chore: remove identical tests ([#12](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/12)) ([82c6892](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/82c6892d0a4f5eb3f8f508b04643447ac7ba03e9))
+* Chore: use eslint-plugin-self (fixes [#10](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/10)) ([58a927a](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/58a927a9d7d7f699a2ae70619c7e102a8fcdc547))
+* Upgrade: espree to 3.4.3 ([#9](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/9)) ([3dfc4c6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/3dfc4c6ff8ff1141a7f6aea80f81f28fd0499a9d))
+
 ## v0.7.2 (2017-05-09)
 
 * Docs: update readme to indicate test-case-shorthand-strings is fixable ([e480d08](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e480d082087064b306a489d9b101d3398ff6af22))
