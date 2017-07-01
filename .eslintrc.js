@@ -1,28 +1,21 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const PACKAGE_NAME = require('./package').name;
-const SYMLINK_LOCATION = path.join(__dirname, 'node_modules', PACKAGE_NAME);
-
-// Symlink node_modules/{package name} to this directory so that ESLint resolves this plugin name correctly.
-if (!fs.existsSync(SYMLINK_LOCATION)) {
-  fs.symlinkSync(__dirname, SYMLINK_LOCATION);
-}
+const plugin = require('.');
+const allRules = Object.keys(plugin.rules)
+  .reduce((rules, ruleName) => Object.assign(rules, { [`self/${ruleName}`]: 'error' }), {});
 
 module.exports = {
   plugins: [
     'node',
-    PACKAGE_NAME,
+    'self',
   ],
   extends: [
     'not-an-aardvark/node',
     'plugin:node/recommended',
-    'plugin:eslint-plugin/all',
   ],
   root: true,
-  rules: {
+  rules: Object.assign(allRules, {
     'require-jsdoc': 'error',
-    'eslint-plugin/report-message-format': ['error', '^[^a-z].*\\.$'],
-  },
+    'self/report-message-format': ['error', '^[^a-z].*\\.$'],
+  }),
 };
