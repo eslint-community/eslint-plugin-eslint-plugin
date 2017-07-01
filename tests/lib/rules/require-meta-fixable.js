@@ -39,14 +39,6 @@ ruleTester.run('require-meta-fixable', rule, {
     `,
     `
       module.exports = {
-        meta: { fixable: 'code' },
-        create(context) {
-          context.report({node, message, fix: foo});
-        }
-      };
-    `,
-    `
-      module.exports = {
         meta: { fixable: 'whitespace' },
         create(context) {
           context.report({node, message, fix: foo});

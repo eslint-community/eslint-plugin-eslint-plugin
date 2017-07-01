@@ -34,23 +34,6 @@ ruleTester.run('no-deprecated-report-api', rule, {
     `
       module.exports = {
         create(context) {
-          context.report({
-            node,
-            message: "Foo."
-          });
-        }
-      };
-    `,
-    `
-      module.exports = {
-        create(context) {
-          foo.report(bar, baz);
-        }
-      };
-    `,
-    `
-      module.exports = {
-        create(context) {
           foo.report(bar, baz);
         }
       };
