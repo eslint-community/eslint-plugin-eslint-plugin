@@ -38,12 +38,20 @@ ruleTester.run('no-identical-tests', rule, {
         new RuleTester().run('foo', bar, {
           valid: [
             { code: 'foo' },
-            { code: 'foo' }
+            { code: 'foo' },
           ],
           invalid: []
         });
       `,
       errors: [ERROR],
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: 'foo' },
+          ],
+          invalid: []
+        });
+      `,
     },
     {
       code: `
@@ -59,6 +67,16 @@ ruleTester.run('no-identical-tests', rule, {
         });
       `,
       errors: [ERROR, ERROR],
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: 'foo' },
+          ],
+          invalid: [
+            { code: 'foo', errors: ['bar'] },
+          ]
+        });
+      `,
     },
   ],
 });
