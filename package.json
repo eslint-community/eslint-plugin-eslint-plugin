@@ -34,7 +34,7 @@
     "eslint": "^3.12.1",
     "eslint-config-not-an-aardvark": "^2.0.0",
     "eslint-plugin-node": "^3.0.5",
-    "eslint-plugin-self": "^1.0.0",
+    "eslint-plugin-self": "^1.0.1",
     "espree": "^3.4.3",
     "estraverse": "^4.2.0",
     "lodash": "^4.17.2",

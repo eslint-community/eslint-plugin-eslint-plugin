@@ -1,0 +1,13 @@
+plugins:
+  - node
+  - self
+extends:
+  - not-an-aardvark/node
+  - plugin:node/recommended
+  - plugin:self/all
+root: true
+rules:
+  require-jsdoc: error
+  self/report-message-format:
+    - error
+    - '^[^a-z].*\.$'
