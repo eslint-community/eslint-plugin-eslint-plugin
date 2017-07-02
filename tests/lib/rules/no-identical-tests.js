@@ -48,7 +48,6 @@ ruleTester.run('no-identical-tests', rule, {
         new RuleTester().run('foo', bar, {
           valid: [
             { code: 'foo' },
-            ,
           ],
           invalid: []
         });
@@ -72,11 +71,9 @@ ruleTester.run('no-identical-tests', rule, {
         new RuleTester().run('foo', bar, {
           valid: [
             { code: 'foo' },
-            ,
           ],
           invalid: [
             { code: 'foo', errors: ['bar'] },
-            ,
           ]
         });
       `,
