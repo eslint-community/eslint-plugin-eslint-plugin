@@ -12,20 +12,19 @@
 const rule = require('../../../lib/rules/fixer-return');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { message: 'fixer function is expected to return a value.' };
+const ERROR = { message: 'Expected fixer function to always return a value.' };
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('fixer-return', rule, {
   valid: [
     `
     module.exports = {
         create: function(context) {
             context.report( {
-                node,
                 fix: function(fixer) {
                     return fixer.foo();
                 }
@@ -37,7 +36,6 @@ ruleTester.run('fixer-return', rule, {
     module.exports = {
         create: function(context) {
             context.report({
-                node,
                 fix: fixer => fixer.foo()
             });
         }
@@ -51,7 +49,6 @@ ruleTester.run('fixer-return', rule, {
       module.exports = {
           create: function(context) {
               context.report({
-                  node,
                   fix(fixer) {
                       fixer.foo();
                   }
