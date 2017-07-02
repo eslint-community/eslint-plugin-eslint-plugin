@@ -1,5 +1,7 @@
 # Disallow identical tests (no-identical-tests)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 When a rule has a lot of tests, it's sometimes difficult to tell if any tests are duplicates. This rule would warn if any test cases have the same properties.
 
 ## Rule Details
