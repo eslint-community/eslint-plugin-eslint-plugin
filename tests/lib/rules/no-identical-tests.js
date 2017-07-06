@@ -30,6 +30,14 @@ ruleTester.run('no-identical-tests', rule, {
         invalid: []
       });
     `,
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          { code: 'foo' }
+        ],
+        invalid: []
+      });
+    `,
   ],
 
   invalid: [
@@ -39,6 +47,26 @@ ruleTester.run('no-identical-tests', rule, {
           valid: [
             { code: 'foo' },
             { code: 'foo' },
+          ],
+          invalid: []
+        });
+      `,
+      errors: [ERROR],
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: 'foo' },
+          ],
+          invalid: []
+        });
+      `,
+    },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: 'foo' },
+            { code: 'foo' }
           ],
           invalid: []
         });
