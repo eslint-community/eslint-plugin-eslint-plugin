@@ -17,7 +17,6 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const ERROR = { message: 'The properties of a test case should be placed in the given order: [code, output, options, parserOptions, errors].' };
 ruleTester.run('test-case-property-ordering', rule, {
   valid: [
     `
