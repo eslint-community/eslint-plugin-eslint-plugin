@@ -45,12 +45,11 @@ ruleTester.run('prefer-output-null', rule, {
         new RuleTester().run('foo', bar, {
           valid: [],
           invalid: [
-            {code: 'foo', errors: ['bar']},
+            {code: 'foo', output: 'foo', errors: ['bar']},
           ]
         });
       `,
       errors: [ERROR],
-      output: null,
     },
   ],
 });
