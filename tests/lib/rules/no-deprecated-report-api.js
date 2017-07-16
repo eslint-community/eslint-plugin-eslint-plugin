@@ -124,13 +124,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      output: `
-        module.exports = {
-          create(context) {
-            context.report(theNode, theMessage, theData, theFix);
-          }
-        };
-      `,
+      output: null,
       errors: [ERROR],
     },
     {
@@ -175,13 +169,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      output: `
-        module.exports = {
-          create(notContext) {
-            notContext.report(theNode, theMessage, theData, theFix);
-          }
-        };
-      `,
+      output: null,
       errors: [ERROR],
     },
     {
@@ -218,13 +206,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      output: `
-        module.exports = {
-          create(context) {
-            context.report(theNode, theLocation, theMessage, theData, theFix, somethingElse, somethingElse, somethingElse);
-          }
-        };
-      `,
+      output: null,
       errors: [ERROR],
     },
   ],
