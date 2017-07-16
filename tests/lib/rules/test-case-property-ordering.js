@@ -72,7 +72,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [ERROR],
+      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, output, options].' }],
     },
     {
       code: `
@@ -87,7 +87,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [ERROR],
+      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, output, options].' }],
     },
     {
       code: `
@@ -102,7 +102,7 @@ ruleTester.run('test-case-property-ordering', rule, {
         });
       `,
       options: [['code', 'errors', 'options', 'output', 'parserOptions']],
-      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, errors, options, output, parserOptions].' }],
+      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, options, output].' }],
     },
   ],
 });
