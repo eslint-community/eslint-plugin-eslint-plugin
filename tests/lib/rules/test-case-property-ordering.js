@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallow identical tests
+ * @fileoverview Requires the properties of a test case to be placed in the given order.
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 

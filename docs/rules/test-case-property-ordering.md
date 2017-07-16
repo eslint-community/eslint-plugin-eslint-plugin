@@ -2,6 +2,14 @@
 
 ## Rule Details
 
+This rule enforces that the properties of RuleTester test cases are arranged in a consistent order.
+
+### Options
+
+This rule has an array option:
+
+* `["code", "output", "options", "parserOptions", "errors"]` (default): The properties of a test case should be placed in a consistent order.
+
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -42,13 +50,6 @@ Examples of **correct** code for this rule:
   options: ["baz"],
 }
 ```
-
-### Options
-
-This rule has an array option:
-
-* `["code", "output", "options", "parserOptions", "errors"]` (default): The properties of a test case should be placed in the given order.
-
 
 ## When Not To Use It
 
