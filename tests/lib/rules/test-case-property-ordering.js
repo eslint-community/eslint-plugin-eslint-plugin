@@ -43,6 +43,20 @@ ruleTester.run('test-case-property-ordering', rule, {
         ]
       });
     `,
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {
+              code: "foo",
+              options: ["baz"],
+              output: "bar",
+            },
+          ]
+        });
+      `,
+      options: [['code', 'errors', 'options', 'output', 'parserOptions']],
+    },
   ],
 
   invalid: [
@@ -74,6 +88,21 @@ ruleTester.run('test-case-property-ordering', rule, {
         });
       `,
       errors: [ERROR],
+    },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {
+              code: "foo",
+              output: "bar",
+              options: ["baz"],
+            },
+          ]
+        });
+      `,
+      options: [['code', 'errors', 'options', 'output', 'parserOptions']],
+      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, errors, options, output, parserOptions].' }],
     },
   ],
 });
