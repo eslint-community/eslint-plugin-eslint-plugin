@@ -1,8 +1,8 @@
 # enforce ordering of keys in test cases (test-case-property-ordering)
 
-## Rule Details
-
 This rule enforces that the properties of RuleTester test cases are arranged in a consistent order.
+
+## Rule Details
 
 ### Options
 

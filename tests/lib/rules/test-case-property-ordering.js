@@ -1,5 +1,5 @@
 /**
- * @fileoverview Requires the properties of a test case to be placed in the given order.
+ * @fileoverview Requires the properties of a test case to be placed in a consistent order.
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
@@ -71,7 +71,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, output, options].' }],
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options].' }],
     },
     {
       code: `
@@ -86,7 +86,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, output, options].' }],
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options].' }],
     },
     {
       code: `
@@ -101,7 +101,7 @@ ruleTester.run('test-case-property-ordering', rule, {
         });
       `,
       options: [['code', 'errors', 'options', 'output', 'parserOptions']],
-      errors: [{ message: 'The properties of a test case should be placed in the given order: [code, options, output].' }],
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, options, output].' }],
     },
   ],
 });
