@@ -1,5 +1,5 @@
 /**
- * @fileoverview enforces fixer function always return a value
+ * @fileoverview enforces always return from a fixer function
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
