@@ -106,5 +106,25 @@ ruleTester.run('no-identical-tests', rule, {
       `,
       errors: [ERROR, ERROR],
     },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: 'foo', options: ['bar'] },
+            { options: ['bar'], code: 'foo' },
+          ],
+          invalid: []
+        });
+      `,
+      errors: [ERROR],
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: 'foo', options: ['bar'] },
+          ],
+          invalid: []
+        });
+      `,
+    },
   ],
 });
