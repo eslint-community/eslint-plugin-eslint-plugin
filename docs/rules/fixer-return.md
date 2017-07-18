@@ -4,7 +4,7 @@ In a fixable rule, missing return from a fixer function will not apply fixes.
 
 ## Rule Details
 
-This rule enforces always return from a fixer function.
+This rule enforces that fixer functions always return a value.
 
 Examples of **incorrect** code for this rule:
 
