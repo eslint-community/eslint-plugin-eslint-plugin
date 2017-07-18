@@ -37,6 +37,15 @@ ruleTester.run('prefer-output-null', rule, {
         ]
       });
     `,
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          'foo'
+        ],
+        invalid: []
+      });
+    `,
+
   ],
 
   invalid: [
