@@ -13,22 +13,6 @@ This rule has an array option:
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint eslint-plugin/test-case-property-ordering: ["error",
-  ["code", "output", "options", "parserOptions", "errors"]
-] */
-
-// valid;
-{
-  code: "foo",
-  output: "bar",
-  options: ["baz"],
-}
-
-```
-
-Examples of **correct** code for this rule:
-
-```js
 
 /* eslint eslint-plugin/test-case-property-ordering: ["error",
   ["code", "output", "options", "parserOptions", "errors"]
@@ -49,6 +33,22 @@ Examples of **correct** code for this rule:
   output: "bar",
   options: ["baz"],
 }
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/* eslint eslint-plugin/test-case-property-ordering: ["error",
+  ["code", "output", "options", "parserOptions", "errors"]
+] */
+
+// valid;
+{
+  code: "foo",
+  output: "bar",
+  options: ["baz"],
+}
+
 ```
 
 ## When Not To Use It

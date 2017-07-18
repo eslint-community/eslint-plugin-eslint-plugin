@@ -75,6 +75,21 @@ ruleTester.run('test-case-property-ordering', rule, {
     },
     {
       code: `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          {
+            env: { es6: true },
+            code: "foo",
+            output: "bar",
+            options: ["baz"],
+          },
+        ]
+      });
+      `,
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options, env].' }],
+    },
+    {
+      code: `
         new RuleTester().run('foo', bar, {
           valid: [
             {
@@ -86,7 +101,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options].' }],
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options, env].' }],
     },
     {
       code: `
