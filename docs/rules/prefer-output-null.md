@@ -2,7 +2,7 @@
 
 ## Rule Details
 
-This rule aims to enforce `output: null` for invalid test cases to indicate that no output is produced.
+The rule reports an error if it encounters a test case where the output is the same as the code.
 
 Examples of **incorrect** code for this rule:
 
@@ -12,7 +12,7 @@ Examples of **incorrect** code for this rule:
 new RuleTester().run('foo', bar, {
     valid: [],
     invalid: [
-      { code: 'foo', errors: [{ message: 'bar' }] },
+      { code: 'foo', output: 'foo', errors: [{ message: 'bar' }] },
     ]
 });
 ```

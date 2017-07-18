@@ -12,7 +12,7 @@
 const rule = require('../../../lib/rules/prefer-output-null');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { message: 'Prefer `output: null` to assert that a test case is not autofixed.' };
+const ERROR = { message: 'Use `output: null` to assert that a test case is not autofixed.' };
 
 // ------------------------------------------------------------------------------
 // Tests
