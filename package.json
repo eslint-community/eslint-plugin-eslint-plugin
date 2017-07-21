@@ -28,17 +28,17 @@
   "homepage": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin#readme",
   "dependencies": {},
   "devDependencies": {
-    "chai": "^3.5.0",
-    "dirty-chai": "^1.2.2",
+    "chai": "^4.1.0",
+    "dirty-chai": "^2.0.1",
     "escope": "^3.6.0",
-    "eslint": "^3.12.1",
+    "eslint": "^4.2.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
-    "eslint-plugin-node": "^3.0.5",
+    "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-self": "^1.0.1",
     "espree": "^3.4.3",
     "estraverse": "^4.2.0",
     "lodash": "^4.17.2",
-    "mocha": "^2.4.5"
+    "mocha": "^3.4.2"
   },
   "peerDependencies": {
     "eslint": ">=3.12.1"
