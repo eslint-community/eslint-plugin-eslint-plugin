@@ -124,7 +124,6 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
-      errors: [ERROR],
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
@@ -133,6 +132,7 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
+      errors: [ERROR],
     },
     {
       code: `
@@ -144,7 +144,6 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
-      errors: [ERROR],
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
@@ -153,6 +152,7 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
+      errors: [ERROR],
     },
   ],
 });
