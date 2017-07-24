@@ -124,5 +124,19 @@ ruleTester.run('no-unused-placeholders', rule, {
       `,
       errors: [error('bar')],
     },
+    {
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({
+              node,
+              message: 'foo {{bar}}',
+              data: { baz: '' }
+            });
+          }
+        };
+      `,
+      errors: [error('baz')],
+    },
   ],
 });
