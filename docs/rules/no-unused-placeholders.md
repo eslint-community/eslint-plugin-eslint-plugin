@@ -9,7 +9,7 @@ Reports when a context.report call contains a data property that does not have a
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint eslint-plugin/no-missing-placeholders: error*/
+/*eslint eslint-plugin/no-unused-placeholders: error*/
 
 module.exports = {
   create(context) {
@@ -28,7 +28,7 @@ module.exports = {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint eslint-plugin/no-missing-placeholders: error*/
+/*eslint eslint-plugin/no-unused-placeholders: error*/
 
 module.exports = {
   create(context) {
