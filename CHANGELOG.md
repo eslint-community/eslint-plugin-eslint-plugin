@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.8.0 (2017-07-26)
+
+* Breaking: add no-unused-placeholders to recommended. ([#29](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/29)) ([882c36a](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/882c36a075be72b136e75eef14b13f09cf3fc27b))
+* Docs: fix rulename in example. ([#28](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/28)) ([6a9fb15](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6a9fb15a34efb72691a8aa79ba23efc5f3e1f255))
+* New: rule no-unused-placeholders. ([#26](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/26)) ([a090610](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/a090610265260d681dcf55f45b16252d957ec262))
+* Chore: use utils.getReportInfo ([#27](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/27)) ([c9b07ce](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c9b07ce9c4637ec03280ece8fe9aef16a7528ac0))
+* Breaking: add some rules to recommended config ([#25](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/25)) ([8ac484c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8ac484c68e7314d6977855c1901541f6a3f5dc20))
+* Update: no-identical-tests despite of properties order. ([#21](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/21)) ([223da80](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/223da80bd918d02bc1038434c382e13303deb6fe))
+* New: rule test-case-property-ordering ([#16](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/16)) ([6137274](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6137274a28a5b3036bc41933d96222ab6ed1c6a0))
+* Chore: upgrade deps. ([#24](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/24)) ([b30c176](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b30c17630da23c885f4c49d25da1da0289610737))
+* Fix: linting errors. ([#23](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/23)) ([8d8526f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8d8526fe02ea5704469fb07df53970bcfdfeaec2))
+* Fix: prefer-output-null crashes, when a test case is not object. ([#22](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/22)) ([7c7c772](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7c7c772f2cb1850eaf364d69a29e49f9c954479a))
+* New: fixer-return ([#15](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/15)) ([93bd142](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/93bd142cbf6159561099ad5e3cdfd8f1f90503f5))
+* New: rule prefer-output-null ([#20](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/20)) ([9f98ac4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9f98ac45c6bbeb5b1be894e646d43dabf86befae))
+* Docs: rules to be alphabetical. ([#18](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/18)) ([4cec353](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/4cec353c272d6dd799ba3c30cd4f06b103b0c7e8))
+* Chore: upgrade eslint-config-not-an-aardvark@2.1.0 ([e079baf](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e079baf5e33a4045162969a7490cb1e869963bf0))
+* Update: add --fix to no-identical-tests. ([#13](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/13)) ([ca607c4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ca607c43aba3101cf68ed79a2c58636cbc96cfb3))
+* Chore: disable package-lock.json ([#14](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/14)) ([b41a2b8](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b41a2b86ea4e405080089cd9def20c9a0a027e36))
+* Upgrade: eslint-plugin-self@1.0.1 ([3fc9cc3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/3fc9cc3d72aff315341f916f09b753bfa4aa5350))
+
 ## v0.7.4 (2017-07-01)
 
 * New: no-identical-tests rule ([#11](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/11)) ([8c19ab5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8c19ab5eb8942e35f102ca300a83ac73f67ce26f))
