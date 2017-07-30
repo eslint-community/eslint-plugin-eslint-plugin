@@ -119,19 +119,18 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            { options: ["baz"], parserOptions: "", code: "foo", errors: ["foo"], output: "", },
+            {\ncode: "foo",\noutput: "",\nerrors: ["baz"],\nparserOptions: "",\n},
           ]
         });
       `,
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
-            { code: "foo", errors: ["foo"], output: "", options: ["baz"], parserOptions: "", },
+            {\ncode: "foo",\noutput: "",\nparserOptions: "",\nerrors: ["baz"],\n},
           ]
         });
       `,
-      options: [['code', 'errors', 'output']],
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, errors, output, options, parserOptions].' }],
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].' }],
     },
   ],
 });
