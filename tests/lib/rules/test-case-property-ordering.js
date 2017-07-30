@@ -22,23 +22,14 @@ ruleTester.run('test-case-property-ordering', rule, {
     `
       new RuleTester().run('foo', bar, {
         valid: [
-          {
-            code: "foo",
-            output: "bar",
-            options: ["baz"],
-          },
+          { code: "foo", output: "bar", options: ["baz"], },
         ]
       });
     `,
     `
       new RuleTester().run('foo', bar, {
         valid: [
-          {
-            code: "foo",
-            output: "bar",
-            options: ["baz"],
-            env: { es6: true },
-          },
+          { code: "foo",output: "bar",options: ["baz"],env: { es6: true }, },
         ]
       });
     `,
@@ -46,11 +37,7 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              options: ["baz"],
-              output: "bar",
-            },
+            { code: "foo", options: ["baz"], output: "bar", },
           ]
         });
       `,
@@ -63,20 +50,14 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              options: ["baz"],
-              output: "bar",
-            },
+            { code: "foo", options: ["baz"], output: "bar", },
           ]
         });
       `,
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",\noutput: "bar",\noptions: ["baz"],
-            },
+            { code: "foo", output: "bar", options: ["baz"], },
           ]
         });
       `,
@@ -86,21 +67,14 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              env: { es6: true },
-              code: "foo",
-              output: "bar",
-              options: ["baz"],
-            },
+            { env: { es6: true }, code: "foo", output: "bar", options: ["baz"], },
           ]
         });
       `,
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",\noutput: "bar",\noptions: ["baz"],\nenv: { es6: true },
-            },
+            { code: "foo", output: "bar", options: ["baz"], env: { es6: true }, },
           ]
         });
       `,
@@ -110,21 +84,14 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              env: { es6: true },
-              output: "bar",
-              options: ["baz"],
-            },
+            { code: "foo", env: { es6: true }, output: "bar", options: ["baz"], },
           ]
         });
       `,
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",\noutput: "bar",\noptions: ["baz"],\nenv: { es6: true },
-            },
+            { code: "foo", output: "bar", options: ["baz"], env: { es6: true }, },
           ]
         });
       `,
@@ -134,20 +101,14 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              output: "bar",
-              options: ["baz"],
-            },
+            { code: "foo", output: "bar", options: ["baz"], },
           ]
         });
       `,
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",\noptions: ["baz"],\noutput: "bar",
-            },
+            { code: "foo", options: ["baz"], output: "bar", },
           ]
         });
       `,
@@ -158,22 +119,14 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              options: ["baz"],
-              parserOptions: "",
-              code: "foo",
-              errors: ["foo"],
-              output: "",
-            },
+            { options: ["baz"], parserOptions: "", code: "foo", errors: ["foo"], output: "", },
           ]
         });
       `,
       output: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",\nerrors: ["foo"],\noutput: "",\noptions: ["baz"],\nparserOptions: "",
-            },
+            { code: "foo", errors: ["foo"], output: "", options: ["baz"], parserOptions: "", },
           ]
         });
       `,
