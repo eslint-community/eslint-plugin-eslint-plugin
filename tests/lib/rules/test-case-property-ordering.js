@@ -22,23 +22,14 @@ ruleTester.run('test-case-property-ordering', rule, {
     `
       new RuleTester().run('foo', bar, {
         valid: [
-          {
-            code: "foo",
-            output: "bar",
-            options: ["baz"],
-          },
+          { code: "foo", output: "bar", options: ["baz"], },
         ]
       });
     `,
     `
       new RuleTester().run('foo', bar, {
         valid: [
-          {
-            code: "foo",
-            output: "bar",
-            options: ["baz"],
-            env: { es6: true },
-          },
+          { code: "foo",output: "bar",options: ["baz"],env: { es6: true }, },
         ]
       });
     `,
@@ -46,11 +37,7 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              options: ["baz"],
-              output: "bar",
-            },
+            { code: "foo", options: ["baz"], output: "bar", },
           ]
         });
       `,
@@ -63,11 +50,14 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              options: ["baz"],
-              output: "bar",
-            },
+            { code: "foo", options: ["baz"], output: "bar", },
+          ]
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: "foo", output: "bar", options: ["baz"], },
           ]
         });
       `,
@@ -75,29 +65,16 @@ ruleTester.run('test-case-property-ordering', rule, {
     },
     {
       code: `
-      new RuleTester().run('foo', bar, {
-        valid: [
-          {
-            env: { es6: true },
-            code: "foo",
-            output: "bar",
-            options: ["baz"],
-          },
-        ]
-      });
-      `,
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options, env].' }],
-    },
-    {
-      code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              env: { es6: true },
-              output: "bar",
-              options: ["baz"],
-            },
+            { env: { es6: true }, code: "foo", output: "bar", options: ["baz"], },
+          ]
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: "foo", output: "bar", options: ["baz"], env: { es6: true }, },
           ]
         });
       `,
@@ -107,11 +84,31 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              code: "foo",
-              output: "bar",
-              options: ["baz"],
-            },
+            { code: "foo", env: { es6: true }, output: "bar", options: ["baz"], },
+          ]
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: "foo", output: "bar", options: ["baz"], env: { es6: true }, },
+          ]
+        });
+      `,
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options, env].' }],
+    },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: "foo", output: "bar", options: ["baz"], },
+          ]
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            { code: "foo", options: ["baz"], output: "bar", },
           ]
         });
       `,
@@ -122,18 +119,18 @@ ruleTester.run('test-case-property-ordering', rule, {
       code: `
         new RuleTester().run('foo', bar, {
           valid: [
-            {
-              options: ["baz"],
-              parserOptions: "",
-              code: "foo",
-              errors: ["foo"],
-              output: "",
-            },
+            {\ncode: "foo",\noutput: "",\nerrors: ["baz"],\nparserOptions: "",\n},
           ]
         });
       `,
-      options: [['code', 'errors', 'output']],
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, errors, output, options, parserOptions].' }],
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {\ncode: "foo",\noutput: "",\nparserOptions: "",\nerrors: ["baz"],\n},
+          ]
+        });
+      `,
+      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].' }],
     },
   ],
 });
