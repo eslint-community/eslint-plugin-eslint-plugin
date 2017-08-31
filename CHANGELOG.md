@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.0 (2017-08-31)
+
+* Fix: some rules crashing if tests array has missing elements (fixes [#35](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/35)). ([#36](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/36)) ([e3a14e1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e3a14e11d86836b1ab63d19c689327fea8f8a4bc))
+* Breaking: update ESLint peerDependency to >=4.1.0 ([#33](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/33)) ([7cabcdc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7cabcdcae32ae67fc3769804aad5e5d8882b3baa))
+* Chore: use local variable. ([#34](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/34)) ([e04a4bc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e04a4bc15963efdff6309549e34c51cfa2c2ea74))
+* Update: add autofixing to test-case-property-ordering. (fixes [#31](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/31)) ([#32](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/32)) ([23f9010](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/23f90106a5c8b3cf1a785989d6c9ec798da339a9))
+
 ## v0.8.0 (2017-07-26)
 
 * Breaking: add no-unused-placeholders to recommended. ([#29](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/29)) ([882c36a](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/882c36a075be72b136e75eef14b13f09cf3fc27b))
