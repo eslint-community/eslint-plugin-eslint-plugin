@@ -213,6 +213,7 @@ describe('utils', () => {
         'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })': { valid: 1, invalid: 1 },
         'var foo = new (require("eslint")).RuleTester; foo.run(bar, baz, { valid: [], invalid: [] })': { valid: 0, invalid: 0 },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })': { valid: 0, invalid: 2 },
+        'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })': { valid: 0, invalid: 2 },
       };
 
       Object.keys(CASES).forEach(testSource => {
