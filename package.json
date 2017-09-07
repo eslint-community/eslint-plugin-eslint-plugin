@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint . --ignore-pattern \"!.*\"",
     "pretest": "npm run lint",
+    "generate-release": "node-release-script",
     "test": "mocha tests --recursive"
   },
   "files": [
@@ -28,6 +29,7 @@
   "homepage": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin#readme",
   "dependencies": {},
   "devDependencies": {
+    "@not-an-aardvark/node-release-script": "^0.1.0",
     "chai": "^4.1.0",
     "dirty-chai": "^2.0.1",
     "escope": "^3.6.0",
