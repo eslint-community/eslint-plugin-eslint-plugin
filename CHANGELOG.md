@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.0 (2017-09-08)
+
+* Chore: add release script ([#39](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/39)) ([3454d60](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/3454d604bb98a4f06ffd32c2a70e183426b20c39))
+* Update: utils.getTestInfo filter elements equal to null (fixes [#37](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/37)). ([#38](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/38)) ([7b33446](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7b33446cd90c9f928618b59f6da1b9e05a8ea34f))
+
 ## v1.0.0 (2017-08-31)
 
 * Fix: some rules crashing if tests array has missing elements (fixes [#35](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/35)). ([#36](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/36)) ([e3a14e1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e3a14e11d86836b1ab63d19c689327fea8f8a4bc))
