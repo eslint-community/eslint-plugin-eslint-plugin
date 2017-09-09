@@ -50,6 +50,7 @@ Name | ✔️ | 🛠 | Description
 ----- | ----- | ----- | -----
 [consistent-output](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/consistent-output.md) | | | Enforces consistent use of output assertions in rule tests
 [fixer-return](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/fixer-return.md) | ✔️ | | Enforces always return from a fixer function
+[no-deprecated-context-methods](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-context-methods.md) | | | Disallows usage of deprecated methods on rule context objects
 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md) | ✔️ | 🛠 | Prohibits the deprecated `context.report(node, message)` API
 [no-identical-tests](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-identical-tests.md) | ✔️  | 🛠 | Disallows identical tests
 [no-missing-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md) | ✔️ | | Disallows missing placeholders in rule report messages
