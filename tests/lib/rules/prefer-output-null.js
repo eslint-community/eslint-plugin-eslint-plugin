@@ -58,6 +58,14 @@ ruleTester.run('prefer-output-null', rule, {
           ]
         });
       `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [],
+          invalid: [
+            {code: 'foo', output: null, errors: ['bar']},
+          ]
+        });
+      `,
       errors: [ERROR],
     },
   ],
