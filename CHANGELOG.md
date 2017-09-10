@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.0 (2017-09-10)
+
+* New: no-deprecated-context-methods rule (fixes [#40](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/40)) ([#41](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/41)) ([8931504](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8931504a891dd95ccc60d3e75e93826cc5f56091))
+
 ## v1.1.0 (2017-09-08)
 
 * Chore: add release script ([#39](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/39)) ([3454d60](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/3454d604bb98a4f06ffd32c2a70e183426b20c39))
