@@ -2,7 +2,7 @@
 
 ## Rule Details
 
-The rule reports an error if `replaceTextRange`'s first argument is an array of identical object elements. It can be easily replaced by `replaceText` to improve readability.
+The rule reports an error if `replaceTextRange`'s first argument is an array of identical object properties. It can be easily replaced by `replaceText` to improve readability.
 
 Examples of **incorrect** code for this rule:
 
