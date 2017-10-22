@@ -42,4 +42,4 @@ module.exports = {
 
 ## Further Reading
 
-* [`SourceCode` API](http://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)
+* [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)
