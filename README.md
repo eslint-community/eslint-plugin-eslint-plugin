@@ -59,7 +59,7 @@ Name | ✔️ | 🛠 | Description
 [no-useless-token-range](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-useless-token-range.md) | ✔️ | 🛠 | Disallow unnecessary calls to sourceCode.getFirstToken and sourceCode.getLastToken
 [prefer-output-null](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-output-null.md) |  | 🛠 | disallows invalid RuleTester test cases with the output the same as the code.
 [prefer-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-placeholders.md) |  |  | disallow template literals as report messages
-[prefer-replace-text](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-replace-text.md) |  | 🛠 | prefer using replaceText instead of replaceTextRange.
+[prefer-replace-text](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-replace-text.md) |  |  | prefer using replaceText instead of replaceTextRange.
 [report-message-format](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/report-message-format.md) |  |  | enforce a consistent format for rule report messages
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ |  | require rules to implement a meta.fixable property
 [test-case-property-ordering](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-property-ordering.md) |  | 🛠 | Requires the properties of a test case to be placed in a consistent order
