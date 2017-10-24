@@ -12,7 +12,7 @@ module.exports = {
   create(context) {
     context.report({
       fix(fixer) {
-        // error, can be writen: return fixer.replaceText([node, '');
+        // error, can be written: return fixer.replaceText([node, '']);
         return fixer.replaceTextRange([node.range[0], node.range[1]], '');
       }
     });
