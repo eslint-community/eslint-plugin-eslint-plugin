@@ -17,7 +17,7 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const ERROR = { message: 'prefer using replaceText instead of replaceTextRange.' };
+const ERROR = { message: 'Use replaceText instead of replaceTextRange.' };
 
 
 ruleTester.run('prefer-placeholders', rule, {
@@ -50,13 +50,7 @@ ruleTester.run('prefer-placeholders', rule, {
       };
     `,
     `
-      module.exports = {
-        create(context) {
-          var fixer = function(fixer) {
-            return fixer.replaceTextRange([node.range[0], node.range[1]], '');
-          }
-        }
-      };
+      fixer.replaceTextRange([node.range[0], node.range[1]], '');
     `,
   ],
 
