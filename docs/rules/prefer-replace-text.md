@@ -7,7 +7,7 @@ The rule reports an error if `replaceTextRange`'s first argument is an array of 
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint eslint-plugin/prefer-text-range: error */
+/* eslint eslint-plugin/prefer-replace-text: error */
 module.exports = {
   create(context) {
     context.report({
@@ -23,7 +23,7 @@ module.exports = {
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint eslint-plugin/prefer-text-range: error */
+/* eslint eslint-plugin/prefer-replace-text: error */
 module.exports = {
   create(context) {
     context.report({
