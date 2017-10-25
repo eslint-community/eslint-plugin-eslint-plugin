@@ -139,7 +139,7 @@ ruleTester.run('example-rule', rule, {
     },
     {
       code: 'anotherValidTestCase'
-    }
+    },
     {
       code: 'testCaseWithOption',
       options: ["foo"]
@@ -150,7 +150,7 @@ ruleTester.run('example-rule', rule, {
 
 ruleTester.run('example-rule', rule, {
   valid: [
-    'validTestCase;'
+    'validTestCase;',
     'anotherValidTestCase'
   ],
   invalid: []
@@ -218,7 +218,7 @@ Examples of **correct** code for this rule with the `consistent-as-needed` optio
 
 ruleTester.run('example-rule', rule, {
   valid: [
-    'validTestCase;'
+    'validTestCase;',
     'anotherValidTestCase;'
   ],
   invalid: []

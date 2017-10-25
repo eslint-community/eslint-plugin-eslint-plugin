@@ -31,7 +31,7 @@ Examples of **incorrect** code for this rule:
 // invalid; extra properties should need to be placed afterwards.
 {
   code: "foo",
-  env: { es6: true }
+  env: { es6: true },
   output: "bar",
   options: ["baz"],
 }
