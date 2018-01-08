@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.3.0 (2018-01-08)
+
+* Update: add meta.docs.url to rules ([eb207d0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/eb207d0ef650e9f91f7f7ca3be2ab8cbe762f0d3))
+* Docs: fix some errors in rule example. ([#52](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/52)) ([bd97347](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/bd9734768d0da32806f9c2bae6f0327f7f8427b3))
+* Docs: fix prefer-replace-text doc name. ([#51](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/51)) ([786fc92](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/786fc92aa9d02c3a5cb75a7ca8417b5b7017b8d5))
+* New: rule prefer-replace-text ([#50](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/50)) ([f0d27d5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f0d27d50f0b2d89bd3c38f9ffa02a8b8210f083d))
+* Docs: http => https. ([#49](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/49)) ([86d3ebf](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/86d3ebfe80f6021bfac826b49f7c975542a64b70))
+* Chore: add vscode to gitignore. ([#48](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/48)) ([0f64dc1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/0f64dc15368c3d558d4d304c95f3fadccff4c456))
+* Build: autogenerate the table in README.md (fixes [#43](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/43)) ([#46](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/46)) ([efae7da](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/efae7daaeecc96545aac3714c043e4b564aa0edd))
+* Update: add --fix to prefer-output-null. ([#44](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/44)) ([0fc99af](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/0fc99af38a5217b698a0cff6c391496ecf2720aa))
+* Docs: add no-deprecated-context-methods fixable. ([#45](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/45)) ([cf563fb](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/cf563fb48d1376ebf9031daa80f6c520ce80b893))
+* Docs: add missing fixable icon to `no-deprecated-context-methods` ([#42](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/42)) ([3597af5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/3597af584d02a4805516ff766e8deb62456301f6))
+
 ## v1.2.0 (2017-09-10)
 
 * New: no-deprecated-context-methods rule (fixes [#40](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/40)) ([#41](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/41)) ([8931504](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8931504a891dd95ccc60d3e75e93826cc5f56091))
