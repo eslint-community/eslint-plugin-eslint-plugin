@@ -101,6 +101,50 @@ module.exports = {
 
 ```
 
+## Version specific URL
+
+If you want to enforce version-specific URLs, it's feasible easily with `.eslintrc.js` and `npm version <type>` script.
+For example:
+
+**.eslintrc.js**:
+
+```js
+"use strict"
+
+const version = require("./package.json").version
+
+module.exports = {
+  plugins: ["eslint-plugin"],
+  // ... leaving out ...
+  rules: {
+    "eslint-plugin/require-meta-docs-url": ["error", {
+      pattern: `path/to/v${version}/docs/rules/{{name}}.md`,
+    }],
+  }
+}
+```
+
+**package.json**:
+
+```json
+{
+  "version": "1.0.0",
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "... leaving out ...",
+    "preversion": "npm test",
+    "version": "eslint . --fix && git add ."
+  },
+  // ... leaving out ...
+}
+```
+
+Then `npm version <type>` command will update every rule to the new version's URL.
+
+> npm runs `preversion` script on the current version, runs `version` script on the new version, and commits and makes a tag.
+>
+> Further reading: https://docs.npmjs.com/cli/version
+
 ## When Not To Use It
 
 If you do not plan to provide rule's documentation in website, you can turn off this rule.
