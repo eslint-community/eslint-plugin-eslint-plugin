@@ -19,7 +19,7 @@ This rule has an option.
 
 - `pattern` (`string`) ... A pattern to enforce rule's document URL. It replaces `{{name}}` placeholder by each rule name. The rule name is the basename of each rule file. Default is undefined.
 
-If you set the `pattern` option, this rule adds `meta.docs.url` property automatically when you executed `eslint --fix` command.
+If you set the `pattern` option, this rule adds `meta.docs.url` property automatically when you execute `eslint --fix` command.
 
 The following patterns are considered warnings:
 
