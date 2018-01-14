@@ -61,6 +61,7 @@ Name | ✔️ | 🛠 | Description
 [prefer-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-placeholders.md) |  |  | disallow template literals as report messages
 [prefer-replace-text](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-replace-text.md) |  |  | prefer using replaceText instead of replaceTextRange.
 [report-message-format](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/report-message-format.md) |  |  | enforce a consistent format for rule report messages
+[require-meta-docs-url](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-docs-url.md) |  | 🛠 | require rules to implement a meta.docs.url property
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ |  | require rules to implement a meta.fixable property
 [test-case-property-ordering](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-property-ordering.md) |  | 🛠 | Requires the properties of a test case to be placed in a consistent order
 [test-case-shorthand-strings](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-shorthand-strings.md) |  | 🛠 | Enforce consistent usage of shorthand strings for test cases with no options
