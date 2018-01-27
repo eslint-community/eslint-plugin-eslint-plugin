@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.0 (2018-01-27)
+
+* New: require-meta-docs-url (fixes [#55](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/55)) ([#56](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/56)) ([114d2c7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/114d2c7aa1539d2271069ab54863bd3825fb7ec0))
+
 ## v1.3.0 (2018-01-08)
 
 * Update: add meta.docs.url to rules ([eb207d0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/eb207d0ef650e9f91f7f7ca3be2ab8cbe762f0d3))
