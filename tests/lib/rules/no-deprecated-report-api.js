@@ -209,5 +209,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
       output: null,
       errors: [ERROR],
     },
+    {
+      code: `
+        module.exports = {
+          create(context) {
+            context.report(...error);
+          }
+        };
+      `,
+      output: null,
+      errors: [ERROR],
+    },
   ],
 });
