@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.1 (2018-10-24)
+
+* Fix: no-deprecated-report-api should consider spread operator(fixes [#64](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/64)) ([#65](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/65)) ([ec7a34c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ec7a34c562123b78494a256c3f233fc0ff759e50))
+* Chore: fix linting errors ([#66](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/66)) ([a128650](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/a12865059fb625a8c2fc123d81d636d825d3d9d8))
+
 ## v1.4.0 (2018-01-27)
 
 * New: require-meta-docs-url (fixes [#55](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/55)) ([#56](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/56)) ([114d2c7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/114d2c7aa1539d2271069ab54863bd3825fb7ec0))
