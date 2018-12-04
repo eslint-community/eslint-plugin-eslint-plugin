@@ -34,14 +34,14 @@
     "chai": "^4.1.0",
     "dirty-chai": "^2.0.1",
     "escope": "^3.6.0",
-    "eslint": "^4.2.0",
+    "eslint": "^5.9.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
-    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-self": "^1.0.1",
-    "espree": "^3.4.3",
+    "espree": "^4.1.0",
     "estraverse": "^4.2.0",
     "lodash": "^4.17.2",
-    "mocha": "^3.4.2"
+    "mocha": "^5.2.0"
   },
   "peerDependencies": {
     "eslint": ">=5.0.0"
