@@ -113,6 +113,20 @@ ruleTester.run('report-message-format', rule, {
       `,
       options: ['foo'],
     },
+    {
+      code: `
+        module.exports = {
+          meta: {
+            messages: {
+              message1: 'foo bar',
+              message2: 'bar foobar'
+            }
+          },
+          create: context => ({})
+        }
+      `,
+      options: ['foo'],
+    },
   ],
 
   invalid: [
@@ -172,6 +186,19 @@ ruleTester.run('report-message-format', rule, {
           create(context) {
             context.report({node, message: \`FOO\`});
           }
+        };
+      `,
+      options: ['foo'],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: {
+            messages: {
+              message1: 'bar'
+            }
+          },
+          create: context => ({})
         };
       `,
       options: ['foo'],
