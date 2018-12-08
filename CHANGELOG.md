@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.0 (2018-12-08)
+
+* New: require-meta-type (fixes [#67](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/67)) ([#68](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/68)) ([7f87941](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7f8794159aae178fdd6f069ed9d4dee27367633a))
+* Update: ensure report-message-format checks formatting in meta.messages ([#72](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/72)) ([1ffb48a](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1ffb48aec79c278562729698bff93493ee5ac20e))
+* Upgrade: dev dependcies to latest ([#69](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/69)) ([9dad54f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9dad54f6b3e148068f6322011f4c5c63bd4178c0))
+* Breaking: require node >= 6 & eslint >= 5 (fixes [#70](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/70)) ([#71](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/71)) ([c1778af](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c1778af090dc88f122101e3cf6ea653b5bc49778))
+
 ## v1.4.1 (2018-10-24)
 
 * Fix: no-deprecated-report-api should consider spread operator(fixes [#64](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/64)) ([#65](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/65)) ([ec7a34c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ec7a34c562123b78494a256c3f233fc0ff759e50))
