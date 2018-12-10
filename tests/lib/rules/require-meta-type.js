@@ -37,6 +37,9 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
+    `module.exports = {
+      create(context) {}
+    }`,
   ],
 
   invalid: [
