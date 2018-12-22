@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.1 (2018-12-22)
+
+* Fix: allow to use generator function as fix in fixer-return ([#75](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/75)) ([7556633](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7556633ce349ec78a90fe7986d6090726e84c048))
+* Fix: require-meta-type crash when has no meta property ([#73](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/73)) ([bc9b1a0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/bc9b1a01cc3fcc9d115615c7e107f08c6bb0538c))
+
 ## v2.0.0 (2018-12-08)
 
 * New: require-meta-type (fixes [#67](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/67)) ([#68](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/68)) ([7f87941](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7f8794159aae178fdd6f069ed9d4dee27367633a))
