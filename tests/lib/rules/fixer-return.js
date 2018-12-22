@@ -35,8 +35,33 @@ ruleTester.run('fixer-return', rule, {
     `
     module.exports = {
         create: function(context) {
+            context.report( {
+                fix: function(fixer) {
+                    return [
+                        fixer.foo(),
+                        fixer.bar()
+                    ];
+                }
+            });
+        }
+    };
+    `,
+    `
+    module.exports = {
+        create: function(context) {
             context.report({
                 fix: fixer => fixer.foo()
+            });
+        }
+    };
+    `,
+    `
+    module.exports = {
+        create: function (context) {
+            context.report({
+                fix: function* (fixer) {
+                    yield fixer.foo();
+                }
             });
         }
     };
@@ -50,6 +75,20 @@ ruleTester.run('fixer-return', rule, {
           create: function(context) {
               context.report({
                   fix(fixer) {
+                      fixer.foo();
+                  }
+              });
+          }
+      };
+      `,
+      errors: [ERROR],
+    },
+    {
+      code: `
+      module.exports = {
+          create: function(context) {
+              context.report({
+                  *fix(fixer) {
                       fixer.foo();
                   }
               });
