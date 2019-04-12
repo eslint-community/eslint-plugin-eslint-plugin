@@ -51,6 +51,7 @@ Name | ✔️ | 🛠 | Description
 ----- | ----- | ----- | -----
 [consistent-output](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/consistent-output.md) |  |  | Enforce consistent use of output assertions in rule tests
 [fixer-return](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/fixer-return.md) | ✔️ |  | Expected fixer function to always return a value.
+[meta-property-ordering](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/meta-property-ordering.md) |  | 🛠 | Enforces the order of meta properties
 [no-deprecated-context-methods](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-context-methods.md) |  | 🛠 | Disallows usage of deprecated methods on rule context objects
 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md) | ✔️ | 🛠 | disallow use of the deprecated context.report() API
 [no-identical-tests](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-identical-tests.md) | ✔️ | 🛠 | disallow identical tests
