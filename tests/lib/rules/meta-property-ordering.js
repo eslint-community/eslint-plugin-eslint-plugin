@@ -40,7 +40,7 @@ ruleTester.run('test-case-property-ordering', rule, {
 
     `
     module.exports = {
-      meta: {docs, foo, bar, messages},
+      meta: {docs, messages, foo, bar},
       create() {},
     };`,
 
@@ -58,7 +58,7 @@ ruleTester.run('test-case-property-ordering', rule, {
     {
       code: `
         module.exports = {
-          meta: {messages, schema, docs},
+          meta: {schema, docs, fixable},
           create() {},
         };`,
       options: [['schema', 'docs']],
@@ -120,7 +120,7 @@ ruleTester.run('test-case-property-ordering', rule, {
 
       output: `
         module.exports = {
-          meta: {type, fooooooooo, doc, fixable},
+          meta: {type, doc, fixable, fooooooooo},
           create() {},
         };`,
       options: [['type', 'doc', 'fixable']],
