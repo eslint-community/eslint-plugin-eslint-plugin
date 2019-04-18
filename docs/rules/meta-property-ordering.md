@@ -2,7 +2,7 @@
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
-This rule enforces that the properties of rule meta are arranged in a consistent order.
+This rule enforces that meta properties of a rule are placed in a consistent order.
 
 ## Rule Details
 
@@ -10,7 +10,7 @@ This rule enforces that the properties of rule meta are arranged in a consistent
 
 This rule has an array option:
 
-* `['type', 'docs', 'fixable', 'schema', 'messages', 'deprecated', 'replacedBy']` (default): The properties of meta should be placed in a consistent order.
+* `['type', 'docs', 'fixable', 'schema', 'messages', 'deprecated', 'replacedBy']` (default): The order that the properties of `meta` should be placed in.
 
 Examples of **incorrect** code for this rule:
 
@@ -20,13 +20,26 @@ Examples of **incorrect** code for this rule:
   ["type", "docs", "fixable", "schema", "messages"]
 ] */
 
-// invalid; wrong order
-{
-  fixable: false,
-  type: "problem",
-  docs: "",
+// invalid; wrong order.
+module.exports = {
+  meta: {
+    docs: "",
+    type: "problem",
+    fixable: "code",
+  },
+  create() {},
 }
 
+// invalid; extra properties must be placed afterwards.
+module.exports = {
+  meta: {
+    type: "problem",
+    fooooooooo: "foo",
+    docs: "",
+    fixable: "code",
+  },
+  create() {},
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -37,15 +50,17 @@ Examples of **correct** code for this rule:
 ] */
 
 // valid;
-{
-  type: "bar",
-  docs: "foo",
-  fooooooooo: "foo",
-  fixable: false,
+module.exports = {
+  meta: {
+    type: "bar",
+    docs: "foo",
+    messages: ["zoo"],
+    fooooooooo: "foo",
+  },
+  create() {},
 }
-
 ```
 
 ## When Not To Use It
 
-If don't want to enforce ordering of properies in meta, you can turn off this rule.
+If don't want to enforce ordering of meta properties, you can turn off this rule.
