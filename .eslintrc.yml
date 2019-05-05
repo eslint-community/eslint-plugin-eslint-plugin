@@ -8,6 +8,7 @@ extends:
 root: true
 rules:
   require-jsdoc: error
+  self/meta-property-ordering: off
   self/require-meta-docs-url: off
   self/report-message-format:
     - error
