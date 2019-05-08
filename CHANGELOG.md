@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0 (2019-05-08)
+
+* New: meta-property-ordering (fixes [#62](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/62)) ([#80](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/80)) ([aebf1cf](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/aebf1cf2023e014aa8778fe457bfa5c8a4c876fc))
+* Revert "Update: add plugins: ['eslint-plugin'] in configs" ([#76](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/76)) ([9bab974](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9bab97423656bb40a4cd199034c5a167e89b822e))
+* Update: add plugins: ['eslint-plugin'] in configs ([bb71efa](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/bb71efaec765691c1cb85bd6d8d6b46a5ae0c960))
+
 ## v2.0.1 (2018-12-22)
 
 * Fix: allow to use generator function as fix in fixer-return ([#75](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/75)) ([7556633](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7556633ce349ec78a90fe7986d6090726e84c048))
