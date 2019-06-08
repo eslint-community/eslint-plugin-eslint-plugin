@@ -19,7 +19,7 @@ const rule = require('../../../lib/rules/require-meta-docs-url');
 
 const tester = new RuleTester({
   parserOptions: {
-    ecmaVersion: 2015,
+    ecmaVersion: 2018,
   },
 });
 
@@ -208,12 +208,6 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      parserOptions: {
-        ecmaVersion: 2015,
-        ecmaFeatures: {
-          experimentalObjectRestSpread: true,
-        },
-      },
       errors: ['Rules should export a `meta.docs.url` property.'],
     },
 
@@ -395,12 +389,6 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      parserOptions: {
-        ecmaVersion: 2015,
-        ecmaFeatures: {
-          experimentalObjectRestSpread: true,
-        },
-      },
       errors: ['Rules should export a `meta.docs.url` property.'],
     },
 
@@ -670,12 +658,6 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      parserOptions: {
-        ecmaVersion: 2015,
-        ecmaFeatures: {
-          experimentalObjectRestSpread: true,
-        },
-      },
       errors: ['Rules should export a `meta.docs.url` property.'],
       filename: 'test.js',
     },
