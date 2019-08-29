@@ -40,6 +40,16 @@ ruleTester.run('require-meta-type', rule, {
     `module.exports = {
       create(context) {}
     }`,
+    {
+      code: `
+        const create = {};
+        module.exports = {
+          meta: {},
+          create,
+        };
+      `,
+      errors: [{ messageId: 'missing' }],
+    },
   ],
 
   invalid: [
@@ -48,6 +58,36 @@ ruleTester.run('require-meta-type', rule, {
         module.exports = {
           meta: {},
           create(context) {}
+        };
+      `,
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: `
+        function create(context) {}
+        module.exports = {
+          meta: {},
+          create,
+        };
+      `,
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: `
+        const create = function(context) {};
+        module.exports = {
+          meta: {},
+          create,
+        };
+      `,
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: `
+        const create = (context) => {};
+        module.exports = {
+          meta: {},
+          create,
         };
       `,
       errors: [{ messageId: 'missing' }],
