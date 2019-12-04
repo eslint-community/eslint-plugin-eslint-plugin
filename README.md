@@ -62,6 +62,7 @@ Name | ✔️ | 🛠 | Description
 [prefer-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-placeholders.md) |  |  | disallow template literals as report messages
 [prefer-replace-text](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-replace-text.md) |  |  | prefer using replaceText instead of replaceTextRange.
 [report-message-format](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/report-message-format.md) |  |  | enforce a consistent format for rule report messages
+[require-meta-docs-description](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-docs-description.md) |  |  | require rules to implement a meta.docs.description property with the correct format
 [require-meta-docs-url](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-docs-url.md) |  | 🛠 | require rules to implement a meta.docs.url property
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ |  | require rules to implement a meta.fixable property
 [require-meta-schema](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-schema.md) |  | 🛠 | require rules to implement a meta.schema property
