@@ -56,6 +56,13 @@ new RuleTester().run('example-rule', rule, {
 
 ```
 
+## Options
+
+This rule takes an optional string enum option with one of the following values:
+
+* `"consistent"` - (default) if any invalid test cases have output assertions, then all invalid test cases must have output assertions
+* `"always"` - always require invalid test cases to have output assertions
+
 ## When Not To Use It
 
 If you're not writing fixable rules, or you want to write test cases without output assertions, do not enable this rule.

@@ -53,6 +53,21 @@ ruleTester.run('consistent-output', rule, {
         ]
       });
     `,
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [],
+          invalid: [
+            {
+              code: 'foo',
+              output: 'baz',
+              errors: ['bar']
+            },
+          ]
+        });
+      `,
+      options: ['always'],
+    },
   ],
 
   invalid: [
@@ -78,6 +93,21 @@ ruleTester.run('consistent-output', rule, {
         });
       `,
       errors: [ERROR, ERROR],
+    },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [],
+          invalid: [
+            {
+              code: 'foo',
+              errors: ['bar'],
+            },
+          ]
+        });
+      `,
+      options: ['always'],
+      errors: [ERROR],
     },
   ],
 });
