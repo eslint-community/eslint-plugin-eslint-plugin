@@ -26,6 +26,12 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    `
+      module.exports = {
+        meta: { schema: { "enum": ["always", "never"] } },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
