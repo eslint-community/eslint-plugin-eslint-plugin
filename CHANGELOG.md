@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.1 (2020-01-17)
+
+* Fix: update `require-meta-schema` rule to allow object schemas (in addition to array schemas) ([#90](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/90)) ([e582cb6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e582cb61d0f51c15a8e5d9e38c82d1c73f2d6edd))
+
 ## v2.2.0 (2020-01-08)
 
 * Update: Add new rule `require-meta-docs-description` ([#89](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/89)) ([b175b46](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b175b46732033c99e26e5380d83ea94727c15218))
