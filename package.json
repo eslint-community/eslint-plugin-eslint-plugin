@@ -34,7 +34,7 @@
     "chai": "^4.1.0",
     "dirty-chai": "^2.0.1",
     "escope": "^3.6.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0-alpha.3",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-self": "^1.0.1",
