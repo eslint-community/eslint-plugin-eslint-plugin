@@ -33,6 +33,13 @@ ruleTester.run('test-case-property-ordering', rule, {
         ]
       });
     `,
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          { filename: '', code: '', output: '', options: '', parser: '', parserOptions: '', globals: '', env: '', errors: '' },
+        ]
+      });
+    `,
     {
       code: `
         new RuleTester().run('foo', bar, {

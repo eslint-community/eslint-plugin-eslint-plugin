@@ -55,6 +55,7 @@ tester.run('require-meta-docs-url', rule, {
       }],
     },
     {
+      filename: 'test-rule',
       code: `
         module.exports = {
           meta: {docs: {url: "path/to/test-rule.md"}},
@@ -64,7 +65,6 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'path/to/{{name}}.md',
       }],
-      filename: 'test-rule',
     },
   ],
 
@@ -396,6 +396,7 @@ tester.run('require-meta-docs-url', rule, {
     // pattern option with filename
     // -------------------------------------------------------------------------
     {
+      filename: 'test.js',
       code: `
         module.exports = function() {}
       `,
@@ -404,9 +405,9 @@ tester.run('require-meta-docs-url', rule, {
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta,
@@ -418,9 +419,9 @@ tester.run('require-meta-docs-url', rule, {
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: 100,
@@ -432,9 +433,9 @@ tester.run('require-meta-docs-url', rule, {
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {},
@@ -455,9 +456,9 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -481,9 +482,9 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -507,9 +508,9 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -523,9 +524,9 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -548,9 +549,9 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -576,9 +577,9 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -604,9 +605,9 @@ url: "plugin-name/test.md",
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -631,9 +632,9 @@ url: "plugin-name/test.md",
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['`meta.docs.url` property must be `plugin-name/test.md`.'],
-      filename: 'test.js',
     },
     {
+      filename: 'test.js',
       code: `
         module.exports = {
           meta: {
@@ -659,7 +660,6 @@ url: "plugin-name/test.md"
         pattern: 'plugin-name/{{ name }}.md',
       }],
       errors: ['Rules should export a `meta.docs.url` property.'],
-      filename: 'test.js',
     },
   ],
 });
