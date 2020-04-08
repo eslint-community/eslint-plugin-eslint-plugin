@@ -12,8 +12,8 @@
 const rule = require('../../../lib/rules/require-meta-fixable');
 const RuleTester = require('eslint').RuleTester;
 
-const MISSING_ERROR = [{ message: 'Fixable rules must export a `meta.fixable` property.', type: 'FunctionExpression' }];
-const INVALID_ERROR = [{ message: '`meta.fixable` must be either `code`, `whitespace` or `null`.', type: 'Property' }];
+const MISSING_ERROR = { message: 'Fixable rules must export a `meta.fixable` property.', type: 'FunctionExpression' };
+const INVALID_ERROR = { message: '`meta.fixable` must be either `code`, `whitespace` or `null`.', type: 'Property' };
 
 // ------------------------------------------------------------------------------
 // Tests

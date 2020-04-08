@@ -11,7 +11,7 @@
 
 const rule = require('../../../lib/rules/no-deprecated-report-api');
 const RuleTester = require('eslint').RuleTester;
-const ERROR = [{ message: 'Use the new-style context.report() API.', type: 'CallExpression' }];
+const ERROR = { message: 'Use the new-style context.report() API.', type: 'Identifier' };
 
 // ------------------------------------------------------------------------------
 // Tests
