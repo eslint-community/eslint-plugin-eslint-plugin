@@ -45,7 +45,7 @@ module.exports = {
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint eslint-plugin/test-case-property-ordering: ["error",
+/* eslint eslint-plugin/meta-property-ordering: ["error",
   ["type", "docs", "fixable", "schema", "messages"]
 ] */
 
