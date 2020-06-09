@@ -183,6 +183,17 @@ describe('utils', () => {
         assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES[objectSource]);
       });
     });
+
+    const CASES_ES9 = {
+      '({ ...foo })': null,
+    };
+    Object.keys(CASES_ES9).forEach(objectSource => {
+      it(objectSource, () => {
+        const ast = espree.parse(objectSource, { ecmaVersion: 9 });
+
+        assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES_ES9[objectSource]);
+      });
+    });
   });
 
   describe('getTestInfo', () => {

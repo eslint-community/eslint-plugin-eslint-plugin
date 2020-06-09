@@ -105,6 +105,19 @@ ruleTester.run('require-meta-fixable', rule, {
         create(context) { context.report(node, message, data, fix); }
       };
     `,
+    {
+      code: `
+        const meta = {};
+        module.exports = {
+          ...meta,
+          meta: {},
+          create(context) { context.report(node, message, data, fix); }
+        };
+      `,
+      parserOptions: {
+        ecmaVersion: 9,
+      },
+    },
   ],
 
   invalid: [
