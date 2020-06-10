@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.2.2 (2020-06-10)
+
+* Fix: handle spreads in rule meta objects ([#100](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/100)) ([45a09a6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/45a09a67942c55230fcae893633c1911b089a514))
+* Docs: Fix incorrect rule reference in meta-property-ordering ([#96](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/96)) ([68059b1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/68059b1ed2cb2710a4d6c4aa1d05afad8de565f0))
+* Upgrade: eslint and other deps ([#92](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/92)) ([93d082c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/93d082cce48da79bf7305df70e4fd0061b482e88))
+
 ## v2.2.1 (2020-01-17)
 
 * Fix: update `require-meta-schema` rule to allow object schemas (in addition to array schemas) ([#90](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/90)) ([e582cb6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e582cb61d0f51c15a8e5d9e38c82d1c73f2d6edd))
