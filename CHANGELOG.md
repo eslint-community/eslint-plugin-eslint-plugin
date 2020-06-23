@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.0 (2020-06-23)
+
+* New: Add rule `prefer-object-rule` ([#101](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/101)) ([7f625f4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7f625f425332fc8028cbba38b8d4b93f0849dd62))
+
 ## v2.2.2 (2020-06-10)
 
 * Fix: handle spreads in rule meta objects ([#100](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/100)) ([45a09a6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/45a09a67942c55230fcae893633c1911b089a514))
