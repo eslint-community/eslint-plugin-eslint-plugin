@@ -24,7 +24,7 @@ module.exports = {
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint eslint-plugin/require-meta-type: error */
+/* eslint eslint-plugin/require-meta-schema: error */
 module.exports = {
     meta: { schema: [] }, // ensures no options are passed to the rule
     create: function(context) { /* ... */}
