@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0 (2021-04-08)
+
+* Breaking: change test-case-property-ordering default options (fixes [#79](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/79)) ([#93](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/93)) ([ffb734b](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/ffb734b5915fbb0087c7aac8791a875f2c4b49e5))
+* Breaking: drop eslint < 7 & node.js < 10 ([#95](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/95)) ([59ddffc](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/59ddffcd0c4f1e293883838264daa7a29da04db7))
+* Docs: Grammar in `require-meta-schema.md` ([#103](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/103)) ([a3017e2](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/a3017e253db08630da3f92428df6f4f2680ecf12))
+
 ## v2.3.0 (2020-06-23)
 
 * New: Add rule `prefer-object-rule` ([#101](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/101)) ([7f625f4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7f625f425332fc8028cbba38b8d4b93f0849dd62))
