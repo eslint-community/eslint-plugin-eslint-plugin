@@ -325,7 +325,7 @@ describe('utils', () => {
       it(args.join(', '), () => {
         const parsedArgs = espree.parse(
           `context.report(${args.join(', ')})`,
-          { ecmaVersion: 6, loc: false, range: true }
+          { ecmaVersion: 6, loc: false, range: false }
         ).body[0].expression.arguments;
         const reportInfo = utils.getReportInfo(parsedArgs);
 

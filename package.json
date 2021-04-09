@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ignore-pattern \"!.*\"",
-    "pretest": "npm run lint",
     "generate-readme-table": "node build/generate-readme-table.js",
     "generate-release": "node-release-script",
     "test": "mocha tests --recursive"
