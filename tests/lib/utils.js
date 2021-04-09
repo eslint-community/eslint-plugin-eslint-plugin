@@ -3,7 +3,7 @@
 const util = require('util');
 const lodash = require('lodash');
 const espree = require('espree');
-const escope = require('escope');
+const eslintScope = require('eslint-scope');
 const estraverse = require('estraverse');
 const assert = require('chai').assert;
 const utils = require('../../lib/utils');
@@ -149,7 +149,7 @@ describe('utils', () => {
     Object.keys(CASES).forEach(ruleSource => {
       it(ruleSource, () => {
         const ast = espree.parse(ruleSource, { ecmaVersion: 6 });
-        const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+        const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
         const identifiers = utils.getContextIdentifiers(scope, ast);
 
         assert(identifiers instanceof Set, 'getContextIdentifiers should return a Set');
@@ -212,7 +212,7 @@ describe('utils', () => {
       ].forEach(noTestsCase => {
         it(`returns no tests for ${noTestsCase}`, () => {
           const ast = espree.parse(noTestsCase, { ecmaVersion: 8 });
-          const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+          const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
           assert.deepEqual(utils.getTestInfo(scope, ast), [], 'Expected no tests to be found');
         });
       });
@@ -230,7 +230,7 @@ describe('utils', () => {
       Object.keys(CASES).forEach(testSource => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6 });
-          const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+          const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
           const testInfo = utils.getTestInfo(scope, ast);
 
           assert.strictEqual(testInfo.length, 1, 'Expected to find one test run');
@@ -275,7 +275,7 @@ describe('utils', () => {
       Object.keys(CASES).forEach(testSource => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6 });
-          const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+          const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
           const testInfo = utils.getTestInfo(scope, ast);
 
           assert.strictEqual(
@@ -344,7 +344,7 @@ describe('utils', () => {
     Object.keys(CASES).forEach(testSource => {
       it(testSource, () => {
         const ast = espree.parse(testSource, { ecmaVersion: 6 });
-        const scope = escope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+        const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
 
         estraverse.traverse(ast, {
           enter (node, parent) {
