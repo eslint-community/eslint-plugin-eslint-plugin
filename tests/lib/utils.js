@@ -122,6 +122,31 @@ describe('utils', () => {
           );
         });
       });
+
+      for (const scopeOptions of [
+        { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true },
+        { ignoreEval: true, ecmaVersion: 6, sourceType: 'script' },
+        { ignoreEval: true, ecmaVersion: 6, sourceType: 'module' },
+      ]) {
+        const ast = espree.parse(`
+          const create = () => {};
+          const meta = {};
+          module.exports = { create, meta };
+        `, { ecmaVersion: 6 });
+        const expected = {
+          create: { type: 'Identifier' },
+          meta: { type: 'Identifier' },
+          isNewStyle: true,
+        };
+        it(`ScopeOptions: ${JSON.stringify(scopeOptions)}`, () => {
+          const scope = escope.analyze(ast, scopeOptions);
+          const ruleInfo = utils.getRuleInfo(ast, scope);
+          assert(
+            lodash.isMatch(ruleInfo, expected),
+            `Expected \n${util.inspect(ruleInfo)}\nto match\n${util.inspect(expected)}`
+          );
+        });
+      }
     });
   });
 
