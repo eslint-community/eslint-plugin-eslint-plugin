@@ -1,5 +1,12 @@
 # Changelog
 
+## v3.0.1 (2021-04-15)
+
+* chore: fix failing tests ([e6aa71f](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/e6aa71f8b018c109ab86ca887f70b253a3e312a3))
+* Fix: Rule can't find reference of `create` function ([#107](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/107)) ([eb501fc](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/eb501fc57efa602d2d57769e4d09cda2b24b53bf))
+* Chore: Switch `escope` to `eslint-scope` ([#109](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/109)) ([8eccc37](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/8eccc371ef425e19eb0c3ab30becc698dbea7fe3))
+* Build: Switch to github actions ([#108](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/108)) ([31951d4](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/31951d4127f2b49cda7400a41629c05091a1ea9d))
+
 ## v3.0.0 (2021-04-08)
 
 * Breaking: change test-case-property-ordering default options (fixes [#79](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/79)) ([#93](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/93)) ([ffb734b](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/ffb734b5915fbb0087c7aac8791a875f2c4b49e5))
