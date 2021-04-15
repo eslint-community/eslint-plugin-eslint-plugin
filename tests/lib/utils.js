@@ -139,7 +139,7 @@ describe('utils', () => {
           isNewStyle: true,
         };
         it(`ScopeOptions: ${JSON.stringify(scopeOptions)}`, () => {
-          const scope = escope.analyze(ast, scopeOptions);
+          const scope = eslintScope.analyze(ast, scopeOptions);
           const ruleInfo = utils.getRuleInfo(ast, scope);
           assert(
             lodash.isMatch(ruleInfo, expected),
