@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin#readme",
   "dependencies": {
-    "eslint-utils": "2.1.0"
+    "eslint-utils": "^2.1.0"
   },
   "devDependencies": {
     "@not-an-aardvark/node-release-script": "^0.1.0",
