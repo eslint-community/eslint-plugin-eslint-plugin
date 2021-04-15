@@ -32,6 +32,13 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    `
+      const schema = [];
+      module.exports = {
+        meta: { schema },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
