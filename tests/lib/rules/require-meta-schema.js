@@ -39,6 +39,21 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    `
+      const foo = {};
+      module.exports = {
+        meta: { schema: foo },
+        create(context) {}
+      };
+    `,
+    `
+      let schema;
+      schema = foo ? [] : {};
+      module.exports = {
+        meta: { schema },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
@@ -84,6 +99,17 @@ schema: [] },
       `,
       output: null,
       errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      code: `
+        const schema = null;
+        module.exports = {
+          meta: { schema },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
     },
   ],
 });
