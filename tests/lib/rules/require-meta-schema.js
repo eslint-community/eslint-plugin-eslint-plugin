@@ -109,7 +109,7 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
     },
   ],
 });
