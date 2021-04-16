@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.2 (2021-04-16)
+
+* Fix: `require-meta-schema`: Fix false positive ([#111](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/111)) ([9f4f461](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/9f4f461969b0f89d40219198423b39eea7b63d1e))
+
 ## v3.0.1 (2021-04-15)
 
 * chore: fix failing tests ([e6aa71f](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/e6aa71f8b018c109ab86ca887f70b253a3e312a3))
