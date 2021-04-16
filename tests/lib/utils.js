@@ -28,7 +28,7 @@ describe('utils', () => {
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
-          assert.isNull(utils.getRuleInfo(ast), 'Expected no rule to be found');
+          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
         });
       });
     });
@@ -115,7 +115,7 @@ describe('utils', () => {
       Object.keys(CASES).forEach(ruleSource => {
         it(ruleSource, () => {
           const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
-          const ruleInfo = utils.getRuleInfo(ast);
+          const ruleInfo = utils.getRuleInfo({ ast });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${util.inspect(ruleInfo)}\nto match\n${util.inspect(CASES[ruleSource])}`
@@ -139,8 +139,8 @@ describe('utils', () => {
           isNewStyle: true,
         };
         it(`ScopeOptions: ${JSON.stringify(scopeOptions)}`, () => {
-          const scope = eslintScope.analyze(ast, scopeOptions);
-          const ruleInfo = utils.getRuleInfo(ast, scope);
+          const scopeManager = eslintScope.analyze(ast, scopeOptions);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, expected),
             `Expected \n${util.inspect(ruleInfo)}\nto match\n${util.inspect(expected)}`
