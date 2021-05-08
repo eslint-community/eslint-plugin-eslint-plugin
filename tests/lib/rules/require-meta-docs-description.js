@@ -32,6 +32,44 @@ ruleTester.run('require-meta-docs-description', rule, {
         create(context) {}
       };
     `,
+    `
+      module.exports = {
+        meta: { docs: { description: generateRestOfDescription() } },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { docs: { description: \`enforce with template literal\` } },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { docs: { description: "enforce" + " " + "something" } },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { docs: { description: "enforce " + generateSomething() } },
+        create(context) {}
+      };
+    `,
+    `
+      const DESCRIPTION = 'require foo';
+      module.exports = {
+        meta: { docs: { description: DESCRIPTION } },
+        create(context) {}
+      };
+    `,
+    `
+      const DESCRIPTION = generateDescription();
+      module.exports = {
+        meta: { docs: { description: DESCRIPTION } },
+        create(context) {}
+      };
+    `,
     {
       code:
         `
@@ -88,17 +126,18 @@ ruleTester.run('require-meta-docs-description', rule, {
     {
       code: `
         module.exports = {
-          meta: { docs: { description: \`enforce with template literal\` } },
+          meta: { docs: { description: '' } },
           create(context) {}
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'TemplateLiteral' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
     },
     {
       code: `
+        const DESCRIPTION = true;
         module.exports = {
-          meta: { docs: { description: SOME_DESCRIPTION } },
+          meta: { docs: { description: DESCRIPTION } },
           create(context) {}
         };
       `,
@@ -107,13 +146,14 @@ ruleTester.run('require-meta-docs-description', rule, {
     },
     {
       code: `
+        const DESCRIPTION = 123;
         module.exports = {
-          meta: { docs: { description: '' } },
+          meta: { docs: { description: DESCRIPTION } },
           create(context) {}
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
     },
     {
       code: `
@@ -134,6 +174,16 @@ ruleTester.run('require-meta-docs-description', rule, {
       `,
       output: null,
       errors: [{ message: '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { description: 'foo' + ' ' + 'bar' } },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ message: '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.', type: 'BinaryExpression' }],
     },
     {
       code: `
