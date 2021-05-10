@@ -2,28 +2,28 @@
 
 ## v3.0.3 (2021-05-10)
 
-* Docs: rm global-installed usage ([#116](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/116)) ([1f99c7c](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/1f99c7ce827f576ffba8a76fc8d2bee534648f8a))
-* Docs: update CI badge for github actions in README ([#115](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/115)) ([ccac2c2](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/ccac2c2e8b21b18f46f2f409ce9c66f302bbee19))
-* Docs: add npm badge to README ([#114](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/114)) ([36d16df](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/36d16dfc1d408dfcb3ddd0dfbf02007d1c1fb98c))
-* Fix: Improve detection of static `description` strings and ignore non-static descriptions in `require-meta-docs-description` rule ([#113](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/113)) ([1840a53](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/1840a53d98fd602feae20219d37510ecbe30fd74))
-* Chore: refactor `utils.getRuleInfo` ([#112](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/112)) ([98e893b](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/98e893b941ab1e41931a17d141723547a0cad659))
+* Docs: rm global-installed usage ([#116](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/116)) ([1f99c7c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1f99c7ce827f576ffba8a76fc8d2bee534648f8a))
+* Docs: update CI badge for github actions in README ([#115](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/115)) ([ccac2c2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ccac2c2e8b21b18f46f2f409ce9c66f302bbee19))
+* Docs: add npm badge to README ([#114](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/114)) ([36d16df](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/36d16dfc1d408dfcb3ddd0dfbf02007d1c1fb98c))
+* Fix: Improve detection of static `description` strings and ignore non-static descriptions in `require-meta-docs-description` rule ([#113](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/113)) ([1840a53](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1840a53d98fd602feae20219d37510ecbe30fd74))
+* Chore: refactor `utils.getRuleInfo` ([#112](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/112)) ([98e893b](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/98e893b941ab1e41931a17d141723547a0cad659))
 
 ## v3.0.2 (2021-04-16)
 
-* Fix: `require-meta-schema`: Fix false positive ([#111](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/111)) ([9f4f461](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/9f4f461969b0f89d40219198423b39eea7b63d1e))
+* Fix: `require-meta-schema`: Fix false positive ([#111](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/111)) ([9f4f461](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9f4f461969b0f89d40219198423b39eea7b63d1e))
 
 ## v3.0.1 (2021-04-15)
 
-* chore: fix failing tests ([e6aa71f](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/e6aa71f8b018c109ab86ca887f70b253a3e312a3))
-* Fix: Rule can't find reference of `create` function ([#107](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/107)) ([eb501fc](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/eb501fc57efa602d2d57769e4d09cda2b24b53bf))
-* Chore: Switch `escope` to `eslint-scope` ([#109](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/109)) ([8eccc37](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/8eccc371ef425e19eb0c3ab30becc698dbea7fe3))
-* Build: Switch to github actions ([#108](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/108)) ([31951d4](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/31951d4127f2b49cda7400a41629c05091a1ea9d))
+* chore: fix failing tests ([e6aa71f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e6aa71f8b018c109ab86ca887f70b253a3e312a3))
+* Fix: Rule can't find reference of `create` function ([#107](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/107)) ([eb501fc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/eb501fc57efa602d2d57769e4d09cda2b24b53bf))
+* Chore: Switch `escope` to `eslint-scope` ([#109](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/109)) ([8eccc37](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8eccc371ef425e19eb0c3ab30becc698dbea7fe3))
+* Build: Switch to github actions ([#108](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/108)) ([31951d4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/31951d4127f2b49cda7400a41629c05091a1ea9d))
 
 ## v3.0.0 (2021-04-08)
 
-* Breaking: change test-case-property-ordering default options (fixes [#79](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/79)) ([#93](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/93)) ([ffb734b](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/ffb734b5915fbb0087c7aac8791a875f2c4b49e5))
-* Breaking: drop eslint < 7 & node.js < 10 ([#95](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/95)) ([59ddffc](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/59ddffcd0c4f1e293883838264daa7a29da04db7))
-* Docs: Grammar in `require-meta-schema.md` ([#103](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/103)) ([a3017e2](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/a3017e253db08630da3f92428df6f4f2680ecf12))
+* Breaking: change test-case-property-ordering default options (fixes [#79](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/79)) ([#93](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/93)) ([ffb734b](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ffb734b5915fbb0087c7aac8791a875f2c4b49e5))
+* Breaking: drop eslint < 7 & node.js < 10 ([#95](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/95)) ([59ddffc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/59ddffcd0c4f1e293883838264daa7a29da04db7))
+* Docs: Grammar in `require-meta-schema.md` ([#103](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/103)) ([a3017e2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/a3017e253db08630da3f92428df6f4f2680ecf12))
 
 ## v2.3.0 (2020-06-23)
 
