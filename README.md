@@ -16,8 +16,6 @@ Next, install `eslint-plugin-eslint-plugin`:
 $ npm install eslint-plugin-eslint-plugin --save-dev
 ```
 
-**Note:** If you installed ESLint globally (using the `-g` flag) then you must also install `eslint-plugin-eslint-plugin` globally.
-
 ## Usage
 
 Add `eslint-plugin` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
