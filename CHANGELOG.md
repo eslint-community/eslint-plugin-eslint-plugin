@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.0.3 (2021-05-10)
+
+* Docs: rm global-installed usage ([#116](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/116)) ([1f99c7c](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/1f99c7ce827f576ffba8a76fc8d2bee534648f8a))
+* Docs: update CI badge for github actions in README ([#115](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/115)) ([ccac2c2](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/ccac2c2e8b21b18f46f2f409ce9c66f302bbee19))
+* Docs: add npm badge to README ([#114](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/114)) ([36d16df](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/36d16dfc1d408dfcb3ddd0dfbf02007d1c1fb98c))
+* Fix: Improve detection of static `description` strings and ignore non-static descriptions in `require-meta-docs-description` rule ([#113](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/113)) ([1840a53](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/1840a53d98fd602feae20219d37510ecbe30fd74))
+* Chore: refactor `utils.getRuleInfo` ([#112](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/112)) ([98e893b](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/98e893b941ab1e41931a17d141723547a0cad659))
+
 ## v3.0.2 (2021-04-16)
 
 * Fix: `require-meta-schema`: Fix false positive ([#111](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/issues/111)) ([9f4f461](git@github.com:not-an-aardvark/eslint-plugin-eslint-plugin/commit/9f4f461969b0f89d40219198423b39eea7b63d1e))
