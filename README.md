@@ -1,4 +1,4 @@
-# eslint-plugin-eslint-plugin [![Build Status](https://travis-ci.org/not-an-aardvark/eslint-plugin-eslint-plugin.svg?branch=master)](https://travis-ci.org/not-an-aardvark/eslint-plugin-eslint-plugin) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin)
+# eslint-plugin-eslint-plugin ![CI](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin)
 
 An ESLint plugin for linting ESLint plugins
 
