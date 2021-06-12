@@ -42,6 +42,7 @@ ruleTester.run('test-case-property-ordering', rule, {
         type: 'problem',
         docs: {},
         fixable: 'code',
+        hasSuggestions: true,
         schema: [],
         messages: {}
       },
