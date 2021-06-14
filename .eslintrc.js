@@ -23,4 +23,10 @@ module.exports = {
     'self/require-meta-docs-url': 'off',
     'self/report-message-format': ['error', '^[^a-z].*.$'],
   },
+  overrides: [
+    {
+      files: ['tests/**/*.js'],
+      env: { mocha: true },
+    },
+  ],
 };
