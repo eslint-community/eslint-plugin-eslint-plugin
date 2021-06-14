@@ -6,7 +6,7 @@ const plugin = require('../..');
 const RULE_NAMES = Object.keys(plugin.rules);
 
 describe('exported plugin', () => {
-  describe('adds a meta.docs.url property to each rule', () => {
+  describe('has a meta.docs.url property on each rule', () => {
     RULE_NAMES.forEach(ruleName => {
       it(ruleName, () => {
         assert.match(

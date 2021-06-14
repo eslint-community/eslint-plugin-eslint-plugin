@@ -1,5 +1,7 @@
 'use strict';
 
+const version = require('./package.json').version;
+
 module.exports = {
   root: true,
   plugins: ['node'],
@@ -35,7 +37,13 @@ module.exports = {
       extends: ['plugin:self/all'],
       rules: {
         'self/report-message-format': ['error', '^[^a-z].*.$'],
-        'self/require-meta-docs-url': 'off',
+        'self/require-meta-docs-url': [
+          'error',
+          {
+            pattern:
+              `https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/tree/v${version}/docs/rules/{{name}}.md`,
+          },
+        ],
       },
     },
     {
