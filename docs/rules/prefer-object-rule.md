@@ -4,7 +4,7 @@
 
 ## Rule Details
 
-The rule reports an error if it encounters a rule that's defined using the old style of just a `create` function.
+The rule reports an error if it encounters a rule that's defined using the [deprecated style](https://eslint.org/docs/developer-guide/working-with-rules-deprecated) of just a `create` function instead of the newer [object style](https://eslint.org/docs/developer-guide/working-with-rules).
 
 Examples of **incorrect** code for this rule:
 
