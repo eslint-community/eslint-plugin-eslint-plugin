@@ -1,7 +1,6 @@
 # require rules to implement a meta.docs.url property (require-meta-docs-url)
 
-`meta.docs.url` property is the official location to store a URL to their documentation in the rule metadata.
-Some integration tools will show the URL to users to understand rules.
+A rule can store the URL to its documentation page in `meta.docs.url`. This enables integration tools / IDEs / editors to conveniently provide the link to developers so that they can better understand the rule.
 
 ## Rule Details
 
@@ -17,7 +16,7 @@ This rule has an option.
 }
 ```
 
-- `pattern` (`string`) ... A pattern to enforce rule's document URL. It replaces `{{name}}` placeholder by each rule name. The rule name is the basename of each rule file. Default is undefined.
+- `pattern` (`string`) ... A pattern to enforce rule's document URL. It replaces `{{name}}` placeholder by each rule name. The rule name is the basename of each rule file. Default is `undefined` which allows any URL.
 
 If you set the `pattern` option, this rule adds `meta.docs.url` property automatically when you execute `eslint --fix` command.
 
