@@ -1,6 +1,6 @@
 # Disallow rule exports where the export is a function. (prefer-object-rule)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) automatically fixes problems reported by this rule.
 
 ## Rule Details
 

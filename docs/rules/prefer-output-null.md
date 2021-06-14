@@ -1,6 +1,6 @@
 # Disallows invalid RuleTester test cases with the output the same as the code. (prefer-output-null)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) automatically fixes problems reported by this rule.
 
 ## Rule Details
 

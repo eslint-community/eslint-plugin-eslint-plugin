@@ -1,6 +1,6 @@
 # enforce ordering of meta properties in rule source (meta-property-ordering)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) automatically fixes problems reported by this rule.
 
 This rule enforces that meta properties of a rule are placed in a consistent order.
 
