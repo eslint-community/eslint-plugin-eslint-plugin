@@ -2,6 +2,8 @@
 
 (fixable) The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) automatically fixes problems reported by this rule.
 
+Instead of repeating the test case `code`, using `output: null` is more concise and makes it easier to distinguish whether a test case provides an autofix.
+
 ## Rule Details
 
 The rule reports an error if it encounters a test case where the output is the same as the code.
