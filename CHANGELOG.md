@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.1.0 (2021-06-15)
+
+* Chore: Switch from `.eslintrc.yml` to `.eslintrc.js` ([#127](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/127)) ([c767ea3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c767ea33a69a35a0cb7007b90f41c38c5877e94f))
+* Docs: clarify some wording in `require-meta-docs-url` rule doc ([#126](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/126)) ([6fab4c2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6fab4c21cc961a349f68fd17f83ca5d8ef6d7123))
+* Docs: elaborate on output assertion requirement and benefits in `consistent-output` rule doc ([#123](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/123)) ([2fe92b7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/2fe92b70fe2282e480a029471e2ba43f5c3cbc8f))
+* Docs: add explanation to `prefer-output-null` rule doc ([#124](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/124)) ([72fc89d](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/72fc89d3c212551f96f13f85b9720a6096975d3c))
+* Docs: fix --fix link ([#125](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/125)) ([ac2259c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ac2259cb622326e34a4ec3f317aa3ad8bf8fe0e7))
+* Docs: add links for deprecated and new styles in `prefer-object-rule` rule ([#122](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/122)) ([6e351c6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6e351c6563b22157510dd9c772d2b98c468d856e))
+* Docs: mention allowed values in require-meta-type rule doc ([#121](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/121)) ([63d46e2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/63d46e2f450c3517d95ca0c41d934aa345bedcd2))
+* New: add new rule require-meta-has-suggestions ([#105](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/105)) ([ff0ae38](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ff0ae38e95d79ff316d77dbc5fd41b7d27c45bb0))
+* Docs: fix broken links in changelog ([b6ce109](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b6ce109f42e4b7f42d6c1b7f6ac54b24d7fec54c))
+
 ## v3.0.3 (2021-05-10)
 
 * Docs: rm global-installed usage ([#116](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/116)) ([1f99c7c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1f99c7ce827f576ffba8a76fc8d2bee534648f8a))
