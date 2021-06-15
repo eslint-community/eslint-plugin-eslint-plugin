@@ -14,7 +14,6 @@ context.report({
 
 However, if no `data` argument is provided, or no matching replacement key exists in the `data` argument, the raw curly brackets will end up in the report message. This is usually a mistake.
 
-
 ## Rule Details
 
 This rule aims to disallow missing placeholders in rule report messages.
@@ -66,7 +65,6 @@ module.exports = {
 };
 
 ```
-
 
 ## When Not To Use It
 

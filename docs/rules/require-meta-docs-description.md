@@ -3,6 +3,7 @@
 Defining a clear and consistent description for each rule helps developers understand what they're used for.
 
 In particular, each rule description should begin with an allowed prefix:
+
 * `enforce`
 * `require`
 * `disallow`
@@ -40,7 +41,7 @@ module.exports = {
 
 This rule takes an optional object containing:
 
-- `String` — `pattern` — A regular expression that the description must match. Use `'.+'` to allow anything. Defaults to `^(enforce|require|disallow)`.
+* `String` — `pattern` — A regular expression that the description must match. Use `'.+'` to allow anything. Defaults to `^(enforce|require|disallow)`.
 
 ## Further Reading
 

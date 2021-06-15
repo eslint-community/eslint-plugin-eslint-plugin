@@ -169,6 +169,7 @@ ruleTester.run('example-rule', rule, {
 });
 ```
 
+<!-- markdownlint-disable-next-line no-duplicate-header -->
 #### `never`
 
 Examples of **incorrect** code for this rule with the `consistent-as-needed` option:

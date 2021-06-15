@@ -37,7 +37,6 @@ module.exports = {
 };
 ```
 
-
 ## Further Reading
 
 * [Deprecated rule API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated)

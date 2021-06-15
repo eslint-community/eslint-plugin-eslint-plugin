@@ -6,7 +6,9 @@
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint . --ignore-pattern \"!.*\"",
+    "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
+    "lint:docs": "markdownlint **/*.md",
+    "lint:js": "eslint . --ignore-pattern \"!.*\"",
     "generate-readme-table": "node build/generate-readme-table.js",
     "generate-release": "node-release-script",
     "test": "mocha tests --recursive"
@@ -42,7 +44,9 @@
     "espree": "^7.3.0",
     "estraverse": "^5.0.0",
     "lodash": "^4.17.2",
-    "mocha": "^7.1.1"
+    "markdownlint-cli": "^0.27.1",
+    "mocha": "^7.1.1",
+    "npm-run-all": "^4.1.5"
   },
   "peerDependencies": {
     "eslint": "^7.0.0"
