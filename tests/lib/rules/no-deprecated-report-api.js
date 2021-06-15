@@ -62,6 +62,24 @@ ruleTester.run('no-deprecated-report-api', rule, {
         }
       };
     `,
+    // With object as variable.
+    `
+      const OBJ = {node, message};
+      module.exports = {
+        create(context) {
+          context.report(OBJ);
+        }
+      };
+    `,
+    // With object as variable but cannot determine its value statically.
+    `
+      const OBJ = getObj();
+      module.exports = {
+        create(context) {
+          context.report(OBJ);
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -162,6 +180,39 @@ ruleTester.run('no-deprecated-report-api', rule, {
       errors: [ERROR],
     },
     {
+      // With message string in variable.
+      code: `
+        const MESSAGE = 'foo';
+        module.exports = {
+          create(context) {
+            context.report(theNode, MESSAGE);
+          }
+        };
+      `,
+      output: `
+        const MESSAGE = 'foo';
+        module.exports = {
+          create(context) {
+            context.report({node: theNode, message: MESSAGE});
+          }
+        };
+      `,
+      errors: [ERROR],
+    },
+    {
+      // With message in variable but no autofix since we can't statically determine its type.
+      code: `
+        const MESSAGE = getMessage();
+        module.exports = {
+          create(context) {
+            context.report(theNode, MESSAGE);
+          }
+        };
+      `,
+      output: null,
+      errors: [ERROR],
+    },
+    {
       code: `
         module.exports = {
           create(notContext) {
@@ -196,6 +247,49 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, loc: 5, message: foo, data: bar});
         };
       `,
+      errors: [ERROR],
+    },
+    {
+      // Location in variable as number.
+      code: `
+        const LOC = 5;
+        module.exports.create = context => {
+          context.report(theNode, LOC, foo, bar);
+        };
+      `,
+      output: `
+        const LOC = 5;
+        module.exports.create = context => {
+          context.report({node: theNode, loc: LOC, message: foo, data: bar});
+        };
+      `,
+      errors: [ERROR],
+    },
+    {
+      // Location in variable as object.
+      code: `
+        const LOC = { line: 1, column: 2 };
+        module.exports.create = context => {
+          context.report(theNode, LOC, foo, bar);
+        };
+      `,
+      output: `
+        const LOC = { line: 1, column: 2 };
+        module.exports.create = context => {
+          context.report({node: theNode, loc: LOC, message: foo, data: bar});
+        };
+      `,
+      errors: [ERROR],
+    },
+    {
+      // Location in variable but no autofix since we can't statically determine its type.
+      code: `
+        const LOC = getLoc();
+        module.exports.create = context => {
+          context.report(theNode, LOC, foo, bar);
+        };
+      `,
+      output: null,
       errors: [ERROR],
     },
     {
