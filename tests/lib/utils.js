@@ -352,7 +352,8 @@ describe('utils', () => {
           `context.report(${args.join(', ')})`,
           { ecmaVersion: 6, loc: false, range: false }
         ).body[0].expression.arguments;
-        const reportInfo = utils.getReportInfo(parsedArgs);
+        const context = { getScope () {} }; // mock object
+        const reportInfo = utils.getReportInfo(parsedArgs, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
       });

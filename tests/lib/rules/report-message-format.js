@@ -34,6 +34,30 @@ ruleTester.run('report-message-format', rule, {
       options: ['foo'],
     },
     {
+      // With message as variable.
+      code: `
+        const MESSAGE = 'foo';
+        module.exports = {
+          create(context) {
+            context.report(node, MESSAGE);
+          }
+        };
+      `,
+      options: ['foo'],
+    },
+    {
+      // With message as variable but cannot statically determine its type.
+      code: `
+        const MESSAGE = getMessage();
+        module.exports = {
+          create(context) {
+            context.report(node, MESSAGE);
+          }
+        };
+      `,
+      options: ['foo'],
+    },
+    {
       code: `
         module.exports = {
           create(context) {
@@ -135,6 +159,18 @@ ruleTester.run('report-message-format', rule, {
         module.exports = {
           create(context) {
             context.report(node, 'bar');
+          }
+        };
+      `,
+      options: ['foo'],
+    },
+    {
+      // With message as variable.
+      code: `
+        const MESSAGE = 'bar';
+        module.exports = {
+          create(context) {
+            context.report(node, MESSAGE);
           }
         };
       `,

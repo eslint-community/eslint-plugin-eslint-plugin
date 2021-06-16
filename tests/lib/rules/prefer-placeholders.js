@@ -60,6 +60,24 @@ ruleTester.run('prefer-placeholders', rule, {
         }
       };
     `,
+    // With message in variable.
+    `
+      const MESSAGE = 'foo is bad.';
+      module.exports = {
+        create(context) {
+          context.report(node, MESSAGE);
+        }
+      };
+    `,
+    // With message in variable but cannot statically determine its value.
+    `
+      const MESSAGE = getMessage();
+      module.exports = {
+        create(context) {
+          context.report(node, MESSAGE);
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -70,6 +88,21 @@ ruleTester.run('prefer-placeholders', rule, {
             context.report({
               node,
               message: \`\${foo} is bad.\`
+            });
+          }
+        };
+      `,
+      errors: [ERROR],
+    },
+    {
+      // With message in variable.
+      code: `
+        const MESSAGE = \`\${foo} is bad.\`;
+        module.exports = {
+          create(context) {
+            context.report({
+              node,
+              message: MESSAGE
             });
           }
         };
