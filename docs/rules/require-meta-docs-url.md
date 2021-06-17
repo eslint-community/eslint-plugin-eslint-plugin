@@ -142,7 +142,7 @@ Then `npm version <type>` command will update every rule to the new version's UR
 
 > npm runs `preversion` script on the current version, runs `version` script on the new version, and commits and makes a tag.
 >
-> Further reading: https://docs.npmjs.com/cli/version
+> Further reading: <https://docs.npmjs.com/cli/version>
 
 ## When Not To Use It
 

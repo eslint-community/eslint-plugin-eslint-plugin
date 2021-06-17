@@ -6,14 +6,14 @@ An ESLint plugin for linting ESLint plugins
 
 You'll first need to install [ESLint](https://eslint.org):
 
-```
-$ npm i eslint --save-dev
+```sh
+npm i eslint --save-dev
 ```
 
 Next, install `eslint-plugin-eslint-plugin`:
 
-```
-$ npm install eslint-plugin-eslint-plugin --save-dev
+```sh
+npm install eslint-plugin-eslint-plugin --save-dev
 ```
 
 ## Usage
@@ -27,7 +27,6 @@ Add `eslint-plugin` to the plugins section of your `.eslintrc` configuration fil
     ]
 }
 ```
-
 
 Then configure the rules you want to use under the rules section.
 

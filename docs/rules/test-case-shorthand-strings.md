@@ -169,7 +169,7 @@ ruleTester.run('example-rule', rule, {
 });
 ```
 
-#### `never`
+#### `consistent-as-needed`
 
 Examples of **incorrect** code for this rule with the `consistent-as-needed` option:
 
