@@ -28,8 +28,7 @@ The following patterns are considered warnings:
 
 module.exports = {
   meta: {},
-  create(context) {
-  }
+  create (context) {},
 };
 
 ```
@@ -41,11 +40,10 @@ module.exports = {
 module.exports = {
   meta: {
     docs: {
-      url: undefined
-    }
+      url: undefined,
+    },
   },
-  create(context) {
-  }
+  create (context) {},
 };
 
 ```
@@ -57,11 +55,10 @@ module.exports = {
 module.exports = {
   meta: {
     docs: {
-      url: "wrong URL"
-    }
+      url: 'wrong URL',
+    },
   },
-  create(context) {
-  }
+  create (context) {},
 };
 
 ```
@@ -75,11 +72,10 @@ The following patterns are not warnings:
 module.exports = {
   meta: {
     docs: {
-      url: "a URL"
-    }
+      url: 'a URL',
+    },
   },
-  create(context) {
-  }
+  create (context) {},
 };
 
 ```
@@ -91,11 +87,10 @@ module.exports = {
 module.exports = {
   meta: {
     docs: {
-      url: "path/to/rule-name.md"
-    }
+      url: 'path/to/rule-name.md',
+    },
   },
-  create(context) {
-  }
+  create (context) {},
 };
 
 ```
@@ -108,19 +103,16 @@ For example:
 **.eslintrc.js**:
 
 ```js
-"use strict"
-
-const version = require("./package.json").version
+// const version = require("./package.json").version;
 
 module.exports = {
-  plugins: ["eslint-plugin"],
-  // ... leaving out ...
+  plugins: ['eslint-plugin'],
   rules: {
-    "eslint-plugin/require-meta-docs-url": ["error", {
+    'eslint-plugin/require-meta-docs-url': ['error', {
       pattern: `path/to/v${version}/docs/rules/{{name}}.md`,
     }],
-  }
-}
+  },
+};
 ```
 
 **package.json**:
@@ -133,8 +125,7 @@ module.exports = {
     "test": "... leaving out ...",
     "preversion": "npm test",
     "version": "eslint . --fix && git add ."
-  },
-  // ... leaving out ...
+  }
 }
 ```
 

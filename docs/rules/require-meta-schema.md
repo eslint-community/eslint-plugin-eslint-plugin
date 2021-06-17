@@ -10,14 +10,15 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-schema: error */
+
 module.exports = {
-    meta: {},
-    create: function(context) { /* ... */}
+  meta: {},
+  create (context) {/* ... */},
 };
 
 module.exports = {
-    meta: { schema: null },
-    create: function(context) { /* ... */}
+  meta: { schema: null },
+  create (context) {/* ... */},
 };
 ```
 
@@ -25,26 +26,27 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-schema: error */
+
 module.exports = {
-    meta: { schema: [] }, // ensures no options are passed to the rule
-    create: function(context) { /* ... */}
+  meta: { schema: [] }, // ensures no options are passed to the rule
+  create (context) {/* ... */},
 };
 
 module.exports = {
-    meta: {
-        schema: [
-            {
-                type: 'object',
-                properties: {
-                    exceptRange: {
-                        type: 'boolean'
-                    }
-                },
-                additionalProperties: false
-            }
-        ]
-    },
-    create: function(context) { /* ... */}
+  meta: {
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          exceptRange: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+  },
+  create (context) {/* ... */},
 };
 ```
 

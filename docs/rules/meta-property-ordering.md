@@ -23,23 +23,23 @@ Examples of **incorrect** code for this rule:
 // invalid; wrong order.
 module.exports = {
   meta: {
-    docs: "",
-    type: "problem",
-    fixable: "code",
+    docs: '',
+    type: 'problem',
+    fixable: 'code',
   },
-  create() {},
-}
+  create () {},
+};
 
 // invalid; extra properties must be placed afterwards.
 module.exports = {
   meta: {
-    type: "problem",
-    fooooooooo: "foo",
-    docs: "",
-    fixable: "code",
+    type: 'problem',
+    fooooooooo: 'foo',
+    docs: '',
+    fixable: 'code',
   },
-  create() {},
-}
+  create () {},
+};
 ```
 
 Examples of **correct** code for this rule:
@@ -52,13 +52,13 @@ Examples of **correct** code for this rule:
 // valid;
 module.exports = {
   meta: {
-    type: "bar",
-    docs: "foo",
-    messages: ["zoo"],
-    fooooooooo: "foo",
+    type: 'bar',
+    docs: 'foo',
+    messages: ['zoo'],
+    fooooooooo: 'foo',
   },
-  create() {},
-}
+  create () {},
+};
 ```
 
 ## When Not To Use It

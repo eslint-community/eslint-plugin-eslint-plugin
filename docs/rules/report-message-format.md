@@ -32,34 +32,27 @@ The following patterns are considered warnings:
 
 module.exports = {
   meta: {},
-  create(context) {
-
+  create (context) {
     context.report(node, 'this message does not match the regular expression.');
 
     context.report(node, 'Neither does this one');
 
-    context.report(node, 'This will get reported, regardless of the value of the {{placeholder}}', { placeholder: foo })
-
-  }
+    context.report(node, 'This will get reported, regardless of the value of the {{placeholder}}', { placeholder: foo });
+  },
 };
-
 ```
 
 The following patterns are not warnings:
 
 ```js
-
 module.exports = {
   meta: {},
-  create(context) {
-
+  create (context) {
     context.report(node, 'This message matches the regular expression.');
 
     context.report(node, 'So does this one.');
-
-  }
+  },
 };
-
 ```
 
 ## When Not To Use It

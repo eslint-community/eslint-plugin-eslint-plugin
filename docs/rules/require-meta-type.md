@@ -16,18 +16,19 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-type: error */
+
 module.exports = {
-    meta: {},
-    create: function(context) {
-        // ...
-    }
+  meta: {},
+  create (context) {
+    // ...
+  },
 };
 
 module.exports = {
-    meta: {type: 'invalid'},
-    create: function(context) {
-        // ...
-    }
+  meta: { type: 'invalid' },
+  create (context) {
+    // ...
+  },
 };
 ```
 
@@ -35,11 +36,12 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-type: error */
+
 module.exports = {
-    meta: {type: 'problem'},
-    create: function(context) {
-        // ...
-    }
+  meta: { type: 'problem' },
+  create (context) {
+    // ...
+  },
 };
 ```
 

@@ -21,20 +21,20 @@ Examples of **incorrect** code for this rule:
 ] */
 
 // invalid; wrong order
-{
-  code: "foo",
-  options: ["baz"],
-  output: "bar",
-}
+const testCase1 = {
+  code: 'foo',
+  options: ['baz'],
+  output: 'bar',
+};
 
 
 // invalid; extra properties should need to be placed afterwards.
-{
-  code: "foo",
+const testCase2 = {
+  code: 'foo',
   env: { es6: true },
-  output: "bar",
-  options: ["baz"],
-}
+  output: 'bar',
+  options: ['baz'],
+};
 ```
 
 Examples of **correct** code for this rule:
@@ -45,11 +45,11 @@ Examples of **correct** code for this rule:
 ] */
 
 // valid;
-{
-  code: "foo",
-  output: "bar",
-  options: ["baz"],
-}
+const testCase1 = {
+  code: 'foo',
+  output: 'bar',
+  options: ['baz'],
+};
 
 ```
 

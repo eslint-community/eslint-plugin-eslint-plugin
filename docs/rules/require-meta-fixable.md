@@ -9,94 +9,84 @@ This rule aims to require ESLint rules to have a `meta.fixable` property if nece
 The following patterns are considered warnings:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: {},
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
-      fix(fixer) {
+      fix (fixer) {
         return fixer.remove(node);
-      }
+      },
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: { fixable: 'not a valid meta.fixable value' },
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
-      fix(fixer) {
+      fix (fixer) {
         return fixer.remove(node);
-      }
+      },
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
-module.exports = function create(context) {
+module.exports = { create (context) {
   context.report({
     node,
     message: 'foo',
-    fix(fixer) {
+    fix (fixer) {
       return fixer.remove(node);
-    }
+    },
   });
-};
-
+} };
 ```
 
 The following patterns are not warnings:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: { fixable: 'code' },
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
-      fix(fixer) {
+      fix (fixer) {
         return fixer.remove(node);
-      }
+      },
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: {},
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: 'foo'
+      message: 'foo',
     });
-  }
+  },
 };
-
 ```
 
 ## When Not To Use It

@@ -8,15 +8,16 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/prefer-replace-text: error */
+
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
-      fix(fixer) {
-        // error, can be written: return fixer.replaceText([node, '']);
+      fix (fixer) {
+        // error, can be written: return fixer.replaceText([node, '']);
         return fixer.replaceTextRange([node.range[0], node.range[1]], '');
-      }
+      },
     });
-  }
+  },
 };
 ```
 
@@ -24,26 +25,27 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/prefer-replace-text: error */
+
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
-      fix(fixer) {
+      fix (fixer) {
         return fixer.replaceText(node, '');
-      }
+      },
     });
-  }
+  },
 };
 
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
-      fix(fixer) {
+      fix (fixer) {
         // start = ...
         // end = ...
         return fixer.replaceTextRange([start, end], '');
-      }
+      },
     });
-  }
+  },
 };
 ```
 

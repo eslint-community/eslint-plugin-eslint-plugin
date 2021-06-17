@@ -21,15 +21,14 @@ new RuleTester().run('example-rule', rule, {
     {
       code: 'foo',
       output: 'bar',
-      errors: ['baz']
+      errors: ['baz'],
     },
     {
       code: 'bar',
-      errors: ['baz']
-    }
-  ]
+      errors: ['baz'],
+    },
+  ],
 });
-
 ```
 
 Examples of **correct** code for this rule:
@@ -43,21 +42,20 @@ new RuleTester().run('example-rule', rule, {
     {
       code: 'foo',
       output: 'bar',
-      errors: ['baz']
+      errors: ['baz'],
     },
     {
       code: 'bar',
       output: 'qux',
-      errors: ['baz']
+      errors: ['baz'],
     },
     {
       code: 'foo',
       output: null, // asserts that there is no autofix
-      errors: ['baz']
-    }
-  ]
+      errors: ['baz'],
+    },
+  ],
 });
-
 ```
 
 ## Options

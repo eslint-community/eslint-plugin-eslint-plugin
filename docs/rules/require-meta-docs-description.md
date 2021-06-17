@@ -16,14 +16,15 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-docs-description: error */
+
 module.exports = {
-    meta: {},
-    create: function(context) { /* ... */}
+  meta: {},
+  create (context) {/* ... */},
 };
 
 module.exports = {
-    meta: { description: 'this rule does ...' }, // missing allowed prefix
-    create: function(context) { /* ... */}
+  meta: { description: 'this rule does ...' }, // missing allowed prefix
+  create (context) {/* ... */},
 };
 ```
 
@@ -31,9 +32,10 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-docs-description: error */
+
 module.exports = {
-    meta: { description: 'disallow unused variables' },
-    create: function(context) { /* ... */}
+  meta: { description: 'disallow unused variables' },
+  create (context) {/* ... */},
 };
 ```
 

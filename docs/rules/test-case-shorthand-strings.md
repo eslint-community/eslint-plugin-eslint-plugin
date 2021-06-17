@@ -11,12 +11,12 @@ ruleTester.run('example-rule', rule, {
 
     // longform object
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
   invalid: [
     // ...
-  ]
+  ],
 });
 ```
 
@@ -45,13 +45,13 @@ Examples of **incorrect** code for this rule with the default `as-needed` option
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -66,10 +66,10 @@ ruleTester.run('example-rule', rule, {
     'anotherValidTestCase;',
     {
       code: 'testCaseWithOption;',
-      options: ["foo"]
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -83,9 +83,9 @@ Examples of **incorrect** code for this rule with the `never` option:
 ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
-    'anotherValidTestCase;'
+    'anotherValidTestCase;',
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -97,13 +97,13 @@ Examples of **correct** code for this rule with the `never` option:
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -120,10 +120,10 @@ ruleTester.run('example-rule', rule, {
     'anotherValidTestCase;',
     {
       code: 'testCaseWithOption',
-      options: ["foo"]
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -135,37 +135,37 @@ Examples of **correct** code for this rule with the `consistent` option:
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase'
+      code: 'anotherValidTestCase',
     },
     {
       code: 'testCaseWithOption',
-      options: ["foo"]
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
-    'anotherValidTestCase'
+    'anotherValidTestCase',
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase'
-    }
+      code: 'anotherValidTestCase',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -180,10 +180,10 @@ ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
     {
-      code: 'anotherValidTestCase'
-    }
+      code: 'anotherValidTestCase',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
@@ -192,22 +192,22 @@ ruleTester.run('example-rule', rule, {
     'anotherValidTestCase;',
     {
       code: 'testCaseWithOption;',
-      options: ['foo']
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -219,25 +219,25 @@ Examples of **correct** code for this rule with the `consistent-as-needed` optio
 ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
-    'anotherValidTestCase;'
+    'anotherValidTestCase;',
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
+      code: 'anotherValidTestCase;',
     },
     {
       code: 'testCaseWithOption;',
-      options: ['foo']
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 

@@ -6,7 +6,7 @@ Report messages in rules can have placeholders surrounded by curly brackets.
 context.report({
   node,
   message: '{{disallowedNode}} nodes are not allowed.',
-  data: { disallowedNode: node.type }
+  data: { disallowedNode: node.type },
 });
 
 // Resulting message: e.g. 'IfStatement nodes are not allowed.'
@@ -21,49 +21,47 @@ This rule aims to disallow missing placeholders in rule report messages.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint eslint-plugin/no-missing-placeholders: error*/
+/* eslint eslint-plugin/no-missing-placeholders: error*/
 
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: '{{something}} is wrong.'
+      message: '{{something}} is wrong.',
     });
 
     context.report({
       node,
       message: '{{something}} is wrong.',
-      data: { somethingElse: 'foo' }
+      data: { somethingElse: 'foo' },
     });
 
     context.report(node, '{{something}} is wrong.', { somethingElse: 'foo' });
-  }
+  },
 };
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint eslint-plugin/no-missing-placeholders: error*/
+/* eslint eslint-plugin/no-missing-placeholders: error*/
 
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: 'something is wrong.'
+      message: 'something is wrong.',
     });
 
     context.report({
       node,
       message: '{{something}} is wrong.',
-      data: { something: 'foo' }
+      data: { something: 'foo' },
     });
 
     context.report(node, '{{something}} is wrong.', { something: 'foo' });
-  }
+  },
 };
-
 ```
 
 ## When Not To Use It
