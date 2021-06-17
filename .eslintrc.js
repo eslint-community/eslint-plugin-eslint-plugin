@@ -40,6 +40,13 @@ module.exports = {
     {
       files: ['tests/**/*.js'],
       env: { mocha: true },
+      plugins: ['mocha'],
+      extends: ['plugin:mocha/recommended'],
+      rules: {
+        'prefer-arrow-callback': 'off', // Avoid conflict with mocha/no-mocha-arrows.
+
+        'mocha/no-setup-in-describe': 'off', // Lots of false positives with dynamically-generated tests.
+      },
     },
   ],
 };

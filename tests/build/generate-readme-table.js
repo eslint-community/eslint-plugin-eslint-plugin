@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('chai').assert;
 
-describe('table in README.md', () => {
-  it('is up-to-date', () => {
+describe('table in README.md', function () {
+  it('is up-to-date', function () {
     const actualReadme = fs.readFileSync(path.resolve(__dirname, '..', '..', 'README.md'), 'utf8');
     const expectedReadme = require('../../build/generate-readme-table');
 

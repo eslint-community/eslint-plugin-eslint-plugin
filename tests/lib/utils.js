@@ -8,9 +8,9 @@ const estraverse = require('estraverse');
 const assert = require('chai').assert;
 const utils = require('../../lib/utils');
 
-describe('utils', () => {
-  describe('getRuleInfo', () => {
-    describe('the file does not have a valid rule', () => {
+describe('utils', function () {
+  describe('getRuleInfo', function () {
+    describe('the file does not have a valid rule', function () {
       [
         '',
         'module.exports;',
@@ -26,14 +26,14 @@ describe('utils', () => {
         'module.exports = { create: function* foo() {} }',
         'module.exports = { create: async function foo() {} }',
       ].forEach(noRuleCase => {
-        it(`returns null for ${noRuleCase}`, () => {
+        it(`returns null for ${noRuleCase}`, function () {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
           assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
         });
       });
     });
 
-    describe('the file has a valid rule', () => {
+    describe('the file has a valid rule', function () {
       const CASES = {
         'module.exports = { create: function foo() {} };': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } }, // (This property will actually contain the AST node.)
@@ -113,7 +113,7 @@ describe('utils', () => {
       };
 
       Object.keys(CASES).forEach(ruleSource => {
-        it(ruleSource, () => {
+        it(ruleSource, function () {
           const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
           const ruleInfo = utils.getRuleInfo({ ast });
           assert(
@@ -138,7 +138,7 @@ describe('utils', () => {
           meta: { type: 'Identifier' },
           isNewStyle: true,
         };
-        it(`ScopeOptions: ${JSON.stringify(scopeOptions)}`, () => {
+        it(`ScopeOptions: ${JSON.stringify(scopeOptions)}`, function () {
           const scopeManager = eslintScope.analyze(ast, scopeOptions);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
@@ -150,7 +150,7 @@ describe('utils', () => {
     });
   });
 
-  describe('getContextIdentifiers', () => {
+  describe('getContextIdentifiers', function () {
     const CASES = {
       'module.exports = context => { context; context; context; }' (ast) {
         return [
@@ -172,7 +172,7 @@ describe('utils', () => {
     };
 
     Object.keys(CASES).forEach(ruleSource => {
-      it(ruleSource, () => {
+      it(ruleSource, function () {
         const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
         const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
         const identifiers = utils.getContextIdentifiers(scope, ast);
@@ -185,7 +185,7 @@ describe('utils', () => {
     });
   });
 
-  describe('getKeyName', () => {
+  describe('getKeyName', function () {
     const CASES = {
       '({ foo: 1 })': 'foo',
       '({ "foo": 1 })': 'foo',
@@ -202,7 +202,7 @@ describe('utils', () => {
       '({ ["foo" + "bar"]: 1 })': null,
     };
     Object.keys(CASES).forEach(objectSource => {
-      it(objectSource, () => {
+      it(objectSource, function () {
         const ast = espree.parse(objectSource, { ecmaVersion: 6, range: true });
 
         assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES[objectSource]);
@@ -213,7 +213,7 @@ describe('utils', () => {
       '({ ...foo })': null,
     };
     Object.keys(CASES_ES9).forEach(objectSource => {
-      it(objectSource, () => {
+      it(objectSource, function () {
         const ast = espree.parse(objectSource, { ecmaVersion: 9, range: true });
 
         assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES_ES9[objectSource]);
@@ -221,8 +221,8 @@ describe('utils', () => {
     });
   });
 
-  describe('getTestInfo', () => {
-    describe('the file does not have valid tests', () => {
+  describe('getTestInfo', function () {
+    describe('the file does not have valid tests', function () {
       [
         '',
         'module.exports = context => context.report(foo);',
@@ -235,7 +235,7 @@ describe('utils', () => {
         'new RuleTester().run(foo, bar)',
         'new RuleTester().run(foo, bar, notAnObject)',
       ].forEach(noTestsCase => {
-        it(`returns no tests for ${noTestsCase}`, () => {
+        it(`returns no tests for ${noTestsCase}`, function () {
           const ast = espree.parse(noTestsCase, { ecmaVersion: 8, range: true });
           const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
           assert.deepEqual(utils.getTestInfo(scope, ast), [], 'Expected no tests to be found');
@@ -243,7 +243,7 @@ describe('utils', () => {
       });
     });
 
-    describe('the file has valid tests', () => {
+    describe('the file has valid tests', function () {
       const CASES = {
         'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })': { valid: 1, invalid: 2 },
         'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })': { valid: 1, invalid: 1 },
@@ -253,7 +253,7 @@ describe('utils', () => {
       };
 
       Object.keys(CASES).forEach(testSource => {
-        it(testSource, () => {
+        it(testSource, function () {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
           const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
           const testInfo = utils.getTestInfo(scope, ast);
@@ -275,7 +275,7 @@ describe('utils', () => {
       });
     });
 
-    describe('the file has multiple test runs', () => {
+    describe('the file has multiple test runs', function () {
       const CASES = {
         [`
           new RuleTester().run(foo, bar, { valid: [foo], invalid: [] });
@@ -298,7 +298,7 @@ describe('utils', () => {
       };
 
       Object.keys(CASES).forEach(testSource => {
-        it(testSource, () => {
+        it(testSource, function () {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
           const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
           const testInfo = utils.getTestInfo(scope, ast);
@@ -326,7 +326,7 @@ describe('utils', () => {
     });
   });
 
-  describe('getReportInfo', () => {
+  describe('getReportInfo', function () {
     const CASES = new Map([
       [[], () => null],
       [['foo', 'bar'], () => null],
@@ -347,7 +347,7 @@ describe('utils', () => {
     ]);
 
     for (const args of CASES.keys()) {
-      it(args.join(', '), () => {
+      it(args.join(', '), function () {
         const parsedArgs = espree.parse(
           `context.report(${args.join(', ')})`,
           { ecmaVersion: 6, loc: false, range: false }
@@ -360,7 +360,7 @@ describe('utils', () => {
     }
   });
 
-  describe('getSourceCodeIdentifiers', () => {
+  describe('getSourceCodeIdentifiers', function () {
     const CASES = {
       'module.exports = context => { const sourceCode = context.getSourceCode(); sourceCode; foo; }': 2,
       'module.exports = context => { const x = 1, sc = context.getSourceCode(); sc; sc; sc; sourceCode; }': 4,
@@ -368,7 +368,7 @@ describe('utils', () => {
     };
 
     Object.keys(CASES).forEach(testSource => {
-      it(testSource, () => {
+      it(testSource, function () {
         const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
         const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
 
