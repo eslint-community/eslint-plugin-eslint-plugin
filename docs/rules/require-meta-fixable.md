@@ -1,12 +1,14 @@
 # require rules to implement a meta.fixable property (require-meta-fixable)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 A fixable ESLint rule must have a valid `meta.fixable` property. A rule reports a problem with a `fix()` function but does not export a `meta.fixable` property is likely to cause an unexpected error.
 
 ## Rule Details
 
 This rule aims to require ESLint rules to have a `meta.fixable` property if necessary.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-fixable: "error" */
@@ -56,7 +58,7 @@ module.exports = { create (context) {
 } };
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-fixable: "error" */

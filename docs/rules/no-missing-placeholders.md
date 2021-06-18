@@ -1,5 +1,7 @@
 # Disallow missing placeholders in rule report messages (no-missing-placeholders)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 Report messages in rules can have placeholders surrounded by curly brackets.
 
 ```js
