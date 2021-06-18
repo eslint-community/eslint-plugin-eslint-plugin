@@ -5,6 +5,7 @@ module.exports = {
   plugins: ['node'],
   extends: [
     'not-an-aardvark/node',
+    'plugin:eslint-comments/recommended',
     'plugin:node/recommended',
     'plugin:unicorn/recommended',
   ],
@@ -22,6 +23,8 @@ module.exports = {
       },
     ],
     'require-jsdoc': 'error',
+
+    'eslint-comments/no-unused-disable': 'error',
 
     'unicorn/consistent-function-scoping': 'off',
     'unicorn/no-array-callback-reference': 'off',
