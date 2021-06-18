@@ -8,7 +8,7 @@ Likewise, rules that do not report suggestions should not enable the `meta.hasSu
 
 This rule aims to require ESLint rules to have a `meta.hasSuggestions` property if necessary.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-has-suggestions: "error" */
@@ -44,7 +44,7 @@ module.exports = {
 };
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-has-suggestions: "error" */

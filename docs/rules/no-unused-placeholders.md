@@ -1,5 +1,7 @@
 # Disallow unused placeholders in rule report messages (no-unused-placeholders)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 This rule aims to disallow unused placeholders in rule report messages.
 
 ## Rule Details

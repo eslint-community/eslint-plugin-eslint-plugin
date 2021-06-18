@@ -25,7 +25,7 @@ For example, in order to mandate that all report messages begin with a capital l
 
 Note that since this rule uses static analysis and does not actually run your code, it will attempt to match report messages *before* placeholders are inserted.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/report-message-format: ["error", "^[A-Z].*\\.$"] */
@@ -42,7 +42,7 @@ module.exports = {
 };
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
 module.exports = {

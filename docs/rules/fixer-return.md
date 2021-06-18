@@ -1,5 +1,7 @@
 # Enforces always return from a fixer function (fixer-return)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 In a fixable rule, missing return from a fixer function will not apply fixes.
 
 ## Rule Details
