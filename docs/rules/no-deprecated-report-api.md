@@ -12,13 +12,9 @@ The following patterns are considered warnings:
 
 ```js
 module.exports = {
-  create(context) {
-
+  create (context) {
     context.report(node, 'This node is bad.');
-
-    context.report(node, loc, 'This node is bad.');
-
-  }
+  },
 };
 
 ```
@@ -27,13 +23,11 @@ The following patterns are not warnings:
 
 ```js
 module.exports = {
-  create(context) {
-
+  create (context) {
     context.report({ node, message: 'This node is bad.' });
 
     context.report({ node, loc, message: 'This node is bad.' });
-
-  }
+  },
 };
 ```
 

@@ -6,7 +6,7 @@ Report messages in rules can have placeholders surrounded by curly brackets.
 context.report({
   node,
   message: '{{disallowedNode}} nodes are not allowed.',
-  data: { disallowedNode: node.type }
+  data: { disallowedNode: node.type },
 });
 ```
 
@@ -25,17 +25,17 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/prefer-placeholders: error */
 
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: `The node ${node.name} is not allowed to be used.`
+      message: `The node ${node.name} is not allowed to be used.`,
     });
 
     context.report({
       node,
-      message: 'The node ' + node.name + ' is not allowed to be used.'
+      message: 'The node ' + node.name + ' is not allowed to be used.',
     });
-  }
+  },
 };
 ```
 
@@ -45,13 +45,13 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/prefer-placeholders: error */
 
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'The node {{name}} is not allowed to be used.',
-      data: { name: node.name }
+      data: { name: node.name },
     });
-  }
+  },
 };
 ```
 

@@ -11,81 +11,73 @@ This rule aims to require ESLint rules to have a `meta.hasSuggestions` property 
 The following patterns are considered warnings:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-has-suggestions: "error" */
 
 module.exports = {
   meta: {}, // Missing `meta.hasSuggestions`.
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
       suggest: [
         {
-            desc: 'Insert space at the beginning',
-            fix: fixer => fixer.insertTextBefore(node, " ")
-        }
-      ]
+          desc: 'Insert space at the beginning',
+          fix: fixer => fixer.insertTextBefore(node, ' '),
+        },
+      ],
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-has-suggestions: "error" */
 
 module.exports = {
   meta: { hasSuggestions: true }, // Has `meta.hasSuggestions` enabled but never provides suggestions.
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: 'foo'
+      message: 'foo',
     });
-  }
+  },
 };
-
 ```
 
 The following patterns are not warnings:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-has-suggestions: "error" */
 
 module.exports = {
   meta: { hasSuggestions: true },
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
       suggest: [
         {
-            desc: 'Insert space at the beginning',
-            fix: fixer => fixer.insertTextBefore(node, " ")
-        }
-      ]
+          desc: 'Insert space at the beginning',
+          fix: fixer => fixer.insertTextBefore(node, ' '),
+        },
+      ],
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-has-suggestions: "error" */
 
 module.exports = {
   meta: {},
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: 'foo'
+      message: 'foo',
     });
-  }
+  },
 };
-
 ```
 
 ## Further Reading

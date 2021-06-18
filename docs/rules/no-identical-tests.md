@@ -12,13 +12,12 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/no-identical-tests: error */
 
 new RuleTester().run('foo', bar, {
-valid: [
+  valid: [
     { code: 'foo' },
-    { code: 'foo' }
-],
-invalid: []
+    { code: 'foo' },
+  ],
+  invalid: [],
 });
-
 ```
 
 Examples of **correct** code for this rule:
@@ -27,13 +26,12 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/no-identical-tests: error */
 
 new RuleTester().run('foo', bar, {
-valid: [
+  valid: [
     { code: 'foo' },
-    { code: 'bar' }
-],
-invalid: []
+    { code: 'bar' },
+  ],
+  invalid: [],
 });
-
 ```
 
 ## When Not To Use It

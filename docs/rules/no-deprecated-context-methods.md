@@ -35,29 +35,29 @@ Examples of **incorrect** code for this rule:
 
 ```js
 module.exports = {
-  create(context) {
+  create (context) {
     return {
-      Program(node) {
+      Program (node) {
         const firstToken = context.getFirstToken(node);
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 module.exports = {
-  create(context) {
+  create (context) {
     const sourceCode = context.getSourceCode();
 
     return {
-      Program(node) {
+      Program (node) {
         const firstToken = sourceCode.getFirstToken(node);
-      }
-    }
-  }
+      },
+    };
+  },
 };
 ```
 

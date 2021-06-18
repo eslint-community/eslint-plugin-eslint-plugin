@@ -10,14 +10,15 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/fixer-return: error */
+
 module.exports = {
-    create: function(context) {
-        context.report( {
-            fix: function(fixer) {
-                fixer.foo();
-            }
-        });
-    }
+  create (context) {
+    context.report({
+      fix (fixer) {
+        fixer.foo();
+      },
+    });
+  },
 };
 ```
 
@@ -25,14 +26,15 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/fixer-return: error */
+
 module.exports = {
-    create: function(context) {
-        context.report( {
-            fix: function(fixer) {
-                return fixer.foo();
-            }
-        });
-    }
+  create (context) {
+    context.report({
+      fix (fixer) {
+        return fixer.foo();
+      },
+    });
+  },
 };
 ```
 

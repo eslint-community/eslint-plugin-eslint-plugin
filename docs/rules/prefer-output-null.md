@@ -14,10 +14,10 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/prefer-output-null: error */
 
 new RuleTester().run('foo', bar, {
-    valid: [],
-    invalid: [
-      { code: 'foo', output: 'foo', errors: [{ message: 'bar' }] },
-    ]
+  valid: [],
+  invalid: [
+    { code: 'foo', output: 'foo', errors: [{ message: 'bar' }] },
+  ],
 });
 ```
 
@@ -27,9 +27,9 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/prefer-output-null: error */
 
 new RuleTester().run('foo', bar, {
-    valid: [],
-    invalid: [
-      { code: 'foo', output: null, errors: [{ message: 'bar' }] },
-    ]
+  valid: [],
+  invalid: [
+    { code: 'foo', output: null, errors: [{ message: 'bar' }] },
+  ],
 });
 ```

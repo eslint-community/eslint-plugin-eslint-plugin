@@ -9,42 +9,41 @@ Reports when a context.report call contains a data property that does not have a
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint eslint-plugin/no-unused-placeholders: error*/
+/* eslint eslint-plugin/no-unused-placeholders: error*/
 
 module.exports = {
-  create(context) {
-
+  create (context) {
     context.report({
       node,
       message: 'something is wrong.',
-      data: { something: 'foo' }
+      data: { something: 'foo' },
     });
 
     context.report(node, 'something is wrong.', { something: 'foo' });
-  }
+  },
 };
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint eslint-plugin/no-unused-placeholders: error*/
+/* eslint eslint-plugin/no-unused-placeholders: error*/
 
 module.exports = {
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: 'something is wrong.'
+      message: 'something is wrong.',
     });
 
     context.report({
       node,
       message: '{{something}} is wrong.',
-      data: { something: 'foo' }
+      data: { something: 'foo' },
     });
 
     context.report(node, '{{something}} is wrong.', { something: 'foo' });
-  }
+  },
 };
 ```
 
