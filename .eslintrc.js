@@ -38,7 +38,6 @@ module.exports = {
       plugins: ['self'],
       extends: ['plugin:self/all'],
       rules: {
-        'self/meta-property-ordering': 'off',
         'self/report-message-format': ['error', '^[^a-z].*.$'],
         'self/require-meta-docs-url': 'off',
       },
