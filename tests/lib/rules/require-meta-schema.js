@@ -32,6 +32,27 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    // Schema with options and using `context.options`.
+    `
+      module.exports = {
+        meta: { schema: { "enum": ["always", "never"] } },
+        create(context) { const options = context.options; }
+      };
+    `,
+    // Empty schema, using arbitrary property of `context`.
+    `
+      module.exports = {
+        meta: { schema: [] },
+        create(context) { const foo = context.foo; }
+      };
+    `,
+    // Empty schema, using arbitrary `options` property.
+    `
+      module.exports = {
+        meta: { schema: [] },
+        create(context) { const options = foo.options; }
+      };
+    `,
     `
       const schema = [];
       module.exports = {
@@ -118,6 +139,28 @@ schema: [] },
       `,
       output: null,
       errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      // Empty schema (array), but using rule options.
+      code: `
+        module.exports = {
+          meta: { schema: [] },
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
+    },
+    {
+      // Empty schema (object), but using rule options.
+      code: `
+        module.exports = {
+          meta: { schema: {} },
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
     },
   ],
 });
