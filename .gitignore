@@ -1,5 +1,6 @@
+.idea
+.nyc_output
+.vscode
 node_modules/
 npm-debug.log
-.vscode
-.idea
 yarn.lock
