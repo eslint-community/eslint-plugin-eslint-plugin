@@ -1,5 +1,18 @@
 # Changelog
 
+## v3.2.0 (2021-06-23)
+
+* Fix: Improve detection of fix functions that never return a fix in `fixer-return` rule ([#143](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/143)) ([65cfb2c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/65cfb2cd78484f2072bb1f150d07c6fa299579ed))
+* Chore: enforce minimum code coverage ([#142](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/142)) ([f136e4c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f136e4ce5917730bbb175e159e26af737aa76523))
+* Chore: enable meta-property-ordering rule internally ([#139](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/139)) ([6c83ec6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6c83ec65fa3c8c5a1771ab2c5bcb1946a0c1d78f))
+* Update: Flag a violation when rule options are used but an empty schema is present in `require-meta-schema` rule ([#138](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/138)) ([6ffddd7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6ffddd703773be7d2afd5e33fc2529b836b7a56c))
+* Docs: add rule documentation consistency tests ([#137](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/137)) ([c7f8bee](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c7f8beedfc9c4df64660b1d25ed0498f8551dfcf))
+* Docs: add eslint-plugin-markdown for JavaScript code samples in documentation ([#134](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/134)) ([15ffada](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/15ffadae375f9f835b3f3a18b5aa1bbc07e5efbe))
+* Chore: add eslint-plugin-unicorn ([#133](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/133)) ([d71c8b3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d71c8b3833e8bbde01236396b40c91f0dc11531f))
+* Build: Add `markdownlint` for doc formatting ([#130](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/130)) ([5b0ce68](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5b0ce688d3f423aaecb704a3e29239097599c0dd))
+* Build: run tests under Node 16 ([#132](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/132)) ([1368388](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/136838824c3b0ad81710034e13761af53b3e7525))
+* Fix: improve detection of static arguments of context.report() in several rules ([#129](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/129)) ([6d5be9f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6d5be9fb3e2e4c4c19d0c20a8f4a33867573e3fa))
+
 ## v3.1.0 (2021-06-15)
 
 * Chore: Switch from `.eslintrc.yml` to `.eslintrc.js` ([#127](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/127)) ([c767ea3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c767ea33a69a35a0cb7007b90f41c38c5877e94f))
