@@ -1,5 +1,5 @@
 /**
- * @fileoverview enforces always return from a fixer function
+ * @fileoverview Require fixer function to return a fix
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
@@ -11,8 +11,6 @@
 
 const rule = require('../../../lib/rules/fixer-return');
 const RuleTester = require('eslint').RuleTester;
-
-const ERROR = { messageId: 'missingFix', type: 'FunctionExpression' };
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -46,6 +44,38 @@ ruleTester.run('fixer-return', rule, {
         }
     };
     `,
+    // Not the right fix function.
+    `
+    module.exports = {
+        create: function(context) {
+            context.report( {
+                notFix: function(fixer) {
+                }
+            });
+        }
+    };
+    `,
+    // Not the right fix function (arrow function with implied return)
+    `
+    module.exports = {
+        create: function(context) {
+            context.report( {
+                notFix: fixer => undefined
+            });
+        }
+    };
+    `,
+    // Not the right fix function (arrow function)
+    `
+    module.exports = {
+        create: function(context) {
+            context.report( {
+                notFix: fixer => {}
+            });
+        }
+    };
+    `,
+    // Arrow function (expression)
     `
     module.exports = {
         create: function(context) {
@@ -55,6 +85,17 @@ ruleTester.run('fixer-return', rule, {
         }
     };
     `,
+    // Arrow function (with return)
+    `
+    module.exports = {
+        create: function(context) {
+            context.report({
+                fix: fixer => {return fixer.foo();}
+            });
+        }
+    };
+    `,
+    // Generator
     `
     module.exports = {
         create: function (context) {
@@ -196,7 +237,50 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 24 }],
+    },
+    {
+      // Fix but missing return (arrow function, report on arrow)
+      code: `
+        module.exports = {
+            create: function(context) {
+                context.report({
+                    fix: (fixer) => {
+                        fixer.foo();
+                    }
+                });
+            }
+        };
+        `,
+      errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 34, endColumn: 36 }],
+    },
+    {
+      // With no autofix (arrow function, explicit return, report on arrow)
+      code: `
+        module.exports = {
+            create: function(context) {
+                context.report({
+                    fix: (fixer) => {
+                        return undefined;
+                    }
+                });
+            }
+        };
+        `,
+      errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 34, endColumn: 36 }],
+    },
+    {
+      // With no autofix (arrow function, implied return, report on arrow)
+      code: `
+        module.exports = {
+            create: function(context) {
+                context.report( {
+                    fix: fixer => undefined
+                });
+            }
+        };
+        `,
+      errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 32, endColumn: 34 }],
     },
     {
       // Fix but missing yield (generator)
@@ -211,22 +295,22 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 25 }],
     },
     {
       // With no autofix (only yield undefined)
       code: `
-          module.exports = {
-              create: function(context) {
-                  context.report({
-                      *fix(fixer) {
-                          yield undefined;
-                      }
-                  });
-              }
-          };
-          `,
-      errors: [ERROR],
+        module.exports = {
+            create: function(context) {
+                context.report({
+                    *fix(fixer) {
+                        yield undefined;
+                    }
+                });
+            }
+        };
+        `,
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 25 }],
     },
     {
       // With no autofix (only return null)
@@ -241,7 +325,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
       // With no autofix (only return undefined)
@@ -256,23 +340,23 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
       // With no autofix (only return undefined, but in variable)
       code: `
-            module.exports = {
-                create: function(context) {
-                    context.report( {
-                        fix: function(fixer) {
-                            const returnValue = undefined;
-                            return returnValue;
-                        }
-                    });
-                }
-            };
-            `,
-      errors: [ERROR],
+        module.exports = {
+            create: function(context) {
+                context.report( {
+                    fix: function(fixer) {
+                        const returnValue = undefined;
+                        return returnValue;
+                    }
+                });
+            }
+        };
+        `,
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
       // With no autofix (only return implicit undefined)
@@ -287,7 +371,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
       // With no autofix (only return empty array)
@@ -302,7 +386,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
       // With no autofix (no return, empty function)
@@ -316,7 +400,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
-      errors: [ERROR],
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
   ],
 });
