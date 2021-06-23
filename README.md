@@ -47,7 +47,7 @@ Then configure the rules you want to use under the rules section.
 Name | ✔️ | 🛠 | Description
 ----- | ----- | ----- | -----
 [consistent-output](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/consistent-output.md) |  |  | enforce consistent use of output assertions in rule tests
-[fixer-return](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/fixer-return.md) | ✔️ |  | require fixer function to always return a value.
+[fixer-return](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/fixer-return.md) | ✔️ |  | require fixer function to return a fix
 [meta-property-ordering](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/meta-property-ordering.md) |  | 🛠 | enforce the order of meta properties
 [no-deprecated-context-methods](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-context-methods.md) |  | 🛠 | disallow usage of deprecated methods on rule context objects
 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md) | ✔️ | 🛠 | disallow use of the deprecated context.report() API
