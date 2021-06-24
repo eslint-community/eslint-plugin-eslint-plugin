@@ -17,11 +17,12 @@ const expectedTableLines = Object.keys(rules)
       `[${ruleId}](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/${ruleId}.md)`,
       rule.meta.docs.recommended ? '✔️' : '',
       rule.meta.fixable ? '🛠' : '',
+      rule.meta.hasSuggestions ? '💡' : '',
       rule.meta.docs.description,
     ].join(' | '));
 
     return lines;
-  }, ['Name | ✔️ | 🛠 | Description', '----- | ----- | ----- | -----'])
+  }, ['Name | ✔️ | 🛠 | 💡 | Description', '----- | ----- | ----- | ----- | -----'])
   .join('\n');
 
 const readmeContents = fs.readFileSync(README_LOCATION, 'utf8');
