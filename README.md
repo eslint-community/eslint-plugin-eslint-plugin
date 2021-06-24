@@ -53,6 +53,7 @@ Name | ✔️ | 🛠 | Description
 [no-deprecated-report-api](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-deprecated-report-api.md) | ✔️ | 🛠 | disallow use of the deprecated context.report() API
 [no-identical-tests](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-identical-tests.md) | ✔️ | 🛠 | disallow identical tests
 [no-missing-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md) | ✔️ |  | disallow missing placeholders in rule report messages
+[no-only-tests](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-only-tests.md) |  |  | disallow the test case property `only`
 [no-unused-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-unused-placeholders.md) | ✔️ |  | disallow unused placeholders in rule report messages
 [no-useless-token-range](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-useless-token-range.md) | ✔️ | 🛠 | disallow unnecessary calls to sourceCode.getFirstToken and sourceCode.getLastToken
 [prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) |  | 🛠 | disallow rule exports where the export is a function.
