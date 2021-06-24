@@ -13,6 +13,7 @@ const MESSAGES = {
     '⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) can automatically fix some of the problems reported by this rule.',
   configRecommended:
     '✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.',
+  hasSuggestions: '💡 Some problems reported by this rule are manually fixable by editor [suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).',
 };
 
 describe('rule setup is correct', () => {
@@ -91,6 +92,11 @@ describe('rule setup is correct', () => {
             expectedNotices.push('fixable');
           } else {
             unexpectedNotices.push('fixable');
+          }
+          if (rule.meta.hasSuggestions) {
+            expectedNotices.push('hasSuggestions');
+          } else {
+            unexpectedNotices.push('hasSuggestions');
           }
 
           // Ensure that expected notices are present in the correct order.
