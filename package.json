@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin#readme",
   "dependencies": {
-    "eslint-utils": "^2.1.0"
+    "eslint-utils": "^3.0.0"
   },
   "nyc": {
     "branches": 96,
