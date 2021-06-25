@@ -1,4 +1,4 @@
-# enforce ordering of meta properties in rule source (meta-property-ordering)
+# Enforce the order of meta properties (meta-property-ordering)
 
 ⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) can automatically fix some of the problems reported by this rule.
 

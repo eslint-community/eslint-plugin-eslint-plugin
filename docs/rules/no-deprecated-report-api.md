@@ -1,4 +1,4 @@
-# disallow use of the deprecated context.report() API (no-deprecated-report-api)
+# Disallow use of the deprecated context.report() API (no-deprecated-report-api)
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 
