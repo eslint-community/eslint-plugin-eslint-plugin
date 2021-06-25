@@ -16,6 +16,14 @@ const MESSAGES = {
   hasSuggestions: '💡 Some problems reported by this rule are manually fixable by editor [suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).',
 };
 
+/**
+ * @param {string} string - to operate on
+ * @returns the string with a capitalized first letter
+ */
+function capitalizeFirstLetter (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 describe('rule setup is correct', () => {
   it('should have a list of exported rules and rules directory that match', () => {
     const filePath = path.join(__dirname, '..', 'lib', 'rules');
@@ -70,7 +78,7 @@ describe('rule setup is correct', () => {
       describe(ruleName, () => {
         it('should have the right contents (title, notices, etc)', () => {
           // Title
-          assert.ok(lines[0].endsWith(`(${ruleName})`), 'first line ends with rule name');
+          assert.strictEqual(lines[0], `# ${capitalizeFirstLetter(rule.meta.docs.description)} (${ruleName})`, 'first line has rule description and name');
           assert.strictEqual(lines[1], '', 'second line is blank');
 
           // Rule Details

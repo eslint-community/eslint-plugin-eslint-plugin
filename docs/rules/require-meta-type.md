@@ -1,4 +1,4 @@
-# require rules to implement a meta.type property (require-meta-type)
+# Require rules to implement a meta.type property (require-meta-type)
 
 ESLint v5.9.0 introduces a new `--fix-type` option for the command line interface. This option allows users to filter the type of fixes applied when using `--fix`.
 

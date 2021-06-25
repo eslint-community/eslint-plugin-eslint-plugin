@@ -1,4 +1,4 @@
-# disallow template literals as report messages (prefer-placeholders)
+# Disallow template literals as report messages (prefer-placeholders)
 
 Report messages in rules can have placeholders surrounded by curly brackets.
 

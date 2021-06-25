@@ -1,4 +1,4 @@
-# prefer using replaceText instead of replaceTextRange. (prefer-replace-text)
+# Require using replaceText instead of replaceTextRange. (prefer-replace-text)
 
 ## Rule Details
 
