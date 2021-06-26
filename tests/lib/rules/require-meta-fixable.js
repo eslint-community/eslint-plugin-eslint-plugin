@@ -142,6 +142,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -150,6 +151,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
@@ -159,6 +161,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report(node, loc, message, data, fix); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -168,6 +171,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'invalid', type: 'Literal' }],
     },
     {
@@ -177,6 +181,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'invalid', type: 'Literal' }],
     },
     {
@@ -187,6 +192,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'invalid', type: 'Identifier' }],
     },
     {
@@ -196,6 +202,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'Literal' }],
     },
     {
@@ -205,6 +212,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
   ],

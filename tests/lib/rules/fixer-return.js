@@ -237,6 +237,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 24 }],
     },
     {
@@ -252,6 +253,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 34, endColumn: 36 }],
     },
     {
@@ -267,6 +269,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 34, endColumn: 36 }],
     },
     {
@@ -280,6 +283,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 32, endColumn: 34 }],
     },
     {
@@ -295,6 +299,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 25 }],
     },
     {
@@ -310,6 +315,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 25 }],
     },
     {
@@ -325,6 +331,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
@@ -340,6 +347,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
@@ -356,6 +364,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
@@ -371,6 +380,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
@@ -386,6 +396,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
     {
@@ -400,6 +411,7 @@ ruleTester.run('fixer-return', rule, {
             }
         };
         `,
+      output: null,
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 26 }],
     },
   ],

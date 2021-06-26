@@ -142,6 +142,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
     {
@@ -156,6 +157,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
     {
@@ -170,6 +172,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('hasOwnProperty')],
     },
     {
@@ -178,6 +181,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           context.report(node, 'foo {{bar}}', { baz: 'qux' });
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
     {
@@ -188,6 +192,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           context.report(node, MESSAGE, { baz: 'qux' });
         };
       `,
+      output: null,
       errors: [error('bar', 'Identifier')],
     },
     {
@@ -196,6 +201,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { baz: 'baz' });
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
     {
@@ -210,6 +216,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
   ],

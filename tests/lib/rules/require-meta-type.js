@@ -79,6 +79,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -89,6 +90,7 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -99,6 +101,7 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -109,6 +112,7 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
+      output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -118,6 +122,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      output: null,
       errors: [{ messageId: 'unexpected', type: 'Literal' }],
     },
     {
@@ -128,6 +133,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      output: null,
       errors: [{ messageId: 'unexpected', type: 'Identifier' }],
     },
     {
@@ -137,6 +143,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      output: null,
       errors: [{ messageId: 'unexpected', type: 'Literal' }],
     },
     {
@@ -146,6 +153,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      output: null,
       errors: [{ messageId: 'unexpected', type: 'Identifier' }],
     },
   ],

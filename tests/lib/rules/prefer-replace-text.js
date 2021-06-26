@@ -67,6 +67,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
+      output: null,
       errors: [ERROR],
     },
     {
@@ -81,6 +82,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
+      output: null,
       errors: [ERROR],
     },
     {
@@ -95,6 +97,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
+      output: null,
       errors: [ERROR],
     },
     {
@@ -107,6 +110,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
+      output: null,
       errors: [ERROR],
     },
     {
@@ -121,6 +125,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
+      output: null,
       errors: [ERROR],
     },
   ],

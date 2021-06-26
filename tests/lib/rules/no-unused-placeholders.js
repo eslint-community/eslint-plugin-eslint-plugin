@@ -122,6 +122,7 @@ ruleTester.run('no-unused-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
     {
@@ -138,6 +139,7 @@ ruleTester.run('no-unused-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('bar', 'Identifier')],
     },
     {
@@ -152,6 +154,7 @@ ruleTester.run('no-unused-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('bar')],
     },
     {
@@ -166,6 +169,7 @@ ruleTester.run('no-unused-placeholders', rule, {
           }
         };
       `,
+      output: null,
       errors: [error('baz')],
     },
   ],
