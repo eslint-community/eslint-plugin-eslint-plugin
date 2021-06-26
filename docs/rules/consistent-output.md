@@ -1,5 +1,7 @@
 # Enforce consistent use of `output` assertions in rule tests (consistent-output)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 When writing tests for a fixable rule with `RuleTester`, you can assert the autofix output of your test cases. However, it can be easy to forget to assert the output of a particular test case.
 
 [As of ESLint 7](https://eslint.org/docs/user-guide/migrating-to-7.0.0#additional-validation-added-to-the-ruletester-class), test cases that trigger an autofix are required to provide the `output` property.
