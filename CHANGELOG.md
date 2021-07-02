@@ -1,5 +1,14 @@
 # Changelog
 
+## v3.3.0 (2021-07-02)
+
+* Chore: improve test coverage of `no-identical-tests` rule ([#153](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/153)) ([281d4e5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/281d4e58d48fc5fad6ba033df9d412cfcb8ed99c))
+* Docs: ensure rule doc titles match rule descriptions ([#147](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/147)) ([c55a956](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c55a95616dd2e1e832fb082c4e686f4dc271d931))
+* Update: add the plugin name to plugins prop of presets ([#91](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/91)) ([e825c56](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e825c5692361da151e75b69b9dca196d30b6d465))
+* Docs: indicate rules with suggestions ([#146](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/146)) ([cd65a5c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/cd65a5cedc9adc5874b789ccfffe2ac2c2041abb))
+* New: add new rule `no-only-tests` ([#145](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/145)) ([f0ac31c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f0ac31c967eb05dd5da95e5ef15c26ce48f6d976))
+* Fix: update fixer-return rule to handle arrow function expressions ([#144](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/144)) ([6762a3f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6762a3fa61fde2e9ae43576bd695d31da7ab5736))
+
 ## v3.2.0 (2021-06-23)
 
 * Fix: Improve detection of fix functions that never return a fix in `fixer-return` rule ([#143](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/143)) ([65cfb2c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/65cfb2cd78484f2072bb1f150d07c6fa299579ed))
