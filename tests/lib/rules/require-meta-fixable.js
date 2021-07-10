@@ -1,5 +1,5 @@
 /**
- * @fileoverview require rules to implement a meta.fixable property
+ * @fileoverview require rules to implement a `meta.fixable` property
  * @author Teddy Katz
  */
 

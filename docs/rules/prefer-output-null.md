@@ -1,4 +1,4 @@
-# Disallow invalid RuleTester test cases with the output the same as the code. (prefer-output-null)
+# Disallow invalid RuleTester test cases where the `output` matches the `code` (prefer-output-null)
 
 ⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) can automatically fix some of the problems reported by this rule.
 

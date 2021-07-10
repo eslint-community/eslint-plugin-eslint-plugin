@@ -1,5 +1,5 @@
 /**
- * @fileoverview Require fixer function to return a fix
+ * @fileoverview require fixer functions to return a fix
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 

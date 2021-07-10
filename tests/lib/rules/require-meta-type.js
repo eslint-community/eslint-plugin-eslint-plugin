@@ -1,5 +1,5 @@
 /**
- * @fileoverview require rules to implement a meta.type property
+ * @fileoverview require rules to implement a `meta.type` property
  * @author 唯然<weiran.zsd@outlook.com>
  */
 

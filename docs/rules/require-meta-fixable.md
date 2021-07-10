@@ -1,4 +1,4 @@
-# Require rules to implement a meta.fixable property (require-meta-fixable)
+# Require rules to implement a `meta.fixable` property (require-meta-fixable)
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 

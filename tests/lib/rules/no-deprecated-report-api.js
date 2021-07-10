@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallow use of the deprecated context.report() API
+ * @fileoverview Disallow the version of `context.report()` with multiple arguments
  * @author Teddy Katz
  */
 

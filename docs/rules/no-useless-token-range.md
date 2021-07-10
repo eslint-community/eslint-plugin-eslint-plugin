@@ -1,4 +1,4 @@
-# Disallow unnecessary calls to sourceCode.getFirstToken and sourceCode.getLastToken (no-useless-token-range)
+# Disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()` (no-useless-token-range)
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 
@@ -8,7 +8,7 @@ AST nodes always start and end with tokens. As a result, the start index of the 
 
 ## Rule Details
 
-This rule aims to avoid unnecessary calls to `sourceCode.getFirstToken` and `sourceCode.getLastToken`.
+This rule aims to avoid unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()`.
 
 Examples of **incorrect** code for this rule:
 

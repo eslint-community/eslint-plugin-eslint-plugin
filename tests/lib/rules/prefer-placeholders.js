@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallow template literals as report messages
+ * @fileoverview require using placeholders for dynamic report messages
  * @author Teddy Katz
  */
 
