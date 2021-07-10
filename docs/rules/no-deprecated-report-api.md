@@ -1,10 +1,15 @@
-# Disallow use of the deprecated context.report() API (no-deprecated-report-api)
+# Disallow the version of `context.report()` with multiple arguments (no-deprecated-report-api)
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 
 ⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) can automatically fix some of the problems reported by this rule.
 
-ESLint has two APIs that rules can use to report problems. The [deprecated API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated) accepts multiple arguments: `context.report(node, [loc], message)`. The ["new API"](http://eslint.org/docs/developer-guide/working-with-rules#contextreport) accepts a single argument: an object containing information about the reported problem. It is recommended that all rules use the new API.
+ESLint has two APIs that rules can use to report problems.
+
+* The [deprecated API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated) accepts multiple arguments: `context.report(node, [loc], message)`.
+* The ["new API"](http://eslint.org/docs/developer-guide/working-with-rules#contextreport) accepts a single argument: an object containing information about the reported problem.
+
+It is recommended that all rules use the new API.
 
 ## Rule Details
 

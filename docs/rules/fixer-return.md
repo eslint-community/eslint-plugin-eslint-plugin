@@ -1,4 +1,4 @@
-# Require fixer function to return a fix (fixer-return)
+# Require fixer functions to return a fix (fixer-return)
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 

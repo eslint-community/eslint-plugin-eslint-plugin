@@ -1,5 +1,5 @@
 /**
- * @fileoverview Disallow unnecessary calls to sourceCode.getFirstToken and sourceCode.getLastToken
+ * @fileoverview Disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()`
  * @author Teddy Katz
  */
 

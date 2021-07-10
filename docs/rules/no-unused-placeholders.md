@@ -6,7 +6,7 @@ This rule aims to disallow unused placeholders in rule report messages.
 
 ## Rule Details
 
-Reports when a context.report call contains a data property that does not have a corresponding placeholder in the report message.
+Reports when a `context.report()` call contains a data property that does not have a corresponding placeholder in the report message.
 
 Examples of **incorrect** code for this rule:
 

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Enforce consistent use of output assertions in rule tests
+ * @fileoverview Enforce consistent use of `output` assertions in rule tests
  * @author Teddy Katz
  */
 

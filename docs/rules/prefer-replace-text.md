@@ -1,8 +1,8 @@
-# Require using replaceText instead of replaceTextRange. (prefer-replace-text)
+# Require using `replaceText()` instead of `replaceTextRange()` (prefer-replace-text)
 
 ## Rule Details
 
-The rule reports an error if `replaceTextRange`'s first argument is an array of identical array elements. It can be easily replaced by `replaceText` to improve readability.
+The rule reports an error if `replaceTextRange()`'s first argument is an array of identical array elements. It can be easily replaced by `replaceText()` to improve readability.
 
 Examples of **incorrect** code for this rule:
 

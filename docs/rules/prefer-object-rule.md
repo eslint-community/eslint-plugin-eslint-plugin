@@ -1,4 +1,4 @@
-# Disallow rule exports where the export is a function. (prefer-object-rule)
+# Disallow rule exports where the export is a function (prefer-object-rule)
 
 ⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) can automatically fix some of the problems reported by this rule.
 

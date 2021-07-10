@@ -1,4 +1,4 @@
-# Enforce consistent use of output assertions in rule tests (consistent-output)
+# Enforce consistent use of `output` assertions in rule tests (consistent-output)
 
 When writing tests for a fixable rule with `RuleTester`, you can assert the autofix output of your test cases. However, it can be easy to forget to assert the output of a particular test case.
 
