@@ -131,6 +131,16 @@ schema: [] },
     },
     {
       code: `
+        module.exports = {
+          meta: { schema: undefined },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+    },
+    {
+      code: `
         const schema = null;
         module.exports = {
           meta: { schema },
