@@ -14,6 +14,7 @@ const RuleTester = require('eslint').RuleTester;
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('require-meta-docs-description', rule, {
   valid: [
+    'foo()',
     `
       module.exports = {
         meta: { docs: { description: 'disallow unused variables' } },
