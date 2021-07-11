@@ -112,6 +112,34 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         }
       };
     `,
+    // Provides suggestions, has hasSuggestions property with no static value available.
+    `
+      module.exports = {
+        meta: { hasSuggestions: getHasSuggestions() },
+        create(context) {
+          context.report({node, message, suggest: [{}]});
+        }
+      };
+    `,
+    // Provides suggestions, has hasSuggestions property in variable with no static value available
+    `
+      const hasSuggestions = getHasSuggestions();
+      module.exports = {
+        meta: { hasSuggestions },
+        create(context) {
+          context.report({node, message, suggest: [{}]});
+        }
+      };
+    `,
+    // Does not provide suggestions, has hasSuggestions property with no static value available
+    `
+      module.exports = {
+        meta: { hasSuggestions: getHasSuggestions() },
+        create(context) {
+          context.report({node, message});
+        }
+      };
+    `,
     // Spread syntax.
     {
       code: `
