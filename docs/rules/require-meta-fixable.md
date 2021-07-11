@@ -2,11 +2,11 @@
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 
-A fixable ESLint rule must have a valid `meta.fixable` property. A rule reports a problem with a `fix()` function but does not export a `meta.fixable` property is likely to cause an unexpected error.
+ESLint requires fixable rules to specify a valid `meta.fixable` property (with value `code` or `whitespace`).
 
 ## Rule Details
 
-This rule aims to require ESLint rules to have a `meta.fixable` property if necessary.
+This rule aims to require fixable ESLint rules to have a valid `meta.fixable` property.
 
 Examples of **incorrect** code for this rule:
 
@@ -14,7 +14,7 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
-  meta: {},
+  meta: {}, // missing `fixable` property
   create (context) {
     context.report({
       node,
@@ -42,20 +42,6 @@ module.exports = {
     });
   },
 };
-```
-
-```js
-/* eslint eslint-plugin/require-meta-fixable: "error" */
-
-module.exports = { create (context) {
-  context.report({
-    node,
-    message: 'foo',
-    fix (fixer) {
-      return fixer.remove(node);
-    },
-  });
-} };
 ```
 
 Examples of **correct** code for this rule:
@@ -91,10 +77,7 @@ module.exports = {
 };
 ```
 
-## When Not To Use It
-
-If you do not plan to implement autofixable rules, you can turn off this rule.
-
 ## Further Reading
 
 * [ESLint's autofix API](http://eslint.org/docs/developer-guide/working-with-rules#applying-fixes)
+* [ESLint's rule basics mentioning `meta.fixable`](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)
