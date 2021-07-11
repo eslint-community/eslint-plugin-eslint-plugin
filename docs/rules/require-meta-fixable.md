@@ -44,6 +44,17 @@ module.exports = {
 };
 ```
 
+```js
+/* eslint eslint-plugin/require-meta-fixable: ["error", { catchNoFixerButFixableProperty: true }] */
+
+module.exports = {
+  meta: { fixable: 'code' }, // property enabled but no fixer detected
+  create (context) {
+    context.report({ node, message: 'foo' });
+  },
+};
+```
+
 Examples of **correct** code for this rule:
 
 ```js
@@ -76,6 +87,12 @@ module.exports = {
   },
 };
 ```
+
+## Options
+
+This rule takes an optional object containing:
+
+* `boolean` — `catchNoFixerButFixableProperty` — default `false` - Whether the rule should attempt to detect rules that do not have a fixer but enable the `meta.fixable` property. This option is off by default because it increases the chance of false positives since fixers can't always be detected when helper functions are used.
 
 ## Further Reading
 
