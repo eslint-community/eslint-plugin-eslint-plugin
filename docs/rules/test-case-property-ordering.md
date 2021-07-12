@@ -1,6 +1,6 @@
 # Require the properties of a test case to be placed in a consistent order (test-case-property-ordering)
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) can automatically fix some of the problems reported by this rule.
+⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
 
 This rule enforces that the properties of RuleTester test cases are arranged in a consistent order.
 
