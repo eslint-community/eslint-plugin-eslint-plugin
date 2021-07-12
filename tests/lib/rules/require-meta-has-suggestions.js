@@ -74,6 +74,24 @@ ruleTester.run('require-meta-has-suggestions', rule, {
       }
     };
     `,
+    // No suggestions reported, hasSuggestions property set to `null`.
+    `
+    module.exports = {
+      meta: { hasSuggestions: null },
+      create(context) {
+        context.report({node, message});
+      }
+    };
+    `,
+    // No suggestions reported, hasSuggestions property set to `undefined`.
+    `
+    module.exports = {
+      meta: { hasSuggestions: undefined },
+      create(context) {
+        context.report({node, message});
+      }
+    };
+    `,
     // No suggestions reported, hasSuggestions property set to false (as variable).
     `
     const hasSuggestions = false;
