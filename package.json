@@ -33,10 +33,10 @@
     "eslint-utils": "^2.1.0"
   },
   "nyc": {
-    "branches": 97,
+    "branches": 98,
     "functions": 98,
     "lines": 99,
-    "statements": 98
+    "statements": 99
   },
   "devDependencies": {
     "@not-an-aardvark/node-release-script": "^0.1.0",
