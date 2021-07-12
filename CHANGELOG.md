@@ -1,5 +1,22 @@
 # Changelog
 
+## v3.4.0 (2021-07-12)
+
+* Fix: Ensure `require-meta-*` rules test null/undefined property values ([#164](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/164)) ([990f8f6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/990f8f6ab1bb7bf60939e2455ea3fae086bb90ae))
+* Chore: Improve test coverage in a few places ([#167](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/167)) ([cb9276e](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/cb9276e8a6490bb7023d5a6cb9fc4be5971341cf))
+* Docs: Improve consistency of `require-meta-*` rule violation messages ([#166](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/166)) ([1da1acc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1da1acc3a0193087947b803f9f1a6233362511af))
+* Update: Add autofixer to `require-meta-has-suggestions` rule ([#168](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/168)) ([a0a39c6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/a0a39c6bc33b74b1f399a9099f98248c0c6d9577))
+* Docs: Fix incorrect CLI option link ([#169](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/169)) ([639da89](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/639da89998bc30e68ee5bfe8c8a00671fead5c99))
+* Fix: Improve detection of static `url` strings in `require-meta-docs-url` rule ([#162](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/162)) ([0459f12](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/0459f1288cda0174ec4622862d3e6d60eaff3889))
+* Update: Fix false positives/negatives in `require-meta-fixable` rule ([#158](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/158)) ([dc29b03](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/dc29b03e4fa75827b2b009e29b9836c801f5f9f0))
+* Docs: Fix typo ([#160](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/160)) ([88cb2bf](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/88cb2bf11e5f8162b19934f7152a1a2adaef8f27))
+* Fix: Avoid crash with non-static value of `hasSuggestions` in `require-meta-has-suggestions` rule ([#163](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/163)) ([5c83cd9](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5c83cd9d0b49adfc408936511b560f957d3cbbcb))
+* Chore: Fully adopt `messageId` in `require-meta-docs-description` rule ([#161](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/161)) ([b0b170e](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b0b170e11c7d86bfb34a3412edacedaed35268ab))
+* Docs: Update rule descriptions for consistency ([#159](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/159)) ([c10afb8](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c10afb833c294195e83af4d018c7bf425379fc13))
+* Fix: Use token utilities from eslint-utils ([#156](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/156)) ([5ac45f0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5ac45f08bb943c097d3d10ee088a4a8f4f8e4de8))
+* Fix: Fix false negatives and reporting location in `require-meta-type` ([#155](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/155)) ([7c0d1d0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7c0d1d06050d3e68de7623a81d4022886ae457a6))
+* Chore: remove unnecessary ignore pattern from internal js linting ([#154](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/154)) ([4aa9aca](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/4aa9aca1dc27e224bb55fb6f1d5bdb565c73c6a1))
+
 ## v3.3.0 (2021-07-02)
 
 * Chore: improve test coverage of `no-identical-tests` rule ([#153](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/153)) ([281d4e5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/281d4e58d48fc5fad6ba033df9d412cfcb8ed99c))
