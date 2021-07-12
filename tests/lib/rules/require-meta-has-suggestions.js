@@ -164,17 +164,40 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionExpression', line: 3, column: 17, endLine: 3, endColumn: 78 }],
     },
     {
-      // Reports suggestions, no hasSuggestions property, violation should be on `meta` object.
+      // Reports suggestions, no hasSuggestions property, violation should be on `meta` object, empty meta object.
       code: `
         module.exports = {
           meta: {},
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
+      output: `
+        module.exports = {
+          meta: { hasSuggestions: true },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
       errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 3, column: 17, endLine: 3, endColumn: 19 }],
+    },
+    {
+      // Reports suggestions, no hasSuggestions property, violation should be on `meta` object, non-empty meta object.
+      code: `
+        module.exports = {
+          meta: { foo: 'bar' },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      output: `
+        module.exports = {
+          meta: { hasSuggestions: true, foo: 'bar' },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 3, column: 17, endLine: 3, endColumn: 31 }],
     },
     {
       // Reports suggestions (in variable), no hasSuggestions property, violation should be on `meta` object.
@@ -182,6 +205,13 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         const SUGGESTIONS = [{}];
         module.exports = {
           meta: {},
+          create(context) { context.report({node, message, suggest: SUGGESTIONS}); }
+        };
+      `,
+      output: `
+        const SUGGESTIONS = [{}];
+        module.exports = {
+          meta: { hasSuggestions: true },
           create(context) { context.report({node, message, suggest: SUGGESTIONS}); }
         };
       `,
@@ -195,7 +225,45 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
+      output: `
+        module.exports = {
+          meta: { hasSuggestions: true },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
       errors: [{ messageId: 'shouldBeSuggestable', type: 'Literal', line: 3, column: 35, endLine: 3, endColumn: 40 }],
+    },
+    {
+      // Reports suggestions, hasSuggestions property set to `null`, violation should be on `null`
+      code: `
+        module.exports = {
+          meta: { hasSuggestions: null },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      output: `
+        module.exports = {
+          meta: { hasSuggestions: true },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      errors: [{ messageId: 'shouldBeSuggestable', type: 'Literal', line: 3, column: 35, endLine: 3, endColumn: 39 }],
+    },
+    {
+      // Reports suggestions, hasSuggestions property set to `undefined`, violation should be on `undefined`
+      code: `
+        module.exports = {
+          meta: { hasSuggestions: undefined },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      output: `
+        module.exports = {
+          meta: { hasSuggestions: true },
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      errors: [{ messageId: 'shouldBeSuggestable', type: 'Identifier', line: 3, column: 35, endLine: 3, endColumn: 44 }],
     },
     {
       // Reports suggestions, hasSuggestions property set to false (as variable), violation should be on variable
@@ -206,6 +274,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'shouldBeSuggestable', type: 'Identifier', line: 4, column: 19, endLine: 4, endColumn: 33 }],
     },
     {
@@ -216,6 +285,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message}); }
         };
       `,
+      output: null,
       errors: [{ messageId: 'shouldNotBeSuggestable', type: 'Literal', line: 3, column: 35, endLine: 3, endColumn: 39 }],
     },
   ],
