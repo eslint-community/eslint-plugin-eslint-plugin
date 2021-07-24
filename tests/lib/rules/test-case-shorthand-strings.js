@@ -28,7 +28,7 @@ function getTestCases (cases) {
   `;
 }
 
-const EXPECTED_SHORTHAND_ERROR = { message: 'Use a string for this test case instead of an object.' };
+const EXPECTED_SHORTHAND_ERROR = { message: 'Use a string for this test case instead of an object.', type: 'ObjectExpression' };
 const UNEXPECTED_SHORTHAND_ERROR = { message: 'Use an object for this test case instead of a string.' };
 
 // ------------------------------------------------------------------------------

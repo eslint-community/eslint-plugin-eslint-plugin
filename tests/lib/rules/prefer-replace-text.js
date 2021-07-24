@@ -17,7 +17,7 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const ERROR = { message: 'Use replaceText instead of replaceTextRange.' };
+const ERROR = { messageId: 'useReplaceText', type: 'CallExpression' };
 
 
 ruleTester.run('prefer-placeholders', rule, {

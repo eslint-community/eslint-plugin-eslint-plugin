@@ -1,15 +1,10 @@
-/**
- * @fileoverview require using placeholders for dynamic report messages
- * @author Teddy Katz
- */
-
 'use strict';
 
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/prefer-placeholders');
+const rule = require('../../../lib/rules/prefer-message-ids');
 const RuleTester = require('eslint').RuleTester;
 
 // ------------------------------------------------------------------------------
@@ -17,66 +12,51 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const ERROR = { messageId: 'usePlaceholders' };
 
-
-ruleTester.run('prefer-placeholders', rule, {
+ruleTester.run('prefer-message-ids', rule, {
   valid: [
     `
       module.exports = {
         create(context) {
-          context.report({
-            node,
-            message: '{{foo}} is bad.',
-            data: { foo },
-          });
+          context.report({ node });
         }
       };
     `,
     `
       module.exports = {
         create(context) {
-          context.report({
-            node,
-            message: 'foo is bad.'
-          });
+          context.report({ node, messageId: 'foo' });
         }
       };
     `,
     `
       module.exports = {
         create(context) {
-          context.report({
-            node,
-            message: foo
-          });
+          foo.report({ node, message: 'foo' }); // unrelated function
         }
       };
     `,
     `
       module.exports = {
         create(context) {
-          context.report(node, 'foo is bad.');
+          context.foo({ node, message: 'foo' }); // unrelated function
         }
       };
     `,
-    // With message in variable.
     `
-      const MESSAGE = 'foo is bad.';
+      context.report({ node, message: 'foo' }); // outside rule
       module.exports = {
         create(context) {
-          context.report(node, MESSAGE);
         }
       };
     `,
-    // With message in variable but cannot statically determine its value.
     `
-      const MESSAGE = getMessage();
-      module.exports = {
-        create(context) {
-          context.report(node, MESSAGE);
-        }
-      };
+      // Tests are still allowed to use 'message' which is helpful for verifying that dynamically-constructed messages (i.e. from placeholders) look correct.
+      new RuleTester().run('foo', bar, {
+        invalid: [
+          { code: 'foo', errors: [{message: 'foo'}] },
+        ]
+      });
     `,
   ],
 
@@ -85,14 +65,11 @@ ruleTester.run('prefer-placeholders', rule, {
       code: `
         module.exports = {
           create(context) {
-            context.report({
-              node,
-              message: \`\${foo} is bad.\`
-            });
+            context.report({ node, message: 'foo' });
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'foundMessage', type: 'Property' }],
     },
     {
       // With message in variable.
@@ -107,9 +84,10 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'foundMessage', type: 'Property' }],
     },
     {
+      // With constructed message.
       code: `
         module.exports = {
           create(context) {
@@ -120,17 +98,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [ERROR],
-    },
-    {
-      code: `
-        module.exports = {
-          create(context) {
-            context.report(node, \`\${foo} is bad.\`);
-          }
-        };
-      `,
-      errors: [ERROR],
+      errors: [{ messageId: 'foundMessage', type: 'Property' }],
     },
   ],
 });
