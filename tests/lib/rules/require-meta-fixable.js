@@ -157,6 +157,20 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: false }],
     },
+    // catchNoFixerButFixableProperty = true
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: 'code' },
+          create(context) {
+            foo
+              ? context.report({ node, message })
+              : context.report({ node, message, fix });
+          }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: true }],
+    },
   ],
 
   invalid: [
@@ -253,6 +267,16 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
       errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: null },
+          create(context) { context.report({node, message, fix}); }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: true }],
+      errors: [{ messageId: 'missing', type: 'Literal' }],
     },
   ],
 });
