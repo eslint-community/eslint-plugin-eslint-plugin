@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.5.0 (2021-07-27)
+
+* Update: Add `catchNoFixerButFixableProperty` option (default false) to catch non-fixable rules that enable the fixable property in `require-meta-fixable` rule ([#165](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/165)) ([da652aa](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/da652aa2c13f55627503067968cc843a4732eb26))
+* New: Add new rule `prefer-message-ids` ([#170](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/170)) ([95021dd](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/95021dd03baefe8f06d959d45fefd23c893fa832))
+
 ## v3.4.0 (2021-07-12)
 
 * Fix: Ensure `require-meta-*` rules test null/undefined property values ([#164](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/164)) ([990f8f6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/990f8f6ab1bb7bf60939e2455ea3fae086bb90ae))
