@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.5.1 (2021-07-27)
+
+* Fix: Fix false positive with empty array variable in `require-meta-has-suggestions` rule ([#171](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/171)) ([fffa881](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/fffa881fdaf1575834832e0e16df2cddb913008c))
+
 ## v3.5.0 (2021-07-27)
 
 * Update: Add `catchNoFixerButFixableProperty` option (default false) to catch non-fixable rules that enable the fixable property in `require-meta-fixable` rule ([#165](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/165)) ([da652aa](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/da652aa2c13f55627503067968cc843a4732eb26))
