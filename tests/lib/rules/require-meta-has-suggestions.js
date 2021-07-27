@@ -55,13 +55,14 @@ ruleTester.run('require-meta-has-suggestions', rule, {
       }
     };
     `,
-    // No suggestions reported (empty suggest array in variable), no suggestion property.
+    // Suggestions reported (pushing to an array variable), suggestion property.
     `
-    const SUGGESTIONS = [];
+    const suggest = [];
+    suggest.push({});
     module.exports = {
-      meta: {},
+      meta: { hasSuggestions: true },
       create(context) {
-        context.report({node, message, suggest: SUGGESTIONS});
+        context.report({node, message, suggest});
       }
     };
     `,
@@ -234,6 +235,26 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 4, column: 17, endLine: 4, endColumn: 19 }],
+    },
+    {
+      // Reports suggestions (in variable, with pushing), no hasSuggestions property, violation should be on `meta` object.
+      code: `
+        const suggest = [];
+        suggest.push({});
+        module.exports = {
+          meta: {},
+          create(context) { context.report({node, message, suggest}); }
+        };
+      `,
+      output: `
+        const suggest = [];
+        suggest.push({});
+        module.exports = {
+          meta: { hasSuggestions: true },
+          create(context) { context.report({node, message, suggest}); }
+        };
+      `,
+      errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 5, column: 17, endLine: 5, endColumn: 19 }],
     },
     {
       // Reports suggestions, hasSuggestions property set to false, violation should be on `false`
