@@ -78,14 +78,6 @@ ruleTester.run('require-meta-fixable', rule, {
     `,
     `
       module.exports = {
-        meta: { fixable: 'code' },
-        create(context) {
-          context.report({node, message});
-        }
-      };
-    `,
-    `
-      module.exports = {
         meta: { fixable: null },
         create(context) {
           context.report({node, message});
@@ -131,6 +123,53 @@ ruleTester.run('require-meta-fixable', rule, {
       parserOptions: {
         ecmaVersion: 9,
       },
+    },
+
+    // catchNoFixerButFixableProperty = false (implicitly)
+    `
+      module.exports = {
+        meta: { fixable: 'code' },
+        create(context) { context.report({node, message}); }
+      };
+    `,
+    `
+      module.exports = {
+        meta: { fixable: 'whitespace' },
+        create(context) { context.report({node, message}); }
+      };
+    `,
+    // catchNoFixerButFixableProperty = false (explicitly)
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: 'code' },
+          create(context) { context.report({node, message}); }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: false }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: 'whitespace' },
+          create(context) { context.report({node, message}); }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: false }],
+    },
+    // catchNoFixerButFixableProperty = true
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: 'code' },
+          create(context) {
+            foo
+              ? context.report({ node, message })
+              : context.report({ node, message, fix });
+          }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: true }],
     },
   ],
 
@@ -206,6 +245,38 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       errors: [{ messageId: 'missing', type: 'Identifier' }],
+    },
+
+    // catchNoFixerButFixableProperty = true
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: 'code' },
+          create(context) { context.report({node, message}); }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: true }],
+      errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: 'whitespace' },
+          create(context) { context.report({node, message}); }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: true }],
+      errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { fixable: null },
+          create(context) { context.report({node, message, fix}); }
+        };
+      `,
+      options: [{ catchNoFixerButFixableProperty: true }],
+      errors: [{ messageId: 'missing', type: 'Literal' }],
     },
   ],
 });
