@@ -5,13 +5,9 @@ module.exports = {
   plugins: ['node'],
   extends: [
     'not-an-aardvark/node',
-    'plugin:node/recommended',
     'plugin:unicorn/recommended',
+    'plugin:node/recommended',
   ],
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'script',
-  },
   rules: {
     'comma-dangle': [
       'error',
