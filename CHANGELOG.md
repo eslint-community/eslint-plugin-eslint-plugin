@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.5.2 (2021-07-29)
+
+* Fix: support eslint v6 ([#172](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/172)) ([f7384ad](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f7384ad76a0511cde29444256e16e9d273384cb0))
+
 ## v3.5.1 (2021-07-27)
 
 * Fix: Fix false positive with empty array variable in `require-meta-has-suggestions` rule ([#171](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/171)) ([fffa881](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/fffa881fdaf1575834832e0e16df2cddb913008c))
