@@ -58,6 +58,26 @@ ruleTester.run('prefer-message-ids', rule, {
         ]
       });
     `,
+
+    // `meta.messages` has a message
+    `
+      module.exports = {
+        meta: { messages: { someMessageId: 'some message' } },
+        create(context) {
+          context.report({ node, messageId: 'someMessageId' });
+        }
+      };
+    `,
+    // `meta.messages` has a message (in variable)
+    `
+      const messages = { someMessageId: 'some message' };
+      module.exports = {
+        meta: { messages },
+        create(context) {
+          context.report({ node, messageId: 'someMessageId' });
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -99,6 +119,61 @@ ruleTester.run('prefer-message-ids', rule, {
         };
       `,
       errors: [{ messageId: 'foundMessage', type: 'Property' }],
+    },
+
+    {
+      // `meta.messages` missing
+      code: `
+        module.exports = {
+          meta: { description: 'foo' },
+          create(context) { }
+        };
+      `,
+      errors: [{ messageId: 'messagesMissing', type: 'ObjectExpression' }],
+    },
+    {
+      // `meta.messages` empty
+      code: `
+        module.exports = {
+          meta: {
+            description: 'foo',
+            messages: {},
+          },
+          create(context) { }
+        };
+      `,
+      errors: [{ messageId: 'messagesMissing', type: 'ObjectExpression' }],
+    },
+    {
+      // `meta.messages` empty (in variable)
+      code: `
+        const messages = {};
+        module.exports = {
+          meta: {
+            description: 'foo',
+            messages,
+          },
+          create(context) { }
+        };
+      `,
+      errors: [{ messageId: 'messagesMissing', type: 'Identifier' }],
+    },
+    {
+      // `meta.messages` missing and using `message`
+      code: `
+        module.exports = {
+          meta: {
+            description: 'foo',
+          },
+          create(context) {
+            context.report({ node, message: 'foo' });
+          }
+        };
+      `,
+      errors: [
+        { messageId: 'messagesMissing', type: 'ObjectExpression' },
+        { messageId: 'foundMessage', type: 'Property' },
+      ],
     },
   ],
 });
