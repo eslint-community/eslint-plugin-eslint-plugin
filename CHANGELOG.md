@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.5.3 (2021-07-30)
+
+* Fix: False negative in `prefer-message-ids` rule ([#173](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/173)) ([c5c4b62](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c5c4b62be720768aeb13c55b003566d2c38211cb))
+
 ## v3.5.2 (2021-07-29)
 
 * Fix: support eslint v6 ([#172](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/172)) ([f7384ad](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f7384ad76a0511cde29444256e16e9d273384cb0))
