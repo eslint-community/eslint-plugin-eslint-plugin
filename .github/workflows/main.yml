@@ -35,3 +35,12 @@ jobs:
       - uses: actions/setup-node@v2
       - run: npm install
       - run: npm run lint
+
+  eslint6:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - run: npm install
+    - run: npm install --save-dev eslint@6
+    - run: npm test
