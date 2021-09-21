@@ -24,6 +24,16 @@ ruleTester.run('test-case-property-ordering', rule, {
       create() {},
     };`,
 
+    {
+      // ESM
+      code: `
+        export default {
+          meta: {type, docs, fixable, schema, messages},
+          create() {},
+        };`,
+      parserOptions: { sourceType: 'module' },
+    },
+
     `
     module.exports = {
       meta: {docs, schema, messages},
@@ -83,6 +93,30 @@ ruleTester.run('test-case-property-ordering', rule, {
           },
           create() {},
         };`,
+      errors: [{ messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } }],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          meta: {
+            docs,
+            fixable,
+            type: 'problem',
+          },
+          create() {},
+        };`,
+
+      output: `
+        export default {
+          meta: {
+            type: 'problem',
+            docs,
+            fixable,
+          },
+          create() {},
+        };`,
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } }],
     },
     {

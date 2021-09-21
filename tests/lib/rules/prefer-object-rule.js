@@ -11,8 +11,6 @@
 const rule = require('../../../lib/rules/prefer-object-rule');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { messageId: 'preferObject', line: 2, column: 26 };
-
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
@@ -63,6 +61,18 @@ ruleTester.run('prefer-object-rule', rule, {
       };
       module.exports = rule;
     `,
+
+    {
+      // ESM
+      code: `
+        export default {
+          create(context) {
+            return { Program() { context.report() } };
+          },
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
   ],
 
   invalid: [
@@ -77,7 +87,7 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
     },
     {
       code: `
@@ -90,7 +100,7 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
     },
     {
       code: `
@@ -103,7 +113,35 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
+    },
+
+    // ESM
+    {
+      code: `
+        export default function (context) {
+          return { Program() { context.report() } };
+        };
+      `,
+      output: `
+        export default {create(context) {
+          return { Program() { context.report() } };
+        }};
+      `,
+      parserOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 2, column: 24 }],
+    },
+    {
+      code: 'export default function create() {};',
+      output: 'export default {create() {}};',
+      parserOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
+    },
+    {
+      code: 'export default () => {};',
+      output: 'export default {create: () => {}};',
+      parserOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
     },
   ],
 });

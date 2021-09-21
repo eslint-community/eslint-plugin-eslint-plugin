@@ -25,6 +25,16 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
+    {
+      // ESM
+      code: `
+        export default {
+          meta: { type: 'problem' },
+          create(context) {}
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
     `
       module.exports = {
         meta: { type: 'suggestion' },
@@ -79,6 +89,17 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {

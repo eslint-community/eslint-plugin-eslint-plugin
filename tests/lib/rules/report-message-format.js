@@ -34,6 +34,18 @@ ruleTester.run('report-message-format', rule, {
       options: ['foo'],
     },
     {
+      // ESM
+      code: `
+        export default {
+          create(context) {
+            context.report(node, 'foo');
+          }
+        };
+      `,
+      options: ['foo'],
+      parserOptions: { sourceType: 'module' },
+    },
+    {
       // With message as variable.
       code: `
         const MESSAGE = 'foo';
@@ -163,6 +175,18 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          create(context) {
+            context.report(node, 'bar');
+          }
+        };
+      `,
+      options: ['foo'],
+      parserOptions: { sourceType: 'module' },
     },
     {
       // With message as variable.

@@ -53,6 +53,16 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) { const options = foo.options; }
       };
     `,
+    {
+    // ESM
+      code: `
+        export default {
+          meta: { schema: { "enum": ["always", "never"] } },
+          create(context) { const options = context.options; }
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
     `
       const schema = [];
       module.exports = {
@@ -142,6 +152,36 @@ schema: []
               messageId: 'addEmptySchema',
               output: `
         module.exports = {
+          meta: {
+schema: []
+},
+          create(context) {}
+        };
+      `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      output: null,
+      parserOptions: { sourceType: 'module' },
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
+        export default {
           meta: {
 schema: []
 },

@@ -21,6 +21,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         create(context) {}
       };
     `,
+    {
+      // ESM
+      code: `
+        export default {
+          meta: { docs: { description: 'disallow unused variables' } },
+          create(context) {}
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
     `
       module.exports = {
         meta: { docs: { description: 'enforce a maximum line length' } },
@@ -102,6 +112,18 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      output: null,
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
