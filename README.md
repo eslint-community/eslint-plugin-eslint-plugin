@@ -67,7 +67,7 @@ Name | ✔️ | 🛠 | 💡 | Description
 [require-meta-docs-url](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-docs-url.md) |  | 🛠 |  | require rules to implement a `meta.docs.url` property
 [require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) | ✔️ |  |  | require rules to implement a `meta.fixable` property
 [require-meta-has-suggestions](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-has-suggestions.md) |  | 🛠 |  | require suggestable rules to implement a `meta.hasSuggestions` property
-[require-meta-schema](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-schema.md) |  | 🛠 |  | require rules to implement a `meta.schema` property
+[require-meta-schema](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-schema.md) |  |  | 💡 | require rules to implement a `meta.schema` property
 [require-meta-type](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-type.md) |  |  |  | require rules to implement a `meta.type` property
 [test-case-property-ordering](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-property-ordering.md) |  | 🛠 |  | require the properties of a test case to be placed in a consistent order
 [test-case-shorthand-strings](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/test-case-shorthand-strings.md) |  | 🛠 |  | enforce consistent usage of shorthand strings for test cases with no options

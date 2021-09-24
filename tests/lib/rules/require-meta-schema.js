@@ -104,7 +104,15 @@ ruleTester.run('require-meta-schema', rule, {
           create(context) {}
         };
       `,
-      output: `
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
         module.exports = {
           meta: {
 schema: []
@@ -112,7 +120,8 @@ schema: []
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+            }],
+        }],
     },
     {
       // requireSchemaPropertyWhenOptionless = true.
@@ -122,7 +131,16 @@ schema: []
           create(context) {}
         };
       `,
-      output: `
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: true }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
         module.exports = {
           meta: {
 schema: []
@@ -130,8 +148,10 @@ schema: []
           create(context) {}
         };
       `,
-      options: [{ requireSchemaPropertyWhenOptionless: true }],
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -140,14 +160,25 @@ schema: []
           create(context) {}
         };
       `,
-      output: `
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
         module.exports = {
           meta: { type: 'problem',
 schema: [] },
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -157,7 +188,7 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
     },
     {
       // requireSchemaPropertyWhenOptionless = false.
@@ -169,7 +200,7 @@ schema: [] },
       `,
       output: null,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
     },
     {
       code: `
@@ -179,7 +210,7 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+      errors: [{ messageId: 'wrongType', type: 'Identifier', suggestions: [] }],
     },
     {
       code: `
@@ -190,7 +221,7 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
     },
     {
       // Empty schema (array), but using rule options.
@@ -201,7 +232,7 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
     },
     {
       // Empty schema (object), but using rule options.
@@ -212,7 +243,7 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
     },
     {
       // Empty schema (object), but using rule options, requireSchemaPropertyWhenOptionless = false.
@@ -224,7 +255,7 @@ schema: [] },
       `,
       output: null,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
-      errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
     },
     {
       // No schema, but using rule options, requireSchemaPropertyWhenOptionless = false.
@@ -236,10 +267,10 @@ schema: [] },
       `,
       output: null,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
-      errors: [{ messageId: 'foundOptionsUsage', type: 'ObjectExpression' }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] }],
     },
     {
-      // No schema, but using rule options, should have no autofix.
+      // No schema, but using rule options, should have no suggestions.
       code: `
         module.exports = {
           meta: {},
@@ -248,8 +279,8 @@ schema: [] },
       `,
       output: null,
       errors: [
-        { messageId: 'foundOptionsUsage', type: 'ObjectExpression' },
-        { messageId: 'missing', type: 'ObjectExpression' },
+        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
       ],
     },
   ],
