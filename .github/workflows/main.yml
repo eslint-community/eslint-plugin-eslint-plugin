@@ -41,3 +41,13 @@ jobs:
     - run: npm install
     - run: npm install --save-dev eslint@6
     - run: npm test
+      
+  eslint7:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - run: npm install
+    - run: npm install --save-dev eslint@7
+    - run: npm test
+
