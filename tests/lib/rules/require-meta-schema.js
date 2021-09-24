@@ -238,5 +238,19 @@ schema: [] },
       options: [{ requireSchemaPropertyWhenOptionless: false }],
       errors: [{ messageId: 'foundOptionsUsage', type: 'ObjectExpression' }],
     },
+    {
+      // No schema, but using rule options, should have no autofix.
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'ObjectExpression' },
+        { messageId: 'missing', type: 'ObjectExpression' },
+      ],
+    },
   ],
 });
