@@ -22,7 +22,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      # TODO: remove "--force" once eslint v8 released
+      - run: npm install --force
       - run: npm test
 
   lint:
