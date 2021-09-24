@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.6.1 (2021-09-24)
+
+* Fix: Change autofix to suggestion in `require-meta-schema` rule ([#185](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/185)) ([afc1514](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/afc15149779647265b23ba8c4c181376eeb58795))
+* Fix: only autofix in require-meta-schema rule when no options present ([#184](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/184)) ([d2d165d](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d2d165dd70686f77a7204f9e4bf7a048a5e42942))
+
 ## v3.6.0 (2021-09-24)
 
 * New: Add `requireSchemaPropertyWhenOptionless` option to `require-meta-schema` rule ([#180](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/180)) ([483f78f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/483f78fb69f074189b78916efa8bf89f084f2f8a))
