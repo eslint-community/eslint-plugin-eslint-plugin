@@ -1,6 +1,6 @@
 # Require rules to implement a `meta.schema` property (require-meta-schema)
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+💡 Some problems reported by this rule are manually fixable by editor [suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
 Defining a schema for each rule allows eslint to validate that configuration options are passed correctly. Even when there are no options for a rule, a schema should still be defined (as an empty array) so that eslint can validate that no data is mistakenly passed to the rule.
 
