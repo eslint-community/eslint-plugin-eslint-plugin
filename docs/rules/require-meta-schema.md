@@ -59,6 +59,12 @@ module.exports = {
 };
 ```
 
+## Options
+
+This rule takes an optional object containing:
+
+* `boolean` — `requireSchemaPropertyWhenOptionless` — Whether the rule should require the `meta.schema` property to be specified (with `schema: []`) for rules that have no options. Defaults to `true`.
+
 ## Further Reading
 
 * [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)

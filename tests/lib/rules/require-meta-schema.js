@@ -83,6 +83,17 @@ ruleTester.run('require-meta-schema', rule, {
         create
       };
     `,
+
+    {
+      // requireSchemaPropertyWhenOptionless = false
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+    },
   ],
 
   invalid: [
@@ -101,6 +112,25 @@ schema: []
           create(context) {}
         };
       `,
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // requireSchemaPropertyWhenOptionless = true.
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      output: `
+        module.exports = {
+          meta: {
+schema: []
+},
+          create(context) {}
+        };
+      `,
+      options: [{ requireSchemaPropertyWhenOptionless: true }],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -127,6 +157,18 @@ schema: [] },
         };
       `,
       output: null,
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      // requireSchemaPropertyWhenOptionless = false.
+      code: `
+        module.exports = {
+          meta: { schema: null },
+          create(context) {}
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
       errors: [{ messageId: 'wrongType', type: 'Literal' }],
     },
     {
@@ -171,6 +213,30 @@ schema: [] },
       `,
       output: null,
       errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
+    },
+    {
+      // Empty schema (object), but using rule options, requireSchemaPropertyWhenOptionless = false.
+      code: `
+        module.exports = {
+          meta: { schema: {} },
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property' }],
+    },
+    {
+      // No schema, but using rule options, requireSchemaPropertyWhenOptionless = false.
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'ObjectExpression' }],
     },
   ],
 });
