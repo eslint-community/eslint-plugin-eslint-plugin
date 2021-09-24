@@ -1,6 +1,6 @@
-# Disallows usage of deprecated methods on rule context objects (no-deprecated-context-methods)
+# Disallow usage of deprecated methods on rule context objects (no-deprecated-context-methods)
 
-(fixable) The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#-fix) automatically fixes problems reported by this rule.
+⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
 
 This rule disallows the use of deprecated methods on rule `context` objects.
 
@@ -35,29 +35,29 @@ Examples of **incorrect** code for this rule:
 
 ```js
 module.exports = {
-  create(context) {
+  create (context) {
     return {
-      Program(node) {
+      Program (node) {
         const firstToken = context.getFirstToken(node);
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 module.exports = {
-  create(context) {
+  create (context) {
     const sourceCode = context.getSourceCode();
 
     return {
-      Program(node) {
+      Program (node) {
         const firstToken = sourceCode.getFirstToken(node);
-      }
-    }
-  }
+      },
+    };
+  },
 };
 ```
 

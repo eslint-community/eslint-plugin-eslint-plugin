@@ -1,5 +1,5 @@
 /**
- * @fileoverview prefer using replaceText instead of replaceTextRange
+ * @fileoverview prefer using `replaceText()` instead of `replaceTextRange()`
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
@@ -17,7 +17,7 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const ERROR = { message: 'Use replaceText instead of replaceTextRange.' };
+const ERROR = { messageId: 'useReplaceText', type: 'CallExpression' };
 
 
 ruleTester.run('prefer-placeholders', rule, {

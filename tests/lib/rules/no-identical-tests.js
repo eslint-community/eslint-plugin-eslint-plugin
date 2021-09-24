@@ -12,7 +12,8 @@
 const rule = require('../../../lib/rules/no-identical-tests');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { message: 'This test case is identical to another case.' };
+const ERROR_OBJECT_TEST = { messageId: 'identical', type: 'ObjectExpression' };
+const ERROR_STRING_TEST = { messageId: 'identical', type: 'Literal' };
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -46,6 +47,26 @@ ruleTester.run('no-identical-tests', rule, {
         invalid: []
       });
     `,
+    // Object and string test.
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          { code: 'foo' },
+          'foo',
+        ],
+        invalid: []
+      });
+    `,
+    // One test object with more properties than the other.
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          { code: 'foo' },
+          { code: 'foo', options: [{}] },
+        ],
+        invalid: []
+      });
+    `,
   ],
 
   invalid: [
@@ -67,7 +88,7 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
-      errors: [ERROR],
+      errors: [ERROR_OBJECT_TEST],
     },
     {
       code: `
@@ -87,7 +108,7 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
-      errors: [ERROR],
+      errors: [ERROR_OBJECT_TEST],
     },
     {
       code: `
@@ -112,7 +133,7 @@ ruleTester.run('no-identical-tests', rule, {
           ]
         });
       `,
-      errors: [ERROR, ERROR],
+      errors: [ERROR_OBJECT_TEST, ERROR_OBJECT_TEST],
     },
     {
       code: `
@@ -132,7 +153,28 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
-      errors: [ERROR],
+      errors: [ERROR_OBJECT_TEST],
+    },
+    {
+      // Empty objects.
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {},
+            {},
+          ],
+          invalid: []
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {},
+          ],
+          invalid: []
+        });
+      `,
+      errors: [ERROR_OBJECT_TEST],
     },
     {
       code: `
@@ -152,7 +194,7 @@ ruleTester.run('no-identical-tests', rule, {
           invalid: []
         });
       `,
-      errors: [ERROR],
+      errors: [ERROR_STRING_TEST],
     },
   ],
 });

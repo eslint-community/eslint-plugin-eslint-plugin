@@ -1,5 +1,5 @@
 /**
- * @fileoverview require rules to implement a meta.type property
+ * @fileoverview require rules to implement a `meta.type` property
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
@@ -37,6 +37,25 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
+    `
+      const type = 'problem';
+      module.exports = {
+        meta: { type },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { type: getType() },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { type: FOO },
+        create(context) {}
+      };
+    `,
     `module.exports = {
       create(context) {}
     }`,
@@ -60,7 +79,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing' }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -70,7 +89,7 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
-      errors: [{ messageId: 'missing' }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -80,7 +99,7 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
-      errors: [{ messageId: 'missing' }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -90,7 +109,7 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
-      errors: [{ messageId: 'missing' }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -99,7 +118,35 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'unexpected' }],
+      errors: [{ messageId: 'unexpected', type: 'Literal' }],
+    },
+    {
+      code: `
+        const type = 'invalid-type';
+        module.exports = {
+          meta: { type },
+          create(context) {}
+        };
+      `,
+      errors: [{ messageId: 'unexpected', type: 'Identifier' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { type: null },
+          create(context) {}
+        };
+      `,
+      errors: [{ messageId: 'unexpected', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { type: undefined },
+          create(context) {}
+        };
+      `,
+      errors: [{ messageId: 'unexpected', type: 'Identifier' }],
     },
   ],
 });

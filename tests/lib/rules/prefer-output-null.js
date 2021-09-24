@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallows invalid RuleTester test cases with the output the same as the code.
+ * @fileoverview disallows invalid RuleTester test cases where the `output` matches the `code`
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
@@ -12,7 +12,7 @@
 const rule = require('../../../lib/rules/prefer-output-null');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { message: 'Use `output: null` to assert that a test case is not autofixed.' };
+const ERROR = { messageId: 'useOutputNull', type: 'Property' };
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -22,6 +22,14 @@ ruleTester.run('test-case-property-ordering', rule, {
     `
       new RuleTester().run('foo', bar, {
         valid: [
+          'foo',
+          RuleTester.only('foo'),
+        ]
+      });
+    `,
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
           { code: "foo", output: "bar", options: ["baz"], },
         ]
       });

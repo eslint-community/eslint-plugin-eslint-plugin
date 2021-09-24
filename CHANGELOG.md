@@ -1,5 +1,84 @@
 # Changelog
 
+## v3.6.1 (2021-09-24)
+
+* Fix: Change autofix to suggestion in `require-meta-schema` rule ([#185](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/185)) ([afc1514](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/afc15149779647265b23ba8c4c181376eeb58795))
+* Fix: only autofix in require-meta-schema rule when no options present ([#184](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/184)) ([d2d165d](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d2d165dd70686f77a7204f9e4bf7a048a5e42942))
+
+## v3.6.0 (2021-09-24)
+
+* New: Add `requireSchemaPropertyWhenOptionless` option to `require-meta-schema` rule ([#180](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/180)) ([483f78f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/483f78fb69f074189b78916efa8bf89f084f2f8a))
+* Fix: Remove erroneous schema from require-meta-schema rule ([#178](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/178)) ([2f9b2b0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/2f9b2b0671ebbcd3e76cf746d83371b131e375ac))
+* Test: Add CI test for ESLint 6 compatibility ([#174](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/174)) ([30bb8e2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/30bb8e2231c79f5010cf53763482edc70ffb4507))
+
+## v3.5.3 (2021-07-30)
+
+* Fix: False negative in `prefer-message-ids` rule ([#173](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/173)) ([c5c4b62](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c5c4b62be720768aeb13c55b003566d2c38211cb))
+
+## v3.5.2 (2021-07-29)
+
+* Fix: support eslint v6 ([#172](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/172)) ([f7384ad](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f7384ad76a0511cde29444256e16e9d273384cb0))
+
+## v3.5.1 (2021-07-27)
+
+* Fix: Fix false positive with empty array variable in `require-meta-has-suggestions` rule ([#171](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/171)) ([fffa881](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/fffa881fdaf1575834832e0e16df2cddb913008c))
+
+## v3.5.0 (2021-07-27)
+
+* Update: Add `catchNoFixerButFixableProperty` option (default false) to catch non-fixable rules that enable the fixable property in `require-meta-fixable` rule ([#165](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/165)) ([da652aa](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/da652aa2c13f55627503067968cc843a4732eb26))
+* New: Add new rule `prefer-message-ids` ([#170](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/170)) ([95021dd](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/95021dd03baefe8f06d959d45fefd23c893fa832))
+
+## v3.4.0 (2021-07-12)
+
+* Fix: Ensure `require-meta-*` rules test null/undefined property values ([#164](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/164)) ([990f8f6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/990f8f6ab1bb7bf60939e2455ea3fae086bb90ae))
+* Chore: Improve test coverage in a few places ([#167](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/167)) ([cb9276e](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/cb9276e8a6490bb7023d5a6cb9fc4be5971341cf))
+* Docs: Improve consistency of `require-meta-*` rule violation messages ([#166](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/166)) ([1da1acc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1da1acc3a0193087947b803f9f1a6233362511af))
+* Update: Add autofixer to `require-meta-has-suggestions` rule ([#168](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/168)) ([a0a39c6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/a0a39c6bc33b74b1f399a9099f98248c0c6d9577))
+* Docs: Fix incorrect CLI option link ([#169](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/169)) ([639da89](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/639da89998bc30e68ee5bfe8c8a00671fead5c99))
+* Fix: Improve detection of static `url` strings in `require-meta-docs-url` rule ([#162](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/162)) ([0459f12](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/0459f1288cda0174ec4622862d3e6d60eaff3889))
+* Update: Fix false positives/negatives in `require-meta-fixable` rule ([#158](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/158)) ([dc29b03](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/dc29b03e4fa75827b2b009e29b9836c801f5f9f0))
+* Docs: Fix typo ([#160](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/160)) ([88cb2bf](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/88cb2bf11e5f8162b19934f7152a1a2adaef8f27))
+* Fix: Avoid crash with non-static value of `hasSuggestions` in `require-meta-has-suggestions` rule ([#163](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/163)) ([5c83cd9](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5c83cd9d0b49adfc408936511b560f957d3cbbcb))
+* Chore: Fully adopt `messageId` in `require-meta-docs-description` rule ([#161](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/161)) ([b0b170e](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b0b170e11c7d86bfb34a3412edacedaed35268ab))
+* Docs: Update rule descriptions for consistency ([#159](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/159)) ([c10afb8](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c10afb833c294195e83af4d018c7bf425379fc13))
+* Fix: Use token utilities from eslint-utils ([#156](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/156)) ([5ac45f0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5ac45f08bb943c097d3d10ee088a4a8f4f8e4de8))
+* Fix: Fix false negatives and reporting location in `require-meta-type` ([#155](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/155)) ([7c0d1d0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7c0d1d06050d3e68de7623a81d4022886ae457a6))
+* Chore: remove unnecessary ignore pattern from internal js linting ([#154](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/154)) ([4aa9aca](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/4aa9aca1dc27e224bb55fb6f1d5bdb565c73c6a1))
+
+## v3.3.0 (2021-07-02)
+
+* Chore: improve test coverage of `no-identical-tests` rule ([#153](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/153)) ([281d4e5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/281d4e58d48fc5fad6ba033df9d412cfcb8ed99c))
+* Docs: ensure rule doc titles match rule descriptions ([#147](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/147)) ([c55a956](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c55a95616dd2e1e832fb082c4e686f4dc271d931))
+* Update: add the plugin name to plugins prop of presets ([#91](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/91)) ([e825c56](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/e825c5692361da151e75b69b9dca196d30b6d465))
+* Docs: indicate rules with suggestions ([#146](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/146)) ([cd65a5c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/cd65a5cedc9adc5874b789ccfffe2ac2c2041abb))
+* New: add new rule `no-only-tests` ([#145](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/145)) ([f0ac31c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f0ac31c967eb05dd5da95e5ef15c26ce48f6d976))
+* Fix: update fixer-return rule to handle arrow function expressions ([#144](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/144)) ([6762a3f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6762a3fa61fde2e9ae43576bd695d31da7ab5736))
+
+## v3.2.0 (2021-06-23)
+
+* Fix: Improve detection of fix functions that never return a fix in `fixer-return` rule ([#143](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/143)) ([65cfb2c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/65cfb2cd78484f2072bb1f150d07c6fa299579ed))
+* Chore: enforce minimum code coverage ([#142](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/142)) ([f136e4c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f136e4ce5917730bbb175e159e26af737aa76523))
+* Chore: enable meta-property-ordering rule internally ([#139](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/139)) ([6c83ec6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6c83ec65fa3c8c5a1771ab2c5bcb1946a0c1d78f))
+* Update: Flag a violation when rule options are used but an empty schema is present in `require-meta-schema` rule ([#138](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/138)) ([6ffddd7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6ffddd703773be7d2afd5e33fc2529b836b7a56c))
+* Docs: add rule documentation consistency tests ([#137](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/137)) ([c7f8bee](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c7f8beedfc9c4df64660b1d25ed0498f8551dfcf))
+* Docs: add eslint-plugin-markdown for JavaScript code samples in documentation ([#134](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/134)) ([15ffada](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/15ffadae375f9f835b3f3a18b5aa1bbc07e5efbe))
+* Chore: add eslint-plugin-unicorn ([#133](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/133)) ([d71c8b3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d71c8b3833e8bbde01236396b40c91f0dc11531f))
+* Build: Add `markdownlint` for doc formatting ([#130](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/130)) ([5b0ce68](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5b0ce688d3f423aaecb704a3e29239097599c0dd))
+* Build: run tests under Node 16 ([#132](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/132)) ([1368388](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/136838824c3b0ad81710034e13761af53b3e7525))
+* Fix: improve detection of static arguments of context.report() in several rules ([#129](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/129)) ([6d5be9f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6d5be9fb3e2e4c4c19d0c20a8f4a33867573e3fa))
+
+## v3.1.0 (2021-06-15)
+
+* Chore: Switch from `.eslintrc.yml` to `.eslintrc.js` ([#127](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/127)) ([c767ea3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c767ea33a69a35a0cb7007b90f41c38c5877e94f))
+* Docs: clarify some wording in `require-meta-docs-url` rule doc ([#126](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/126)) ([6fab4c2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6fab4c21cc961a349f68fd17f83ca5d8ef6d7123))
+* Docs: elaborate on output assertion requirement and benefits in `consistent-output` rule doc ([#123](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/123)) ([2fe92b7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/2fe92b70fe2282e480a029471e2ba43f5c3cbc8f))
+* Docs: add explanation to `prefer-output-null` rule doc ([#124](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/124)) ([72fc89d](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/72fc89d3c212551f96f13f85b9720a6096975d3c))
+* Docs: fix --fix link ([#125](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/125)) ([ac2259c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ac2259cb622326e34a4ec3f317aa3ad8bf8fe0e7))
+* Docs: add links for deprecated and new styles in `prefer-object-rule` rule ([#122](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/122)) ([6e351c6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/6e351c6563b22157510dd9c772d2b98c468d856e))
+* Docs: mention allowed values in require-meta-type rule doc ([#121](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/121)) ([63d46e2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/63d46e2f450c3517d95ca0c41d934aa345bedcd2))
+* New: add new rule require-meta-has-suggestions ([#105](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/105)) ([ff0ae38](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ff0ae38e95d79ff316d77dbc5fd41b7d27c45bb0))
+* Docs: fix broken links in changelog ([b6ce109](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b6ce109f42e4b7f42d6c1b7f6ac54b24d7fec54c))
+
 ## v3.0.3 (2021-05-10)
 
 * Docs: rm global-installed usage ([#116](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/116)) ([1f99c7c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1f99c7ce827f576ffba8a76fc8d2bee534648f8a))
@@ -62,7 +141,7 @@
 
 * New: require-meta-type (fixes [#67](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/67)) ([#68](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/68)) ([7f87941](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/7f8794159aae178fdd6f069ed9d4dee27367633a))
 * Update: ensure report-message-format checks formatting in meta.messages ([#72](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/72)) ([1ffb48a](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1ffb48aec79c278562729698bff93493ee5ac20e))
-* Upgrade: dev dependcies to latest ([#69](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/69)) ([9dad54f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9dad54f6b3e148068f6322011f4c5c63bd4178c0))
+* Upgrade: dev dependencies to latest ([#69](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/69)) ([9dad54f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/9dad54f6b3e148068f6322011f4c5c63bd4178c0))
 * Breaking: require node >= 6 & eslint >= 5 (fixes [#70](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/70)) ([#71](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/71)) ([c1778af](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c1778af090dc88f122101e3cf6ea653b5bc49778))
 
 ## v1.4.1 (2018-10-24)

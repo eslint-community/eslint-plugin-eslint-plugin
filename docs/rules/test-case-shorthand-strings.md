@@ -1,5 +1,7 @@
 # Enforce consistent usage of shorthand strings for test cases with no options (test-case-shorthand-strings)
 
+⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+
 When writing valid test cases for rules with `RuleTester`, one can optionally include a string as a test case instead of an object, if the the test case does not use any options.
 
 ```js
@@ -11,12 +13,12 @@ ruleTester.run('example-rule', rule, {
 
     // longform object
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
   invalid: [
     // ...
-  ]
+  ],
 });
 ```
 
@@ -45,13 +47,13 @@ Examples of **incorrect** code for this rule with the default `as-needed` option
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -66,10 +68,10 @@ ruleTester.run('example-rule', rule, {
     'anotherValidTestCase;',
     {
       code: 'testCaseWithOption;',
-      options: ["foo"]
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -83,9 +85,9 @@ Examples of **incorrect** code for this rule with the `never` option:
 ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
-    'anotherValidTestCase;'
+    'anotherValidTestCase;',
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -97,13 +99,13 @@ Examples of **correct** code for this rule with the `never` option:
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -120,10 +122,10 @@ ruleTester.run('example-rule', rule, {
     'anotherValidTestCase;',
     {
       code: 'testCaseWithOption',
-      options: ["foo"]
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -135,41 +137,41 @@ Examples of **correct** code for this rule with the `consistent` option:
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase'
+      code: 'anotherValidTestCase',
     },
     {
       code: 'testCaseWithOption',
-      options: ["foo"]
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
-    'anotherValidTestCase'
+    'anotherValidTestCase',
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase'
-    }
+      code: 'anotherValidTestCase',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
-#### `never`
+#### `consistent-as-needed`
 
 Examples of **incorrect** code for this rule with the `consistent-as-needed` option:
 
@@ -180,10 +182,10 @@ ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
     {
-      code: 'anotherValidTestCase'
-    }
+      code: 'anotherValidTestCase',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
@@ -192,22 +194,22 @@ ruleTester.run('example-rule', rule, {
     'anotherValidTestCase;',
     {
       code: 'testCaseWithOption;',
-      options: ['foo']
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
-    }
+      code: 'anotherValidTestCase;',
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 
@@ -219,25 +221,25 @@ Examples of **correct** code for this rule with the `consistent-as-needed` optio
 ruleTester.run('example-rule', rule, {
   valid: [
     'validTestCase;',
-    'anotherValidTestCase;'
+    'anotherValidTestCase;',
   ],
-  invalid: []
+  invalid: [],
 });
 
 ruleTester.run('example-rule', rule, {
   valid: [
     {
-      code: 'validTestCase;'
+      code: 'validTestCase;',
     },
     {
-      code: 'anotherValidTestCase;'
+      code: 'anotherValidTestCase;',
     },
     {
       code: 'testCaseWithOption;',
-      options: ['foo']
-    }
+      options: ['foo'],
+    },
   ],
-  invalid: []
+  invalid: [],
 });
 ```
 

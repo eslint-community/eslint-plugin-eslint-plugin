@@ -32,6 +32,27 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    // Schema with options and using `context.options`.
+    `
+      module.exports = {
+        meta: { schema: { "enum": ["always", "never"] } },
+        create(context) { const options = context.options; }
+      };
+    `,
+    // Empty schema, using arbitrary property of `context`.
+    `
+      module.exports = {
+        meta: { schema: [] },
+        create(context) { const foo = context.foo; }
+      };
+    `,
+    // Empty schema, using arbitrary `options` property.
+    `
+      module.exports = {
+        meta: { schema: [] },
+        create(context) { const options = foo.options; }
+      };
+    `,
     `
       const schema = [];
       module.exports = {
@@ -62,6 +83,17 @@ ruleTester.run('require-meta-schema', rule, {
         create
       };
     `,
+
+    {
+      // requireSchemaPropertyWhenOptionless = false
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+    },
   ],
 
   invalid: [
@@ -72,7 +104,15 @@ ruleTester.run('require-meta-schema', rule, {
           create(context) {}
         };
       `,
-      output: `
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
         module.exports = {
           meta: {
 schema: []
@@ -80,7 +120,38 @@ schema: []
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+            }],
+        }],
+    },
+    {
+      // requireSchemaPropertyWhenOptionless = true.
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) {}
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: true }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
+        module.exports = {
+          meta: {
+schema: []
+},
+          create(context) {}
+        };
+      `,
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -89,14 +160,25 @@ schema: []
           create(context) {}
         };
       `,
-      output: `
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [
+            {
+              messageId: 'addEmptySchema',
+              output: `
         module.exports = {
           meta: { type: 'problem',
 schema: [] },
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -106,7 +188,29 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
+    },
+    {
+      // requireSchemaPropertyWhenOptionless = false.
+      code: `
+        module.exports = {
+          meta: { schema: null },
+          create(context) {}
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { schema: undefined },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Identifier', suggestions: [] }],
     },
     {
       code: `
@@ -117,7 +221,67 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
+    },
+    {
+      // Empty schema (array), but using rule options.
+      code: `
+        module.exports = {
+          meta: { schema: [] },
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
+    },
+    {
+      // Empty schema (object), but using rule options.
+      code: `
+        module.exports = {
+          meta: { schema: {} },
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
+    },
+    {
+      // Empty schema (object), but using rule options, requireSchemaPropertyWhenOptionless = false.
+      code: `
+        module.exports = {
+          meta: { schema: {} },
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
+    },
+    {
+      // No schema, but using rule options, requireSchemaPropertyWhenOptionless = false.
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+      errors: [{ messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] }],
+    },
+    {
+      // No schema, but using rule options, should have no suggestions.
+      code: `
+        module.exports = {
+          meta: {},
+          create(context) { const options = context.options; }
+        };
+      `,
+      output: null,
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
+      ],
     },
   ],
 });

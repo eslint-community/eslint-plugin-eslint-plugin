@@ -1,8 +1,8 @@
-# require rules to implement a meta.type property (require-meta-type)
+# Require rules to implement a `meta.type` property (require-meta-type)
 
 ESLint v5.9.0 introduces a new `--fix-type` option for the command line interface. This option allows users to filter the type of fixes applied when using `--fix`.
 
-Fixes in custom rules will not be applied when using `--fix-type` unless they include a meta.type field.
+Fixes in custom rules will not be applied when using `--fix-type` unless they include a `meta.type` field.
 
 ## Rule Details
 
@@ -16,18 +16,19 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-type: error */
+
 module.exports = {
-    meta: {},
-    create: function(context) {
-        // ...
-    }
+  meta: {},
+  create (context) {
+    // ...
+  },
 };
 
 module.exports = {
-    meta: {type: 'invalid'},
-    create: function(context) {
-        // ...
-    }
+  meta: { type: 'invalid' },
+  create (context) {
+    // ...
+  },
 };
 ```
 
@@ -35,11 +36,12 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/require-meta-type: error */
+
 module.exports = {
-    meta: {type: 'problem'},
-    create: function(context) {
-        // ...
-    }
+  meta: { type: 'problem' },
+  create (context) {
+    // ...
+  },
 };
 ```
 

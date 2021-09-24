@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallow use of the deprecated context.report() API
+ * @fileoverview Disallow the version of `context.report()` with multiple arguments
  * @author Teddy Katz
  */
 
@@ -11,7 +11,6 @@
 
 const rule = require('../../../lib/rules/no-deprecated-report-api');
 const RuleTester = require('eslint').RuleTester;
-const ERROR = { message: 'Use the new-style context.report() API.', type: 'Identifier' };
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -62,6 +61,24 @@ ruleTester.run('no-deprecated-report-api', rule, {
         }
       };
     `,
+    // With object as variable.
+    `
+      const OBJ = {node, message};
+      module.exports = {
+        create(context) {
+          context.report(OBJ);
+        }
+      };
+    `,
+    // With object as variable but cannot determine its value statically.
+    `
+      const OBJ = getObj();
+      module.exports = {
+        create(context) {
+          context.report(OBJ);
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -80,7 +97,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -97,7 +114,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -114,7 +131,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -125,7 +142,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -142,7 +159,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -159,7 +176,40 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+    },
+    {
+      // With message string in variable.
+      code: `
+        const MESSAGE = 'foo';
+        module.exports = {
+          create(context) {
+            context.report(theNode, MESSAGE);
+          }
+        };
+      `,
+      output: `
+        const MESSAGE = 'foo';
+        module.exports = {
+          create(context) {
+            context.report({node: theNode, message: MESSAGE});
+          }
+        };
+      `,
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+    },
+    {
+      // With message in variable but no autofix since we can't statically determine its type.
+      code: `
+        const MESSAGE = getMessage();
+        module.exports = {
+          create(context) {
+            context.report(theNode, MESSAGE);
+          }
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -170,7 +220,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -183,7 +233,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, message: \`blah\`, data: theData, fix: theFix});
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -196,7 +246,50 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, loc: 5, message: foo, data: bar});
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+    },
+    {
+      // Location in variable as number.
+      code: `
+        const LOC = 5;
+        module.exports.create = context => {
+          context.report(theNode, LOC, foo, bar);
+        };
+      `,
+      output: `
+        const LOC = 5;
+        module.exports.create = context => {
+          context.report({node: theNode, loc: LOC, message: foo, data: bar});
+        };
+      `,
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+    },
+    {
+      // Location in variable as object.
+      code: `
+        const LOC = { line: 1, column: 2 };
+        module.exports.create = context => {
+          context.report(theNode, LOC, foo, bar);
+        };
+      `,
+      output: `
+        const LOC = { line: 1, column: 2 };
+        module.exports.create = context => {
+          context.report({node: theNode, loc: LOC, message: foo, data: bar});
+        };
+      `,
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+    },
+    {
+      // Location in variable but no autofix since we can't statically determine its type.
+      code: `
+        const LOC = getLoc();
+        module.exports.create = context => {
+          context.report(theNode, LOC, foo, bar);
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -207,7 +300,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
     {
       code: `
@@ -218,7 +311,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [ERROR],
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
   ],
 });

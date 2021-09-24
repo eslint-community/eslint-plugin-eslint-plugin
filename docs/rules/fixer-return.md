@@ -1,23 +1,26 @@
-# Enforces always return from a fixer function (fixer-return)
+# Require fixer functions to return a fix (fixer-return)
 
-In a fixable rule, missing return from a fixer function will not apply fixes.
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
+In a [fixable](https://eslint.org/docs/developer-guide/working-with-rules#applying-fixes) rule, a fixer function is useless if it never returns anything.
 
 ## Rule Details
 
-This rule enforces that fixer functions always return a value.
+This rule enforces that a fixer function returns a fix in at least one situation.
 
 Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/fixer-return: error */
+
 module.exports = {
-    create: function(context) {
-        context.report( {
-            fix: function(fixer) {
-                fixer.foo();
-            }
-        });
-    }
+  create (context) {
+    context.report({
+      fix (fixer) {
+        fixer.insertTextAfter(node, 'foo');
+      },
+    });
+  },
 };
 ```
 
@@ -25,17 +28,31 @@ Examples of **correct** code for this rule:
 
 ```js
 /* eslint eslint-plugin/fixer-return: error */
+
 module.exports = {
-    create: function(context) {
-        context.report( {
-            fix: function(fixer) {
-                return fixer.foo();
-            }
-        });
-    }
+  create (context) {
+    context.report({
+      fix (fixer) {
+        return fixer.insertTextAfter(node, 'foo');
+      },
+    });
+  },
 };
 ```
 
-## When Not To Use It
+```js
+/* eslint eslint-plugin/fixer-return: error */
 
-If you don't want to enforce always return from a fixer function, do not enable this rule.
+module.exports = {
+  create (context) {
+    context.report({
+      fix (fixer) {
+        if (foo) {
+          return; // no autofix in this situation
+        }
+        return fixer.insertTextAfter(node, 'foo');
+      },
+    });
+  },
+};
+```

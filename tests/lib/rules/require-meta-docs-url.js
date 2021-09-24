@@ -19,7 +19,7 @@ const rule = require('../../../lib/rules/require-meta-docs-url');
 
 const tester = new RuleTester({
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
   },
 });
 
@@ -66,6 +66,46 @@ tester.run('require-meta-docs-url', rule, {
         pattern: 'path/to/{{name}}.md',
       }],
     },
+    {
+      // `url` in variable.
+      filename: 'test-rule',
+      code: `
+        const url = "path/to/test-rule.md";
+        module.exports = {
+          meta: {docs: {url}},
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'path/to/{{name}}.md',
+      }],
+    },
+    {
+      // Can't determine `url` value statically.
+      filename: 'test-rule',
+      code: `
+        module.exports = {
+          meta: {docs: {url: foo }},
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'path/to/{{name}}.md',
+      }],
+    },
+    {
+      // Can't determine `url` value statically.
+      filename: 'test-rule',
+      code: `
+        module.exports = {
+          meta: {docs: {url: getUrl() }},
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'path/to/{{name}}.md',
+      }],
+    },
   ],
 
   invalid: [
@@ -74,7 +114,7 @@ tester.run('require-meta-docs-url', rule, {
         module.exports = function() {}
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
       code: `
@@ -84,7 +124,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
       code: `
@@ -94,7 +134,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Literal' }],
     },
     {
       code: `
@@ -104,7 +144,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -116,7 +156,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -128,7 +168,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -140,7 +180,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
       code: `
@@ -152,7 +192,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -166,7 +206,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -180,7 +220,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -194,7 +234,47 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['`meta.docs.url` property must be a string.'],
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      // `url` is null
+      code: `
+        module.exports = {
+          meta: {
+            docs: { url: null }
+          },
+          create() {}
+        }
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      // `url` is undefined
+      code: `
+        module.exports = {
+          meta: {
+            docs: { url: undefined }
+          },
+          create() {}
+        }
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+    },
+    {
+      // `url` in variable.
+      code: `
+        const url = 100;
+        module.exports = {
+          meta: {
+            docs: { url }
+          },
+          create() {}
+        }
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
     },
     {
       code: `
@@ -208,7 +288,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
 
     // -------------------------------------------------------------------------
@@ -222,7 +302,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
       code: `
@@ -235,7 +315,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
       code: `
@@ -248,7 +328,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Literal' }],
     },
     {
       code: `
@@ -261,7 +341,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -276,7 +356,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -291,7 +371,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -306,7 +386,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
       code: `
@@ -321,7 +401,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -338,7 +418,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -355,7 +435,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `
@@ -372,7 +452,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['`meta.docs.url` property must be a string.'],
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
     },
     {
       code: `
@@ -389,7 +469,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
 
     // -------------------------------------------------------------------------
@@ -404,7 +484,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
       filename: 'test.js',
@@ -418,7 +498,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
       filename: 'test.js',
@@ -432,7 +512,7 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Literal' }],
     },
     {
       filename: 'test.js',
@@ -455,7 +535,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',
@@ -481,7 +561,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',
@@ -507,7 +587,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',
@@ -523,7 +603,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
       filename: 'test.js',
@@ -548,7 +628,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',
@@ -576,7 +656,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',
@@ -604,7 +684,7 @@ url: "plugin-name/test.md",
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',
@@ -631,7 +711,73 @@ url: "plugin-name/test.md",
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['`meta.docs.url` property must be `plugin-name/test.md`.'],
+      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Literal' }],
+    },
+    {
+      // `url` in variable, can't autofix it.
+      filename: 'test.js',
+      code: `
+        const url = 'wrong-url';
+        module.exports = {
+          meta: {
+            docs: { url }
+          },
+          create() {}
+        }
+      `,
+      output: null,
+      options: [{
+        pattern: 'plugin-name/{{ name }}.md',
+      }],
+      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Identifier' }],
+    },
+    {
+      // `url` is `null`.
+      filename: 'test.js',
+      code: `
+        module.exports = {
+          meta: {
+            docs: { url: null }
+          },
+          create() {}
+        }
+      `,
+      output: `
+        module.exports = {
+          meta: {
+            docs: { url: "plugin-name/test.md" }
+          },
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'plugin-name/{{ name }}.md',
+      }],
+      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Literal' }],
+    },
+    {
+      // `url` is `undefined`.
+      filename: 'test.js',
+      code: `
+        module.exports = {
+          meta: {
+            docs: { url: undefined }
+          },
+          create() {}
+        }
+      `,
+      output: `
+        module.exports = {
+          meta: {
+            docs: { url: "plugin-name/test.md" }
+          },
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'plugin-name/{{ name }}.md',
+      }],
+      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Identifier' }],
     },
     {
       filename: 'test.js',
@@ -659,7 +805,7 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
-      errors: ['Rules should export a `meta.docs.url` property.'],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
   ],
 });

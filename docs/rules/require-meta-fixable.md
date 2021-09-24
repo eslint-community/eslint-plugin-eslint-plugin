@@ -1,108 +1,100 @@
-# require rules to implement a meta.fixable property (require-meta-fixable)
+# Require rules to implement a `meta.fixable` property (require-meta-fixable)
 
-A fixable ESLint rule must have a valid `meta.fixable` property. A rule reports a problem with a `fix()` function but does not export a `meta.fixable` property is likely to cause an unexpected error.
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
+ESLint requires fixable rules to specify a valid `meta.fixable` property (with value `code` or `whitespace`).
 
 ## Rule Details
 
-This rule aims to require ESLint rules to have a `meta.fixable` property if necessary.
+This rule aims to require fixable ESLint rules to have a valid `meta.fixable` property.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
-  meta: {},
-  create(context) {
+  meta: {}, // missing `fixable` property
+  create (context) {
     context.report({
       node,
       message: 'foo',
-      fix(fixer) {
+      fix (fixer) {
         return fixer.remove(node);
-      }
+      },
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: { fixable: 'not a valid meta.fixable value' },
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
-      fix(fixer) {
+      fix (fixer) {
         return fixer.remove(node);
-      }
+      },
     });
-  }
+  },
 };
-
 ```
 
 ```js
+/* eslint eslint-plugin/require-meta-fixable: ["error", { catchNoFixerButFixableProperty: true }] */
 
-/* eslint eslint-plugin/require-meta-fixable: "error" */
-
-module.exports = function create(context) {
-  context.report({
-    node,
-    message: 'foo',
-    fix(fixer) {
-      return fixer.remove(node);
-    }
-  });
+module.exports = {
+  meta: { fixable: 'code' }, // property enabled but no fixer detected
+  create (context) {
+    context.report({ node, message: 'foo' });
+  },
 };
-
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: { fixable: 'code' },
-  create(context) {
+  create (context) {
     context.report({
       node,
       message: 'foo',
-      fix(fixer) {
+      fix (fixer) {
         return fixer.remove(node);
-      }
+      },
     });
-  }
+  },
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-fixable: "error" */
 
 module.exports = {
   meta: {},
-  create(context) {
+  create (context) {
     context.report({
       node,
-      message: 'foo'
+      message: 'foo',
     });
-  }
+  },
 };
-
 ```
 
-## When Not To Use It
+## Options
 
-If you do not plan to implement autofixable rules, you can turn off this rule.
+This rule takes an optional object containing:
+
+* `boolean` — `catchNoFixerButFixableProperty` — default `false` - Whether the rule should attempt to detect rules that do not have a fixer but enable the `meta.fixable` property. This option is off by default because it increases the chance of false positives since fixers can't always be detected when helper functions are used.
 
 ## Further Reading
 
 * [ESLint's autofix API](http://eslint.org/docs/developer-guide/working-with-rules#applying-fixes)
+* [ESLint's rule basics mentioning `meta.fixable`](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)

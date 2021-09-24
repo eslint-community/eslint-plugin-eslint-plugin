@@ -1,6 +1,6 @@
 'use strict';
 
-const util = require('util');
+const { inspect } = require('util');
 const lodash = require('lodash');
 const espree = require('espree');
 const eslintScope = require('eslint-scope');
@@ -118,7 +118,7 @@ describe('utils', () => {
           const ruleInfo = utils.getRuleInfo({ ast });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
-            `Expected \n${util.inspect(ruleInfo)}\nto match\n${util.inspect(CASES[ruleSource])}`
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
           );
         });
       });
@@ -143,7 +143,7 @@ describe('utils', () => {
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, expected),
-            `Expected \n${util.inspect(ruleInfo)}\nto match\n${util.inspect(expected)}`
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(expected)}`
           );
         });
       }
@@ -178,7 +178,7 @@ describe('utils', () => {
         const identifiers = utils.getContextIdentifiers(scope, ast);
 
         assert(identifiers instanceof Set, 'getContextIdentifiers should return a Set');
-        Array.from(identifiers).forEach((identifier, index) => {
+        [...identifiers].forEach((identifier, index) => {
           assert.strictEqual(identifier, CASES[ruleSource](ast)[index]);
         });
       });
@@ -352,7 +352,8 @@ describe('utils', () => {
           `context.report(${args.join(', ')})`,
           { ecmaVersion: 6, loc: false, range: false }
         ).body[0].expression.arguments;
-        const reportInfo = utils.getReportInfo(parsedArgs);
+        const context = { getScope () {} }; // mock object
+        const reportInfo = utils.getReportInfo(parsedArgs, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
       });

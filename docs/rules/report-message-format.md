@@ -1,4 +1,4 @@
-# enforce a consistent format for rule report messages (report-message-format)
+# Enforce a consistent format for rule report messages (report-message-format)
 
 It is sometimes desirable to maintain consistent formatting for all report messages. For example, you might want to mandate that all report messages begin with a capital letter and end with a period.
 
@@ -25,41 +25,34 @@ For example, in order to mandate that all report messages begin with a capital l
 
 Note that since this rule uses static analysis and does not actually run your code, it will attempt to match report messages *before* placeholders are inserted.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint eslint-plugin/report-message-format: ["error", "^[A-Z].*\\.$"] */
 
 module.exports = {
   meta: {},
-  create(context) {
-
+  create (context) {
     context.report(node, 'this message does not match the regular expression.');
 
     context.report(node, 'Neither does this one');
 
-    context.report(node, 'This will get reported, regardless of the value of the {{placeholder}}', { placeholder: foo })
-
-  }
+    context.report(node, 'This will get reported, regardless of the value of the {{placeholder}}', { placeholder: foo });
+  },
 };
-
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
-
 module.exports = {
   meta: {},
-  create(context) {
-
+  create (context) {
     context.report(node, 'This message matches the regular expression.');
 
     context.report(node, 'So does this one.');
-
-  }
+  },
 };
-
 ```
 
 ## When Not To Use It

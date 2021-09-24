@@ -1,5 +1,5 @@
 /**
- * @fileoverview Enforce consistent use of output assertions in rule tests
+ * @fileoverview Enforce consistent use of `output` assertions in rule tests
  * @author Teddy Katz
  */
 
@@ -12,7 +12,7 @@
 const rule = require('../../../lib/rules/consistent-output');
 const RuleTester = require('eslint').RuleTester;
 
-const ERROR = { message: 'This test case should have an output assertion.', type: 'ObjectExpression' };
+const ERROR = { messageId: 'missingOutput', type: 'ObjectExpression' };
 
 // ------------------------------------------------------------------------------
 // Tests

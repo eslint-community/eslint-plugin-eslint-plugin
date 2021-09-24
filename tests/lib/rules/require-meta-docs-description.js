@@ -14,6 +14,7 @@ const RuleTester = require('eslint').RuleTester;
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('require-meta-docs-description', rule, {
   valid: [
+    'foo()',
     `
       module.exports = {
         meta: { docs: { description: 'disallow unused variables' } },
@@ -132,6 +133,26 @@ ruleTester.run('require-meta-docs-description', rule, {
       `,
       output: null,
       errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { description: null } },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { description: undefined } },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
     },
     {
       code: `

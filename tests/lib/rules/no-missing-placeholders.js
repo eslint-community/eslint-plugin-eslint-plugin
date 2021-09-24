@@ -17,8 +17,8 @@ const RuleTester = require('eslint').RuleTester;
 * @param {string} missingKey The placeholder that is missing
 * @returns {object} An expected error
 */
-function error (missingKey) {
-  return { type: 'Literal', message: `The placeholder {{${missingKey}}} does not exist.` };
+function error (missingKey, type = 'Literal') {
+  return { type, message: `The placeholder {{${missingKey}}} does not exist.` };
 }
 
 // ------------------------------------------------------------------------------
@@ -114,6 +114,20 @@ ruleTester.run('no-missing-placeholders', rule, {
         }
       };
     `,
+    // Message in variable.
+    `
+      const MESSAGE = 'foo {{bar}}';
+      module.exports = context => {
+        context.report(node, MESSAGE, { bar: 'baz' });
+      };
+    `,
+    // Message in variable but cannot statically determine its type.
+    `
+      const MESSAGE = getMessage();
+      module.exports = context => {
+        context.report(node, MESSAGE, { baz: 'qux' });
+      };
+    `,
   ],
 
   invalid: [
@@ -165,6 +179,16 @@ ruleTester.run('no-missing-placeholders', rule, {
         };
       `,
       errors: [error('bar')],
+    },
+    {
+      // Message in variable.
+      code: `
+        const MESSAGE = 'foo {{bar}}';
+        module.exports = context => {
+          context.report(node, MESSAGE, { baz: 'qux' });
+        };
+      `,
+      errors: [error('bar', 'Identifier')],
     },
     {
       code: `

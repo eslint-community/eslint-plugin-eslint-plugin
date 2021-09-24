@@ -15,14 +15,6 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-/**
- * @param {string[]} order
- * @returns {string}
- */
-function getMessage (order) {
-  return `The meta properties should be placed in a consistent order: [${order.join(', ')}].`;
-}
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('test-case-property-ordering', rule, {
   valid: [
@@ -46,7 +38,7 @@ ruleTester.run('test-case-property-ordering', rule, {
 
     `
     module.exports = {
-      meta: { 
+      meta: {
         type: 'problem',
         docs: {},
         fixable: 'code',
@@ -91,7 +83,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           },
           create() {},
         };`,
-      errors: [{ message: getMessage(['type', 'docs', 'fixable']) }],
+      errors: [{ messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } }],
     },
     {
       code: `
@@ -106,27 +98,27 @@ ruleTester.run('test-case-property-ordering', rule, {
           create() {},
         };`,
       errors: [
-        { message: getMessage(['type', 'docs', 'fixable', 'schema']) },
-        { message: getMessage(['type', 'docs', 'fixable', 'schema']) },
+        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable', 'schema'].join(', ') } },
+        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable', 'schema'].join(', ') } },
       ],
     },
 
     {
       code: `
         module.exports = {
-          meta: {fixable, fooooooooo, doc, type},
+          meta: {fixable, fooooooooo, docs, type},
           create() {},
         };`,
 
       output: `
         module.exports = {
-          meta: {type, doc, fixable, fooooooooo},
+          meta: {type, docs, fixable, fooooooooo},
           create() {},
         };`,
-      options: [['type', 'doc', 'fixable']],
+      options: [['type', 'docs', 'fixable']],
       errors: [
-        { message: getMessage(['type', 'doc', 'fixable']) },
-        { message: getMessage(['type', 'doc', 'fixable']) },
+        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } },
+        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } },
       ],
     },
   ],

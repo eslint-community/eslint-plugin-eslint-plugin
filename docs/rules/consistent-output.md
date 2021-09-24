@@ -1,4 +1,4 @@
-# Enforce consistent use of output assertions in rule tests (consistent-output)
+# Enforce consistent use of `output` assertions in rule tests (consistent-output)
 
 When writing tests for a fixable rule with `RuleTester`, you can assert the autofix output of your test cases. However, it can be easy to forget to assert the output of a particular test case.
 
@@ -21,15 +21,14 @@ new RuleTester().run('example-rule', rule, {
     {
       code: 'foo',
       output: 'bar',
-      errors: ['baz']
+      errors: ['baz'],
     },
     {
       code: 'bar',
-      errors: ['baz']
-    }
-  ]
+      errors: ['baz'],
+    },
+  ],
 });
-
 ```
 
 Examples of **correct** code for this rule:
@@ -43,21 +42,20 @@ new RuleTester().run('example-rule', rule, {
     {
       code: 'foo',
       output: 'bar',
-      errors: ['baz']
+      errors: ['baz'],
     },
     {
       code: 'bar',
       output: 'qux',
-      errors: ['baz']
+      errors: ['baz'],
     },
     {
       code: 'foo',
       output: null, // asserts that there is no autofix
-      errors: ['baz']
-    }
-  ]
+      errors: ['baz'],
+    },
+  ],
 });
-
 ```
 
 ## Options
