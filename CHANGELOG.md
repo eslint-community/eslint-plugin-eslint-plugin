@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.6.0 (2021-09-24)
+
+* New: Add `requireSchemaPropertyWhenOptionless` option to `require-meta-schema` rule ([#180](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/180)) ([483f78f](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/483f78fb69f074189b78916efa8bf89f084f2f8a))
+* Fix: Remove erroneous schema from require-meta-schema rule ([#178](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/178)) ([2f9b2b0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/2f9b2b0671ebbcd3e76cf746d83371b131e375ac))
+* Test: Add CI test for ESLint 6 compatibility ([#174](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/174)) ([30bb8e2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/30bb8e2231c79f5010cf53763482edc70ffb4507))
+
 ## v3.5.3 (2021-07-30)
 
 * Fix: False negative in `prefer-message-ids` rule ([#173](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/173)) ([c5c4b62](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/c5c4b62be720768aeb13c55b003566d2c38211cb))
