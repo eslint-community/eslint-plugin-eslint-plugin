@@ -128,6 +128,24 @@ ruleTester.run('no-missing-placeholders', rule, {
         context.report(node, MESSAGE, { baz: 'qux' });
       };
     `,
+    // Suggestion with placeholder
+    `
+      module.exports = {
+        create(context) {
+          context.report({
+            node,
+            suggest: [
+              {
+                desc: 'Remove {{functionName}}',
+                data: {
+                  functionName: 'foo'
+                }
+              }
+            ]
+          });
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -206,6 +224,46 @@ ruleTester.run('no-missing-placeholders', rule, {
               node,
               message: 'foo{{ bar }}',
               data: { ' bar ': 'baz' }
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
+    },
+
+    {
+      // Suggestion (no `data`)
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({
+              node,
+              suggest: [
+                {
+                  desc: 'Remove {{bar}}'
+                }
+              ]
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
+    },
+    {
+      // Suggestion (`data` but missing placeholder)
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({
+              node,
+              suggest: [
+                {
+                  desc: 'Remove {{bar}}',
+                  data: {
+                    notBar: 'abc'
+                  }
+                }
+              ]
             });
           }
         };

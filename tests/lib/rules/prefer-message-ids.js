@@ -29,6 +29,14 @@ ruleTester.run('prefer-message-ids', rule, {
         }
       };
     `,
+    // Suggestion
+    `
+      module.exports = {
+        create(context) {
+          context.report({ node, suggest: [{messageId:'foo'}] });
+        }
+      };
+    `,
     {
       // ESM
       code: `
@@ -97,6 +105,17 @@ ruleTester.run('prefer-message-ids', rule, {
         module.exports = {
           create(context) {
             context.report({ node, message: 'foo' });
+          }
+        };
+      `,
+      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+    },
+    {
+      // Suggestion
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({ node, suggest: [{desc:'foo'}] });
           }
         };
       `,

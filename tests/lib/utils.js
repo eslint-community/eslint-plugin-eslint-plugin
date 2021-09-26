@@ -421,4 +421,54 @@ describe('utils', () => {
       });
     });
   });
+
+  describe('collectReportViolationAndSuggestionData', () => {
+    const CASES = [
+      {
+        code: `
+          context.report({
+            node: {},
+            message: "message1",
+            messageId: "messageId1",
+            data: { foo: 'hello' },
+            fix(fixer) {},
+            suggest: [{
+              desc: "message2",
+              messageId: "messageId2",
+              data: { bar: 'world' },
+              fix(fixer) {},
+            }]
+          });
+        `,
+        shouldMatch: [
+          {
+            message: { type: 'Literal', value: 'message1' },
+            messageId: { type: 'Literal', value: 'messageId1' },
+            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            fix: { type: 'FunctionExpression' },
+          },
+          {
+            message: { type: 'Literal', value: 'message2' },
+            messageId: { type: 'Literal', value: 'messageId2' },
+            data: { type: 'ObjectExpression', properties: [{ key: { name: 'bar' } }] },
+            fix: { type: 'FunctionExpression' },
+          },
+        ],
+      },
+    ];
+
+    it('behaves correctly', () => {
+      for (const testCase of CASES) {
+        const ast = espree.parse(testCase.code, { ecmaVersion: 6, range: true });
+        const context = { getScope () {} }; // mock object
+        const reportNode = ast.body[0].expression;
+        const reportInfo = utils.getReportInfo(reportNode.arguments, context);
+        const data = utils.collectReportViolationAndSuggestionData(reportInfo);
+        assert(
+          lodash.isMatch(data, testCase.shouldMatch),
+          `Expected \n${inspect(data)}\nto match\n${inspect(testCase.shouldMatch)}`
+        );
+      }
+    });
+  });
 });
