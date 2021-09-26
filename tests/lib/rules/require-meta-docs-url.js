@@ -67,6 +67,20 @@ tester.run('require-meta-docs-url', rule, {
       }],
     },
     {
+      // ESM
+      filename: 'test-rule',
+      code: `
+        export default {
+          meta: {docs: {url: "path/to/test-rule.md"}},
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'path/to/{{name}}.md',
+      }],
+      parserOptions: { sourceType: 'module' },
+    },
+    {
       // `url` in variable.
       filename: 'test-rule',
       code: `
@@ -535,6 +549,31 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // ESM
+      filename: 'test.js',
+      code: `
+        export default {
+          meta: {},
+          create() {}
+        }
+      `,
+      output: `
+        export default {
+          meta: {
+docs: {
+url: "plugin-name/test.md"
+}
+},
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'plugin-name/{{ name }}.md',
+      }],
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {

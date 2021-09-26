@@ -112,6 +112,18 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         }
       };
     `,
+    {
+      // ESM: Provides suggestions, has hasSuggestions property.
+      code: `
+        export default {
+          meta: { hasSuggestions: true },
+          create(context) {
+            context.report({node, message, suggest: [{}]});
+          }
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
     // Provides suggestions, has hasSuggestions property (as variable).
     `
       const hasSuggestions = true;
@@ -184,6 +196,17 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       output: null,
+      errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionExpression', line: 3, column: 17, endLine: 3, endColumn: 78 }],
+    },
+    {
+      // ESM: Reports suggestions, no meta object, violation should be on `create` function.
+      code: `
+        export default {
+          create(context) { context.report({node, message, suggest: [{}]}); }
+        };
+      `,
+      output: null,
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionExpression', line: 3, column: 17, endLine: 3, endColumn: 78 }],
     },
     {

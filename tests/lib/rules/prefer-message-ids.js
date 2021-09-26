@@ -29,6 +29,17 @@ ruleTester.run('prefer-message-ids', rule, {
         }
       };
     `,
+    {
+      // ESM
+      code: `
+        export default {
+          create(context) {
+            context.report({ node, messageId: 'foo' });
+          }
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
     `
       module.exports = {
         create(context) {
@@ -89,6 +100,18 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
+      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          create(context) {
+            context.report({ node, message: 'foo' });
+          }
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'foundMessage', type: 'Property' }],
     },
     {

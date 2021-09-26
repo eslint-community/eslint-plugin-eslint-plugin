@@ -34,6 +34,18 @@ ruleTester.run('require-meta-fixable', rule, {
         }
       };
     `,
+    {
+      // ESM
+      code: `
+        export default {
+          meta: { fixable: 'code' },
+          create(context) {
+            context.report({node, message, fix: foo});
+          }
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
+    },
     // Value in variable.
     `
       const fixable = 'code';
@@ -181,6 +193,17 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // ESM
+      code: `
+        export default {
+          meta: {},
+          create(context) { context.report({node, message, fix: foo}); }
+        };
+      `,
+      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {

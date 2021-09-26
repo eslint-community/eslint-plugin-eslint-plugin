@@ -33,8 +33,23 @@ describe('utils', () => {
       });
     });
 
+    describe('the file does not have a valid rule (ESM)', () => {
+      [
+        '',
+        'export const foo = { create() {} }',
+        'export default { foo: {} }',
+        'const foo = {}; export default foo',
+      ].forEach(noRuleCase => {
+        it(`returns null for ${noRuleCase}`, () => {
+          const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
+          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+        });
+      });
+    });
+
     describe('the file has a valid rule', () => {
       const CASES = {
+        // CJS
         'module.exports = { create: function foo() {} };': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } }, // (This property will actually contain the AST node.)
           meta: null,
@@ -110,11 +125,35 @@ describe('utils', () => {
           meta: null,
           isNewStyle: false,
         },
+
+        // ESM (object style)
+        'export default { create() {} }': {
+          create: { type: 'FunctionExpression' },
+          meta: null,
+          isNewStyle: true,
+        },
+        'export default { create() {}, meta: {} }': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+
+        // ESM (function style)
+        'export default function () {}': {
+          create: { type: 'FunctionDeclaration' },
+          meta: null,
+          isNewStyle: false,
+        },
+        'export default () => {}': {
+          create: { type: 'ArrowFunctionExpression' },
+          meta: null,
+          isNewStyle: false,
+        },
       };
 
       Object.keys(CASES).forEach(ruleSource => {
         it(ruleSource, () => {
-          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
+          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: ruleSource.startsWith('export default') ? 'module' : 'script' });
           const ruleInfo = utils.getRuleInfo({ ast });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
