@@ -17,8 +17,6 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const ERROR = { messageId: 'useReplaceText', type: 'CallExpression' };
-
 
 ruleTester.run('prefer-placeholders', rule, {
   valid: [
@@ -52,6 +50,23 @@ ruleTester.run('prefer-placeholders', rule, {
     `
       fixer.replaceTextRange([node.range[0], node.range[1]], '');
     `,
+
+    // Suggestion
+    `
+      module.exports = {
+        create(context) {
+          context.report({
+            suggest: [
+              {
+                fix(fixer) {
+                  return fixer.replaceTextRange([start, end], '');
+                }
+              }
+            ]
+          });
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -67,7 +82,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
     },
     {
       code: `
@@ -81,7 +96,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
     },
     {
       code: `
@@ -95,7 +110,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
     },
     {
       code: `
@@ -107,7 +122,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
     },
     {
       code: `
@@ -121,7 +136,27 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [ERROR],
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+    },
+
+    {
+      // Suggestion fixer
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({
+              suggest: [
+                {
+                  fix(fixer) {
+                    return fixer.replaceTextRange([node.range[0], node.range[1]], '');
+                  }
+                }
+              ]
+            });
+          }
+        };
+    `,
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
     },
   ],
 });
