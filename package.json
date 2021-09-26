@@ -42,7 +42,7 @@
     "@not-an-aardvark/node-release-script": "^0.1.0",
     "chai": "^4.1.0",
     "dirty-chai": "^2.0.1",
-    "eslint": "8.0.0-beta.2",
+    "eslint": "8.0.0-rc.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-plugin-markdown": "^2.0.1",
     "eslint-plugin-node": "^11.1.0",
