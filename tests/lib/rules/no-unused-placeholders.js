@@ -107,6 +107,22 @@ ruleTester.run('no-unused-placeholders', rule, {
         context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { bar: 'baz' });
       };
     `,
+    // Suggestion
+    `
+      module.exports = {
+        create(context) {
+          context.report({
+            node,
+            suggest: [
+              {
+                desc: 'foo {{bar}}',
+                data: { 'bar': 'baz' }
+              }
+            ]
+          });
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -167,6 +183,25 @@ ruleTester.run('no-unused-placeholders', rule, {
         };
       `,
       errors: [error('baz')],
+    },
+    {
+      // Suggestion
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({
+              node,
+              suggest: [
+                {
+                  desc: 'foo',
+                  data: { bar }
+                }
+              ]
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
     },
   ],
 });

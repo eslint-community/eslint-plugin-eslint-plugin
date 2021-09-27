@@ -17,8 +17,6 @@ const RuleTester = require('eslint').RuleTester;
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const ERROR = { messageId: 'usePlaceholders' };
-
 
 ruleTester.run('prefer-placeholders', rule, {
   valid: [
@@ -78,6 +76,44 @@ ruleTester.run('prefer-placeholders', rule, {
         }
       };
     `,
+    // Suggestion (message + data)
+    `
+      module.exports = {
+        create(context) {
+          context.report({
+            node,
+            suggest: [
+              {
+                message: '{{foo}} is bad.',
+                data: { foo },
+              }
+            ]
+          });
+        }
+      };
+    `,
+    // Suggestion (message)
+    `
+      module.exports = {
+        create(context) {
+          context.report({
+            node,
+            suggest: [ { message: 'hello world' }]
+          });
+        }
+      };
+    `,
+    // Suggestion (messageId)
+    `
+      module.exports = {
+        create(context) {
+          context.report({
+            node,
+            suggest: [ { messageId: 'myMessageId' }]
+          });
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -92,7 +128,23 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+    },
+    {
+      // Suggestion
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({
+              node,
+              suggest: [
+                { desc: \`\${foo} is bad.\` }
+              ]
+            });
+          }
+        };
+      `,
+      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
     },
     {
       // With message in variable.
@@ -107,7 +159,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
     },
     {
       code: `
@@ -120,7 +172,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'usePlaceholders', type: 'BinaryExpression' }],
     },
     {
       code: `
@@ -130,7 +182,7 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [ERROR],
+      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
     },
   ],
 });
