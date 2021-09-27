@@ -1,5 +1,7 @@
 # Require rules to implement a `meta.type` property (require-meta-type)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 ESLint v5.9.0 introduces a new `--fix-type` option for the command line interface. This option allows users to filter the type of fixes applied when using `--fix`.
 
 Fixes in custom rules will not be applied when using `--fix-type` unless they include a `meta.type` field.
