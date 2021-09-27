@@ -1,6 +1,6 @@
 # eslint-plugin-eslint-plugin ![CI](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin)
 
-An ESLint plugin for linting ESLint plugins
+An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and TypeScript are all supported.
 
 ## Installation
 
