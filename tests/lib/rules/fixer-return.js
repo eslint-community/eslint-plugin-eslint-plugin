@@ -221,6 +221,55 @@ ruleTester.run('fixer-return', rule, {
         }
     };
     `,
+
+    // Suggestion
+    `
+    module.exports = {
+        create: function(context) {
+            context.report( {
+                suggest: [
+                    {
+                        fix: function(fixer) {
+                            return fixer.foo();
+                        }
+                    }
+                ]
+            });
+        }
+    };
+    `,
+    // Suggestion but wrong `suggest` key
+    `
+    module.exports = {
+        create: function(context) {
+            context.report( {
+                notSuggest: [
+                    {
+                        fix: function(fixer) {
+                            fixer.foo();
+                        }
+                    }
+                ]
+            });
+        }
+    };
+    `,
+    // Suggestion but wrong `fix` key
+    `
+    module.exports = {
+        create: function(context) {
+            context.report( {
+                suggest: [
+                    {
+                        notFix: function(fixer) {
+                            fixer.foo();
+                        }
+                    }
+                ]
+            });
+        }
+    };
+    `,
   ],
 
   invalid: [
@@ -240,6 +289,25 @@ ruleTester.run('fixer-return', rule, {
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 24 }],
     },
     {
+      // Fix but missing return (suggestion)
+      code: `
+          module.exports = {
+              create: function(context) {
+                    context.report({
+                        suggest: [
+                            {
+                                fix(fixer) {
+                                    fixer.foo();
+                                }
+                            }
+                        ]
+                    });
+              }
+          };
+          `,
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 7, column: 36 }],
+    },
+    {
       // Fix but missing return (arrow function, report on arrow)
       code: `
         module.exports = {
@@ -253,6 +321,25 @@ ruleTester.run('fixer-return', rule, {
         };
         `,
       errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 5, endLine: 5, column: 34, endColumn: 36 }],
+    },
+    {
+      // Fix but missing return (arrow function, report on arrow, suggestion)
+      code: `
+          module.exports = {
+                create: function(context) {
+                    context.report({
+                        suggest: [
+                            {
+                                fix: (fixer) => {
+                                    fixer.foo();
+                                }
+                            }
+                        ]
+                    });
+                }
+          };
+          `,
+      errors: [{ messageId: 'missingFix', type: 'ArrowFunctionExpression', line: 7, endLine: 7, column: 46, endColumn: 48 }],
     },
     {
       // With no autofix (arrow function, explicit return, report on arrow)

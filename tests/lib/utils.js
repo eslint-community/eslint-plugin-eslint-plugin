@@ -471,4 +471,57 @@ describe('utils', () => {
       }
     });
   });
+
+  describe('isAutoFixerFunction / isSuggestionFixerFunction', () => {
+    const CASES = {
+      // isAutoFixerFunction
+      'context.report({ fix(fixer) {} });' (ast) {
+        return { expected: true, node: ast.body[0].expression.arguments[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isAutoFixerFunction };
+      },
+      'context.notReport({ fix(fixer) {} });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isAutoFixerFunction };
+      },
+      'context.report({ notFix(fixer) {} });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isAutoFixerFunction };
+      },
+      'notContext.report({ notFix(fixer) {} });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: undefined, fn: utils.isAutoFixerFunction };
+      },
+
+      // isSuggestionFixerFunction
+      'context.report({ suggest: [{ fix(fixer) {} }] });' (ast) {
+        return { expected: true, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      },
+      'context.notReport({ suggest: [{ fix(fixer) {} }] });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      },
+      'context.report({ notSuggest: [{ fix(fixer) {} }] });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      },
+      'context.report({ suggest: [{ notFix(fixer) {} }] });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      },
+      'notContext.report({ suggest: [{ fix(fixer) {} }] });' (ast) {
+        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: undefined, fn: utils.isSuggestionFixerFunction };
+      },
+    };
+
+    Object.keys(CASES).forEach(ruleSource => {
+      it(ruleSource, () => {
+        const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
+
+        // Add parent to each node.
+        estraverse.traverse(ast, {
+          enter (node, parent) {
+            node.parent = parent;
+          },
+        });
+
+        const testCase = CASES[ruleSource](ast);
+        const contextIdentifiers = new Set([testCase.context]);
+        const result = testCase.fn(testCase.node, contextIdentifiers);
+        assert.strictEqual(result, testCase.expected);
+      });
+    });
+  });
 });
