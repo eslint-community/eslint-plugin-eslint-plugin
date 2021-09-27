@@ -110,6 +110,28 @@ ruleTester.run('report-message-format', rule, {
       options: ['^foo$'],
     },
     {
+      // Suggestion message
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({node, suggest: [{message: 'foo'}]});
+          }
+        };
+      `,
+      options: ['^foo$'],
+    },
+    {
+      // Suggestion message with ternary expression
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({node, suggest: foo ? []: [{}]});
+          }
+        };
+      `,
+      options: ['^foo$'],
+    },
+    {
       code: `
         module.exports = {
           create(context) {
@@ -245,6 +267,17 @@ ruleTester.run('report-message-format', rule, {
         module.exports = {
           create(context) {
             context.report({node, message: \`FOO\`});
+          }
+        };
+      `,
+      options: ['foo'],
+    },
+    {
+      // Suggestion message
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({node, suggest: [{message: 'FOO'}]});
           }
         };
       `,
