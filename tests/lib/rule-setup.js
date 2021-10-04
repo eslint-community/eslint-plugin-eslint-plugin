@@ -37,6 +37,18 @@ describe('rule setup is correct', () => {
     );
   });
 
+  describe('rule files', () => {
+    for (const ruleName of RULE_NAMES) {
+      const rule = plugin.rules[ruleName];
+      describe(ruleName, () => {
+        it('has the right properties', () => {
+          const ALLOWED_CATEGORIES = ['Rules', 'Tests'];
+          assert.ok(ALLOWED_CATEGORIES.includes(rule.meta.docs.category), 'has an allowed category');
+        });
+      });
+    }
+  });
+
   it('should have tests for all rules', () => {
     const filePath = path.join(__dirname, 'rules');
     const files = readdirSync(filePath);
