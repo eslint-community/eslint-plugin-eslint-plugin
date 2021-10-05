@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
-    "lint:docs": "markdownlint **/*.md",
+    "lint:docs": "markdownlint '**/*.md'",
     "lint:js": "eslint .",
     "generate-readme-table": "node build/generate-readme-table.js",
     "generate-release": "release-it",
