@@ -11,7 +11,7 @@ describe('exported plugin', () => {
       it(ruleName, () => {
         assert.match(
           plugin.rules[ruleName].meta.docs.url,
-          /^https:\/\/github.com\/not-an-aardvark\/eslint-plugin-eslint-plugin\/tree\/v\d+\.\d+\.\d+\/docs\/rules\/[\w-]+\.md$/
+          /^https:\/\/github.com\/not-an-aardvark\/eslint-plugin-eslint-plugin\/tree\/v\d+\.\d+\.\d+(-\d+)?\/docs\/rules\/[\w-]+\.md$/
         );
       });
     });
