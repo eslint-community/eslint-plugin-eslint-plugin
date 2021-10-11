@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^4.32.0",
+    "auto-changelog": "^2.3.0",
     "chai": "^4.1.0",
     "dirty-chai": "^2.0.1",
     "eslint": "^8.0.0",
@@ -65,10 +66,12 @@
   "engines": {
     "node": "12.* || 14.* || >= 16.*"
   },
-  "hooks": {
-    "after:bump": "auto-changelog -p"
-  },
-  "github": {
-    "release": true
+  "release-it": {
+    "hooks": {
+      "after:bump": "auto-changelog -p"
+    },
+    "github": {
+      "release": true
+    }
   }
 }
