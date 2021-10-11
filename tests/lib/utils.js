@@ -7,10 +7,11 @@ const eslintScope = require('eslint-scope');
 const estraverse = require('estraverse');
 const assert = require('chai').assert;
 const utils = require('../../lib/utils');
+const typescriptEslintParser = require('@typescript-eslint/parser');
 
 describe('utils', () => {
   describe('getRuleInfo', () => {
-    describe('the file does not have a valid rule', () => {
+    describe('the file does not have a valid rule (CJS)', () => {
       [
         '',
         'module.exports;',
@@ -25,6 +26,11 @@ describe('utils', () => {
         'module.exports = { create: foo }',
         'module.exports = { create: function* foo() {} }',
         'module.exports = { create: async function foo() {} }',
+
+        // Correct TypeScript helper structure but missing parameterized types (note: we don't support CJS for TypeScript rules):
+        'module.exports = createESLintRule({ create() {}, meta: {} });',
+        'module.exports = util.createRule({ create() {}, meta: {} });',
+        'module.exports = ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
@@ -39,6 +45,19 @@ describe('utils', () => {
         'export const foo = { create() {} }',
         'export default { foo: {} }',
         'const foo = {}; export default foo',
+
+        // Incorrect TypeScript helper structure:
+        'export default foo()({ create() {}, meta: {} });',
+        'export default foo().bar({ create() {}, meta: {} });',
+        'export default foo.bar.baz({ create() {}, meta: {} });',
+        'export default foo(123);',
+        'export default foo.bar(123);',
+        'export default foo.bar()(123);',
+
+        // Correct TypeScript helper structure but missing parameterized types:
+        'export default createESLintRule({ create() {}, meta: {} });',
+        'export default util.createRule({ create() {}, meta: {} });',
+        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
@@ -47,9 +66,80 @@ describe('utils', () => {
       });
     });
 
-    describe('the file has a valid rule', () => {
+    describe('the file does not have a valid rule (TypeScript + TypeScript parser + ESM)', () => {
+      [
+        // Incorrect TypeScript helper structure:
+        'export default foo()<Options, MessageIds>({ create() {}, meta: {} });',
+        'export default foo().bar<Options, MessageIds>({ create() {}, meta: {} });',
+        'export default foo.bar.baz<Options, MessageIds>({ create() {}, meta: {} });',
+        'export default foo<Options, MessageIds>(123);',
+        'export default foo.bar<Options, MessageIds>(123);',
+        'export default foo.bar()<Options, MessageIds>(123);',
+
+        // Correct TypeScript helper structure but missing parameterized types:
+        'export default createESLintRule({ create() {}, meta: {} });',
+        'export default createESLintRule<>({ create() {}, meta: {} });',
+        'export default createESLintRule<OnlyOneType>({ create() {}, meta: {} });',
+        'export default util.createRule({ create() {}, meta: {} });',
+        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
+      ].forEach(noRuleCase => {
+        it(`returns null for ${noRuleCase}`, () => {
+          const ast = typescriptEslintParser.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
+          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+        });
+      });
+    });
+
+    describe('the file does not have a valid rule (TypeScript + TypeScript parser + CJS)', () => {
+      [
+        // Correct TypeScript helper structure but missing parameterized types (note: we don't support CJS for TypeScript rules):
+        'module.exports = createESLintRule<Options, MessageIds>({ create() {}, meta: {} });',
+        'module.exports = util.createRule<Options, MessageIds>({ create() {}, meta: {} });',
+        'module.exports = ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });',
+      ].forEach(noRuleCase => {
+        it(`returns null for ${noRuleCase}`, () => {
+          const ast = typescriptEslintParser.parse(noRuleCase, { range: true, sourceType: 'script' });
+          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+        });
+      });
+    });
+
+    describe('the file has a valid rule (TypeScript + TypeScript parser + ESM)', () => {
       const CASES = {
-        // CJS
+        // Util function only
+        'export default createESLintRule<Options, MessageIds>({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // Util function from util object
+        'export default util.createRule<Options, MessageIds>({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // Util function from util object with additional doc URL argument
+        'export default ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+      };
+
+      Object.keys(CASES).forEach(ruleSource => {
+        it(ruleSource, () => {
+          const ast = typescriptEslintParser.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'module' });
+          const ruleInfo = utils.getRuleInfo({ ast });
+          assert(
+            lodash.isMatch(ruleInfo, CASES[ruleSource]),
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
+          );
+        });
+      });
+    });
+
+    describe('the file has a valid rule (CJS)', () => {
+      const CASES = {
         'module.exports = { create: function foo() {} };': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } }, // (This property will actually contain the AST node.)
           meta: null,
@@ -125,7 +215,22 @@ describe('utils', () => {
           meta: null,
           isNewStyle: false,
         },
+      };
 
+      Object.keys(CASES).forEach(ruleSource => {
+        it(ruleSource, () => {
+          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'script' });
+          const ruleInfo = utils.getRuleInfo({ ast });
+          assert(
+            lodash.isMatch(ruleInfo, CASES[ruleSource]),
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
+          );
+        });
+      });
+    });
+
+    describe('the file has a valid rule (ESM)', () => {
+      const CASES = {
         // ESM (object style)
         'export default { create() {} }': {
           create: { type: 'FunctionExpression' },
@@ -153,7 +258,7 @@ describe('utils', () => {
 
       Object.keys(CASES).forEach(ruleSource => {
         it(ruleSource, () => {
-          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: ruleSource.startsWith('export default') ? 'module' : 'script' });
+          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'module' });
           const ruleInfo = utils.getRuleInfo({ ast });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
@@ -161,7 +266,9 @@ describe('utils', () => {
           );
         });
       });
+    });
 
+    describe('the file has a valid rule (different scope options)', () => {
       for (const scopeOptions of [
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true },
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'script' },

@@ -241,3 +241,30 @@ ruleTester.run('require-meta-docs-description', rule, {
     },
   ],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+  parserOptions: { sourceType: 'module' },
+  parser: require.resolve('@typescript-eslint/parser'),
+});
+ruleTesterTypeScript.run('require-meta-docs-description (TypeScript)', rule, {
+  valid: [
+    `
+      export default createESLintRule<Options, MessageIds>({
+        meta: { docs: { description: 'disallow unused variables' } },
+        create(context) {}
+      });
+    `,
+  ],
+  invalid: [
+    {
+      code: `
+        export default createESLintRule<Options, MessageIds>({
+          meta: {},
+          create(context) {}
+        });
+      `,
+      output: null,
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+  ],
+});
