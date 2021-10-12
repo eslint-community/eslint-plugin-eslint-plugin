@@ -75,6 +75,17 @@ Name | ✔️ | 🛠 | 💡 | Description
 
 ## Supported Presets
 
+|   | Name | Description |
+|:--|:-----|:------------|
+| ✔️ | `recommended` | enables all recommended rules in this plugin |
+|   | `rules-recommended` | enables all recommended rules that are aimed at linting ESLint rule files |
+|   | `tests-recommended` | enables all recommended rules that are aimed at linting ESLint test files |
+|   | `all` | enables all rules in this plugin |
+|   | `rules` | enables all rules that are aimed at linting ESLint rule files |
+|   | `tests` | enables all rules that are aimed at linting ESLint test files |
+
+The list of recommended rules will only change in a major release of this plugin. However, new non-recommended rules might be added in a minor release of this plugin. Therefore, the using the `all`, `rules`, and `tests` presets is **not recommended for production use**, because the addition of new rules in a minor release could break your build.
+
 Presets are enabled by adding a line to the `extends` list in your config file. For example, to enable the `recommended` preset, use:
 
 ```json
@@ -101,13 +112,3 @@ Or to apply linting only to the appropriate rule or test files:
     ]
 }
 ```
-
-* `recommended` enables all recommended rules from this plugin.
-* `rules-recommended` enables all recommended rules that are aimed at linting ESLint rule files.
-* `tests-recommended` enables all recommended rules that are aimed at linting ESLint test files.
-
-* `all` enables all rules in this plugin.
-* `rules` enables all rules that are aimed at linting ESLint rule files.
-* `tests` enables all rules that are aimed at linting ESLint test files.
-
-The list of recommended rules will only change in a major release of this plugin. However, new non-recommended rules might be added in a minor release of this plugin. Therefore, the using the `all`, `rules`, and `tests` presets is **not recommended for production use**, because the addition of new rules in a minor release could break your build.
