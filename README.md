@@ -85,6 +85,23 @@ Presets are enabled by adding a line to the `extends` list in your config file. 
 }
 ```
 
+Or to apply linting only to the appropriate rule or test files:
+
+```json
+{
+    "overrides": [
+        {
+            "files": ["lib/rules/*.{js,ts}"],
+            "extends": ["plugin:eslint-plugin/rules-recommended"]
+        },
+        {
+            "files": ["tests/lib/rules/*.{js,ts}"],
+            "extends": ["plugin:eslint-plugin/tests-recommended"]
+        },
+    ]
+}
+```
+
 * `recommended` enables all recommended rules from this plugin.
 * `rules-recommended` enables all recommended rules that are aimed at linting ESLint rule files.
 * `tests-recommended` enables all recommended rules that are aimed at linting ESLint test files.
