@@ -39,7 +39,7 @@
     "statements": 99
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^4.32.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "auto-changelog": "^2.3.0",
     "chai": "^4.1.0",
     "dirty-chai": "^2.0.1",
