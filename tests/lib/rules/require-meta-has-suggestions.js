@@ -14,7 +14,7 @@ const RuleTester = require('eslint').RuleTester;
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('require-meta-has-suggestions', rule, {
   valid: [
-    'module.exports = context => {};',
+    'module.exports = context => { return {}; };',
     // No suggestions reported, no violations reported, no meta object.
     `
       module.exports = {

@@ -30,8 +30,8 @@ ruleTester.run('no-deprecated-context-methods', rule, {
     `
     module.exports = context => {
       const sourceCode = context.getSourceCode();
-
       sourceCode.getFirstToken();
+      return {};
     }
   `,
   ],
@@ -70,12 +70,12 @@ ruleTester.run('no-deprecated-context-methods', rule, {
     {
       code: `
         module.exports = myRuleContext => {
-          myRuleContext.getFirstToken;
+          myRuleContext.getFirstToken; return {};
         }
       `,
       output: `
         module.exports = myRuleContext => {
-          myRuleContext.getSourceCode().getFirstToken;
+          myRuleContext.getSourceCode().getFirstToken; return {};
         }
       `,
       errors: [

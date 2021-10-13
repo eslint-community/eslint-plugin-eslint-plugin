@@ -25,7 +25,7 @@ ruleTester.run('require-meta-fixable', rule, {
         create(context) {}
       };
     `,
-    'module.exports = context => {};',
+    'module.exports = context => { return {}; };',
     `
       module.exports = {
         meta: { fixable: 'code' },

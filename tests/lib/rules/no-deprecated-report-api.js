@@ -39,12 +39,12 @@ ruleTester.run('no-deprecated-report-api', rule, {
     `,
     `
       module.exports = function(context) {
-        context.report({node, message: "Foo"});
+        context.report({node, message: "Foo"}); return {};
       };
     `,
     `
       module.exports = (context) => {
-        context.report({node, message: "Foo"});
+        context.report({node, message: "Foo"}); return {};
       };
     `,
     `
