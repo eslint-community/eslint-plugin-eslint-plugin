@@ -54,10 +54,6 @@ describe('utils', () => {
         'export default foo.bar(123);',
         'export default foo.bar()(123);',
 
-        // Correct TypeScript helper structure but missing parameterized types:
-        'export default createESLintRule({ create() {}, meta: {} });',
-        'export default util.createRule({ create() {}, meta: {} });',
-        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
@@ -75,13 +71,6 @@ describe('utils', () => {
         'export default foo<Options, MessageIds>(123);',
         'export default foo.bar<Options, MessageIds>(123);',
         'export default foo.bar()<Options, MessageIds>(123);',
-
-        // Correct TypeScript helper structure but missing parameterized types:
-        'export default createESLintRule({ create() {}, meta: {} });',
-        'export default createESLintRule<>({ create() {}, meta: {} });',
-        'export default createESLintRule<OnlyOneType>({ create() {}, meta: {} });',
-        'export default util.createRule({ create() {}, meta: {} });',
-        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = typescriptEslintParser.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
@@ -112,14 +101,36 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        'export default createESLintRule<>({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'export default createESLintRule({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+
         // Util function from util object
         'export default util.createRule<Options, MessageIds>({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        'export default util.createRule({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+
         // Util function from util object with additional doc URL argument
         'export default ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
