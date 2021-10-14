@@ -85,26 +85,26 @@ ruleTester.run('no-unused-placeholders', rule, {
     `,
     `
       module.exports = context => {
-        context.report(node, 'foo {{bar}}', { bar: 'baz' });
+        context.report(node, 'foo {{bar}}', { bar: 'baz' }); return {};
       };
     `,
     // With message as variable.
     `
       const MESSAGE = 'foo {{bar}}';
       module.exports = context => {
-        context.report(node, MESSAGE, { bar: 'baz' });
+        context.report(node, MESSAGE, { bar: 'baz' }); return {};
       };
     `,
     // With message as variable but cannot statically determine its type.
     `
       const MESSAGE = getMessage();
       module.exports = context => {
-        context.report(node, MESSAGE, { bar: 'baz' });
+        context.report(node, MESSAGE, { bar: 'baz' }); return {};
       };
     `,
     `
       module.exports = context => {
-        context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { bar: 'baz' });
+        context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { bar: 'baz' }); return {};
       };
     `,
     // Suggestion

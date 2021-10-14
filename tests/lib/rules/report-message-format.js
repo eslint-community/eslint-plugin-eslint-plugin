@@ -22,7 +22,7 @@ ruleTester.run('report-message-format', rule, {
 
   valid: [
     // with no configuration, everything is allowed
-    'module.exports = context => context.report(node, "foo");',
+    'module.exports = context => { context.report(node, "foo"); return {}; }',
     {
       code: `
         module.exports = {

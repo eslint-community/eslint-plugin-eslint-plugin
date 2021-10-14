@@ -132,14 +132,14 @@ ruleTester.run('prefer-object-rule', rule, {
       errors: [{ messageId: 'preferObject', line: 2, column: 24 }],
     },
     {
-      code: 'export default function create() {};',
-      output: 'export default {create() {}};',
+      code: 'export default function create() { return {}; };',
+      output: 'export default {create() { return {}; }};',
       parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
     },
     {
-      code: 'export default () => {};',
-      output: 'export default {create: () => {}};',
+      code: 'export default () => { return {}; };',
+      output: 'export default {create: () => { return {}; }};',
       parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
     },

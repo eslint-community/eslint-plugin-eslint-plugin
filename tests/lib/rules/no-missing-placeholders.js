@@ -84,12 +84,12 @@ ruleTester.run('no-missing-placeholders', rule, {
     `,
     `
       module.exports = context => {
-        context.report(node, 'foo {{bar}}', { bar: 'baz' });
+        context.report(node, 'foo {{bar}}', { bar: 'baz' }); return {};
       };
     `,
     `
       module.exports = context => {
-        context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { bar: 'baz' });
+        context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { bar: 'baz' }); return {};
       };
     `,
     `
@@ -118,14 +118,14 @@ ruleTester.run('no-missing-placeholders', rule, {
     `
       const MESSAGE = 'foo {{bar}}';
       module.exports = context => {
-        context.report(node, MESSAGE, { bar: 'baz' });
+        context.report(node, MESSAGE, { bar: 'baz' }); return {};
       };
     `,
     // Message in variable but cannot statically determine its type.
     `
       const MESSAGE = getMessage();
       module.exports = context => {
-        context.report(node, MESSAGE, { baz: 'qux' });
+        context.report(node, MESSAGE, { baz: 'qux' }); return {};
       };
     `,
     // Suggestion with placeholder
@@ -193,7 +193,7 @@ ruleTester.run('no-missing-placeholders', rule, {
     {
       code: `
         module.exports = context => {
-          context.report(node, 'foo {{bar}}', { baz: 'qux' });
+          context.report(node, 'foo {{bar}}', { baz: 'qux' }); return {};
         };
       `,
       errors: [error('bar')],
@@ -203,7 +203,7 @@ ruleTester.run('no-missing-placeholders', rule, {
       code: `
         const MESSAGE = 'foo {{bar}}';
         module.exports = context => {
-          context.report(node, MESSAGE, { baz: 'qux' });
+          context.report(node, MESSAGE, { baz: 'qux' }); return {};
         };
       `,
       errors: [error('bar', 'Identifier')],
@@ -211,7 +211,7 @@ ruleTester.run('no-missing-placeholders', rule, {
     {
       code: `
         module.exports = context => {
-          context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { baz: 'baz' });
+          context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { baz: 'baz' }); return {};
         };
       `,
       errors: [error('bar')],

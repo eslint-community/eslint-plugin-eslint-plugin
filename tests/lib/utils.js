@@ -16,10 +16,10 @@ describe('utils', () => {
         '',
         'module.exports;',
         'module.exports = foo;',
-        'module.boop = function() {};',
-        'exports = function() {};',
-        'module.exports = function* () {};',
-        'module.exports = async function () {};',
+        'module.boop = function() { return {};};',
+        'exports = function() { return {};};',
+        'module.exports = function* () { return {}; };',
+        'module.exports = async function () { return {};};',
         'module.exports = {};',
         'module.exports = { meta: {} }',
         'module.exports = { create: {} }',
@@ -27,7 +27,17 @@ describe('utils', () => {
         'module.exports = { create: function* foo() {} }',
         'module.exports = { create: async function foo() {} }',
 
-        // Correct TypeScript helper structure but missing parameterized types (note: we don't support CJS for TypeScript rules):
+        // Function-style rule but missing object return.
+        'module.exports = () => { }',
+        'module.exports = () => { return; }',
+        'module.exports = () => { return 123; }',
+        'module.exports = () => { return FOO; }',
+        'module.exports = function foo() { }',
+        'module.exports = () => { }',
+        'exports.meta = {}; module.exports = () => { }',
+        'module.exports = () => { }; module.exports.meta = {};',
+
+        // Correct TypeScript helper structure but we don't support CJS for TypeScript rules:
         'module.exports = createESLintRule({ create() {}, meta: {} });',
         'module.exports = util.createRule({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
@@ -45,6 +55,15 @@ describe('utils', () => {
         'export const foo = { create() {} }',
         'export default { foo: {} }',
         'const foo = {}; export default foo',
+
+        // Exports function but not default export.
+        'export function foo () { return {}; }',
+
+        // Exports function but no object return inside function.
+        'export default function () { }',
+        'export default function () { return; }',
+        'export default function () { return 123; }',
+        'export default function () { return FOO; }',
 
         // Incorrect TypeScript helper structure:
         'export default foo()({ create() {}, meta: {} });',
@@ -81,7 +100,7 @@ describe('utils', () => {
 
     describe('the file does not have a valid rule (TypeScript + TypeScript parser + CJS)', () => {
       [
-        // Correct TypeScript helper structure but missing parameterized types (note: we don't support CJS for TypeScript rules):
+        // Correct TypeScript helper structure but we don't support CJS for TypeScript rules:
         'module.exports = createESLintRule<Options, MessageIds>({ create() {}, meta: {} });',
         'module.exports = util.createRule<Options, MessageIds>({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });',
@@ -206,22 +225,27 @@ describe('utils', () => {
           meta: null,
           isNewStyle: true,
         },
-        'module.exports = function foo() {}': {
+        'module.exports = function foo() { return {}; }': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = () => {}': {
+        'module.exports = () => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
         },
-        'exports.meta = {}; module.exports = () => {}': {
+        'module.exports = () => { if (foo) { return {}; } }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = () => {}; module.exports.meta = {};': {
+        'exports.meta = {}; module.exports = () => { return {}; }': {
+          create: { type: 'ArrowFunctionExpression' },
+          meta: null,
+          isNewStyle: false,
+        },
+        'module.exports = () => { return {}; }; module.exports.meta = {};': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
@@ -255,12 +279,17 @@ describe('utils', () => {
         },
 
         // ESM (function style)
-        'export default function () {}': {
+        'export default function () { return {}; }': {
           create: { type: 'FunctionDeclaration' },
           meta: null,
           isNewStyle: false,
         },
-        'export default () => {}': {
+        'export default function () { if (foo) { return {}; } }': {
+          create: { type: 'FunctionDeclaration' },
+          meta: null,
+          isNewStyle: false,
+        },
+        'export default () => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
@@ -305,11 +334,47 @@ describe('utils', () => {
         });
       }
     });
+
+    describe('the file has newer syntax', () => {
+      const CASES = [
+        {
+          source: 'module.exports = function() { class Foo { @someDecorator() someProp }; return {}; };',
+          options: { sourceType: 'script' },
+          expected: {
+            create: { type: 'FunctionExpression' },
+            meta: null,
+            isNewStyle: false,
+          },
+        },
+        {
+          source: 'export default function() { class Foo { @someDecorator() someProp }; return {}; };',
+          options: { sourceType: 'module' },
+          expected: {
+            create: { type: 'FunctionDeclaration' },
+            meta: null,
+            isNewStyle: false,
+          },
+        },
+      ];
+      for (const testCase of CASES) {
+        describe(testCase.source, () => {
+          it('does not throw with node type PropertyDefinition which is not handled by estraverse (estraverse is used for detecting the object return statement in a function-style rule).', () => {
+            const ast = typescriptEslintParser.parse(testCase.source, testCase.options);
+            const scopeManager = eslintScope.analyze(ast);
+            const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+            assert(
+              lodash.isMatch(ruleInfo, testCase.expected),
+              `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(testCase.expected)}`
+            );
+          });
+        });
+      }
+    });
   });
 
   describe('getContextIdentifiers', () => {
     const CASES = {
-      'module.exports = context => { context; context; context; }' (ast) {
+      'module.exports = context => { context; context; context; return {}; }' (ast) {
         return [
           ast.body[0].expression.right.body.body[0].expression,
           ast.body[0].expression.right.body.body[1].expression,
@@ -382,7 +447,7 @@ describe('utils', () => {
     describe('the file does not have valid tests', () => {
       [
         '',
-        'module.exports = context => context.report(foo);',
+        'module.exports = context => { context.report(foo); return {}; };',
         'new (require("eslint").NotRuleTester).run(foo, bar, { valid: [] })',
         'new NotRuleTester().run(foo, bar, { valid: [] })',
         'new RuleTester()',
@@ -519,9 +584,9 @@ describe('utils', () => {
 
   describe('getSourceCodeIdentifiers', () => {
     const CASES = {
-      'module.exports = context => { const sourceCode = context.getSourceCode(); sourceCode; foo; }': 2,
-      'module.exports = context => { const x = 1, sc = context.getSourceCode(); sc; sc; sc; sourceCode; }': 4,
-      'module.exports = context => { const sourceCode = context.getNotSourceCode(); }': 0,
+      'module.exports = context => { const sourceCode = context.getSourceCode(); sourceCode; foo; return {}; }': 2,
+      'module.exports = context => { const x = 1, sc = context.getSourceCode(); sc; sc; sc; sourceCode; return {}; }': 4,
+      'module.exports = context => { const sourceCode = context.getNotSourceCode(); return {}; }': 0,
     };
 
     Object.keys(CASES).forEach(testSource => {
