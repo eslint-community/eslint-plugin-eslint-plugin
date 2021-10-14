@@ -16,10 +16,10 @@ describe('utils', () => {
         '',
         'module.exports;',
         'module.exports = foo;',
-        'module.boop = function() { return {};};',
-        'exports = function() { return {};};',
-        'module.exports = function* () { return {}; };',
-        'module.exports = async function () { return {};};',
+        'module.boop = function(context) { return {};};',
+        'exports = function(context) { return {};};',
+        'module.exports = function* (context) { return {}; };',
+        'module.exports = async function (context) { return {};};',
         'module.exports = {};',
         'module.exports = { meta: {} }',
         'module.exports = { create: {} }',
@@ -28,14 +28,18 @@ describe('utils', () => {
         'module.exports = { create: async function foo() {} }',
 
         // Function-style rule but missing object return.
-        'module.exports = () => { }',
-        'module.exports = () => { return; }',
-        'module.exports = () => { return 123; }',
-        'module.exports = () => { return FOO; }',
-        'module.exports = function foo() { }',
-        'module.exports = () => { }',
-        'exports.meta = {}; module.exports = () => { }',
-        'module.exports = () => { }; module.exports.meta = {};',
+        'module.exports = (context) => { }',
+        'module.exports = (context) => { return; }',
+        'module.exports = (context) => { return 123; }',
+        'module.exports = (context) => { return FOO; }',
+        'module.exports = function foo(context) { }',
+        'module.exports = (context) => { }',
+        'exports.meta = {}; module.exports = (context) => { }',
+        'module.exports = (context) => { }; module.exports.meta = {};',
+
+        // Function-style rule but missing context parameter.
+        'module.exports = () => { return {}; }',
+        'module.exports = (foo, bar) => { return {}; }',
 
         // Correct TypeScript helper structure but we don't support CJS for TypeScript rules:
         'module.exports = createESLintRule({ create() {}, meta: {} });',
@@ -57,13 +61,17 @@ describe('utils', () => {
         'const foo = {}; export default foo',
 
         // Exports function but not default export.
-        'export function foo () { return {}; }',
+        'export function foo (context) { return {}; }',
 
         // Exports function but no object return inside function.
-        'export default function () { }',
-        'export default function () { return; }',
-        'export default function () { return 123; }',
-        'export default function () { return FOO; }',
+        'export default function (context) { }',
+        'export default function (context) { return; }',
+        'export default function (context) { return 123; }',
+        'export default function (context) { return FOO; }',
+
+        // Function-style rule but missing context parameter.
+        'export default function () { return {}; }',
+        'export default function (foo, bar) { return {}; }',
 
         // Incorrect TypeScript helper structure:
         'export default foo()({ create() {}, meta: {} });',
@@ -185,7 +193,7 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'module.exports.create = function foo() {}; module.exports.meta = {}': {
+        'module.exports.create = function foo(context) {}; module.exports.meta = {}': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
@@ -220,32 +228,42 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'module.exports = { create: () => { } }; exports.meta = {};': {
+        'module.exports = { create: (context) => { } }; exports.meta = {};': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: true,
         },
-        'module.exports = function foo() { return {}; }': {
+        'module.exports = function foo(context) { return {}; }': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = () => { return {}; }': {
+        'module.exports = function foo(slightlyDifferentContextName) { return {}; }': {
+          create: { type: 'FunctionExpression', id: { name: 'foo' } },
+          meta: null,
+          isNewStyle: false,
+        },
+        'module.exports = function foo({ report }) { return {}; }': {
+          create: { type: 'FunctionExpression', id: { name: 'foo' } },
+          meta: null,
+          isNewStyle: false,
+        },
+        'module.exports = (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = () => { if (foo) { return {}; } }': {
+        'module.exports = (context) => { if (foo) { return {}; } }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
         },
-        'exports.meta = {}; module.exports = () => { return {}; }': {
+        'exports.meta = {}; module.exports = (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = () => { return {}; }; module.exports.meta = {};': {
+        'module.exports = (context) => { return {}; }; module.exports.meta = {};': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
@@ -279,17 +297,17 @@ describe('utils', () => {
         },
 
         // ESM (function style)
-        'export default function () { return {}; }': {
+        'export default function (context) { return {}; }': {
           create: { type: 'FunctionDeclaration' },
           meta: null,
           isNewStyle: false,
         },
-        'export default function () { if (foo) { return {}; } }': {
+        'export default function (context) { if (foo) { return {}; } }': {
           create: { type: 'FunctionDeclaration' },
           meta: null,
           isNewStyle: false,
         },
-        'export default () => { return {}; }': {
+        'export default (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
           isNewStyle: false,
@@ -315,7 +333,7 @@ describe('utils', () => {
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'module' },
       ]) {
         const ast = espree.parse(`
-          const create = () => {};
+          const create = (context) => {};
           const meta = {};
           module.exports = { create, meta };
         `, { ecmaVersion: 6 });
@@ -338,7 +356,7 @@ describe('utils', () => {
     describe('the file has newer syntax', () => {
       const CASES = [
         {
-          source: 'module.exports = function() { class Foo { @someDecorator() someProp }; return {}; };',
+          source: 'module.exports = function(context) { class Foo { @someDecorator() someProp }; return {}; };',
           options: { sourceType: 'script' },
           expected: {
             create: { type: 'FunctionExpression' },
@@ -347,7 +365,7 @@ describe('utils', () => {
           },
         },
         {
-          source: 'export default function() { class Foo { @someDecorator() someProp }; return {}; };',
+          source: 'export default function(context) { class Foo { @someDecorator() someProp }; return {}; };',
           options: { sourceType: 'module' },
           expected: {
             create: { type: 'FunctionDeclaration' },
