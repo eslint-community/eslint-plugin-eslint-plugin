@@ -139,6 +139,13 @@ describe('utils', () => {
           isNewStyle: true,
         },
 
+        // Util function with "{} as const".
+        'export default createESLintRule({ create() {}, meta: {} as const });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+
         // Util function from util object
         'export default util.createRule<Options, MessageIds>({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
