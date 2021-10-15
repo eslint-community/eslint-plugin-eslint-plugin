@@ -125,7 +125,7 @@ tester.run('require-meta-docs-url', rule, {
   invalid: [
     {
       code: `
-        module.exports = function() { return {}; }
+        module.exports = function(context) { return {}; }
       `,
       output: null,
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
@@ -310,7 +310,7 @@ tester.run('require-meta-docs-url', rule, {
     // -------------------------------------------------------------------------
     {
       code: `
-        module.exports = function() { return {}; }
+        module.exports = function(context) { return {}; }
       `,
       output: null,
       options: [{
@@ -492,7 +492,7 @@ tester.run('require-meta-docs-url', rule, {
     {
       filename: 'test.js',
       code: `
-        module.exports = function() { return {}; }
+        module.exports = function(context) { return {}; }
       `,
       output: null,
       options: [{
