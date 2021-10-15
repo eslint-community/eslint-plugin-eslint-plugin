@@ -626,6 +626,7 @@ describe('utils', () => {
   describe('collectReportViolationAndSuggestionData', () => {
     const CASES = [
       {
+        // One suggestion.
         code: `
           context.report({
             node: {},
@@ -652,6 +653,68 @@ describe('utils', () => {
             message: { type: 'Literal', value: 'message2' },
             messageId: { type: 'Literal', value: 'messageId2' },
             data: { type: 'ObjectExpression', properties: [{ key: { name: 'bar' } }] },
+            fix: { type: 'FunctionExpression' },
+          },
+        ],
+      },
+      {
+        // Suggestions using an array variable.
+        code: `
+          context.report({
+            node: {},
+            message: "message1",
+            messageId: "messageId1",
+            data: { foo: 'hello' },
+            fix(fixer) {},
+            suggest: SUGGESTIONS
+          });
+        `,
+        shouldMatch: [
+          {
+            message: { type: 'Literal', value: 'message1' },
+            messageId: { type: 'Literal', value: 'messageId1' },
+            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            fix: { type: 'FunctionExpression' },
+          },
+        ],
+      },
+      {
+        // Suggestions using array item variables.
+        code: `
+          context.report({
+            node: {},
+            message: "message1",
+            messageId: "messageId1",
+            data: { foo: 'hello' },
+            fix(fixer) {},
+            suggest: [ SUGGEST_1, SUGGEST_2 ]
+          });
+        `,
+        shouldMatch: [
+          {
+            message: { type: 'Literal', value: 'message1' },
+            messageId: { type: 'Literal', value: 'messageId1' },
+            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            fix: { type: 'FunctionExpression' },
+          },
+        ],
+      },
+      {
+        // No suggestions.
+        code: `
+          context.report({
+            node: {},
+            message: "message1",
+            messageId: "messageId1",
+            data: { foo: 'hello' },
+            fix(fixer) {},
+          });
+        `,
+        shouldMatch: [
+          {
+            message: { type: 'Literal', value: 'message1' },
+            messageId: { type: 'Literal', value: 'messageId1' },
+            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
             fix: { type: 'FunctionExpression' },
           },
         ],
