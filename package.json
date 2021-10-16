@@ -11,8 +11,7 @@
     "lint:js": "eslint .",
     "generate-readme-table": "node build/generate-readme-table.js",
     "generate-release": "release-it",
-    "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
-    "version": "eslint --fix . && git add ."
+    "test": "nyc --all --check-coverage --include lib mocha tests --recursive"
   },
   "files": [
     "lib/"

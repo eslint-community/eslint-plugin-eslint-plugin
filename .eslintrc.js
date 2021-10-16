@@ -1,7 +1,5 @@
 'use strict';
 
-const version = require('./package.json').version;
-
 module.exports = {
   root: true,
   plugins: ['node'],
@@ -41,7 +39,7 @@ module.exports = {
           'error',
           {
             pattern:
-              `https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/tree/v${version}/docs/rules/{{name}}.md`,
+              'https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/{{name}}.md',
           },
         ],
       },
