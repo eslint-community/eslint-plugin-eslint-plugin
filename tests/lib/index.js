@@ -6,12 +6,12 @@ const plugin = require('../..');
 const RULE_NAMES = Object.keys(plugin.rules);
 
 describe('exported plugin', () => {
-  describe('adds a meta.docs.url property to each rule', () => {
+  describe('has a meta.docs.url property on each rule', () => {
     RULE_NAMES.forEach(ruleName => {
       it(ruleName, () => {
         assert.match(
           plugin.rules[ruleName].meta.docs.url,
-          /^https:\/\/github.com\/not-an-aardvark\/eslint-plugin-eslint-plugin\/tree\/v\d+\.\d+\.\d+(-\d+)?\/docs\/rules\/[\w-]+\.md$/
+          /^https:\/\/github.com\/not-an-aardvark\/eslint-plugin-eslint-plugin\/tree\/HEAD\/docs\/rules\/[\w-]+\.md$/
         );
       });
     });

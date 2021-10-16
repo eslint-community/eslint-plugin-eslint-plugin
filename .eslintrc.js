@@ -35,7 +35,13 @@ module.exports = {
       extends: ['plugin:self/all'],
       rules: {
         'self/report-message-format': ['error', '^[^a-z].*.$'],
-        'self/require-meta-docs-url': 'off',
+        'self/require-meta-docs-url': [
+          'error',
+          {
+            pattern:
+              'https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/{{name}}.md',
+          },
+        ],
       },
     },
     {
