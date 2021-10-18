@@ -40,6 +40,7 @@
     "statements": 99
   },
   "devDependencies": {
+    "@release-it/conventional-changelog": "^3.3.0",
     "@typescript-eslint/parser": "^5.0.0",
     "auto-changelog": "^2.3.0",
     "chai": "^4.1.0",
@@ -67,8 +68,11 @@
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
   },
   "release-it": {
-    "hooks": {
-      "after:bump": "auto-changelog -p"
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
+      }
     },
     "github": {
       "release": true
