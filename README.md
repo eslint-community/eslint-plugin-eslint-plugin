@@ -1,4 +1,4 @@
-# eslint-plugin-eslint-plugin ![CI](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin)
+# eslint-plugin-eslint-plugin ![CI](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and TypeScript are all supported.
 
