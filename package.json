@@ -55,6 +55,7 @@
     "eslint-plugin-unicorn": "^37.0.0",
     "eslint-scope": "^6.0.0",
     "espree": "^9.0.0",
+    "husky": "^7.0.2",
     "lodash": "^4.17.2",
     "markdownlint-cli": "^0.28.1",
     "mocha": "^9.1.2",
