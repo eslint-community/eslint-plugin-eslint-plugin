@@ -40,6 +40,8 @@
     "statements": 99
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
     "@release-it/conventional-changelog": "^3.3.0",
     "@typescript-eslint/parser": "^5.0.0",
     "auto-changelog": "^2.3.0",
