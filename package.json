@@ -71,6 +71,9 @@
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
   },
   "release-it": {
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
     "plugins": {
       "@release-it/conventional-changelog": {
         "preset": "angular",
