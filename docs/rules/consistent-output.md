@@ -2,11 +2,11 @@
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 
-When writing tests for a fixable rule with `RuleTester`, you can assert the autofix output of your test cases. However, it can be easy to forget to assert the output of a particular test case.
+When writing tests for fixable rules, it's a best practice to use the `output` property on each test case to assert what autofixed code is produced, or to assert that no autofix is produced using `output: null`.
+
+Prior to ESLint 7, it was easy to forget to assert the autofix output of a particular test case, resulting in incomplete test coverage and a greater chance of unexpected behavior / bugs.
 
 [As of ESLint 7](https://eslint.org/docs/user-guide/migrating-to-7.0.0#additional-validation-added-to-the-ruletester-class), test cases that trigger an autofix are required to provide the `output` property.
-
-Even test that do not trigger an autofix can benefit from asserting that they have no autofix using `output: null`.
 
 ## Rule Details
 
