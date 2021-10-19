@@ -10,7 +10,7 @@
     "lint:docs": "markdownlint '**/*.md'",
     "lint:js": "eslint .",
     "generate-readme-table": "node build/generate-readme-table.js",
-    "generate-release": "release-it",
+    "release": "release-it",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive"
   },
   "files": [
@@ -40,6 +40,9 @@
     "statements": 99
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
+    "@release-it/conventional-changelog": "^3.3.0",
     "@typescript-eslint/parser": "^5.0.0",
     "auto-changelog": "^2.3.0",
     "chai": "^4.1.0",
@@ -52,6 +55,7 @@
     "eslint-plugin-unicorn": "^37.0.0",
     "eslint-scope": "^6.0.0",
     "espree": "^9.0.0",
+    "husky": "^7.0.2",
     "lodash": "^4.17.2",
     "markdownlint-cli": "^0.28.1",
     "mocha": "^9.1.2",
@@ -67,8 +71,14 @@
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
   },
   "release-it": {
-    "hooks": {
-      "after:bump": "auto-changelog -p"
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "conventionalcommits",
+        "infile": "CHANGELOG.md"
+      }
     },
     "github": {
       "release": true
