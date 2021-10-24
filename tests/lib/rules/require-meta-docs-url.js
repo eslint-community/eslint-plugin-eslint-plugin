@@ -67,6 +67,17 @@ tester.run('require-meta-docs-url', rule, {
       }],
     },
     {
+      // CJS file extension
+      filename: 'test-rule.cjs',
+      code: `
+        module.exports = {
+          meta: {docs: {url: "path/to/test-rule.md"}},
+          create() {}
+        }
+      `,
+      options: [{ pattern: 'path/to/{{name}}.md' }],
+    },
+    {
       // ESM
       filename: 'test-rule',
       code: `
@@ -78,6 +89,18 @@ tester.run('require-meta-docs-url', rule, {
       options: [{
         pattern: 'path/to/{{name}}.md',
       }],
+      parserOptions: { sourceType: 'module' },
+    },
+    {
+      // TypeScript
+      filename: 'rules/test-rule.ts',
+      code: `
+        export default {
+          meta: {docs: {url: "path/to/test-rule.md"}},
+          create() {}
+        }
+      `,
+      options: [{ pattern: 'path/to/{{name}}.md' }],
       parserOptions: { sourceType: 'module' },
     },
     {
@@ -552,6 +575,30 @@ url: "plugin-name/test.md"
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
+      // CJS file extension
+      filename: 'test.cjs',
+      code: `
+        module.exports = {
+          meta: {},
+          create() {}
+        }
+      `,
+      output: `
+        module.exports = {
+          meta: {
+docs: {
+url: "plugin-name/test.md"
+}
+},
+          create() {}
+        }
+      `,
+      options: [{
+        pattern: 'plugin-name/{{ name }}.md',
+      }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
       // ESM
       filename: 'test.js',
       code: `
@@ -573,6 +620,29 @@ url: "plugin-name/test.md"
       options: [{
         pattern: 'plugin-name/{{ name }}.md',
       }],
+      parserOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // TypeScript
+      filename: 'test.ts',
+      code: `
+        export default {
+          meta: {},
+          create() {}
+        }
+      `,
+      output: `
+        export default {
+          meta: {
+docs: {
+url: "plugin-name/test.md"
+}
+},
+          create() {}
+        }
+      `,
+      options: [{ pattern: 'plugin-name/{{ name }}.md' }],
       parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
