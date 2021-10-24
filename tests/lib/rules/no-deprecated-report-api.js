@@ -313,5 +313,14 @@ ruleTester.run('no-deprecated-report-api', rule, {
       output: null,
       errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
     },
+    {
+      // `create` in variable.
+      code: `
+        function create(context) { context.report(...error); }
+        module.exports = { create };
+      `,
+      output: null,
+      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+    },
   ],
 });

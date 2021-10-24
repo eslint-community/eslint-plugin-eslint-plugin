@@ -42,8 +42,8 @@ ruleTester.run('no-deprecated-context-methods', rule, {
         module.exports = {
           create(context) {
             return {
-              Program(node) {
-                context.getSource(node);
+              Program(ast) {
+                context.getSource(ast);
               }
             }
           }
@@ -53,8 +53,8 @@ ruleTester.run('no-deprecated-context-methods', rule, {
         module.exports = {
           create(context) {
             return {
-              Program(node) {
-                context.getSourceCode().getText(node);
+              Program(ast) {
+                context.getSourceCode().getText(ast);
               }
             }
           }
@@ -84,6 +84,18 @@ ruleTester.run('no-deprecated-context-methods', rule, {
           type: 'MemberExpression',
         },
       ],
+    },
+    {
+      // `create` in variable.
+      code: `
+        const create = function(context) { return { Program(ast) { context.getSource(ast); } } };
+        module.exports = { create };
+      `,
+      output: `
+        const create = function(context) { return { Program(ast) { context.getSourceCode().getText(ast); } } };
+        module.exports = { create };
+      `,
+      errors: [{ message: 'Use `context.getSourceCode().getText` instead of `context.getSource`.', type: 'MemberExpression' }],
     },
   ],
 });

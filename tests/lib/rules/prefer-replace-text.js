@@ -158,5 +158,19 @@ ruleTester.run('prefer-placeholders', rule, {
     `,
       errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
     },
+    {
+      // `create` in variable.
+      code: `
+        const create = function(context) {
+          context.report({
+            fix(fixer) {
+              return fixer.replaceTextRange([node.range[0], node.range[1]], '');
+            }
+          });
+        };
+        module.exports = { create };
+    `,
+      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+    },
   ],
 });

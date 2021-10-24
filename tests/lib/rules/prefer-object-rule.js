@@ -61,7 +61,13 @@ ruleTester.run('prefer-object-rule', rule, {
       };
       module.exports = rule;
     `,
-
+    // `create` as variable.
+    `
+      function create(context) {
+        return { Program() { context.report() } };
+      };
+      module.exports = { create };
+  `,
     {
       // ESM
       code: `

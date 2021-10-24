@@ -131,6 +131,12 @@ tester.run('require-meta-docs-url', rule, {
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
+      // No `meta`. Violation on `create`.
+      code: 'module.exports = { create() {} }',
+      output: null,
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+    },
+    {
       code: `
         module.exports = {
           meta,

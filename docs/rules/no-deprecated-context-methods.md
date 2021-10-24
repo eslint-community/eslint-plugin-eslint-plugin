@@ -39,8 +39,8 @@ Examples of **incorrect** code for this rule:
 module.exports = {
   create (context) {
     return {
-      Program (node) {
-        const firstToken = context.getFirstToken(node);
+      Program (ast) {
+        const firstToken = context.getFirstToken(ast);
       },
     };
   },
@@ -55,8 +55,8 @@ module.exports = {
     const sourceCode = context.getSourceCode();
 
     return {
-      Program (node) {
-        const firstToken = sourceCode.getFirstToken(node);
+      Program (ast) {
+        const firstToken = sourceCode.getFirstToken(ast);
       },
     };
   },

@@ -101,6 +101,14 @@ ruleTester.run('require-meta-docs-description', rule, {
         `,
       options: [{ pattern: '.+' }], // any description allowed
     },
+    // `meta` in variable, `description` present.
+    `
+      const meta = { docs: { description: 'enforce foo' } };
+      module.exports = {
+        meta,
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
@@ -113,6 +121,24 @@ ruleTester.run('require-meta-docs-description', rule, {
       `,
       output: null,
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // No `meta`. Violation on `create`.
+      code: 'module.exports = { create(context) {} };',
+      output: null,
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+    },
+    {
+      // `meta` in variable, `description` mismatch.
+      code: `
+        const meta = { docs: { description: 'foo' } };
+        module.exports = {
+          meta,
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'mismatch', type: 'Literal' }],
     },
     {
       // ESM
