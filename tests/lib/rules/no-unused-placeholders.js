@@ -141,6 +141,20 @@ ruleTester.run('no-unused-placeholders', rule, {
       errors: [error('bar')],
     },
     {
+      // With `create` as variable.
+      code: `
+        function create(context) {
+          context.report({
+            node,
+            message: 'foo',
+            data: { bar }
+          });
+        }
+        module.exports = { create };
+      `,
+      errors: [error('bar')],
+    },
+    {
       // With message as variable.
       code: `
         const MESSAGE = 'foo';

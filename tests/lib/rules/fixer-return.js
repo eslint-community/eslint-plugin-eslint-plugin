@@ -289,6 +289,20 @@ ruleTester.run('fixer-return', rule, {
       errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 5, column: 24 }],
     },
     {
+      // Fix but missing return
+      code: `
+        function create(context) {
+            context.report({
+                fix(fixer) {
+                    fixer.foo();
+                }
+            });
+        }
+        module.exports = { create };
+        `,
+      errors: [{ messageId: 'missingFix', type: 'FunctionExpression', line: 4, column: 20 }],
+    },
+    {
       // Fix but missing return (suggestion)
       code: `
           module.exports = {

@@ -270,5 +270,19 @@ ruleTester.run('no-missing-placeholders', rule, {
       `,
       errors: [error('bar')],
     },
+    {
+      // `create` in variable.
+      code: `
+        function create(context) {
+          context.report({
+            node,
+            message: 'foo {{hasOwnProperty}}',
+            data: {}
+          });
+        }
+        module.exports = { create };
+      `,
+      errors: [error('hasOwnProperty')],
+    },
   ],
 });

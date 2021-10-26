@@ -296,6 +296,16 @@ ruleTester.run('report-message-format', rule, {
       `,
       options: ['foo'],
     },
+    {
+      // `create` in variable.
+      code: `
+        function create(context) {
+          context.report(node, 'bar');
+        }
+        module.exports = { create };
+      `,
+      options: ['foo'],
+    },
   ].map(invalidCase => {
     return Object.assign({
       errors: [{ message: `Report message does not match the pattern '${invalidCase.options[0]}'.` }],

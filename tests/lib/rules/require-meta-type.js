@@ -66,9 +66,6 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
-    `module.exports = {
-      create(context) {}
-    }`,
     {
       code: `
         const create = {};
@@ -89,6 +86,16 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // No `meta`. Violation on `create`.
+      code: 'module.exports = { create(context) {} };',
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+    },
+    {
+      // `meta` in variable, missing `type`.
+      code: 'const meta = {}; module.exports = { meta, create(context) {} };',
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {

@@ -17,6 +17,7 @@ ruleTester.run('prefer-message-ids', rule, {
   valid: [
     `
       module.exports = {
+        meta: { messages: { foo: 'hello world' } },
         create(context) {
           context.report({ node });
         }
@@ -24,6 +25,7 @@ ruleTester.run('prefer-message-ids', rule, {
     `,
     `
       module.exports = {
+        meta: { messages: { foo: 'hello world' } },
         create(context) {
           context.report({ node, messageId: 'foo' });
         }
@@ -32,6 +34,7 @@ ruleTester.run('prefer-message-ids', rule, {
     // Suggestion
     `
       module.exports = {
+        meta: { messages: { foo: 'hello world' } },
         create(context) {
           context.report({ node, suggest: [{messageId:'foo'}] });
         }
@@ -41,6 +44,7 @@ ruleTester.run('prefer-message-ids', rule, {
       // ESM
       code: `
         export default {
+          meta: { messages: { foo: 'hello world' } },
           create(context) {
             context.report({ node, messageId: 'foo' });
           }
@@ -50,6 +54,7 @@ ruleTester.run('prefer-message-ids', rule, {
     },
     `
       module.exports = {
+        meta: { messages: { foo: 'hello world' } },
         create(context) {
           foo.report({ node, message: 'foo' }); // unrelated function
         }
@@ -57,6 +62,7 @@ ruleTester.run('prefer-message-ids', rule, {
     `,
     `
       module.exports = {
+        meta: { messages: { foo: 'hello world' } },
         create(context) {
           context.foo({ node, message: 'foo' }); // unrelated function
         }
@@ -65,6 +71,7 @@ ruleTester.run('prefer-message-ids', rule, {
     `
       context.report({ node, message: 'foo' }); // outside rule
       module.exports = {
+        meta: { messages: { foo: 'hello world' } },
         create(context) {
         }
       };
@@ -103,6 +110,7 @@ ruleTester.run('prefer-message-ids', rule, {
     {
       code: `
         module.exports = {
+          meta: { messages: { foo: 'hello world' } },
           create(context) {
             context.report({ node, message: 'foo' });
           }
@@ -114,6 +122,7 @@ ruleTester.run('prefer-message-ids', rule, {
       // Suggestion
       code: `
         module.exports = {
+          meta: { messages: { foo: 'hello world' } },
           create(context) {
             context.report({ node, suggest: [{desc:'foo'}] });
           }
@@ -125,6 +134,7 @@ ruleTester.run('prefer-message-ids', rule, {
       // ESM
       code: `
         export default {
+          meta: { messages: { foo: 'hello world' } },
           create(context) {
             context.report({ node, message: 'foo' });
           }
@@ -138,6 +148,7 @@ ruleTester.run('prefer-message-ids', rule, {
       code: `
         const MESSAGE = \`\${foo} is bad.\`;
         module.exports = {
+          meta: { messages: { foo: 'hello world' } },
           create(context) {
             context.report({
               node,
@@ -152,6 +163,7 @@ ruleTester.run('prefer-message-ids', rule, {
       // With constructed message.
       code: `
         module.exports = {
+          meta: { messages: { foo: 'hello world' } },
           create(context) {
             context.report({
               node,
@@ -211,6 +223,29 @@ ruleTester.run('prefer-message-ids', rule, {
             context.report({ node, message: 'foo' });
           }
         };
+      `,
+      errors: [
+        { messageId: 'messagesMissing', type: 'ObjectExpression' },
+        { messageId: 'foundMessage', type: 'Property' },
+      ],
+    },
+    {
+      // `meta` missing.
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({ node });
+          }
+        };
+      `,
+      errors: [{ messageId: 'messagesMissing', type: 'FunctionExpression' }],
+    },
+    {
+      // `meta` / `create` in variables, `messages` missing, using `message`.
+      code: `
+        const meta = {};
+        const create = function (context) { context.report({ node, message: 'foo' }); }
+        module.exports = { meta, create };
       `,
       errors: [
         { messageId: 'messagesMissing', type: 'ObjectExpression' },

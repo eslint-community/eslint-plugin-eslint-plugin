@@ -104,6 +104,11 @@ ruleTester.run('require-meta-schema', rule, {
       `,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
     },
+    {
+      // requireSchemaPropertyWhenOptionless = false, no `meta`.
+      code: 'module.exports = { create(context) {} };',
+      options: [{ requireSchemaPropertyWhenOptionless: false }],
+    },
   ],
 
   invalid: [
@@ -132,6 +137,18 @@ schema: []
       `,
             }],
         }],
+    },
+    {
+      // No `meta`. Violation on `create`.
+      code: 'module.exports = { create(context) {} };',
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          suggestions: [],
+        },
+      ],
     },
     {
       // requireSchemaPropertyWhenOptionless = true.
@@ -316,6 +333,19 @@ schema: [] },
           meta: {},
           create(context) { const options = context.options; }
         };
+      `,
+      output: null,
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
+      ],
+    },
+    {
+      // `create` as variable.
+      code: `
+        const meta = {};
+        const create = function create(context) { const options = context.options; }
+        module.exports = { meta, create };
       `,
       output: null,
       errors: [

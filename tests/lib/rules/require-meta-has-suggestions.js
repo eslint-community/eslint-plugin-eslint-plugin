@@ -174,9 +174,9 @@ ruleTester.run('require-meta-has-suggestions', rule, {
     // Spread syntax.
     {
       code: `
-        const meta = {};
+        const extra = {};
         module.exports = {
-          ...meta,
+          ...extra,
           meta: {},
           create(context) { context.report(node, message, data, fix); }
         };
@@ -197,6 +197,15 @@ ruleTester.run('require-meta-has-suggestions', rule, {
       `,
       output: null,
       errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionExpression', line: 3, column: 17, endLine: 3, endColumn: 78 }],
+    },
+    {
+      // `create` as variable.
+      code: `
+       function create(context) { context.report({node, message, suggest: [{}]}); }
+        module.exports = { create };
+      `,
+      output: null,
+      errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionDeclaration', line: 2, column: 8, endLine: 2, endColumn: 84 }],
     },
     {
       // ESM: Reports suggestions, no meta object, violation should be on `create` function.

@@ -184,5 +184,18 @@ ruleTester.run('prefer-placeholders', rule, {
       `,
       errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
     },
+    {
+      // `create` in variable.
+      code: `
+        function create(context) {
+          context.report({
+            node,
+            message: \`\${foo} is bad.\`
+          });
+        }
+        module.exports = { create };
+      `,
+      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+    },
   ],
 });

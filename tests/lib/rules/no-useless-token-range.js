@@ -32,6 +32,39 @@ function wrapRule (code) {
 // Tests
 // ------------------------------------------------------------------------------
 
+const INVALID_CASES = [
+  {
+    code: 'sourceCode.getFirstToken(foo).range[0]',
+    output: 'foo.range[0]',
+    errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
+  },
+  {
+    code: 'sourceCode.getFirstToken(foo).start',
+    output: 'foo.start',
+    errors: [{ message: "Use 'foo.start' instead.", type: 'CallExpression' }],
+  },
+  {
+    code: 'sourceCode.getLastToken(foo).range[1]',
+    output: 'foo.range[1]',
+    errors: [{ message: "Use 'foo.range[1]' instead.", type: 'CallExpression' }],
+  },
+  {
+    code: 'sourceCode.getLastToken(foo).end',
+    output: 'foo.end',
+    errors: [{ message: "Use 'foo.end' instead.", type: 'CallExpression' }],
+  },
+  {
+    code: 'sourceCode.getFirstToken(foo, { includeComments: true }).range[0]',
+    output: 'foo.range[0]',
+    errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
+  },
+  {
+    code: 'sourceCode.getLastToken(foo, { includeComments: true }).range[1]',
+    output: 'foo.range[1]',
+    errors: [{ message: "Use 'foo.range[1]' instead.", type: 'CallExpression' }],
+  },
+].map(invalidCase => Object.assign(invalidCase, { code: wrapRule(invalidCase.code), output: wrapRule(invalidCase.output) }));
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-useless-token-range', rule, {
 
@@ -49,35 +82,24 @@ ruleTester.run('no-useless-token-range', rule, {
   ].map(wrapRule),
 
   invalid: [
+    ...INVALID_CASES,
     {
-      code: 'sourceCode.getFirstToken(foo).range[0]',
-      output: 'foo.range[0]',
+      // `create` as variable.
+      code: `
+        function create(context) {
+          const sourceCode = context.getSourceCode();
+          sourceCode.getFirstToken(foo).range[0]
+        }
+        module.exports = { create };
+      `,
+      output: `
+        function create(context) {
+          const sourceCode = context.getSourceCode();
+          foo.range[0]
+        }
+        module.exports = { create };
+      `,
       errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
     },
-    {
-      code: 'sourceCode.getFirstToken(foo).start',
-      output: 'foo.start',
-      errors: [{ message: "Use 'foo.start' instead.", type: 'CallExpression' }],
-    },
-    {
-      code: 'sourceCode.getLastToken(foo).range[1]',
-      output: 'foo.range[1]',
-      errors: [{ message: "Use 'foo.range[1]' instead.", type: 'CallExpression' }],
-    },
-    {
-      code: 'sourceCode.getLastToken(foo).end',
-      output: 'foo.end',
-      errors: [{ message: "Use 'foo.end' instead.", type: 'CallExpression' }],
-    },
-    {
-      code: 'sourceCode.getFirstToken(foo, { includeComments: true }).range[0]',
-      output: 'foo.range[0]',
-      errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
-    },
-    {
-      code: 'sourceCode.getLastToken(foo, { includeComments: true }).range[1]',
-      output: 'foo.range[1]',
-      errors: [{ message: "Use 'foo.range[1]' instead.", type: 'CallExpression' }],
-    },
-  ].map(invalidCase => Object.assign(invalidCase, { code: wrapRule(invalidCase.code), output: wrapRule(invalidCase.output) })),
+  ],
 });

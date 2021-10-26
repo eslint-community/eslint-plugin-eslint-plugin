@@ -71,6 +71,7 @@ ruleTester.run('test-case-property-ordering', rule, {
       meta: {},
       create() {},
     };`,
+    'module.exports = { create() {} };', // No `meta`.
   ],
 
   invalid: [

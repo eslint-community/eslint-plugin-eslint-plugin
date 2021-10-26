@@ -19,6 +19,12 @@ const RuleTester = require('eslint').RuleTester;
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('require-meta-fixable', rule, {
   valid: [
+    // No `meta`.
+    `
+      module.exports = {
+        create(context) {}
+      };
+    `,
     `
       module.exports = {
         meta: {},
@@ -125,9 +131,9 @@ ruleTester.run('require-meta-fixable', rule, {
     `,
     {
       code: `
-        const meta = {};
+        const extra = {};
         module.exports = {
-          ...meta,
+          ...extra,
           meta: {},
           create(context) { context.report(node, message, data, fix); }
         };
@@ -187,6 +193,23 @@ ruleTester.run('require-meta-fixable', rule, {
 
   invalid: [
     {
+      // No `meta`. Violation on `create`.
+      code: `
+        module.exports = {
+          create(context) { context.report({node, message, fix: foo}); }
+        };
+      `,
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+    },
+    {
+      // `create` as variable.
+      code: `
+        const create = function(context) { context.report({node, message, fix: foo}); }
+        module.exports = { create };
+      `,
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+    },
+    {
       code: `
         module.exports = {
           meta: {},
@@ -205,14 +228,6 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
-    },
-    {
-      code: `
-        module.exports = {
-          create(context) { context.report({node, message, fix: foo}); }
-        };
-      `,
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
       code: `

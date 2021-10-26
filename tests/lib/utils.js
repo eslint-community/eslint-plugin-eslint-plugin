@@ -26,6 +26,8 @@ describe('utils', () => {
         'module.exports = { create: foo }',
         'module.exports = { create: function* foo() {} }',
         'module.exports = { create: async function foo() {} }',
+        'module.exports = { create, meta }',
+        'module.exports = { create: getCreate(), meta: getMeta() }',
 
         // Function-style rule but missing object return.
         'module.exports = (context) => { }',
@@ -48,7 +50,8 @@ describe('utils', () => {
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
-          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+          const scopeManager = eslintScope.analyze(ast);
+          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
         });
       });
     });
@@ -84,7 +87,8 @@ describe('utils', () => {
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
-          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+          const scopeManager = eslintScope.analyze(ast);
+          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
         });
       });
     });
@@ -101,7 +105,8 @@ describe('utils', () => {
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = typescriptEslintParser.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
-          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+          const scopeManager = eslintScope.analyze(ast);
+          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
         });
       });
     });
@@ -115,7 +120,8 @@ describe('utils', () => {
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = typescriptEslintParser.parse(noRuleCase, { range: true, sourceType: 'script' });
-          assert.isNull(utils.getRuleInfo({ ast }), 'Expected no rule to be found');
+          const scopeManager = eslintScope.analyze(ast);
+          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
         });
       });
     });
@@ -135,6 +141,11 @@ describe('utils', () => {
         },
         'export default createESLintRule({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const create = context => {}; const meta = {}; export default createESLintRule({ create, meta });': {
+          create: { type: 'ArrowFunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
@@ -174,7 +185,8 @@ describe('utils', () => {
       Object.keys(CASES).forEach(ruleSource => {
         it(ruleSource, () => {
           const ast = typescriptEslintParser.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'module' });
-          const ruleInfo = utils.getRuleInfo({ ast });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
@@ -275,12 +287,18 @@ describe('utils', () => {
           meta: null,
           isNewStyle: false,
         },
+        'const create = function(context) { return {}; }; const meta = {}; module.exports = { create, meta };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
       };
 
       Object.keys(CASES).forEach(ruleSource => {
         it(ruleSource, () => {
           const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'script' });
-          const ruleInfo = utils.getRuleInfo({ ast });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
@@ -299,6 +317,16 @@ describe('utils', () => {
         },
         'export default { create() {}, meta: {} }': {
           create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const create = function(context) { return {}; }; const meta = {}; export default { create, meta }': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'function create(context) { return {}; }; const meta = {}; export default { create, meta }': {
+          create: { type: 'FunctionDeclaration' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
@@ -324,7 +352,8 @@ describe('utils', () => {
       Object.keys(CASES).forEach(ruleSource => {
         it(ruleSource, () => {
           const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'module' });
-          const ruleInfo = utils.getRuleInfo({ ast });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
@@ -343,10 +372,10 @@ describe('utils', () => {
           const create = (context) => {};
           const meta = {};
           module.exports = { create, meta };
-        `, { ecmaVersion: 6 });
+        `, { ecmaVersion: 6, range: true });
         const expected = {
-          create: { type: 'Identifier' },
-          meta: { type: 'Identifier' },
+          create: { type: 'ArrowFunctionExpression' },
+          meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         };
         it(`ScopeOptions: ${JSON.stringify(scopeOptions)}`, () => {
@@ -416,6 +445,11 @@ describe('utils', () => {
           ast.body[0].expression.right.properties[1].value.body.body[2].expression,
         ];
       },
+      'const create = function(context) { context }; module.exports = { meta: {}, create };' (ast) {
+        return [
+          ast.body[0].declarations[0].init.body.body[0].expression,
+        ];
+      },
     };
 
     Object.keys(CASES).forEach(ruleSource => {
@@ -425,6 +459,7 @@ describe('utils', () => {
         const identifiers = utils.getContextIdentifiers(scope, ast);
 
         assert(identifiers instanceof Set, 'getContextIdentifiers should return a Set');
+        assert.strictEqual(identifiers.size, CASES[ruleSource](ast).length, 'has the correct number of results');
         [...identifiers].forEach((identifier, index) => {
           assert.strictEqual(identifier, CASES[ruleSource](ast)[index]);
         });
