@@ -24,6 +24,31 @@ function capitalizeFirstLetter (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/**
+ * Get list of named options from a JSON schema (used for rule schemas).
+ * @param {Object|Array} jsonSchema - the JSON schema to check
+ * @returns {String[]} list of named options
+ */
+function getAllNamedOptions (jsonSchema) {
+  if (!jsonSchema) {
+    return [];
+  }
+
+  if (Array.isArray(jsonSchema)) {
+    return jsonSchema.flatMap(item => getAllNamedOptions(item));
+  }
+
+  if (jsonSchema.items) {
+    return getAllNamedOptions(jsonSchema.items);
+  }
+
+  if (jsonSchema.properties) {
+    return Object.keys(jsonSchema.properties);
+  }
+
+  return [];
+}
+
 describe('rule setup is correct', () => {
   it('should have a list of exported rules and rules directory that match', () => {
     const filePath = path.join(__dirname, '..', 'lib', 'rules');
@@ -130,6 +155,24 @@ describe('rule setup is correct', () => {
           // Ensure that unexpected notices are not present.
           for (const unexpectedNotice of unexpectedNotices) {
             assert.ok(!fileContents.includes(MESSAGES[unexpectedNotice]), 'does not include notice: ' + MESSAGES[unexpectedNotice]);
+          }
+
+          // Check if the rule has configuration options.
+          if (
+            (Array.isArray(rule.meta.schema) && rule.meta.schema.length > 0) ||
+            (typeof rule.meta.schema === 'object' && Object.keys(rule.meta.schema).length > 0)
+          ) {
+            // Should have a configuration section header:
+            assert.ok(fileContents.includes('## Options'), 'Should have an "## Options" section');
+
+            // Ensure all configuration options are mentioned.
+            for (const namedOption of getAllNamedOptions(rule.meta.schema)) {
+              assert.ok(fileContents.includes(namedOption), 'Should mention the `' + namedOption + '` option');
+            }
+          } else {
+            // Should NOT have any options/config section headers:
+            assert.notOk(fileContents.includes('# Options'), 'Should not have an "Options" section');
+            assert.notOk(fileContents.includes('# Config'), 'Should not have a "Config" section');
           }
         });
       });
