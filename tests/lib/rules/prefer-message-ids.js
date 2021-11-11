@@ -104,6 +104,24 @@ ruleTester.run('prefer-message-ids', rule, {
         }
       };
     `,
+    // `meta.messages` has no static value.
+    `
+      module.exports = {
+        meta: { messages },
+        create(context) {
+          context.report({ node, messageId: FOO });
+        }
+      };
+    `,
+    // `context.report` with no args.
+    `
+      module.exports = {
+        meta: { messages },
+        create(context) {
+          context.report();
+        }
+      };
+    `,
   ],
 
   invalid: [

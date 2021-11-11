@@ -45,7 +45,17 @@ ruleTester.run('prefer-output-null', rule, {
         invalid: []
       });
     `,
-
+    // Dynamic cases.
+    `
+      new RuleTester().run('foo', bar, {
+        valid: [
+          FOO_CASE
+        ],
+        invalid: [
+          FOO_CASE,
+        ]
+      });
+    `,
   ],
 
   invalid: [

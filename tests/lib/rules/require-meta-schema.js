@@ -151,6 +151,23 @@ schema: []
       ],
     },
     {
+      // No `meta`, uses `context.options`. Two violations on `create`.
+      code: 'module.exports = { create(context) { const options = context.options; } };',
+      output: null,
+      errors: [
+        {
+          messageId: 'foundOptionsUsage',
+          type: 'FunctionExpression',
+          suggestions: [],
+        },
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          suggestions: [],
+        },
+      ],
+    },
+    {
       // requireSchemaPropertyWhenOptionless = true.
       code: `
         module.exports = {
