@@ -70,6 +70,16 @@ describe('rule setup is correct', () => {
           const ALLOWED_CATEGORIES = ['Rules', 'Tests'];
           assert.ok(ALLOWED_CATEGORIES.includes(rule.meta.docs.category), 'has an allowed category');
         });
+
+        it('should have the right contents', () => {
+          const filePath = path.join(__dirname, '..', '..', 'lib', 'rules', `${ruleName}.js`);
+          const file = readFileSync(filePath, 'utf8');
+
+          assert.ok(
+            file.includes("/** @type {import('eslint').Rule.RuleModule} */"),
+            'includes jsdoc comment for rule type'
+          );
+        });
       });
     }
   });
