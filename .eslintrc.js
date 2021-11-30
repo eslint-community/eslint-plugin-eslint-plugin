@@ -2,7 +2,6 @@
 
 module.exports = {
   root: true,
-  plugins: ['node'],
   extends: [
     'not-an-aardvark/node',
     'plugin:unicorn/recommended',
@@ -31,11 +30,10 @@ module.exports = {
     {
       // Apply eslint-plugin rules to our own rules/tests (but not docs).
       files: ['lib/**/*.js', 'tests/**/*.js'],
-      plugins: ['self'],
-      extends: ['plugin:self/all'],
+      extends: ['plugin:eslint-plugin/all'],
       rules: {
-        'self/report-message-format': ['error', '^[^a-z].*.$'],
-        'self/require-meta-docs-url': [
+        'eslint-plugin/report-message-format': ['error', '^[^a-z].*.$'],
+        'eslint-plugin/require-meta-docs-url': [
           'error',
           {
             pattern:
