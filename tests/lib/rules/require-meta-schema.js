@@ -370,5 +370,19 @@ schema: [] },
         { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
       ],
     },
+    {
+      // `rule`, `create`, and `meta` as variable.
+      code: `
+        const meta = {};
+        const create = function create(context) { const options = context.options; }
+        const rule = { meta, create };
+        module.exports = rule;
+      `,
+      output: null,
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
+      ],
+    },
   ],
 });
