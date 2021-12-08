@@ -16,6 +16,9 @@ describe('utils', () => {
         '',
         'module.exports;',
         'module.exports = foo;',
+        'const foo = {}; module.exports = foo;',
+        'const foo = function() { return {}; }; module.exports = foo;',
+        'const foo = 123; module.exports = foo;',
         'module.boop = function(context) { return {};};',
         'exports = function(context) { return {};};',
         'module.exports = function* (context) { return {}; };',
@@ -62,6 +65,7 @@ describe('utils', () => {
         'export const foo = { create() {} }',
         'export default { foo: {} }',
         'const foo = {}; export default foo',
+        'const foo = 123; export default foo',
 
         // Exports function but not default export.
         'export function foo (context) { return {}; }',
@@ -102,6 +106,7 @@ describe('utils', () => {
         'export default foo<Options, MessageIds>(123);',
         'export default foo.bar<Options, MessageIds>(123);',
         'export default foo.bar()<Options, MessageIds>(123);',
+        'const notRule = foo(); export default notRule;',
       ].forEach(noRuleCase => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = typescriptEslintParser.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
@@ -146,6 +151,11 @@ describe('utils', () => {
         },
         'const create = context => {}; const meta = {}; export default createESLintRule({ create, meta });': {
           create: { type: 'ArrowFunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const rule = createESLintRule({ create() {}, meta: {} }); export default rule;': {
+          create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
@@ -292,6 +302,11 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        'const rule = { create() {}, meta: {} }; module.exports = rule;': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
       };
 
       Object.keys(CASES).forEach(ruleSource => {
@@ -327,6 +342,16 @@ describe('utils', () => {
         },
         'function create(context) { return {}; }; const meta = {}; export default { create, meta }': {
           create: { type: 'FunctionDeclaration' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const rule = { create() {}, meta: {} }; export default rule;': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const create = function() {}; const meta = {}; const rule = { create, meta }; export default rule;': {
+          create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
