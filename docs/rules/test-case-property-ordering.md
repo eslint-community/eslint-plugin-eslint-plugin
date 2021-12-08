@@ -15,7 +15,6 @@ This rule has an array option:
 Examples of **incorrect** code for this rule:
 
 ```js
-
 /* eslint eslint-plugin/test-case-property-ordering: ["error",
   ["code", "output", "options", "parserOptions", "errors"]
 ] */
@@ -26,7 +25,6 @@ const testCase1 = {
   options: ['baz'],
   output: 'bar',
 };
-
 
 // invalid; extra properties should need to be placed afterwards.
 const testCase2 = {
@@ -50,7 +48,6 @@ const testCase1 = {
   output: 'bar',
   options: ['baz'],
 };
-
 ```
 
 ## When Not To Use It

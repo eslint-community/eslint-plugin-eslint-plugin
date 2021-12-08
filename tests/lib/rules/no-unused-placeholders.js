@@ -13,11 +13,11 @@ const rule = require('../../../lib/rules/no-unused-placeholders');
 const RuleTester = require('eslint').RuleTester;
 
 /**
-* Create an error for the given key
-* @param {string} unusedKey The placeholder that is unused
-* @returns {object} An expected error
-*/
-function error (unusedKey, type = 'Literal') {
+ * Create an error for the given key
+ * @param {string} unusedKey The placeholder that is unused
+ * @returns {object} An expected error
+ */
+function error(unusedKey, type = 'Literal') {
   return { type, message: `The placeholder {{${unusedKey}}} is unused.` };
 }
 
@@ -27,7 +27,6 @@ function error (unusedKey, type = 'Literal') {
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-unused-placeholders', rule, {
-
   valid: [
     `
           module.exports = {

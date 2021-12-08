@@ -17,7 +17,7 @@ const RuleTester = require('eslint').RuleTester;
  * @param {string} code source text given a `sourceCode` variable
  * @returns {string} rule code containing that source text
  */
-function wrapRule (code) {
+function wrapRule(code) {
   return `
     module.exports = {
       create(context) {
@@ -36,7 +36,9 @@ const INVALID_CASES = [
   {
     code: 'sourceCode.getFirstToken(foo).range[0]',
     output: 'foo.range[0]',
-    errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
+    errors: [
+      { message: "Use 'foo.range[0]' instead.", type: 'CallExpression' },
+    ],
   },
   {
     code: 'sourceCode.getFirstToken(foo).start',
@@ -46,7 +48,9 @@ const INVALID_CASES = [
   {
     code: 'sourceCode.getLastToken(foo).range[1]',
     output: 'foo.range[1]',
-    errors: [{ message: "Use 'foo.range[1]' instead.", type: 'CallExpression' }],
+    errors: [
+      { message: "Use 'foo.range[1]' instead.", type: 'CallExpression' },
+    ],
   },
   {
     code: 'sourceCode.getLastToken(foo).end',
@@ -56,18 +60,26 @@ const INVALID_CASES = [
   {
     code: 'sourceCode.getFirstToken(foo, { includeComments: true }).range[0]',
     output: 'foo.range[0]',
-    errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
+    errors: [
+      { message: "Use 'foo.range[0]' instead.", type: 'CallExpression' },
+    ],
   },
   {
     code: 'sourceCode.getLastToken(foo, { includeComments: true }).range[1]',
     output: 'foo.range[1]',
-    errors: [{ message: "Use 'foo.range[1]' instead.", type: 'CallExpression' }],
+    errors: [
+      { message: "Use 'foo.range[1]' instead.", type: 'CallExpression' },
+    ],
   },
-].map(invalidCase => Object.assign(invalidCase, { code: wrapRule(invalidCase.code), output: wrapRule(invalidCase.output) }));
+].map((invalidCase) =>
+  Object.assign(invalidCase, {
+    code: wrapRule(invalidCase.code),
+    output: wrapRule(invalidCase.output),
+  })
+);
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-useless-token-range', rule, {
-
   valid: [
     'sourceCode.getLastToken(foo).range[0]',
     'sourceCode.getFirstToken(foo).range[1]',
@@ -99,7 +111,9 @@ ruleTester.run('no-useless-token-range', rule, {
         }
         module.exports = { create };
       `,
-      errors: [{ message: "Use 'foo.range[0]' instead.", type: 'CallExpression' }],
+      errors: [
+        { message: "Use 'foo.range[0]' instead.", type: 'CallExpression' },
+      ],
     },
   ],
 });

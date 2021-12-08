@@ -2,10 +2,15 @@
 
 module.exports = {
   root: true,
+  parserOptions: {
+    ecmaVersion: 2021,
+    sourceType: 'script',
+  },
   extends: [
     'not-an-aardvark/node',
-    'plugin:unicorn/recommended',
     'plugin:node/recommended',
+    'plugin:prettier/recommended',
+    'plugin:unicorn/recommended',
   ],
   rules: {
     'comma-dangle': [

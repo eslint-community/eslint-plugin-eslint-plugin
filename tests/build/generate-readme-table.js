@@ -6,7 +6,10 @@ const assert = require('chai').assert;
 
 describe('table in README.md', () => {
   it('is up-to-date', () => {
-    const actualReadme = fs.readFileSync(path.resolve(__dirname, '..', '..', 'README.md'), 'utf8');
+    const actualReadme = fs.readFileSync(
+      path.resolve(__dirname, '..', '..', 'README.md'),
+      'utf8'
+    );
     const expectedReadme = require('../../build/generate-readme-table');
 
     assert(

@@ -14,10 +14,7 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/no-identical-tests: error */
 
 new RuleTester().run('foo', bar, {
-  valid: [
-    { code: 'foo' },
-    { code: 'foo' },
-  ],
+  valid: [{ code: 'foo' }, { code: 'foo' }],
   invalid: [],
 });
 ```
@@ -28,10 +25,7 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/no-identical-tests: error */
 
 new RuleTester().run('foo', bar, {
-  valid: [
-    { code: 'foo' },
-    { code: 'bar' },
-  ],
+  valid: [{ code: 'foo' }, { code: 'bar' }],
   invalid: [],
 });
 ```

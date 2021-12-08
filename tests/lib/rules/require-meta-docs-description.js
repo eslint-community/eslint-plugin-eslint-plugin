@@ -82,8 +82,7 @@ ruleTester.run('require-meta-docs-description', rule, {
       };
     `,
     {
-      code:
-        `
+      code: `
           module.exports = {
             meta: { docs: { description: 'myPrefix foo bar' } },
             create(context) {}
@@ -92,8 +91,7 @@ ruleTester.run('require-meta-docs-description', rule, {
       options: [{ pattern: '^myPrefix' }],
     },
     {
-      code:
-        `
+      code: `
           module.exports = {
             meta: { docs: { description: 'random message' } },
             create(context) {}
@@ -242,7 +240,13 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ message: '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.', type: 'Literal' }],
+      errors: [
+        {
+          message:
+            '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.',
+          type: 'Literal',
+        },
+      ],
     },
     {
       code: `
@@ -252,7 +256,13 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ message: '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.', type: 'BinaryExpression' }],
+      errors: [
+        {
+          message:
+            '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.',
+          type: 'BinaryExpression',
+        },
+      ],
     },
     {
       code: `
@@ -263,7 +273,12 @@ ruleTester.run('require-meta-docs-description', rule, {
       `,
       output: null,
       options: [{ pattern: '^myPrefix' }],
-      errors: [{ message: '`meta.docs.description` must match the regexp /^myPrefix/.', type: 'Literal' }],
+      errors: [
+        {
+          message: '`meta.docs.description` must match the regexp /^myPrefix/.',
+          type: 'Literal',
+        },
+      ],
     },
   ],
 });

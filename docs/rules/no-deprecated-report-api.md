@@ -19,18 +19,17 @@ Examples of **incorrect** code for this rule:
 
 ```js
 module.exports = {
-  create (context) {
+  create(context) {
     context.report(node, 'This node is bad.');
   },
 };
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 module.exports = {
-  create (context) {
+  create(context) {
     context.report({ node, message: 'This node is bad.' });
 
     context.report({ node, loc, message: 'This node is bad.' });

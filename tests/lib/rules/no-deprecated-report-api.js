@@ -18,7 +18,6 @@ const RuleTester = require('eslint').RuleTester;
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-deprecated-report-api', rule, {
-
   valid: [
     `
       module.exports = {

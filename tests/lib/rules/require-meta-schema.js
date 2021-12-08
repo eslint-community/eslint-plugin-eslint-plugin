@@ -54,7 +54,7 @@ ruleTester.run('require-meta-schema', rule, {
       };
     `,
     {
-    // ESM
+      // ESM
       code: `
         export default {
           meta: { schema: { "enum": ["always", "never"] } },
@@ -135,8 +135,10 @@ schema: []
           create(context) {}
         };
       `,
-            }],
-        }],
+            },
+          ],
+        },
+      ],
     },
     {
       // No `meta`. Violation on `create`.
@@ -306,7 +308,9 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] },
+      ],
     },
     {
       // Empty schema (object), but using rule options.
@@ -317,7 +321,9 @@ schema: [] },
         };
       `,
       output: null,
-      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] },
+      ],
     },
     {
       // Empty schema (object), but using rule options, requireSchemaPropertyWhenOptionless = false.
@@ -329,7 +335,9 @@ schema: [] },
       `,
       output: null,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
-      errors: [{ messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] }],
+      errors: [
+        { messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] },
+      ],
     },
     {
       // No schema, but using rule options, requireSchemaPropertyWhenOptionless = false.
@@ -341,7 +349,13 @@ schema: [] },
       `,
       output: null,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
-      errors: [{ messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] }],
+      errors: [
+        {
+          messageId: 'foundOptionsUsage',
+          type: 'ObjectExpression',
+          suggestions: [],
+        },
+      ],
     },
     {
       // No schema, but using rule options, should have no suggestions.
@@ -353,7 +367,11 @@ schema: [] },
       `,
       output: null,
       errors: [
-        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        {
+          messageId: 'foundOptionsUsage',
+          type: 'ObjectExpression',
+          suggestions: [],
+        },
         { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
       ],
     },
@@ -366,7 +384,11 @@ schema: [] },
       `,
       output: null,
       errors: [
-        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        {
+          messageId: 'foundOptionsUsage',
+          type: 'ObjectExpression',
+          suggestions: [],
+        },
         { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
       ],
     },
@@ -380,7 +402,11 @@ schema: [] },
       `,
       output: null,
       errors: [
-        { messageId: 'foundOptionsUsage', type: 'ObjectExpression', suggestions: [] },
+        {
+          messageId: 'foundOptionsUsage',
+          type: 'ObjectExpression',
+          suggestions: [],
+        },
         { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
       ],
     },

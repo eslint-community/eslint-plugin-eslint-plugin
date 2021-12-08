@@ -76,7 +76,12 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options].' }],
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, options].',
+        },
+      ],
     },
     {
       code: `
@@ -93,7 +98,12 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options, env].' }],
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, options, env].',
+        },
+      ],
     },
     {
       code: `
@@ -110,7 +120,12 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, options, env].' }],
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, options, env].',
+        },
+      ],
     },
     {
       code: `
@@ -128,7 +143,12 @@ ruleTester.run('test-case-property-ordering', rule, {
         });
       `,
       options: [['code', 'errors', 'options', 'output', 'parserOptions']],
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, options, output].' }],
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, options, output].',
+        },
+      ],
     },
     {
       code: `
@@ -145,7 +165,12 @@ ruleTester.run('test-case-property-ordering', rule, {
           ]
         });
       `,
-      errors: [{ message: 'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].' }],
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].',
+        },
+      ],
     },
   ],
 });

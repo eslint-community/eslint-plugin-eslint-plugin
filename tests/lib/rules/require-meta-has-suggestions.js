@@ -196,7 +196,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionExpression', line: 3, column: 17, endLine: 3, endColumn: 78 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'FunctionExpression',
+          line: 3,
+          column: 17,
+          endLine: 3,
+          endColumn: 78,
+        },
+      ],
     },
     {
       // `create` as variable.
@@ -205,7 +214,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         module.exports = { create };
       `,
       output: null,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionDeclaration', line: 2, column: 8, endLine: 2, endColumn: 84 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'FunctionDeclaration',
+          line: 2,
+          column: 8,
+          endLine: 2,
+          endColumn: 84,
+        },
+      ],
     },
     {
       // ESM: Reports suggestions, no meta object, violation should be on `create` function.
@@ -216,7 +234,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
       `,
       output: null,
       parserOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'FunctionExpression', line: 3, column: 17, endLine: 3, endColumn: 78 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'FunctionExpression',
+          line: 3,
+          column: 17,
+          endLine: 3,
+          endColumn: 78,
+        },
+      ],
     },
     {
       // Reports suggestions, no hasSuggestions property, violation should be on `meta` object, empty meta object.
@@ -232,7 +259,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 3, column: 17, endLine: 3, endColumn: 19 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'ObjectExpression',
+          line: 3,
+          column: 17,
+          endLine: 3,
+          endColumn: 19,
+        },
+      ],
     },
     {
       // Reports suggestions, no hasSuggestions property, violation should be on `meta` object, non-empty meta object.
@@ -248,7 +284,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 3, column: 17, endLine: 3, endColumn: 31 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'ObjectExpression',
+          line: 3,
+          column: 17,
+          endLine: 3,
+          endColumn: 31,
+        },
+      ],
     },
     {
       // Reports suggestions (in variable), no hasSuggestions property, violation should be on `meta` object.
@@ -266,7 +311,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: SUGGESTIONS}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 4, column: 17, endLine: 4, endColumn: 19 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'ObjectExpression',
+          line: 4,
+          column: 17,
+          endLine: 4,
+          endColumn: 19,
+        },
+      ],
     },
     {
       // Reports suggestions (in variable, with pushing), no hasSuggestions property, violation should be on `meta` object.
@@ -286,7 +340,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'ObjectExpression', line: 5, column: 17, endLine: 5, endColumn: 19 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'ObjectExpression',
+          line: 5,
+          column: 17,
+          endLine: 5,
+          endColumn: 19,
+        },
+      ],
     },
     {
       // Reports suggestions, hasSuggestions property set to false, violation should be on `false`
@@ -302,7 +365,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'Literal', line: 3, column: 35, endLine: 3, endColumn: 40 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'Literal',
+          line: 3,
+          column: 35,
+          endLine: 3,
+          endColumn: 40,
+        },
+      ],
     },
     {
       // Reports suggestions, hasSuggestions property set to `null`, violation should be on `null`
@@ -318,7 +390,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'Literal', line: 3, column: 35, endLine: 3, endColumn: 39 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'Literal',
+          line: 3,
+          column: 35,
+          endLine: 3,
+          endColumn: 39,
+        },
+      ],
     },
     {
       // Reports suggestions, hasSuggestions property set to `undefined`, violation should be on `undefined`
@@ -334,7 +415,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report({node, message, suggest: [{}]}); }
         };
       `,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'Identifier', line: 3, column: 35, endLine: 3, endColumn: 44 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'Identifier',
+          line: 3,
+          column: 35,
+          endLine: 3,
+          endColumn: 44,
+        },
+      ],
     },
     {
       // Reports suggestions, hasSuggestions property set to false (as variable), violation should be on variable
@@ -346,7 +436,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'shouldBeSuggestable', type: 'Identifier', line: 4, column: 19, endLine: 4, endColumn: 33 }],
+      errors: [
+        {
+          messageId: 'shouldBeSuggestable',
+          type: 'Identifier',
+          line: 4,
+          column: 19,
+          endLine: 4,
+          endColumn: 33,
+        },
+      ],
     },
     {
       // Does not report suggestions, hasSuggestions property set to true, violation should be on `true`
@@ -357,7 +456,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'shouldNotBeSuggestable', type: 'Literal', line: 3, column: 35, endLine: 3, endColumn: 39 }],
+      errors: [
+        {
+          messageId: 'shouldNotBeSuggestable',
+          type: 'Literal',
+          line: 3,
+          column: 35,
+          endLine: 3,
+          endColumn: 39,
+        },
+      ],
     },
   ],
 });

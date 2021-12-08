@@ -19,14 +19,14 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {}, // Missing `meta.hasSuggestions`.
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',
       suggest: [
         {
           desc: 'Insert space at the beginning',
-          fix: fixer => fixer.insertTextBefore(node, ' '),
+          fix: (fixer) => fixer.insertTextBefore(node, ' '),
         },
       ],
     });
@@ -39,7 +39,7 @@ module.exports = {
 
 module.exports = {
   meta: { hasSuggestions: true }, // Has `meta.hasSuggestions` enabled but never provides suggestions.
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',
@@ -55,14 +55,14 @@ Examples of **correct** code for this rule:
 
 module.exports = {
   meta: { hasSuggestions: true },
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',
       suggest: [
         {
           desc: 'Insert space at the beginning',
-          fix: fixer => fixer.insertTextBefore(node, ' '),
+          fix: (fixer) => fixer.insertTextBefore(node, ' '),
         },
       ],
     });
@@ -75,7 +75,7 @@ module.exports = {
 
 module.exports = {
   meta: {},
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',

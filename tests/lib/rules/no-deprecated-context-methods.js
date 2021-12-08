@@ -18,7 +18,6 @@ const RuleTester = require('eslint').RuleTester;
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-deprecated-context-methods', rule, {
-
   valid: [
     `
       module.exports = {
@@ -62,7 +61,8 @@ ruleTester.run('no-deprecated-context-methods', rule, {
       `,
       errors: [
         {
-          message: 'Use `context.getSourceCode().getText` instead of `context.getSource`.',
+          message:
+            'Use `context.getSourceCode().getText` instead of `context.getSource`.',
           type: 'MemberExpression',
         },
       ],
@@ -80,7 +80,8 @@ ruleTester.run('no-deprecated-context-methods', rule, {
       `,
       errors: [
         {
-          message: 'Use `myRuleContext.getSourceCode().getFirstToken` instead of `myRuleContext.getFirstToken`.',
+          message:
+            'Use `myRuleContext.getSourceCode().getFirstToken` instead of `myRuleContext.getFirstToken`.',
           type: 'MemberExpression',
         },
       ],
@@ -95,7 +96,13 @@ ruleTester.run('no-deprecated-context-methods', rule, {
         const create = function(context) { return { Program(ast) { context.getSourceCode().getText(ast); } } };
         module.exports = { create };
       `,
-      errors: [{ message: 'Use `context.getSourceCode().getText` instead of `context.getSource`.', type: 'MemberExpression' }],
+      errors: [
+        {
+          message:
+            'Use `context.getSourceCode().getText` instead of `context.getSource`.',
+          type: 'MemberExpression',
+        },
+      ],
     },
   ],
 });

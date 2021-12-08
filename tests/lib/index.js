@@ -7,7 +7,7 @@ const RULE_NAMES = Object.keys(plugin.rules);
 
 describe('exported plugin', () => {
   describe('has a meta.docs.url property on each rule', () => {
-    RULE_NAMES.forEach(ruleName => {
+    RULE_NAMES.forEach((ruleName) => {
       it(ruleName, () => {
         assert.match(
           plugin.rules[ruleName].meta.docs.url,

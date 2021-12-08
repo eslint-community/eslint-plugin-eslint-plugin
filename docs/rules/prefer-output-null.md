@@ -15,9 +15,7 @@ Examples of **incorrect** code for this rule:
 
 new RuleTester().run('foo', bar, {
   valid: [],
-  invalid: [
-    { code: 'foo', output: 'foo', errors: [{ message: 'bar' }] },
-  ],
+  invalid: [{ code: 'foo', output: 'foo', errors: [{ message: 'bar' }] }],
 });
 ```
 
@@ -28,8 +26,6 @@ Examples of **correct** code for this rule:
 
 new RuleTester().run('foo', bar, {
   valid: [],
-  invalid: [
-    { code: 'foo', output: null, errors: [{ message: 'bar' }] },
-  ],
+  invalid: [{ code: 'foo', output: null, errors: [{ message: 'bar' }] }],
 });
 ```

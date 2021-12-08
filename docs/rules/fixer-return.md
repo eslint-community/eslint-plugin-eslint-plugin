@@ -14,9 +14,9 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/fixer-return: error */
 
 module.exports = {
-  create (context) {
+  create(context) {
     context.report({
-      fix (fixer) {
+      fix(fixer) {
         fixer.insertTextAfter(node, 'foo');
       },
     });
@@ -30,9 +30,9 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/fixer-return: error */
 
 module.exports = {
-  create (context) {
+  create(context) {
     context.report({
-      fix (fixer) {
+      fix(fixer) {
         return fixer.insertTextAfter(node, 'foo');
       },
     });
@@ -44,9 +44,9 @@ module.exports = {
 /* eslint eslint-plugin/fixer-return: error */
 
 module.exports = {
-  create (context) {
+  create(context) {
     context.report({
-      fix (fixer) {
+      fix(fixer) {
         if (foo) {
           return; // no autofix in this situation
         }

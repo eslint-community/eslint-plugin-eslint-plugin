@@ -37,9 +37,9 @@ Examples of **incorrect** code for this rule:
 
 ```js
 module.exports = {
-  create (context) {
+  create(context) {
     return {
-      Program (ast) {
+      Program(ast) {
         const firstToken = context.getFirstToken(ast);
       },
     };
@@ -51,11 +51,11 @@ Examples of **correct** code for this rule:
 
 ```js
 module.exports = {
-  create (context) {
+  create(context) {
     const sourceCode = context.getSourceCode();
 
     return {
-      Program (ast) {
+      Program(ast) {
         const firstToken = sourceCode.getFirstToken(ast);
       },
     };

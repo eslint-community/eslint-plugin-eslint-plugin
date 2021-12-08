@@ -13,11 +13,11 @@ const rule = require('../../../lib/rules/no-missing-placeholders');
 const RuleTester = require('eslint').RuleTester;
 
 /**
-* Create an error for the given key
-* @param {string} missingKey The placeholder that is missing
-* @returns {object} An expected error
-*/
-function error (missingKey, type = 'Literal') {
+ * Create an error for the given key
+ * @param {string} missingKey The placeholder that is missing
+ * @returns {object} An expected error
+ */
+function error(missingKey, type = 'Literal') {
   return { type, message: `The placeholder {{${missingKey}}} does not exist.` };
 }
 
@@ -27,7 +27,6 @@ function error (missingKey, type = 'Literal') {
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-missing-placeholders', rule, {
-
   valid: [
     `
       module.exports = {
