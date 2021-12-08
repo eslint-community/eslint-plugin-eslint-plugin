@@ -1,3 +1,10 @@
+### [4.0.3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.0.2...v4.0.3) (2021-12-08)
+
+
+### Bug Fixes
+
+* detect rules exported using a variable ([#233](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/233)) ([ae68f6b](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/ae68f6b2a593e4ddf16a7c7007b2c9990b5a4a4b))
+
 ### [4.0.2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.0.1...v4.0.2) (2021-10-26)
 
 
