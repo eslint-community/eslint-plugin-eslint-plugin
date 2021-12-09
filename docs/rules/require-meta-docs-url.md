@@ -11,18 +11,15 @@ This rule aims to require ESLint rules to have a `meta.docs.url` property.
 Examples of **incorrect** code for this rule:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-docs-url: "error" */
 
 module.exports = {
   meta: {},
-  create (context) {},
+  create(context) {},
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-docs-url: "error" */
 
 module.exports = {
@@ -31,13 +28,11 @@ module.exports = {
       url: undefined,
     },
   },
-  create (context) {},
+  create(context) {},
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-docs-url: ["error", {"pattern": "path/to/{{name}}.md"}] */
 
 module.exports = {
@@ -46,15 +41,13 @@ module.exports = {
       url: 'wrong URL',
     },
   },
-  create (context) {},
+  create(context) {},
 };
-
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-
 /* eslint eslint-plugin/require-meta-docs-url: "error" */
 
 module.exports = {
@@ -63,13 +56,11 @@ module.exports = {
       url: 'a URL',
     },
   },
-  create (context) {},
+  create(context) {},
 };
-
 ```
 
 ```js
-
 /* eslint eslint-plugin/require-meta-docs-url: ["error", {"pattern": "path/to/{{name}}.md"}] */
 
 module.exports = {
@@ -78,9 +69,8 @@ module.exports = {
       url: 'path/to/rule-name.md',
     },
   },
-  create (context) {},
+  create(context) {},
 };
-
 ```
 
 ## Options
@@ -112,9 +102,12 @@ For example:
 module.exports = {
   plugins: ['eslint-plugin'],
   rules: {
-    'eslint-plugin/require-meta-docs-url': ['error', {
-      pattern: `path/to/v${version}/docs/rules/{{name}}.md`,
-    }],
+    'eslint-plugin/require-meta-docs-url': [
+      'error',
+      {
+        pattern: `path/to/v${version}/docs/rules/{{name}}.md`,
+      },
+    ],
   },
 };
 ```

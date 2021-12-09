@@ -30,7 +30,9 @@ ruleTester.run('my-rule', myRule, {
     {
       code: 'const invalid = 42;',
       only: true,
-      errors: [/* ... */],
+      errors: [
+        /* ... */
+      ],
     },
   ],
 });
@@ -45,14 +47,13 @@ const { RuleTester } = require('eslint');
 const ruleTester = new RuleTester();
 
 ruleTester.run('my-rule', myRule, {
-  valid: [
-    'const valid = 42;',
-    { code: 'const valid = 42;' },
-  ],
+  valid: ['const valid = 42;', { code: 'const valid = 42;' }],
   invalid: [
     {
       code: 'const invalid = 42;',
-      errors: [/* ... */],
+      errors: [
+        /* ... */
+      ],
     },
   ],
 });

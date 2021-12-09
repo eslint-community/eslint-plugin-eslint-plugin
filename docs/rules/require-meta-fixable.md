@@ -15,11 +15,11 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {}, // missing `fixable` property
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',
-      fix (fixer) {
+      fix(fixer) {
         return fixer.remove(node);
       },
     });
@@ -32,11 +32,11 @@ module.exports = {
 
 module.exports = {
   meta: { fixable: 'not a valid meta.fixable value' },
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',
-      fix (fixer) {
+      fix(fixer) {
         return fixer.remove(node);
       },
     });
@@ -49,7 +49,7 @@ module.exports = {
 
 module.exports = {
   meta: { fixable: 'code' }, // property enabled but no fixer detected
-  create (context) {
+  create(context) {
     context.report({ node, message: 'foo' });
   },
 };
@@ -62,11 +62,11 @@ Examples of **correct** code for this rule:
 
 module.exports = {
   meta: { fixable: 'code' },
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',
-      fix (fixer) {
+      fix(fixer) {
         return fixer.remove(node);
       },
     });
@@ -79,7 +79,7 @@ module.exports = {
 
 module.exports = {
   meta: {},
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'foo',

@@ -50,11 +50,14 @@ describe('utils', () => {
         'module.exports = createESLintRule({ create() {}, meta: {} });',
         'module.exports = util.createRule({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
-      ].forEach(noRuleCase => {
+      ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
+          assert.isNull(
+            utils.getRuleInfo({ ast, scopeManager }),
+            'Expected no rule to be found'
+          );
         });
       });
     });
@@ -87,12 +90,18 @@ describe('utils', () => {
         'export default foo(123);',
         'export default foo.bar(123);',
         'export default foo.bar()(123);',
-
-      ].forEach(noRuleCase => {
+      ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
-          const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
+          const ast = espree.parse(noRuleCase, {
+            ecmaVersion: 8,
+            range: true,
+            sourceType: 'module',
+          });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
+          assert.isNull(
+            utils.getRuleInfo({ ast, scopeManager }),
+            'Expected no rule to be found'
+          );
         });
       });
     });
@@ -107,11 +116,18 @@ describe('utils', () => {
         'export default foo.bar<Options, MessageIds>(123);',
         'export default foo.bar()<Options, MessageIds>(123);',
         'const notRule = foo(); export default notRule;',
-      ].forEach(noRuleCase => {
+      ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
-          const ast = typescriptEslintParser.parse(noRuleCase, { ecmaVersion: 8, range: true, sourceType: 'module' });
+          const ast = typescriptEslintParser.parse(noRuleCase, {
+            ecmaVersion: 8,
+            range: true,
+            sourceType: 'module',
+          });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
+          assert.isNull(
+            utils.getRuleInfo({ ast, scopeManager }),
+            'Expected no rule to be found'
+          );
         });
       });
     });
@@ -122,11 +138,17 @@ describe('utils', () => {
         'module.exports = createESLintRule<Options, MessageIds>({ create() {}, meta: {} });',
         'module.exports = util.createRule<Options, MessageIds>({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });',
-      ].forEach(noRuleCase => {
+      ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
-          const ast = typescriptEslintParser.parse(noRuleCase, { range: true, sourceType: 'script' });
+          const ast = typescriptEslintParser.parse(noRuleCase, {
+            range: true,
+            sourceType: 'script',
+          });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(utils.getRuleInfo({ ast, scopeManager }), 'Expected no rule to be found');
+          assert.isNull(
+            utils.getRuleInfo({ ast, scopeManager }),
+            'Expected no rule to be found'
+          );
         });
       });
     });
@@ -134,11 +156,12 @@ describe('utils', () => {
     describe('the file has a valid rule (TypeScript + TypeScript parser + ESM)', () => {
       const CASES = {
         // Util function only
-        'export default createESLintRule<Options, MessageIds>({ create() {}, meta: {} });': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'export default createESLintRule<Options, MessageIds>({ create() {}, meta: {} });':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
         'export default createESLintRule<>({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
@@ -149,30 +172,34 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'const create = context => {}; const meta = {}; export default createESLintRule({ create, meta });': {
-          create: { type: 'ArrowFunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
-        'const rule = createESLintRule({ create() {}, meta: {} }); export default rule;': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'const create = context => {}; const meta = {}; export default createESLintRule({ create, meta });':
+          {
+            create: { type: 'ArrowFunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        'const rule = createESLintRule({ create() {}, meta: {} }); export default rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
 
         // Util function with "{} as const".
-        'export default createESLintRule({ create() {}, meta: {} as const });': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'export default createESLintRule({ create() {}, meta: {} as const });':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
 
         // Util function from util object
-        'export default util.createRule<Options, MessageIds>({ create() {}, meta: {} });': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'export default util.createRule<Options, MessageIds>({ create() {}, meta: {} });':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
         'export default util.createRule({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
@@ -180,26 +207,34 @@ describe('utils', () => {
         },
 
         // Util function from util object with additional doc URL argument
-        'export default ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
-        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'export default ESLintUtils.RuleCreator(docsUrl)<Options, MessageIds>({ create() {}, meta: {} });':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        'export default ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
       };
 
-      Object.keys(CASES).forEach(ruleSource => {
+      Object.keys(CASES).forEach((ruleSource) => {
         it(ruleSource, () => {
-          const ast = typescriptEslintParser.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'module' });
+          const ast = typescriptEslintParser.parse(ruleSource, {
+            ecmaVersion: 6,
+            range: true,
+            sourceType: 'module',
+          });
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
-            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
+              CASES[ruleSource]
+            )}`
           );
         });
       });
@@ -222,21 +257,23 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'module.exports.create = function foo(context) {}; module.exports.meta = {}': {
-          create: { type: 'FunctionExpression', id: { name: 'foo' } },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'module.exports.create = function foo(context) {}; module.exports.meta = {}':
+          {
+            create: { type: 'FunctionExpression', id: { name: 'foo' } },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
         'exports.create = function foo() {}; exports.meta = {};': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'module.exports = { create: () => { } }; exports.create = function foo() {}; exports.meta = {};': {
-          create: { type: 'ArrowFunctionExpression' },
-          meta: null,
-          isNewStyle: true,
-        },
+        'module.exports = { create: () => { } }; exports.create = function foo() {}; exports.meta = {};':
+          {
+            create: { type: 'ArrowFunctionExpression' },
+            meta: null,
+            isNewStyle: true,
+          },
         'exports.meta = {}; module.exports = { create: () => { } };': {
           create: { type: 'ArrowFunctionExpression' },
           meta: null,
@@ -267,11 +304,12 @@ describe('utils', () => {
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = function foo(slightlyDifferentContextName) { return {}; }': {
-          create: { type: 'FunctionExpression', id: { name: 'foo' } },
-          meta: null,
-          isNewStyle: false,
-        },
+        'module.exports = function foo(slightlyDifferentContextName) { return {}; }':
+          {
+            create: { type: 'FunctionExpression', id: { name: 'foo' } },
+            meta: null,
+            isNewStyle: false,
+          },
         'module.exports = function foo({ report }) { return {}; }': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
           meta: null,
@@ -292,16 +330,18 @@ describe('utils', () => {
           meta: null,
           isNewStyle: false,
         },
-        'module.exports = (context) => { return {}; }; module.exports.meta = {};': {
-          create: { type: 'ArrowFunctionExpression' },
-          meta: null,
-          isNewStyle: false,
-        },
-        'const create = function(context) { return {}; }; const meta = {}; module.exports = { create, meta };': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'module.exports = (context) => { return {}; }; module.exports.meta = {};':
+          {
+            create: { type: 'ArrowFunctionExpression' },
+            meta: null,
+            isNewStyle: false,
+          },
+        'const create = function(context) { return {}; }; const meta = {}; module.exports = { create, meta };':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
         'const rule = { create() {}, meta: {} }; module.exports = rule;': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
@@ -309,14 +349,20 @@ describe('utils', () => {
         },
       };
 
-      Object.keys(CASES).forEach(ruleSource => {
+      Object.keys(CASES).forEach((ruleSource) => {
         it(ruleSource, () => {
-          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'script' });
+          const ast = espree.parse(ruleSource, {
+            ecmaVersion: 6,
+            range: true,
+            sourceType: 'script',
+          });
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
-            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
+              CASES[ruleSource]
+            )}`
           );
         });
       });
@@ -335,26 +381,29 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'const create = function(context) { return {}; }; const meta = {}; export default { create, meta }': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
-        'function create(context) { return {}; }; const meta = {}; export default { create, meta }': {
-          create: { type: 'FunctionDeclaration' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'const create = function(context) { return {}; }; const meta = {}; export default { create, meta }':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        'function create(context) { return {}; }; const meta = {}; export default { create, meta }':
+          {
+            create: { type: 'FunctionDeclaration' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
         'const rule = { create() {}, meta: {} }; export default rule;': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
-        'const create = function() {}; const meta = {}; const rule = { create, meta }; export default rule;': {
-          create: { type: 'FunctionExpression' },
-          meta: { type: 'ObjectExpression' },
-          isNewStyle: true,
-        },
+        'const create = function() {}; const meta = {}; const rule = { create, meta }; export default rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
 
         // ESM (function style)
         'export default function (context) { return {}; }': {
@@ -374,14 +423,20 @@ describe('utils', () => {
         },
       };
 
-      Object.keys(CASES).forEach(ruleSource => {
+      Object.keys(CASES).forEach((ruleSource) => {
         it(ruleSource, () => {
-          const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true, sourceType: 'module' });
+          const ast = espree.parse(ruleSource, {
+            ecmaVersion: 6,
+            range: true,
+            sourceType: 'module',
+          });
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
-            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(CASES[ruleSource])}`
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
+              CASES[ruleSource]
+            )}`
           );
         });
       });
@@ -389,15 +444,23 @@ describe('utils', () => {
 
     describe('the file has a valid rule (different scope options)', () => {
       for (const scopeOptions of [
-        { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true },
+        {
+          ignoreEval: true,
+          ecmaVersion: 6,
+          sourceType: 'script',
+          nodejsScope: true,
+        },
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'script' },
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'module' },
       ]) {
-        const ast = espree.parse(`
+        const ast = espree.parse(
+          `
           const create = (context) => {};
           const meta = {};
           module.exports = { create, meta };
-        `, { ecmaVersion: 6, range: true });
+        `,
+          { ecmaVersion: 6, range: true }
+        );
         const expected = {
           create: { type: 'ArrowFunctionExpression' },
           meta: { type: 'ObjectExpression' },
@@ -417,7 +480,8 @@ describe('utils', () => {
     describe('the file has newer syntax', () => {
       const CASES = [
         {
-          source: 'module.exports = function(context) { class Foo { @someDecorator() someProp }; return {}; };',
+          source:
+            'module.exports = function(context) { class Foo { @someDecorator() someProp }; return {}; };',
           options: { sourceType: 'script' },
           expected: {
             create: { type: 'FunctionExpression' },
@@ -426,7 +490,8 @@ describe('utils', () => {
           },
         },
         {
-          source: 'export default function(context) { class Foo { @someDecorator() someProp }; return {}; };',
+          source:
+            'export default function(context) { class Foo { @someDecorator() someProp }; return {}; };',
           options: { sourceType: 'module' },
           expected: {
             create: { type: 'FunctionDeclaration' },
@@ -438,12 +503,17 @@ describe('utils', () => {
       for (const testCase of CASES) {
         describe(testCase.source, () => {
           it('does not throw with node type PropertyDefinition which is not handled by estraverse (estraverse is used for detecting the object return statement in a function-style rule).', () => {
-            const ast = typescriptEslintParser.parse(testCase.source, testCase.options);
+            const ast = typescriptEslintParser.parse(
+              testCase.source,
+              testCase.options
+            );
             const scopeManager = eslintScope.analyze(ast);
             const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
             assert(
               lodash.isMatch(ruleInfo, testCase.expected),
-              `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(testCase.expected)}`
+              `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
+                testCase.expected
+              )}`
             );
           });
         });
@@ -453,38 +523,59 @@ describe('utils', () => {
 
   describe('getContextIdentifiers', () => {
     const CASES = {
-      'module.exports = context => { context; context; context; return {}; }' (ast) {
+      'module.exports = context => { context; context; context; return {}; }'(
+        ast
+      ) {
         return [
           ast.body[0].expression.right.body.body[0].expression,
           ast.body[0].expression.right.body.body[1].expression,
           ast.body[0].expression.right.body.body[2].expression,
         ];
       },
-      'module.exports = { meta: {}, create(context, foo = context) {} }' (ast) {
-        return [ast.body[0].expression.right.properties[1].value.params[1].right];
-      },
-      'module.exports = { meta: {}, create(notContext) { notContext; notContext; notContext; } }' (ast) {
+      'module.exports = { meta: {}, create(context, foo = context) {} }'(ast) {
         return [
-          ast.body[0].expression.right.properties[1].value.body.body[0].expression,
-          ast.body[0].expression.right.properties[1].value.body.body[1].expression,
-          ast.body[0].expression.right.properties[1].value.body.body[2].expression,
+          ast.body[0].expression.right.properties[1].value.params[1].right,
         ];
       },
-      'const create = function(context) { context }; module.exports = { meta: {}, create };' (ast) {
+      'module.exports = { meta: {}, create(notContext) { notContext; notContext; notContext; } }'(
+        ast
+      ) {
         return [
-          ast.body[0].declarations[0].init.body.body[0].expression,
+          ast.body[0].expression.right.properties[1].value.body.body[0]
+            .expression,
+          ast.body[0].expression.right.properties[1].value.body.body[1]
+            .expression,
+          ast.body[0].expression.right.properties[1].value.body.body[2]
+            .expression,
         ];
+      },
+      'const create = function(context) { context }; module.exports = { meta: {}, create };'(
+        ast
+      ) {
+        return [ast.body[0].declarations[0].init.body.body[0].expression];
       },
     };
 
-    Object.keys(CASES).forEach(ruleSource => {
+    Object.keys(CASES).forEach((ruleSource) => {
       it(ruleSource, () => {
         const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
-        const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+        const scope = eslintScope.analyze(ast, {
+          ignoreEval: true,
+          ecmaVersion: 6,
+          sourceType: 'script',
+          nodejsScope: true,
+        });
         const identifiers = utils.getContextIdentifiers(scope, ast);
 
-        assert(identifiers instanceof Set, 'getContextIdentifiers should return a Set');
-        assert.strictEqual(identifiers.size, CASES[ruleSource](ast).length, 'has the correct number of results');
+        assert(
+          identifiers instanceof Set,
+          'getContextIdentifiers should return a Set'
+        );
+        assert.strictEqual(
+          identifiers.size,
+          CASES[ruleSource](ast).length,
+          'has the correct number of results'
+        );
         [...identifiers].forEach((identifier, index) => {
           assert.strictEqual(identifier, CASES[ruleSource](ast)[index]);
         });
@@ -508,22 +599,28 @@ describe('utils', () => {
       '({ [tag`foo`]: 1 })': null,
       '({ ["foo" + "bar"]: 1 })': null,
     };
-    Object.keys(CASES).forEach(objectSource => {
+    Object.keys(CASES).forEach((objectSource) => {
       it(objectSource, () => {
         const ast = espree.parse(objectSource, { ecmaVersion: 6, range: true });
 
-        assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES[objectSource]);
+        assert.strictEqual(
+          utils.getKeyName(ast.body[0].expression.properties[0]),
+          CASES[objectSource]
+        );
       });
     });
 
     const CASES_ES9 = {
       '({ ...foo })': null,
     };
-    Object.keys(CASES_ES9).forEach(objectSource => {
+    Object.keys(CASES_ES9).forEach((objectSource) => {
       it(objectSource, () => {
         const ast = espree.parse(objectSource, { ecmaVersion: 9, range: true });
 
-        assert.strictEqual(utils.getKeyName(ast.body[0].expression.properties[0]), CASES_ES9[objectSource]);
+        assert.strictEqual(
+          utils.getKeyName(ast.body[0].expression.properties[0]),
+          CASES_ES9[objectSource]
+        );
       });
     });
   });
@@ -541,31 +638,57 @@ describe('utils', () => {
         'new RuleTester().run(foo)',
         'new RuleTester().run(foo, bar)',
         'new RuleTester().run(foo, bar, notAnObject)',
-      ].forEach(noTestsCase => {
+      ].forEach((noTestsCase) => {
         it(`returns no tests for ${noTestsCase}`, () => {
-          const ast = espree.parse(noTestsCase, { ecmaVersion: 8, range: true });
-          const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
-          assert.deepEqual(utils.getTestInfo(scope, ast), [], 'Expected no tests to be found');
+          const ast = espree.parse(noTestsCase, {
+            ecmaVersion: 8,
+            range: true,
+          });
+          const scope = eslintScope.analyze(ast, {
+            ignoreEval: true,
+            ecmaVersion: 6,
+            sourceType: 'script',
+            nodejsScope: true,
+          });
+          assert.deepEqual(
+            utils.getTestInfo(scope, ast),
+            [],
+            'Expected no tests to be found'
+          );
         });
       });
     });
 
     describe('the file has valid tests', () => {
       const CASES = {
-        'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })': { valid: 1, invalid: 2 },
-        'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })': { valid: 1, invalid: 1 },
-        'var foo = new (require("eslint")).RuleTester; foo.run(bar, baz, { valid: [], invalid: [] })': { valid: 0, invalid: 0 },
-        'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })': { valid: 0, invalid: 2 },
-        'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })': { valid: 0, invalid: 2 },
+        'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
+          { valid: 1, invalid: 2 },
+        'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
+          { valid: 1, invalid: 1 },
+        'var foo = new (require("eslint")).RuleTester; foo.run(bar, baz, { valid: [], invalid: [] })':
+          { valid: 0, invalid: 0 },
+        'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
+          { valid: 0, invalid: 2 },
+        'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
+          { valid: 0, invalid: 2 },
       };
 
-      Object.keys(CASES).forEach(testSource => {
+      Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-          const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+          const scope = eslintScope.analyze(ast, {
+            ignoreEval: true,
+            ecmaVersion: 6,
+            sourceType: 'script',
+            nodejsScope: true,
+          });
           const testInfo = utils.getTestInfo(scope, ast);
 
-          assert.strictEqual(testInfo.length, 1, 'Expected to find one test run');
+          assert.strictEqual(
+            testInfo.length,
+            1,
+            'Expected to find one test run'
+          );
 
           assert.strictEqual(
             testInfo[0].valid.length,
@@ -587,27 +710,40 @@ describe('utils', () => {
         [`
           new RuleTester().run(foo, bar, { valid: [foo], invalid: [] });
           new RuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
-        `]: [{ valid: 1, invalid: 0 }, { valid: 0, invalid: 2 }],
+        `]: [
+          { valid: 1, invalid: 0 },
+          { valid: 0, invalid: 2 },
+        ],
 
         [`
           var foo = new RuleTester;
           var bar = new RuleTester;
           foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
           bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
-        `]: [{ valid: 3, invalid: 1 }, { valid: 0, invalid: 2 }],
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
           foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
           bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
-        `]: [{ valid: 3, invalid: 1 }, { valid: 0, invalid: 2 }],
-
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
       };
 
-      Object.keys(CASES).forEach(testSource => {
+      Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-          const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+          const scope = eslintScope.analyze(ast, {
+            ignoreEval: true,
+            ecmaVersion: 6,
+            sourceType: 'script',
+            nodejsScope: true,
+          });
           const testInfo = utils.getTestInfo(scope, ast);
 
           assert.strictEqual(
@@ -620,12 +756,16 @@ describe('utils', () => {
             assert.strictEqual(
               testRun.valid,
               testInfo[index].valid.length,
-              `On run ${index + 1}, expected ${testRun.valid} valid cases but got ${testInfo[index].valid.length}`
+              `On run ${index + 1}, expected ${
+                testRun.valid
+              } valid cases but got ${testInfo[index].valid.length}`
             );
             assert.strictEqual(
               testRun.invalid,
               testInfo[index].invalid.length,
-              `On run ${index + 1}, expected ${testRun.invalid} valid cases but got ${testInfo[index].invalid.length}`
+              `On run ${index + 1}, expected ${
+                testRun.invalid
+              } valid cases but got ${testInfo[index].invalid.length}`
             );
           });
         });
@@ -637,11 +777,33 @@ describe('utils', () => {
     const CASES = new Map([
       [[], () => null],
       [['foo', 'bar'], () => null],
-      [['foo', '"bar"', 'baz', 'qux', 'boop'], args => ({ node: args[0], message: args[1], data: args[2], fix: args[3] })],
-      [['foo', '`bar`', 'baz', 'qux', 'boop'], args => ({ node: args[0], message: args[1], data: args[2], fix: args[3] })],
+      [
+        ['foo', '"bar"', 'baz', 'qux', 'boop'],
+        (args) => ({
+          node: args[0],
+          message: args[1],
+          data: args[2],
+          fix: args[3],
+        }),
+      ],
+      [
+        ['foo', '`bar`', 'baz', 'qux', 'boop'],
+        (args) => ({
+          node: args[0],
+          message: args[1],
+          data: args[2],
+          fix: args[3],
+        }),
+      ],
       [
         ['foo', '{ bar: 1 }', 'baz', 'qux', 'boop'],
-        args => ({ node: args[0], loc: args[1], message: args[2], data: args[3], fix: args[4] }),
+        (args) => ({
+          node: args[0],
+          loc: args[1],
+          message: args[2],
+          data: args[3],
+          fix: args[4],
+        }),
       ],
       [['foo', 'bar', 'baz'], () => null],
       [
@@ -655,11 +817,12 @@ describe('utils', () => {
 
     for (const args of CASES.keys()) {
       it(args.join(', '), () => {
-        const parsedArgs = espree.parse(
-          `context.report(${args.join(', ')})`,
-          { ecmaVersion: 6, loc: false, range: false }
-        ).body[0].expression.arguments;
-        const context = { getScope () {} }; // mock object
+        const parsedArgs = espree.parse(`context.report(${args.join(', ')})`, {
+          ecmaVersion: 6,
+          loc: false,
+          range: false,
+        }).body[0].expression.arguments;
+        const context = { getScope() {} }; // mock object
         const reportInfo = utils.getReportInfo(parsedArgs, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
@@ -674,18 +837,26 @@ describe('utils', () => {
       'module.exports = context => { const sourceCode = context.getNotSourceCode(); return {}; }': 0,
     };
 
-    Object.keys(CASES).forEach(testSource => {
+    Object.keys(CASES).forEach((testSource) => {
       it(testSource, () => {
         const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-        const scope = eslintScope.analyze(ast, { ignoreEval: true, ecmaVersion: 6, sourceType: 'script', nodejsScope: true });
+        const scope = eslintScope.analyze(ast, {
+          ignoreEval: true,
+          ecmaVersion: 6,
+          sourceType: 'script',
+          nodejsScope: true,
+        });
 
         estraverse.traverse(ast, {
-          enter (node, parent) {
+          enter(node, parent) {
             node.parent = parent;
           },
         });
 
-        assert.strictEqual(utils.getSourceCodeIdentifiers(scope, ast).size, CASES[testSource]);
+        assert.strictEqual(
+          utils.getSourceCodeIdentifiers(scope, ast).size,
+          CASES[testSource]
+        );
       });
     });
   });
@@ -713,13 +884,19 @@ describe('utils', () => {
           {
             message: { type: 'Literal', value: 'message1' },
             messageId: { type: 'Literal', value: 'messageId1' },
-            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            data: {
+              type: 'ObjectExpression',
+              properties: [{ key: { name: 'foo' } }],
+            },
             fix: { type: 'FunctionExpression' },
           },
           {
             message: { type: 'Literal', value: 'message2' },
             messageId: { type: 'Literal', value: 'messageId2' },
-            data: { type: 'ObjectExpression', properties: [{ key: { name: 'bar' } }] },
+            data: {
+              type: 'ObjectExpression',
+              properties: [{ key: { name: 'bar' } }],
+            },
             fix: { type: 'FunctionExpression' },
           },
         ],
@@ -740,7 +917,10 @@ describe('utils', () => {
           {
             message: { type: 'Literal', value: 'message1' },
             messageId: { type: 'Literal', value: 'messageId1' },
-            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            data: {
+              type: 'ObjectExpression',
+              properties: [{ key: { name: 'foo' } }],
+            },
             fix: { type: 'FunctionExpression' },
           },
         ],
@@ -761,7 +941,10 @@ describe('utils', () => {
           {
             message: { type: 'Literal', value: 'message1' },
             messageId: { type: 'Literal', value: 'messageId1' },
-            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            data: {
+              type: 'ObjectExpression',
+              properties: [{ key: { name: 'foo' } }],
+            },
             fix: { type: 'FunctionExpression' },
           },
         ],
@@ -781,7 +964,10 @@ describe('utils', () => {
           {
             message: { type: 'Literal', value: 'message1' },
             messageId: { type: 'Literal', value: 'messageId1' },
-            data: { type: 'ObjectExpression', properties: [{ key: { name: 'foo' } }] },
+            data: {
+              type: 'ObjectExpression',
+              properties: [{ key: { name: 'foo' } }],
+            },
             fix: { type: 'FunctionExpression' },
           },
         ],
@@ -790,14 +976,19 @@ describe('utils', () => {
 
     it('behaves correctly', () => {
       for (const testCase of CASES) {
-        const ast = espree.parse(testCase.code, { ecmaVersion: 6, range: true });
-        const context = { getScope () {} }; // mock object
+        const ast = espree.parse(testCase.code, {
+          ecmaVersion: 6,
+          range: true,
+        });
+        const context = { getScope() {} }; // mock object
         const reportNode = ast.body[0].expression;
         const reportInfo = utils.getReportInfo(reportNode.arguments, context);
         const data = utils.collectReportViolationAndSuggestionData(reportInfo);
         assert(
           lodash.isMatch(data, testCase.shouldMatch),
-          `Expected \n${inspect(data)}\nto match\n${inspect(testCase.shouldMatch)}`
+          `Expected \n${inspect(data)}\nto match\n${inspect(
+            testCase.shouldMatch
+          )}`
         );
       }
     });
@@ -806,44 +997,93 @@ describe('utils', () => {
   describe('isAutoFixerFunction / isSuggestionFixerFunction', () => {
     const CASES = {
       // isAutoFixerFunction
-      'context.report({ fix(fixer) {} });' (ast) {
-        return { expected: true, node: ast.body[0].expression.arguments[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isAutoFixerFunction };
+      'context.report({ fix(fixer) {} });'(ast) {
+        return {
+          expected: true,
+          node: ast.body[0].expression.arguments[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isAutoFixerFunction,
+        };
       },
-      'context.notReport({ fix(fixer) {} });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isAutoFixerFunction };
+      'context.notReport({ fix(fixer) {} });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isAutoFixerFunction,
+        };
       },
-      'context.report({ notFix(fixer) {} });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isAutoFixerFunction };
+      'context.report({ notFix(fixer) {} });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isAutoFixerFunction,
+        };
       },
-      'notContext.report({ notFix(fixer) {} });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: undefined, fn: utils.isAutoFixerFunction };
+      'notContext.report({ notFix(fixer) {} });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value,
+          context: undefined,
+          fn: utils.isAutoFixerFunction,
+        };
       },
 
       // isSuggestionFixerFunction
-      'context.report({ suggest: [{ fix(fixer) {} }] });' (ast) {
-        return { expected: true, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      'context.report({ suggest: [{ fix(fixer) {} }] });'(ast) {
+        return {
+          expected: true,
+          node: ast.body[0].expression.arguments[0].properties[0].value
+            .elements[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isSuggestionFixerFunction,
+        };
       },
-      'context.notReport({ suggest: [{ fix(fixer) {} }] });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      'context.notReport({ suggest: [{ fix(fixer) {} }] });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value
+            .elements[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isSuggestionFixerFunction,
+        };
       },
-      'context.report({ notSuggest: [{ fix(fixer) {} }] });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      'context.report({ notSuggest: [{ fix(fixer) {} }] });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value
+            .elements[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isSuggestionFixerFunction,
+        };
       },
-      'context.report({ suggest: [{ notFix(fixer) {} }] });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value.elements[0].properties[0].value, context: ast.body[0].expression.callee.object, fn: utils.isSuggestionFixerFunction };
+      'context.report({ suggest: [{ notFix(fixer) {} }] });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value
+            .elements[0].properties[0].value,
+          context: ast.body[0].expression.callee.object,
+          fn: utils.isSuggestionFixerFunction,
+        };
       },
-      'notContext.report({ suggest: [{ fix(fixer) {} }] });' (ast) {
-        return { expected: false, node: ast.body[0].expression.arguments[0].properties[0].value, context: undefined, fn: utils.isSuggestionFixerFunction };
+      'notContext.report({ suggest: [{ fix(fixer) {} }] });'(ast) {
+        return {
+          expected: false,
+          node: ast.body[0].expression.arguments[0].properties[0].value,
+          context: undefined,
+          fn: utils.isSuggestionFixerFunction,
+        };
       },
     };
 
-    Object.keys(CASES).forEach(ruleSource => {
+    Object.keys(CASES).forEach((ruleSource) => {
       it(ruleSource, () => {
         const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
 
         // Add parent to each node.
         estraverse.traverse(ast, {
-          enter (node, parent) {
+          enter(node, parent) {
             node.parent = parent;
           },
         });

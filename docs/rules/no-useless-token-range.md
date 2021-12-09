@@ -16,7 +16,7 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/no-useless-token-range: error */
 
 module.exports = {
-  create (context) {
+  create(context) {
     const sourceCode = context.getSourceCode();
 
     const rangeStart = sourceCode.getFirstToken(node).range[0];
@@ -31,7 +31,7 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/no-useless-token-range: error */
 
 module.exports = {
-  create (context) {
+  create(context) {
     const sourceCode = context.getSourceCode();
 
     const rangeStart = node.range[0];

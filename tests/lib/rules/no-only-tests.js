@@ -245,7 +245,17 @@ ruleTester.run('no-only-tests', rule, {
         });
       `,
       output: null,
-      errors: [{ messageId: 'foundOnly', type: 'MemberExpression', line: 6, endLine: 6, column: 13, endColumn: 28, suggestions: [] }],
+      errors: [
+        {
+          messageId: 'foundOnly',
+          type: 'MemberExpression',
+          line: 6,
+          endLine: 6,
+          column: 13,
+          endColumn: 28,
+          suggestions: [],
+        },
+      ],
     },
   ],
 });

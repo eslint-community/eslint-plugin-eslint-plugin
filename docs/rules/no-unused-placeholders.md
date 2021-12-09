@@ -14,7 +14,7 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/no-unused-placeholders: error*/
 
 module.exports = {
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'something is wrong.',
@@ -32,7 +32,7 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/no-unused-placeholders: error*/
 
 module.exports = {
-  create (context) {
+  create(context) {
     context.report({
       node,
       message: 'something is wrong.',

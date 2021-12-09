@@ -14,21 +14,27 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/prefer-object-rule: error */
 
 module.exports = function (context) {
-  return { Program () {
-    context.report();
-  } };
+  return {
+    Program() {
+      context.report();
+    },
+  };
 };
 
-module.exports = function create (context) {
-  return { Program () {
-    context.report();
-  } };
+module.exports = function create(context) {
+  return {
+    Program() {
+      context.report();
+    },
+  };
 };
 
-module.exports = context => {
-  return { Program () {
-    context.report();
-  } };
+module.exports = (context) => {
+  return {
+    Program() {
+      context.report();
+    },
+  };
 };
 ```
 
@@ -38,26 +44,32 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/prefer-object-rule: error */
 
 module.exports = {
-  create (context) {
-    return { Program () {
-      context.report();
-    } };
+  create(context) {
+    return {
+      Program() {
+        context.report();
+      },
+    };
   },
 };
 
 module.exports = {
-  create (context) {
-    return { Program () {
-      context.report();
-    } };
+  create(context) {
+    return {
+      Program() {
+        context.report();
+      },
+    };
   },
 };
 
 module.exports = {
-  create: context => {
-    return { Program () {
-      context.report();
-    } };
+  create: (context) => {
+    return {
+      Program() {
+        context.report();
+      },
+    };
   },
 };
 ```

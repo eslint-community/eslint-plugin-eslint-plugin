@@ -32,12 +32,16 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {},
-  create (context) {
+  create(context) {
     context.report(node, 'this message does not match the regular expression.');
 
     context.report(node, 'Neither does this one');
 
-    context.report(node, 'This will get reported, regardless of the value of the {{placeholder}}', { placeholder: foo });
+    context.report(
+      node,
+      'This will get reported, regardless of the value of the {{placeholder}}',
+      { placeholder: foo }
+    );
   },
 };
 ```
@@ -47,7 +51,7 @@ Examples of **correct** code for this rule:
 ```js
 module.exports = {
   meta: {},
-  create (context) {
+  create(context) {
     context.report(node, 'This message matches the regular expression.');
 
     context.report(node, 'So does this one.');

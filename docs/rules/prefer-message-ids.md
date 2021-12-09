@@ -15,9 +15,9 @@ Examples of **incorrect** code for this rule:
 /* eslint eslint-plugin/prefer-message-ids: error */
 
 module.exports = {
-  create (context) {
+  create(context) {
     return {
-      CallExpression (node) {
+      CallExpression(node) {
         context.report({
           node,
           message: 'Some error message.',
@@ -39,9 +39,9 @@ module.exports = {
       someMessageId: 'Some error message',
     },
   },
-  create (context) {
+  create(context) {
     return {
-      CallExpression (node) {
+      CallExpression(node) {
         context.report({
           node,
           messageId: 'someMessageId',

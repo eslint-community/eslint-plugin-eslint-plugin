@@ -50,9 +50,11 @@ tester.run('require-meta-docs-url', rule, {
           create() {}
         }
       `,
-      options: [{
-        pattern: 'path/to/{{name}}.md',
-      }],
+      options: [
+        {
+          pattern: 'path/to/{{name}}.md',
+        },
+      ],
     },
     {
       filename: 'test-rule',
@@ -62,9 +64,11 @@ tester.run('require-meta-docs-url', rule, {
           create() {}
         }
       `,
-      options: [{
-        pattern: 'path/to/{{name}}.md',
-      }],
+      options: [
+        {
+          pattern: 'path/to/{{name}}.md',
+        },
+      ],
     },
     {
       // CJS file extension
@@ -86,9 +90,11 @@ tester.run('require-meta-docs-url', rule, {
           create() {}
         }
       `,
-      options: [{
-        pattern: 'path/to/{{name}}.md',
-      }],
+      options: [
+        {
+          pattern: 'path/to/{{name}}.md',
+        },
+      ],
       parserOptions: { sourceType: 'module' },
     },
     {
@@ -113,9 +119,11 @@ tester.run('require-meta-docs-url', rule, {
           create() {}
         }
       `,
-      options: [{
-        pattern: 'path/to/{{name}}.md',
-      }],
+      options: [
+        {
+          pattern: 'path/to/{{name}}.md',
+        },
+      ],
     },
     {
       // Can't determine `url` value statically.
@@ -126,9 +134,11 @@ tester.run('require-meta-docs-url', rule, {
           create() {}
         }
       `,
-      options: [{
-        pattern: 'path/to/{{name}}.md',
-      }],
+      options: [
+        {
+          pattern: 'path/to/{{name}}.md',
+        },
+      ],
     },
     {
       // Can't determine `url` value statically.
@@ -139,9 +149,11 @@ tester.run('require-meta-docs-url', rule, {
           create() {}
         }
       `,
-      options: [{
-        pattern: 'path/to/{{name}}.md',
-      }],
+      options: [
+        {
+          pattern: 'path/to/{{name}}.md',
+        },
+      ],
     },
   ],
 
@@ -342,9 +354,11 @@ tester.run('require-meta-docs-url', rule, {
         module.exports = function(context) { return {}; }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
@@ -355,9 +369,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
@@ -368,9 +384,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'Literal' }],
     },
     {
@@ -381,9 +399,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -396,9 +416,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -411,9 +433,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -426,9 +450,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
@@ -441,9 +467,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -458,9 +486,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -475,9 +505,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -492,9 +524,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'wrongType', type: 'Literal' }],
     },
     {
@@ -509,9 +543,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
 
@@ -524,9 +560,11 @@ tester.run('require-meta-docs-url', rule, {
         module.exports = function(context) { return {}; }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
     {
@@ -538,9 +576,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
@@ -552,9 +592,11 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'Literal' }],
     },
     {
@@ -575,9 +617,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -599,9 +643,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -623,9 +669,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
@@ -673,9 +721,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -699,9 +749,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -715,9 +767,11 @@ url: "plugin-name/test.md"
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
     },
     {
@@ -740,9 +794,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -768,9 +824,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -796,9 +854,11 @@ url: "plugin-name/test.md",
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -823,10 +883,17 @@ url: "plugin-name/test.md",
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
-      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Literal' }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
+      errors: [
+        {
+          message: '`meta.docs.url` property must be `plugin-name/test.md`.',
+          type: 'Literal',
+        },
+      ],
     },
     {
       // `url` in variable, can't autofix it.
@@ -841,10 +908,17 @@ url: "plugin-name/test.md",
         }
       `,
       output: null,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
-      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Identifier' }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
+      errors: [
+        {
+          message: '`meta.docs.url` property must be `plugin-name/test.md`.',
+          type: 'Identifier',
+        },
+      ],
     },
     {
       // `url` is `null`.
@@ -865,10 +939,17 @@ url: "plugin-name/test.md",
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
-      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Literal' }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
+      errors: [
+        {
+          message: '`meta.docs.url` property must be `plugin-name/test.md`.',
+          type: 'Literal',
+        },
+      ],
     },
     {
       // `url` is `undefined`.
@@ -889,10 +970,17 @@ url: "plugin-name/test.md",
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
-      errors: [{ message: '`meta.docs.url` property must be `plugin-name/test.md`.', type: 'Identifier' }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
+      errors: [
+        {
+          message: '`meta.docs.url` property must be `plugin-name/test.md`.',
+          type: 'Identifier',
+        },
+      ],
     },
     {
       filename: 'test.js',
@@ -917,9 +1005,11 @@ url: "plugin-name/test.md"
           create() {}
         }
       `,
-      options: [{
-        pattern: 'plugin-name/{{ name }}.md',
-      }],
+      options: [
+        {
+          pattern: 'plugin-name/{{ name }}.md',
+        },
+      ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
   ],

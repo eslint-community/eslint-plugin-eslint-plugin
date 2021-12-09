@@ -17,17 +17,21 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {},
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 
 module.exports = {
   meta: { schema: null },
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 
 module.exports = {
   meta: { schema: [] },
-  create (context) {
+  create(context) {
     const options = context.options; /* using options when schema is empty */
   },
 };
@@ -40,7 +44,9 @@ Examples of **correct** code for this rule:
 
 module.exports = {
   meta: { schema: [] }, // ensures no options are passed to the rule
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 
 module.exports = {
@@ -57,7 +63,9 @@ module.exports = {
       },
     ],
   },
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 ```
 

@@ -12,14 +12,12 @@
 const rule = require('../../../lib/rules/report-message-format');
 const RuleTester = require('eslint').RuleTester;
 
-
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('report-message-format', rule, {
-
   valid: [
     // with no configuration, everything is allowed
     'module.exports = context => { context.report(node, "foo"); return {}; }',
@@ -306,9 +304,16 @@ ruleTester.run('report-message-format', rule, {
       `,
       options: ['foo'],
     },
-  ].map(invalidCase => {
-    return Object.assign({
-      errors: [{ message: `Report message does not match the pattern '${invalidCase.options[0]}'.` }],
-    }, invalidCase);
+  ].map((invalidCase) => {
+    return Object.assign(
+      {
+        errors: [
+          {
+            message: `Report message does not match the pattern '${invalidCase.options[0]}'.`,
+          },
+        ],
+      },
+      invalidCase
+    );
   }),
 });

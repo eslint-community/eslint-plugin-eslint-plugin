@@ -7,7 +7,6 @@ When writing valid test cases for rules with `RuleTester`, one can optionally in
 ```js
 ruleTester.run('example-rule', rule, {
   valid: [
-
     // shorthand string
     'validTestCase;',
 
@@ -83,10 +82,7 @@ Examples of **incorrect** code for this rule with the `never` option:
 /* eslint eslint-plugin/test-case-shorthand-strings: ["error", "never"] */
 
 ruleTester.run('example-rule', rule, {
-  valid: [
-    'validTestCase;',
-    'anotherValidTestCase;',
-  ],
+  valid: ['validTestCase;', 'anotherValidTestCase;'],
   invalid: [],
 });
 ```
@@ -151,10 +147,7 @@ ruleTester.run('example-rule', rule, {
 });
 
 ruleTester.run('example-rule', rule, {
-  valid: [
-    'validTestCase;',
-    'anotherValidTestCase',
-  ],
+  valid: ['validTestCase;', 'anotherValidTestCase'],
   invalid: [],
 });
 
@@ -219,10 +212,7 @@ Examples of **correct** code for this rule with the `consistent-as-needed` optio
 /* eslint eslint-plugin/test-case-shorthand-strings: ["error", "consistent-as-needed"] */
 
 ruleTester.run('example-rule', rule, {
-  valid: [
-    'validTestCase;',
-    'anotherValidTestCase;',
-  ],
+  valid: ['validTestCase;', 'anotherValidTestCase;'],
   invalid: [],
 });
 

@@ -19,12 +19,16 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {},
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 
 module.exports = {
   meta: { description: 'this rule does ...' }, // missing allowed prefix
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 ```
 
@@ -35,7 +39,9 @@ Examples of **correct** code for this rule:
 
 module.exports = {
   meta: { description: 'disallow unused variables' },
-  create (context) {/* ... */},
+  create(context) {
+    /* ... */
+  },
 };
 ```
 

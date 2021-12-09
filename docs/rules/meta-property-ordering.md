@@ -15,7 +15,6 @@ This rule has an array option:
 Examples of **incorrect** code for this rule:
 
 ```js
-
 /* eslint eslint-plugin/meta-property-ordering: ["error",
   ["type", "docs", "fixable", "schema", "messages"]
 ] */
@@ -27,7 +26,7 @@ module.exports = {
     type: 'problem',
     fixable: 'code',
   },
-  create () {},
+  create() {},
 };
 
 // invalid; extra properties must be placed afterwards.
@@ -38,7 +37,7 @@ module.exports = {
     docs: '',
     fixable: 'code',
   },
-  create () {},
+  create() {},
 };
 ```
 
@@ -57,7 +56,7 @@ module.exports = {
     messages: ['zoo'],
     fooooooooo: 'foo',
   },
-  create () {},
+  create() {},
 };
 ```
 

@@ -21,14 +21,14 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {},
-  create (context) {
+  create(context) {
     // ...
   },
 };
 
 module.exports = {
   meta: { type: 'invalid' },
-  create (context) {
+  create(context) {
     // ...
   },
 };
@@ -41,7 +41,7 @@ Examples of **correct** code for this rule:
 
 module.exports = {
   meta: { type: 'problem' },
-  create (context) {
+  create(context) {
     // ...
   },
 };

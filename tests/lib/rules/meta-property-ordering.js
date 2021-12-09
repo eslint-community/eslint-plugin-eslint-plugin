@@ -95,7 +95,12 @@ ruleTester.run('test-case-property-ordering', rule, {
           },
           create() {},
         };`,
-      errors: [{ messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } }],
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['type', 'docs', 'fixable'].join(', ') },
+        },
+      ],
     },
     {
       // ESM
@@ -119,7 +124,12 @@ ruleTester.run('test-case-property-ordering', rule, {
           create() {},
         };`,
       parserOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } }],
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['type', 'docs', 'fixable'].join(', ') },
+        },
+      ],
     },
     {
       code: `
@@ -134,8 +144,14 @@ ruleTester.run('test-case-property-ordering', rule, {
           create() {},
         };`,
       errors: [
-        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable', 'schema'].join(', ') } },
-        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable', 'schema'].join(', ') } },
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['type', 'docs', 'fixable', 'schema'].join(', ') },
+        },
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['type', 'docs', 'fixable', 'schema'].join(', ') },
+        },
       ],
     },
 
@@ -153,8 +169,14 @@ ruleTester.run('test-case-property-ordering', rule, {
         };`,
       options: [['type', 'docs', 'fixable']],
       errors: [
-        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } },
-        { messageId: 'inconsistentOrder', data: { order: ['type', 'docs', 'fixable'].join(', ') } },
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['type', 'docs', 'fixable'].join(', ') },
+        },
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['type', 'docs', 'fixable'].join(', ') },
+        },
       ],
     },
   ],
