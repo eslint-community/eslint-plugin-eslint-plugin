@@ -69,6 +69,7 @@ describe('utils', () => {
         'export default { foo: {} }',
         'const foo = {}; export default foo',
         'const foo = 123; export default foo',
+        'const foo = function(){}; export default foo',
 
         // Exports function but not default export.
         'export function foo (context) { return {}; }',
@@ -116,6 +117,8 @@ describe('utils', () => {
         'export default foo.bar<Options, MessageIds>(123);',
         'export default foo.bar()<Options, MessageIds>(123);',
         'const notRule = foo(); export default notRule;',
+        'const notRule = function(){}; export default notRule;',
+        'const notRule = {}; export default notRule;',
       ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = typescriptEslintParser.parse(noRuleCase, {
@@ -347,6 +350,11 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        'const rule = function(context) {return{};}; module.exports = rule;': {
+          create: { type: 'FunctionExpression' },
+          meta: null,
+          isNewStyle: false,
+        },
       };
 
       Object.keys(CASES).forEach((ruleSource) => {
@@ -418,6 +426,11 @@ describe('utils', () => {
         },
         'export default (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
+          meta: null,
+          isNewStyle: false,
+        },
+        'const rule = function(context) {return {};}; export default rule;': {
+          create: { type: 'FunctionExpression' },
           meta: null,
           isNewStyle: false,
         },

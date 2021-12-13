@@ -121,6 +121,12 @@ ruleTester.run('prefer-object-rule', rule, {
       `,
       errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
     },
+    {
+      code: 'const rule = (context) => { return {}; }; module.exports = rule;',
+      output:
+        'const rule = {create: (context) => { return {}; }}; module.exports = rule;',
+      errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
+    },
 
     // ESM
     {
@@ -148,6 +154,13 @@ ruleTester.run('prefer-object-rule', rule, {
       output: 'export default {create: (context) => { return {}; }};',
       parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
+    },
+    {
+      code: 'const rule = (context) => { return {}; }; export default rule;',
+      output:
+        'const rule = {create: (context) => { return {}; }}; export default rule;',
+      parserOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
     },
   ],
 });

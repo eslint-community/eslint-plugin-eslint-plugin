@@ -1012,5 +1012,35 @@ url: "plugin-name/test.md"
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
+    {
+      // Function rule in variable.
+      filename: 'test.js',
+      code: `const rule = function(context) { return {}; }; module.exports = rule;`,
+      output: null,
+      options: [{ pattern: 'plugin-name/{{ name }}.md' }],
+      errors: [
+        {
+          message: '`meta.docs.url` property is missing.',
+          type: 'FunctionExpression',
+        },
+      ],
+    },
+    {
+      // Object rule in variable.
+      filename: 'test.js',
+      code: `const rule = { create: function(context) { return {}; }, meta: {} }; module.exports = rule;`,
+      output: `const rule = { create: function(context) { return {}; }, meta: {
+docs: {
+url: "plugin-name/test.md"
+}
+} }; module.exports = rule;`,
+      options: [{ pattern: 'plugin-name/{{ name }}.md' }],
+      errors: [
+        {
+          message: '`meta.docs.url` property is missing.',
+          type: 'ObjectExpression',
+        },
+      ],
+    },
   ],
 });
