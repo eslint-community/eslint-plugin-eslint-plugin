@@ -5,7 +5,7 @@ const lodash = require('lodash');
 const espree = require('espree');
 const eslintScope = require('eslint-scope');
 const estraverse = require('estraverse');
-const assert = require('chai').assert;
+const assert = require('assert').strict;
 const utils = require('../../lib/utils');
 const typescriptEslintParser = require('@typescript-eslint/parser');
 
@@ -54,8 +54,9 @@ describe('utils', () => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(
+          assert.strictEqual(
             utils.getRuleInfo({ ast, scopeManager }),
+            null,
             'Expected no rule to be found'
           );
         });
@@ -99,8 +100,9 @@ describe('utils', () => {
             sourceType: 'module',
           });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(
+          assert.strictEqual(
             utils.getRuleInfo({ ast, scopeManager }),
+            null,
             'Expected no rule to be found'
           );
         });
@@ -127,8 +129,9 @@ describe('utils', () => {
             sourceType: 'module',
           });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(
+          assert.strictEqual(
             utils.getRuleInfo({ ast, scopeManager }),
+            null,
             'Expected no rule to be found'
           );
         });
@@ -148,8 +151,9 @@ describe('utils', () => {
             sourceType: 'script',
           });
           const scopeManager = eslintScope.analyze(ast);
-          assert.isNull(
+          assert.strictEqual(
             utils.getRuleInfo({ ast, scopeManager }),
+            null,
             'Expected no rule to be found'
           );
         });
@@ -821,9 +825,9 @@ describe('utils', () => {
       [['foo', 'bar', 'baz'], () => null],
       [
         ['{ node, message }'],
-        () => ({
-          node: { type: 'Identifier', name: 'node', start: 17, end: 21 },
-          message: { type: 'Identifier', name: 'message', start: 23, end: 30 },
+        (args) => ({
+          node: args[0].properties[0].value,
+          message: args[0].properties[1].value,
         }),
       ],
     ]);
@@ -837,8 +841,9 @@ describe('utils', () => {
         }).body[0].expression.arguments;
         const context = { getScope() {} }; // mock object
         const reportInfo = utils.getReportInfo(parsedArgs, context);
+        const expected = CASES.get(args)(parsedArgs);
 
-        assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
+        assert.deepEqual(reportInfo, expected);
       });
     }
   });

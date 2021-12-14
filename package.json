@@ -44,8 +44,6 @@
     "@commitlint/config-conventional": "^13.2.0",
     "@release-it/conventional-changelog": "^3.3.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "chai": "^4.1.0",
-    "dirty-chai": "^2.0.1",
     "eslint": "^8.0.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^8.3.0",

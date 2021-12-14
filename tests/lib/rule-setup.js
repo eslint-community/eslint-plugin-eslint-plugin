@@ -2,7 +2,7 @@
 
 const { readdirSync, readFileSync } = require('fs');
 const path = require('path');
-const assert = require('chai').assert;
+const assert = require('assert').strict;
 const plugin = require('../..');
 
 const RULE_NAMES = Object.keys(plugin.rules);
@@ -224,12 +224,12 @@ describe('rule setup is correct', () => {
             }
           } else {
             // Should NOT have any options/config section headers:
-            assert.notOk(
-              fileContents.includes('# Options'),
+            assert.ok(
+              !fileContents.includes('# Options'),
               'Should not have an "Options" section'
             );
-            assert.notOk(
-              fileContents.includes('# Config'),
+            assert.ok(
+              !fileContents.includes('# Config'),
               'Should not have a "Config" section'
             );
           }

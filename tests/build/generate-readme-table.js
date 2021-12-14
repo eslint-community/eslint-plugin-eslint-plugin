@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const assert = require('chai').assert;
+const assert = require('assert').strict;
 
 describe('table in README.md', () => {
   it('is up-to-date', () => {

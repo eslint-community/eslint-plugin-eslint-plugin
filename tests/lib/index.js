@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('chai').assert;
+const assert = require('assert').strict;
 const plugin = require('../..');
 
 const RULE_NAMES = Object.keys(plugin.rules);
