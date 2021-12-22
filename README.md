@@ -100,7 +100,7 @@ Name | ✔️ | 🛠 | 💡 | Description
 
 ### <a name='Semanticversioningpolicy'></a>Semantic versioning policy
 
-The list of recommended rules will only change in a major release of this plugin. However, new non-recommended rules might be added in a minor release of this plugin. Therefore, the using the `all`, `rules`, and `tests` presets is **not recommended for production use**, because the addition of new rules in a minor release could break your build.
+The list of recommended rules will only change in a major release of this plugin. However, new non-recommended rules might be added in a minor release of this plugin. Therefore, using the `all`, `rules`, and `tests` presets is **not recommended for production use**, because the addition of new rules in a minor release could break your build.
 
 ### <a name='Presetusage'></a>Preset usage
 
