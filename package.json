@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
     "lint:docs": "markdownlint '**/*.md'",
-    "lint:js": "eslint .",
+    "lint:js": "eslint --cache .",
     "generate-readme-table": "node build/generate-readme-table.js",
     "release": "release-it",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive"
