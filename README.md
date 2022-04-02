@@ -32,22 +32,22 @@ npm install eslint-plugin-eslint-plugin --save-dev
 
 ## <a name='Usage'></a>Usage
 
-Add `eslint-plugin` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+Here's an example ESLint configuration that:
+
+* Sets `sourceType` to `script` for CJS plugins (most users) (use `module` for ESM/TypeScript)
+* Enables the `recommended` configuration
+* Enables an optional/non-recommended rule
 
 ```json
 {
-    "plugins": [
-        "eslint-plugin"
-    ]
-}
-```
-
-Then configure the rules you want to use under the rules section.
-
-```json
-{
+    "parserOptions": {
+        "sourceType": "script"
+    },
+    "extends": [
+        "plugin:eslint-plugin/recommended"
+    ],
     "rules": {
-        "eslint-plugin/no-deprecated-report-api": "error"
+        "eslint-plugin/require-meta-docs-description": "error"
     }
 }
 ```
