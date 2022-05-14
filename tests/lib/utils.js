@@ -855,6 +855,44 @@ describe('utils', () => {
           { valid: 3, invalid: 1 },
           { valid: 0, invalid: 2 },
         ],
+
+        [`
+          var foo = new RuleTester, bar = new RuleTester;
+
+          const testUtilsAgainst = function(value) {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
+
+        [`
+          var foo = new RuleTester, bar = new RuleTester;
+
+          const testUtilsAgainst = (value) => {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
       };
 
       Object.keys(CASES).forEach((testSource) => {
