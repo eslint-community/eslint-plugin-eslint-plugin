@@ -672,7 +672,7 @@ describe('utils', () => {
       });
     });
 
-    describe('the file has valid tests', () => {
+    describe.only('the file has valid tests', () => {
       const CASES = {
         'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
           { valid: 1, invalid: 2 },
@@ -689,6 +689,11 @@ describe('utils', () => {
           describe('my tests', () => {
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
           });
+        `]: { valid: 0, invalid: 2 },
+        [`
+          var foo = new bar.RuleTester();
+          describe('my tests', () =>
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] }));
         `]: { valid: 0, invalid: 2 },
       };
 
