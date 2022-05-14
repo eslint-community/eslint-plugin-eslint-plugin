@@ -672,7 +672,7 @@ describe('utils', () => {
       });
     });
 
-    describe.only('the file has valid tests', () => {
+    describe('the file has valid tests', () => {
       const CASES = {
         'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
           { valid: 1, invalid: 2 },
@@ -686,8 +686,26 @@ describe('utils', () => {
           { valid: 0, invalid: 2 },
         [`
           var foo = new bar.RuleTester;
+          describe('my tests', function () {
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2 },
+        [`
+          var foo = new bar.RuleTester;
           describe('my tests', () => {
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2 },
+        [`
+          var foo = new bar.RuleTester;
+          describe('my tests', () => {
+            describe('my tests', () => {
+              describe('my tests', () => {
+                describe('my tests', () => {
+                  foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+                });
+              });
+            });
           });
         `]: { valid: 0, invalid: 2 },
         [`
@@ -740,6 +758,19 @@ describe('utils', () => {
         ],
 
         [`
+          describe('one', function() {
+            new RuleTester().run(foo, bar, { valid: [foo], invalid: [] });
+          });
+
+          describe('two', () => {
+            new RuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: [
+          { valid: 1, invalid: 0 },
+          { valid: 0, invalid: 2 },
+        ],
+
+        [`
           var foo = new RuleTester;
           var bar = new RuleTester;
           foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
@@ -750,9 +781,37 @@ describe('utils', () => {
         ],
 
         [`
+          var foo = new RuleTester;
+
+          describe('some tests', () => {
+            var bar = new RuleTester;
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
+
+        [`
           var foo = new RuleTester, bar = new RuleTester;
           foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
           bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
+
+        [`
+          var foo = new RuleTester, bar = new RuleTester;
+
+          describe('one set of tests', () => {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          });
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
         `]: [
           { valid: 3, invalid: 1 },
           { valid: 0, invalid: 2 },
