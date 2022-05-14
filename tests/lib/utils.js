@@ -684,6 +684,12 @@ describe('utils', () => {
           { valid: 0, invalid: 2 },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
           { valid: 0, invalid: 2 },
+        [`
+          var foo = new bar.RuleTester;
+          describe('my tests', () => {
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2 },
       };
 
       Object.keys(CASES).forEach((testSource) => {
