@@ -172,5 +172,35 @@ ruleTester.run('test-case-property-ordering', rule, {
         },
       ],
     },
+    {
+      code: `
+        var tester = new RuleTester();
+
+        describe('my tests', function() {
+          tester.run('foo', bar, {
+            valid: [
+              {\ncode: "foo",\noutput: "",\nerrors: ["baz"],\nparserOptions: "",\n},
+            ]
+          });
+        });
+      `,
+      output: `
+        var tester = new RuleTester();
+
+        describe('my tests', function() {
+          tester.run('foo', bar, {
+            valid: [
+              {\ncode: "foo",\noutput: "",\nparserOptions: "",\nerrors: ["baz"],\n},
+            ]
+          });
+        });
+      `,
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].',
+        },
+      ],
+    },
   ],
 });
