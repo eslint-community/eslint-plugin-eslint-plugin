@@ -713,6 +713,11 @@ describe('utils', () => {
           describe('my tests', () =>
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] }));
         `]: { valid: 0, invalid: 2 },
+        [`
+          var foo = new bar.RuleTester();
+          if (eslintVersion >= 8)
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] });
+        `]: { valid: 0, invalid: 2 },
       };
 
       Object.keys(CASES).forEach((testSource) => {
@@ -807,6 +812,40 @@ describe('utils', () => {
 
           describe('one set of tests', () => {
             foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          });
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
+
+        [`
+          var foo = new RuleTester, bar = new RuleTester;
+
+          if (eslintVersion >= 8) {
+            describe('one set of tests', () => {
+              foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            });
+          }
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: [
+          { valid: 3, invalid: 1 },
+          { valid: 0, invalid: 2 },
+        ],
+
+        [`
+          var foo = new RuleTester, bar = new RuleTester;
+
+          describe('one set of tests', () => {
+            if (eslintVersion >= 8) {
+              foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            }
           });
 
           describe('another set of tests', () => {
