@@ -196,5 +196,34 @@ ruleTester.run('no-identical-tests', rule, {
       `,
       errors: [ERROR_STRING_TEST],
     },
+    {
+      code: `
+        var foo = new RuleTester();
+
+        function testOperator(operator) {
+          foo.run('foo', bar, {
+            valid: [
+              \`$\{operator}\`,
+              \`$\{operator}\`,
+            ],
+            invalid: []
+          });
+        }
+      `,
+      output: `
+        var foo = new RuleTester();
+
+        function testOperator(operator) {
+          foo.run('foo', bar, {
+            valid: [
+              \`$\{operator}\`,
+            ],
+            invalid: []
+          });
+        }
+      `,
+      parserOptions: { ecmaVersion: 2015 },
+      errors: [{ messageId: 'identical', type: 'TemplateLiteral' }],
+    },
   ],
 });
