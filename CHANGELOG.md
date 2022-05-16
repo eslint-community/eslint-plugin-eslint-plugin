@@ -1,3 +1,12 @@
+
+
+## [4.2.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.1.0...v4.2.0) (2022-05-16)
+
+
+### Features
+
+* Detect nested test cases ([#249](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/249)) ([b33aa00](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/b33aa0025f5f6bce41f1799f00aecb5778bca720))
+
 ## [4.1.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.0.3...v4.1.0) (2021-12-14)
 
 
