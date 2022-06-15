@@ -16,7 +16,7 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
 ruleTester.run('require-meta-fixable', rule, {
   valid: [
     // No `meta`.
@@ -189,6 +189,16 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
     },
+    // Spread.
+    `
+      const extra = { 'fixable': 'code' };
+      module.exports = {
+        meta: { ...extra },
+        create(context) {
+          context.report({node, message, fix: foo});
+        }
+      };
+    `,
   ],
 
   invalid: [

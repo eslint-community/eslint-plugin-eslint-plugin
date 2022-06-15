@@ -16,7 +16,7 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
 ruleTester.run('require-meta-type', rule, {
   valid: [
     `
@@ -76,6 +76,14 @@ ruleTester.run('require-meta-type', rule, {
       `,
       errors: [{ messageId: 'missing' }],
     },
+    // Spread.
+    `
+      const extra = { type: 'problem' };
+      module.exports = {
+        meta: { ...extra },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [

@@ -11,7 +11,7 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
 ruleTester.run('require-meta-has-suggestions', rule, {
   valid: [
     'module.exports = context => { return {}; };',
@@ -171,7 +171,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         }
       };
     `,
-    // Spread syntax.
+    // Unrelated spread syntax.
     {
       code: `
         const extra = {};
@@ -185,6 +185,16 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         ecmaVersion: 9,
       },
     },
+    // Related spread.
+    `
+      const extra = { hasSuggestions: true };
+      module.exports = {
+        meta: { ...extra },
+        create(context) {
+          context.report({node, message, suggest: [{}]});
+        }
+      };
+    `,
   ],
 
   invalid: [
