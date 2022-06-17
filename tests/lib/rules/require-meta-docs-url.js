@@ -155,6 +155,19 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
     },
+    {
+      // Spread.
+      filename: 'test-rule',
+      code: `
+        const extraDocs = { url: "path/to/test-rule.md" };
+        const extraMeta = { docs: { ...extraDocs } };
+        module.exports = {
+          meta: { ...extraMeta },
+          create() {}
+        }
+      `,
+      options: [{ pattern: 'path/to/{{name}}.md' }],
+    },
   ],
 
   invalid: [
@@ -623,6 +636,51 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // URL missing, spreads present.
+      filename: 'test.js',
+      code: `
+        const extraDocs = { };
+        const extraMeta = { docs: { ...extraDocs } };
+        module.exports = {
+          meta: { ...extraMeta },
+          create() {}
+        }
+      `,
+      output: `
+        const extraDocs = { };
+        const extraMeta = { docs: { ...extraDocs,
+url: "plugin-name/test.md" } };
+        module.exports = {
+          meta: { ...extraMeta },
+          create() {}
+        }
+      `,
+      options: [{ pattern: 'plugin-name/{{ name }}.md' }],
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+    },
+    {
+      // URL wrong inside spreads.
+      filename: 'test.js',
+      code: `
+        const extraDocs = { url: 'wrong' };
+        const extraMeta = { docs: { ...extraDocs } };
+        module.exports = {
+          meta: { ...extraMeta },
+          create() {}
+        }
+      `,
+      output: `
+        const extraDocs = { url: "plugin-name/test.md" };
+        const extraMeta = { docs: { ...extraDocs } };
+        module.exports = {
+          meta: { ...extraMeta },
+          create() {}
+        }
+      `,
+      options: [{ pattern: 'plugin-name/{{ name }}.md' }],
+      errors: [{ messageId: 'mismatch', type: 'Literal' }],
     },
     {
       // CJS file extension
