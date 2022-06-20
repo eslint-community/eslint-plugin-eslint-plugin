@@ -1,5 +1,12 @@
 
 
+## [4.3.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.2.0...v4.3.0) (2022-06-20)
+
+
+### Features
+
+* handle properties behind spread syntax in `require-meta-*` rules ([#251](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/251)) ([abefd1e](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/abefd1efc9d9adc0142b2c7527af8d5f3ec60377))
+
 ## [4.2.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.1.0...v4.2.0) (2022-05-16)
 
 
