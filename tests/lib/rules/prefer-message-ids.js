@@ -130,6 +130,7 @@ ruleTester.run('prefer-message-ids', rule, {
         module.exports = {
           meta: { messages: { foo: 'hello world' } },
           create(context) {
+            context.report({ node, messageId: 'foo' });
             context.report({ node, message: 'foo' });
           }
         };
@@ -142,6 +143,7 @@ ruleTester.run('prefer-message-ids', rule, {
         module.exports = {
           meta: { messages: { foo: 'hello world' } },
           create(context) {
+            context.report({ node, messageId: 'foo' });
             context.report({ node, suggest: [{desc:'foo'}] });
           }
         };
@@ -154,6 +156,7 @@ ruleTester.run('prefer-message-ids', rule, {
         export default {
           meta: { messages: { foo: 'hello world' } },
           create(context) {
+            context.report({ node, messageId: 'foo' });
             context.report({ node, message: 'foo' });
           }
         };
@@ -168,6 +171,7 @@ ruleTester.run('prefer-message-ids', rule, {
         module.exports = {
           meta: { messages: { foo: 'hello world' } },
           create(context) {
+            context.report({ node, messageId: 'foo' });
             context.report({
               node,
               message: MESSAGE
@@ -183,6 +187,7 @@ ruleTester.run('prefer-message-ids', rule, {
         module.exports = {
           meta: { messages: { foo: 'hello world' } },
           create(context) {
+            context.report({ node, messageId: 'foo' });
             context.report({
               node,
               message: foo + ' is bad.'
@@ -269,6 +274,31 @@ ruleTester.run('prefer-message-ids', rule, {
         { messageId: 'messagesMissing', type: 'ObjectExpression' },
         { messageId: 'foundMessage', type: 'Property' },
       ],
+    },
+    {
+      // messageId missing
+      code: `
+        module.exports = {
+          meta: { messages: { foo: 'hello world' } },
+          create(context) {
+            context.report({ node, messageId: 'foo' });
+            context.report({ node, messageId: 'bar' });
+          }
+        };
+      `,
+      errors: [{ messageId: 'missingMessage', type: 'Literal' }],
+    },
+    {
+      // messageId unused
+      code: `
+        module.exports = {
+          meta: { messages: { foo: 'hello world', bar: 'hello world 2' } },
+          create(context) {
+            context.report({ node, messageId: 'foo' });
+          }
+        };
+      `,
+      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
     },
   ],
 });
