@@ -122,6 +122,60 @@ ruleTester.run('no-unused-placeholders', rule, {
         }
       };
     `,
+    // Suggestion with messageId
+    `
+      module.exports = {
+        meta: { messages: { myMessageId: 'foo {{bar}}' } },
+        create(context) {
+          context.report({
+            node,
+            suggest: [
+              {
+                messageId: 'myMessageId',
+                data: { 'bar': 'baz' }
+              }
+            ]
+          });
+        }
+      };
+    `,
+    // messageId but no placeholder.
+    `
+      module.exports = {
+        meta: {
+          messages: { myMessageId: 'foo' }
+        },
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId but the message property doesn't exist yet.
+    `
+      module.exports = {
+        meta: {
+          messages: { }
+        },
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId with correctly-used placeholder.
+    `
+      module.exports = {
+        meta: {
+          messages: { myMessageId: 'foo {{bar}}' }
+        },
+        create(context) {
+          context.report({
+            node,
+            messageId: 'myMessageId',
+            data: { bar: 'baz' }
+          });
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -198,6 +252,22 @@ ruleTester.run('no-unused-placeholders', rule, {
       errors: [error('baz')],
     },
     {
+      // messageId.
+      code: `
+        module.exports = {
+          meta: { messages: { myMessageId: 'foo' } },
+          create(context) {
+            context.report({
+              node,
+              messageId: 'myMessageId',
+              data: { bar }
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
+    },
+    {
       // Suggestion
       code: `
         module.exports = {
@@ -207,6 +277,26 @@ ruleTester.run('no-unused-placeholders', rule, {
               suggest: [
                 {
                   desc: 'foo',
+                  data: { bar }
+                }
+              ]
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
+    },
+    {
+      // Suggestion and messageId
+      code: `
+        module.exports = {
+          meta: { messages: { myMessageId: 'foo' } },
+          create(context) {
+            context.report({
+              node,
+              suggest: [
+                {
+                  messageId: 'myMessageId',
                   data: { bar }
                 }
               ]
