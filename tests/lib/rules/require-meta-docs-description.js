@@ -11,7 +11,7 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
 ruleTester.run('require-meta-docs-description', rule, {
   valid: [
     'foo()',
@@ -104,6 +104,15 @@ ruleTester.run('require-meta-docs-description', rule, {
       const meta = { docs: { description: 'enforce foo' } };
       module.exports = {
         meta,
+        create(context) {}
+      };
+    `,
+    // Spread.
+    `
+      const extraDocs = { description: 'enforce foo' };
+      const extraMeta = { docs: { ...extraDocs } };
+      module.exports = {
+        meta: { ...extraMeta },
         create(context) {}
       };
     `,

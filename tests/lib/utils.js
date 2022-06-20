@@ -1274,4 +1274,81 @@ describe('utils', () => {
       });
     });
   });
+
+  describe('evaluateObjectProperties', function () {
+    it('behaves correctly with simple object expression', function () {
+      const ast = espree.parse('const obj = { a: 123, b: foo() };', {
+        ecmaVersion: 9,
+        range: true,
+      });
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        ast.body[0].declarations[0].init,
+        scopeManager
+      );
+      assert.deepEqual(result, ast.body[0].declarations[0].init.properties);
+    });
+
+    it('behaves correctly with spreads of objects', function () {
+      const ast = espree.parse(
+        `
+        const extra1 = { a: 123 };
+        const extra2 = { b: 456 };
+        const obj = { ...extra1, c: 789, ...extra2 };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        }
+      );
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        ast.body[2].declarations[0].init,
+        scopeManager
+      );
+      assert.deepEqual(result, [
+        ...ast.body[0].declarations[0].init.properties, // First spread properties
+        ...ast.body[2].declarations[0].init.properties.filter(
+          (property) => property.type !== 'SpreadElement'
+        ), // Non-spread properties
+        ...ast.body[1].declarations[0].init.properties, // Second spread properties
+      ]);
+    });
+
+    it('behaves correctly with non-variable spreads', function () {
+      const ast = espree.parse(`function foo() {} const obj = { ...foo() };`, {
+        ecmaVersion: 9,
+        range: true,
+      });
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        ast.body[1].declarations[0].init,
+        scopeManager
+      );
+      assert.deepEqual(result, []);
+    });
+
+    it('behaves correctly with spread with variable that cannot be found', function () {
+      const ast = espree.parse(`const obj = { ...foo };`, {
+        ecmaVersion: 9,
+        range: true,
+      });
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        ast.body[0].declarations[0].init,
+        scopeManager
+      );
+      assert.deepEqual(result, []);
+    });
+
+    it('behaves correctly when passed wrong node type', function () {
+      const ast = espree.parse(`foo();`, {
+        ecmaVersion: 9,
+        range: true,
+      });
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(ast.body[0], scopeManager);
+      assert.deepEqual(result, []);
+    });
+  });
 });

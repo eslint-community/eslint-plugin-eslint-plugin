@@ -11,7 +11,7 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
 ruleTester.run('require-meta-schema', rule, {
   valid: [
     `
@@ -109,6 +109,14 @@ ruleTester.run('require-meta-schema', rule, {
       code: 'module.exports = { create(context) {} };',
       options: [{ requireSchemaPropertyWhenOptionless: false }],
     },
+    // Spread.
+    `
+      const extra = { schema: [] };
+      module.exports = {
+        meta: { ...extra },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
