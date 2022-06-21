@@ -1129,6 +1129,21 @@ describe('utils', () => {
         ],
       },
       {
+        // Suggestions using a ternary/conditional expression.
+        code: `
+          context.report({
+            node: {},
+            messageId: "messageId1",
+            suggest: foo ? [{messageId:'messageId2'}] : [{messageId: 'messageId3'}]
+          });
+        `,
+        shouldMatch: [
+          { messageId: { type: 'Literal', value: 'messageId1' } },
+          { messageId: { type: 'Literal', value: 'messageId2' } },
+          { messageId: { type: 'Literal', value: 'messageId3' } },
+        ],
+      },
+      {
         // No suggestions.
         code: `
           context.report({
@@ -1349,6 +1364,178 @@ describe('utils', () => {
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(ast.body[0], scopeManager);
       assert.deepEqual(result, []);
+    });
+  });
+
+  describe('getMessagesNode', function () {
+    [
+      {
+        code: 'module.exports = { meta: { messages: {} }, create(context) {} };',
+        getResult(ast) {
+          return ast.body[0].expression.right.properties[0].value.properties[0]
+            .value;
+        },
+      },
+      {
+        // variable
+        code: `
+          const messages = { foo: 'hello world' };
+          module.exports = { meta: { messages }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init;
+        },
+      },
+      {
+        // spread
+        code: `
+          const extra = { messages: { foo: 'hello world' } };
+          module.exports = { meta: { ...extra }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init.properties[0].value;
+        },
+      },
+      {
+        code: `module.exports = { meta: FOO, create(context) {} };`,
+        getResult() {}, // returns undefined
+      },
+      {
+        code: `module.exports = { create(context) {} };`,
+        getResult() {}, // returns undefined
+      },
+    ].forEach((testCase) => {
+      describe(testCase.code, () => {
+        it('returns the right node', () => {
+          const ast = espree.parse(testCase.code, {
+            ecmaVersion: 9,
+            range: true,
+          });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+          assert.strictEqual(
+            utils.getMessagesNode(ruleInfo, scopeManager),
+            testCase.getResult(ast)
+          );
+        });
+      });
+    });
+  });
+
+  describe('getMessageIdNodes', function () {
+    [
+      {
+        code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
+        getResult(ast) {
+          return ast.body[0].expression.right.properties[0].value.properties[0]
+            .value.properties;
+        },
+      },
+      {
+        // variable
+        code: `
+          const messages = { foo: 'hello world' };
+          module.exports = { meta: { messages }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init.properties;
+        },
+      },
+      {
+        // spread
+        code: `
+          const extra2 = { foo: 'hello world' };
+          const extra = { messages: { ...extra2 } };
+          module.exports = { meta: { ...extra }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init.properties;
+        },
+      },
+    ].forEach((testCase) => {
+      describe(testCase.code, () => {
+        it('returns the right node', () => {
+          const ast = espree.parse(testCase.code, {
+            ecmaVersion: 9,
+            range: true,
+          });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+          assert.deepEqual(
+            utils.getMessageIdNodes(ruleInfo, scopeManager),
+            testCase.getResult(ast)
+          );
+        });
+      });
+    });
+  });
+
+  describe('getMessageIdNodeById', function () {
+    [
+      {
+        code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
+        run(ruleInfo, scopeManager) {
+          return utils.getMessageIdNodeById('foo', ruleInfo, scopeManager);
+        },
+        getResult(ast) {
+          return ast.body[0].expression.right.properties[0].value.properties[0]
+            .value.properties[0];
+        },
+      },
+      {
+        code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
+        run(ruleInfo, scopeManager) {
+          return utils.getMessageIdNodeById('bar', ruleInfo, scopeManager);
+        },
+        getResult() {}, // returns undefined
+      },
+    ].forEach((testCase) => {
+      describe(testCase.code, () => {
+        it('returns the right node', () => {
+          const ast = espree.parse(testCase.code, {
+            ecmaVersion: 9,
+            range: true,
+          });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+          assert.strictEqual(
+            testCase.run(ruleInfo, scopeManager),
+            testCase.getResult(ast)
+          );
+        });
+      });
+    });
+  });
+
+  describe('findPossibleVariableValues', function () {
+    it('returns the right nodes', () => {
+      const code =
+        'let x = 123; x = 456; x = foo(); if (foo) { x = 789; } x(); console.log(x); x += "shouldIgnore"; x + "shouldIgnore";';
+      const ast = espree.parse(code, {
+        ecmaVersion: 9,
+        range: true,
+      });
+
+      // Add parent to each node.
+      estraverse.traverse(ast, {
+        enter(node, parent) {
+          node.parent = parent;
+        },
+      });
+
+      const scopeManager = eslintScope.analyze(ast);
+      assert.deepEqual(
+        utils.findPossibleVariableValues(
+          ast.body[0].declarations[0].id,
+          scopeManager
+        ),
+        [
+          ast.body[0].declarations[0].init,
+          ast.body[1].expression.right,
+          ast.body[2].expression.right,
+          ast.body[3].consequent.body[0].expression.right,
+        ]
+      );
     });
   });
 });
