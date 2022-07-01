@@ -207,6 +207,19 @@ ruleTester.run('no-unused-message-ids', rule, {
         }
       };
     `,
+    // with variable messageId key
+    `
+      const MESSAGE_ID = 'foo';
+      const messages = {
+        [MESSAGE_ID]: 'hello world',
+      };
+      module.exports = {
+        meta: { messages },
+        create(context) {
+          context.report({node, messageId: MESSAGE_ID});
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -220,7 +233,13 @@ ruleTester.run('no-unused-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // Unused message with spreads
@@ -234,7 +253,13 @@ ruleTester.run('no-unused-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // ESM
@@ -247,7 +272,13 @@ ruleTester.run('no-unused-message-ids', rule, {
         };
       `,
       parserOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // `meta` / `create` in variables
@@ -256,19 +287,31 @@ ruleTester.run('no-unused-message-ids', rule, {
         const create = function (context) { context.report({ node, messageId: 'bar' }); }
         module.exports = { meta, create };
       `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
-      // messageId unused
+      // messageId unused with multiple messages
       code: `
         module.exports = {
           meta: { messages: { foo: 'hello world', bar: 'hello world 2' } },
           create(context) {
-            context.report({ node, messageId: 'foo' });
+            context.report({ node, messageId: 'bar' });
           }
         };
       `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // messageId unused with no reports
@@ -278,7 +321,13 @@ ruleTester.run('no-unused-message-ids', rule, {
             create(context) { }
           };
         `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // messageId unused with meta.messages in variable
@@ -289,7 +338,13 @@ ruleTester.run('no-unused-message-ids', rule, {
             create(context) { }
           };
         `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // messageId unused with meta.messages in spreads
@@ -301,7 +356,13 @@ ruleTester.run('no-unused-message-ids', rule, {
             create(context) { }
           };
         `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
     {
       // helper function outside rule with variable messageId
@@ -317,7 +378,13 @@ ruleTester.run('no-unused-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'unusedMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unusedMessage',
+          data: { messageId: 'foo' },
+          type: 'Property',
+        },
+      ],
     },
   ],
 });

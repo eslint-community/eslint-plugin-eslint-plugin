@@ -183,6 +183,19 @@ ruleTester.run('no-missing-message-ids', rule, {
         }
       };
     `,
+    // with variable messageId key
+    `
+      const MESSAGE_ID = 'foo';
+      const messages = {
+        [MESSAGE_ID]: 'hello world',
+      };
+      module.exports = {
+        meta: { messages },
+        create(context) {
+          context.report({node, messageId: MESSAGE_ID});
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -192,11 +205,17 @@ ruleTester.run('no-missing-message-ids', rule, {
         module.exports = {
           meta: { messages: { } },
           create(context) {
-            context.report({ node, messageId: 'bar' });
+            context.report({ node, messageId: 'foo' });
           }
         };
       `,
-      errors: [{ messageId: 'missingMessage', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'foo' },
+          type: 'Literal',
+        },
+      ],
     },
     {
       // Missing messages with multiple possible values
@@ -212,9 +231,21 @@ ruleTester.run('no-missing-message-ids', rule, {
         };
       `,
       errors: [
-        { messageId: 'missingMessage', type: 'Literal' },
-        { messageId: 'missingMessage', type: 'Literal' },
-        { messageId: 'missingMessage', type: 'Literal' },
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'abc' },
+          type: 'Literal',
+        },
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'def' },
+          type: 'Literal',
+        },
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'bar' },
+          type: 'Literal',
+        },
       ],
     },
     {
@@ -225,11 +256,17 @@ ruleTester.run('no-missing-message-ids', rule, {
         module.exports = {
           meta: { ...extraMeta },
           create(context) {
-            context.report({ node, messageId: 'bar' });
+            context.report({ node, messageId: 'foo' });
           }
         };
       `,
-      errors: [{ messageId: 'missingMessage', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'foo' },
+          type: 'Literal',
+        },
+      ],
     },
     {
       // ESM
@@ -237,12 +274,18 @@ ruleTester.run('no-missing-message-ids', rule, {
         export default {
           meta: { messages: { } },
           create(context) {
-            context.report({ node, messageId: 'bar' });
+            context.report({ node, messageId: 'foo' });
           }
         };
       `,
       parserOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'missingMessage', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'foo' },
+          type: 'Literal',
+        },
+      ],
     },
   ],
 });

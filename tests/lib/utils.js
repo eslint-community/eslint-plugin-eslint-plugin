@@ -572,13 +572,13 @@ describe('utils', () => {
     Object.keys(CASES).forEach((ruleSource) => {
       it(ruleSource, () => {
         const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
-        const scope = eslintScope.analyze(ast, {
+        const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
           sourceType: 'script',
           nodejsScope: true,
         });
-        const identifiers = utils.getContextIdentifiers(scope, ast);
+        const identifiers = utils.getContextIdentifiers(scopeManager, ast);
 
         assert(
           identifiers instanceof Set,
@@ -611,15 +611,51 @@ describe('utils', () => {
       '({ [foo]: 1 })': null,
       '({ [tag`foo`]: 1 })': null,
       '({ ["foo" + "bar"]: 1 })': null,
+      '({ [key]: 1 })': null,
+      'const key = "foo"; ({ [key]: 1 });': {
+        getNode(ast) {
+          return ast.body[1].expression.properties[0];
+        },
+        result: 'foo',
+        resultWithoutScope: null,
+      },
     };
     Object.keys(CASES).forEach((objectSource) => {
       it(objectSource, () => {
         const ast = espree.parse(objectSource, { ecmaVersion: 6, range: true });
+        const scopeManager = eslintScope.analyze(ast, {
+          ignoreEval: true,
+          ecmaVersion: 6,
+          sourceType: 'script',
+          nodejsScope: true,
+        });
 
-        assert.strictEqual(
-          utils.getKeyName(ast.body[0].expression.properties[0]),
-          CASES[objectSource]
-        );
+        const caseInfo = CASES[objectSource];
+        if (typeof caseInfo === 'object' && caseInfo !== null) {
+          // Object-style test case used when we need to specify additional information for this test case.
+          assert.strictEqual(
+            utils.getKeyName(caseInfo.getNode(ast), scopeManager.globalScope),
+            caseInfo.result
+          );
+
+          if (
+            Object.prototype.hasOwnProperty.call(caseInfo, 'resultWithoutScope')
+          ) {
+            // Ensure the behavior is correct when `scope` is omitted from the parameters.
+            assert.strictEqual(
+              utils.getKeyName(caseInfo.getNode(ast)),
+              caseInfo.resultWithoutScope
+            );
+          }
+        } else {
+          assert.strictEqual(
+            utils.getKeyName(
+              ast.body[0].expression.properties[0],
+              scopeManager.globalScope
+            ),
+            caseInfo
+          );
+        }
       });
     });
 
@@ -657,14 +693,14 @@ describe('utils', () => {
             ecmaVersion: 8,
             range: true,
           });
-          const scope = eslintScope.analyze(ast, {
+          const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
             sourceType: 'script',
             nodejsScope: true,
           });
           assert.deepEqual(
-            utils.getTestInfo(scope, ast),
+            utils.getTestInfo(scopeManager, ast),
             [],
             'Expected no tests to be found'
           );
@@ -723,13 +759,13 @@ describe('utils', () => {
       Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-          const scope = eslintScope.analyze(ast, {
+          const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scope, ast);
+          const testInfo = utils.getTestInfo(scopeManager, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -917,13 +953,13 @@ describe('utils', () => {
       Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-          const scope = eslintScope.analyze(ast, {
+          const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scope, ast);
+          const testInfo = utils.getTestInfo(scopeManager, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1019,7 +1055,7 @@ describe('utils', () => {
     Object.keys(CASES).forEach((testSource) => {
       it(testSource, () => {
         const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-        const scope = eslintScope.analyze(ast, {
+        const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
           sourceType: 'script',
@@ -1033,7 +1069,7 @@ describe('utils', () => {
         });
 
         assert.strictEqual(
-          utils.getSourceCodeIdentifiers(scope, ast).size,
+          utils.getSourceCodeIdentifiers(scopeManager, ast).size,
           CASES[testSource]
         );
       });
@@ -1475,7 +1511,12 @@ describe('utils', () => {
       {
         code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
         run(ruleInfo, scopeManager) {
-          return utils.getMessageIdNodeById('foo', ruleInfo, scopeManager);
+          return utils.getMessageIdNodeById(
+            'foo',
+            ruleInfo,
+            scopeManager,
+            scopeManager.globalScope
+          );
         },
         getResult(ast) {
           return ast.body[0].expression.right.properties[0].value.properties[0]
@@ -1485,7 +1526,12 @@ describe('utils', () => {
       {
         code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
         run(ruleInfo, scopeManager) {
-          return utils.getMessageIdNodeById('bar', ruleInfo, scopeManager);
+          return utils.getMessageIdNodeById(
+            'bar',
+            ruleInfo,
+            scopeManager,
+            scopeManager.globalScope
+          );
         },
         getResult() {}, // returns undefined
       },
