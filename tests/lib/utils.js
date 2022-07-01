@@ -572,13 +572,13 @@ describe('utils', () => {
     Object.keys(CASES).forEach((ruleSource) => {
       it(ruleSource, () => {
         const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
-        const scope = eslintScope.analyze(ast, {
+        const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
           sourceType: 'script',
           nodejsScope: true,
         });
-        const identifiers = utils.getContextIdentifiers(scope, ast);
+        const identifiers = utils.getContextIdentifiers(scopeManager, ast);
 
         assert(
           identifiers instanceof Set,
@@ -611,15 +611,51 @@ describe('utils', () => {
       '({ [foo]: 1 })': null,
       '({ [tag`foo`]: 1 })': null,
       '({ ["foo" + "bar"]: 1 })': null,
+      '({ [key]: 1 })': null,
+      'const key = "foo"; ({ [key]: 1 });': {
+        getNode(ast) {
+          return ast.body[1].expression.properties[0];
+        },
+        result: 'foo',
+        resultWithoutScope: null,
+      },
     };
     Object.keys(CASES).forEach((objectSource) => {
       it(objectSource, () => {
         const ast = espree.parse(objectSource, { ecmaVersion: 6, range: true });
+        const scopeManager = eslintScope.analyze(ast, {
+          ignoreEval: true,
+          ecmaVersion: 6,
+          sourceType: 'script',
+          nodejsScope: true,
+        });
 
-        assert.strictEqual(
-          utils.getKeyName(ast.body[0].expression.properties[0]),
-          CASES[objectSource]
-        );
+        const caseInfo = CASES[objectSource];
+        if (typeof caseInfo === 'object' && caseInfo !== null) {
+          // Object-style test case used when we need to specify additional information for this test case.
+          assert.strictEqual(
+            utils.getKeyName(caseInfo.getNode(ast), scopeManager.globalScope),
+            caseInfo.result
+          );
+
+          if (
+            Object.prototype.hasOwnProperty.call(caseInfo, 'resultWithoutScope')
+          ) {
+            // Ensure the behavior is correct when `scope` is omitted from the parameters.
+            assert.strictEqual(
+              utils.getKeyName(caseInfo.getNode(ast)),
+              caseInfo.resultWithoutScope
+            );
+          }
+        } else {
+          assert.strictEqual(
+            utils.getKeyName(
+              ast.body[0].expression.properties[0],
+              scopeManager.globalScope
+            ),
+            caseInfo
+          );
+        }
       });
     });
 
@@ -657,14 +693,14 @@ describe('utils', () => {
             ecmaVersion: 8,
             range: true,
           });
-          const scope = eslintScope.analyze(ast, {
+          const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
             sourceType: 'script',
             nodejsScope: true,
           });
           assert.deepEqual(
-            utils.getTestInfo(scope, ast),
+            utils.getTestInfo(scopeManager, ast),
             [],
             'Expected no tests to be found'
           );
@@ -723,13 +759,13 @@ describe('utils', () => {
       Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-          const scope = eslintScope.analyze(ast, {
+          const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scope, ast);
+          const testInfo = utils.getTestInfo(scopeManager, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -917,13 +953,13 @@ describe('utils', () => {
       Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
           const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-          const scope = eslintScope.analyze(ast, {
+          const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scope, ast);
+          const testInfo = utils.getTestInfo(scopeManager, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1019,7 +1055,7 @@ describe('utils', () => {
     Object.keys(CASES).forEach((testSource) => {
       it(testSource, () => {
         const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
-        const scope = eslintScope.analyze(ast, {
+        const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
           sourceType: 'script',
@@ -1033,7 +1069,7 @@ describe('utils', () => {
         });
 
         assert.strictEqual(
-          utils.getSourceCodeIdentifiers(scope, ast).size,
+          utils.getSourceCodeIdentifiers(scopeManager, ast).size,
           CASES[testSource]
         );
       });
@@ -1126,6 +1162,21 @@ describe('utils', () => {
             },
             fix: { type: 'FunctionExpression' },
           },
+        ],
+      },
+      {
+        // Suggestions using a ternary/conditional expression.
+        code: `
+          context.report({
+            node: {},
+            messageId: "messageId1",
+            suggest: foo ? [{messageId:'messageId2'}] : [{messageId: 'messageId3'}]
+          });
+        `,
+        shouldMatch: [
+          { messageId: { type: 'Literal', value: 'messageId1' } },
+          { messageId: { type: 'Literal', value: 'messageId2' } },
+          { messageId: { type: 'Literal', value: 'messageId3' } },
         ],
       },
       {
@@ -1349,6 +1400,188 @@ describe('utils', () => {
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(ast.body[0], scopeManager);
       assert.deepEqual(result, []);
+    });
+  });
+
+  describe('getMessagesNode', function () {
+    [
+      {
+        code: 'module.exports = { meta: { messages: {} }, create(context) {} };',
+        getResult(ast) {
+          return ast.body[0].expression.right.properties[0].value.properties[0]
+            .value;
+        },
+      },
+      {
+        // variable
+        code: `
+          const messages = { foo: 'hello world' };
+          module.exports = { meta: { messages }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init;
+        },
+      },
+      {
+        // spread
+        code: `
+          const extra = { messages: { foo: 'hello world' } };
+          module.exports = { meta: { ...extra }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init.properties[0].value;
+        },
+      },
+      {
+        code: `module.exports = { meta: FOO, create(context) {} };`,
+        getResult() {}, // returns undefined
+      },
+      {
+        code: `module.exports = { create(context) {} };`,
+        getResult() {}, // returns undefined
+      },
+    ].forEach((testCase) => {
+      describe(testCase.code, () => {
+        it('returns the right node', () => {
+          const ast = espree.parse(testCase.code, {
+            ecmaVersion: 9,
+            range: true,
+          });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+          assert.strictEqual(
+            utils.getMessagesNode(ruleInfo, scopeManager),
+            testCase.getResult(ast)
+          );
+        });
+      });
+    });
+  });
+
+  describe('getMessageIdNodes', function () {
+    [
+      {
+        code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
+        getResult(ast) {
+          return ast.body[0].expression.right.properties[0].value.properties[0]
+            .value.properties;
+        },
+      },
+      {
+        // variable
+        code: `
+          const messages = { foo: 'hello world' };
+          module.exports = { meta: { messages }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init.properties;
+        },
+      },
+      {
+        // spread
+        code: `
+          const extra2 = { foo: 'hello world' };
+          const extra = { messages: { ...extra2 } };
+          module.exports = { meta: { ...extra }, create(context) {} };
+        `,
+        getResult(ast) {
+          return ast.body[0].declarations[0].init.properties;
+        },
+      },
+    ].forEach((testCase) => {
+      describe(testCase.code, () => {
+        it('returns the right node', () => {
+          const ast = espree.parse(testCase.code, {
+            ecmaVersion: 9,
+            range: true,
+          });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+          assert.deepEqual(
+            utils.getMessageIdNodes(ruleInfo, scopeManager),
+            testCase.getResult(ast)
+          );
+        });
+      });
+    });
+  });
+
+  describe('getMessageIdNodeById', function () {
+    [
+      {
+        code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
+        run(ruleInfo, scopeManager) {
+          return utils.getMessageIdNodeById(
+            'foo',
+            ruleInfo,
+            scopeManager,
+            scopeManager.globalScope
+          );
+        },
+        getResult(ast) {
+          return ast.body[0].expression.right.properties[0].value.properties[0]
+            .value.properties[0];
+        },
+      },
+      {
+        code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
+        run(ruleInfo, scopeManager) {
+          return utils.getMessageIdNodeById(
+            'bar',
+            ruleInfo,
+            scopeManager,
+            scopeManager.globalScope
+          );
+        },
+        getResult() {}, // returns undefined
+      },
+    ].forEach((testCase) => {
+      describe(testCase.code, () => {
+        it('returns the right node', () => {
+          const ast = espree.parse(testCase.code, {
+            ecmaVersion: 9,
+            range: true,
+          });
+          const scopeManager = eslintScope.analyze(ast);
+          const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+          assert.strictEqual(
+            testCase.run(ruleInfo, scopeManager),
+            testCase.getResult(ast)
+          );
+        });
+      });
+    });
+  });
+
+  describe('findPossibleVariableValues', function () {
+    it('returns the right nodes', () => {
+      const code =
+        'let x = 123; x = 456; x = foo(); if (foo) { x = 789; } x(); console.log(x); x += "shouldIgnore"; x + "shouldIgnore";';
+      const ast = espree.parse(code, {
+        ecmaVersion: 9,
+        range: true,
+      });
+
+      // Add parent to each node.
+      estraverse.traverse(ast, {
+        enter(node, parent) {
+          node.parent = parent;
+        },
+      });
+
+      const scopeManager = eslintScope.analyze(ast);
+      assert.deepEqual(
+        utils.findPossibleVariableValues(
+          ast.body[0].declarations[0].id,
+          scopeManager
+        ),
+        [
+          ast.body[0].declarations[0].init,
+          ast.body[1].expression.right,
+          ast.body[2].expression.right,
+          ast.body[3].consequent.body[0].expression.right,
+        ]
+      );
     });
   });
 });
