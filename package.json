@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-eslint-plugin",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
   "main": "lib/index.js",

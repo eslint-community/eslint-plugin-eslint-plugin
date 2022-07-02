@@ -1,5 +1,12 @@
 
 
+## [4.4.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.3.0...v4.4.0) (2022-07-02)
+
+
+### Features
+
+* Add new rules `no-missing-message-ids` and `no-unused-message-ids` ([#254](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/254)) ([067e8aa](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/067e8aa35d916e97e5091be3cd21f09ff00d77ed))
+
 ## [4.3.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.2.0...v4.3.0) (2022-06-20)
 
 
