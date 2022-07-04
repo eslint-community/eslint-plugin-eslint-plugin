@@ -124,7 +124,7 @@ ruleTester.run('no-missing-placeholders', rule, {
         }
       };
     `,
-    // messageId but the message property doesn't exist yet.
+    // messageId but the message doesn't exist in `meta.messages`.
     `
       module.exports = {
         meta: {
@@ -135,10 +135,18 @@ ruleTester.run('no-missing-placeholders', rule, {
         }
       };
     `,
-    // messageId but no messages object doesn't exist yet.
+    // messageId but no `meta.messages`.
     `
       module.exports = {
         meta: { },
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId but no `meta`.
+    `
+      module.exports = {
         create(context) {
           context.report({ node, messageId: 'myMessageId' });
         }

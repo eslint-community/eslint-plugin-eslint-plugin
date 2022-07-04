@@ -161,6 +161,23 @@ ruleTester.run('no-unused-placeholders', rule, {
         }
       };
     `,
+    // messageId but no `meta.messages`.
+    `
+      module.exports = {
+        meta: {},
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId but no `meta`.
+    `
+      module.exports = {
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
     // messageId with correctly-used placeholder.
     `
       module.exports = {
