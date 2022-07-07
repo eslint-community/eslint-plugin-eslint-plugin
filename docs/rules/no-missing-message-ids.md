@@ -1,5 +1,7 @@
 # Disallow `messageId`s that are missing from `meta.messages` (no-missing-message-ids)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 When using `meta.messages` and `messageId` to report rule violations, it's possible to mistakenly use a `messageId` that doesn't exist in `meta.messages`.
 
 ## Rule Details
