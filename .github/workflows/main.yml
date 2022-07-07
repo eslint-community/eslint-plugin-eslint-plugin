@@ -37,17 +37,6 @@ jobs:
       - run: npm install
       - run: npm run lint
 
-  eslint6:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: "16.x"
-    - run: npm install
-    - run: npm install --save-dev eslint@6
-    - run: npm test
-      
   eslint7:
     runs-on: ubuntu-latest
     steps:
