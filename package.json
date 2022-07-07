@@ -3,7 +3,8 @@
   "version": "4.4.0",
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
   "license": "MIT",
   "scripts": {
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
