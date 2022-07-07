@@ -13,10 +13,8 @@ jobs:
       matrix:
         node-version:
           - '18'
-          - '17'
           - '16'
           - '14'
-          - '12'
         os:
           - ubuntu-latest
     steps:
@@ -47,7 +45,7 @@ jobs:
     - run: npm install
     - run: npm install --save-dev eslint@6
     - run: npm test
-      
+
   eslint7:
     runs-on: ubuntu-latest
     steps:
