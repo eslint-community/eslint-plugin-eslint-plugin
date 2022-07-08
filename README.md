@@ -74,7 +74,7 @@ Name | ✔️ | 🛠 | 💡 | Description
 [no-unused-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-unused-placeholders.md) | ✔️ |  |  | disallow unused placeholders in rule report messages
 [no-useless-token-range](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-useless-token-range.md) | ✔️ | 🛠 |  | disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()`
 [prefer-message-ids](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-message-ids.md) | ✔️ |  |  | require using `messageId` instead of `message` to report rule violations
-[prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) | ✔️ | 🛠 |  | disallow rule exports where the export is a function
+[prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) | ✔️ | 🛠 |  | disallow function-style rules
 [prefer-output-null](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-output-null.md) | ✔️ | 🛠 |  | disallow invalid RuleTester test cases where the `output` matches the `code`
 [prefer-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-placeholders.md) |  |  |  | require using placeholders for dynamic report messages
 [prefer-replace-text](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-replace-text.md) |  |  |  | require using `replaceText()` instead of `replaceTextRange()`
