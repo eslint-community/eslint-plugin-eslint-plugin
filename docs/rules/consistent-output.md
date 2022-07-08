@@ -2,11 +2,11 @@
 
 ✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
 
-When writing tests for fixable rules, it's a best practice to use the `output` property on each test case to assert what autofixed code is produced, or to assert that no autofix is produced using `output: null`.
+When writing tests for fixable rules, the `output` property on each test case can be used to assert what autofixed code is produced, or to assert that no autofix is produced using `output: null`.
 
 Prior to ESLint 7, it was easy to forget to assert the autofix output of a particular test case, resulting in incomplete test coverage and a greater chance of unexpected behavior / bugs.
 
-[As of ESLint 7](https://eslint.org/docs/user-guide/migrating-to-7.0.0#additional-validation-added-to-the-ruletester-class), test cases that trigger an autofix are required to provide the `output` property.
+[As of ESLint 7](https://eslint.org/docs/user-guide/migrating-to-7.0.0#additional-validation-added-to-the-ruletester-class), test cases that trigger an autofix are required by ESLint to provide the `output` property. Thus, it's now acceptable and more concise to omit this property when there's no autofix.
 
 ## Rule Details
 
@@ -70,6 +70,8 @@ This rule takes an optional string enum option with one of the following values:
 ## When Not To Use It
 
 If you're not writing fixable rules, or you want to write test cases without output assertions, do not enable this rule.
+
+As mentioned in the introduction, the need for this rule is reduced as of ESLint v7.
 
 ## Further Reading
 
