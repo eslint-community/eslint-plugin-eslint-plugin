@@ -1,5 +1,12 @@
 
 
+### [4.4.1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.4.0...v4.4.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* detect rules with TypeScript `export = rule` syntax ([#267](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/267)) ([8e66bf7](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/8e66bf744448b8a3c64bf32c5ba893d16fa7f3ac))
+
 ## [4.4.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.3.0...v4.4.0) (2022-07-02)
 
 
