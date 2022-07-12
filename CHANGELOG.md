@@ -8,8 +8,7 @@
 * drop Node 12/17 support ([#256](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/256))
 * drop ESLint v6 support ([#257](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/257))
 * strictly define Node API ([#259](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/259))
-* add `recommended` rules `prefer-message-ids`, `prefer-output-null`, `no-missing-message-id
-s`, `no-unused-message-ids` ([#258](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/258))
+* add `recommended` rules `prefer-message-ids`, `prefer-output-null`, `no-missing-message-ids`, `no-unused-message-ids` ([#258](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/258))
 * Update `no-missing-placeholders` and `no-unused-placeholders` to handle messageIds ([#252](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/252))
 
 ### Features
