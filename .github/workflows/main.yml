@@ -13,10 +13,8 @@ jobs:
       matrix:
         node-version:
           - '18'
-          - '17'
           - '16'
           - '14'
-          - '12'
         os:
           - ubuntu-latest
     steps:
