@@ -1,5 +1,16 @@
 
 
+## [5.0.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.4.1...v5.0.0) (2022-07-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update `no-missing-placeholders` and `no-unused-placeholders` to handle messageIds (#252)
+
+### Features
+
+* Update `no-missing-placeholders` and `no-unused-placeholders` to handle messageIds ([#252](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/252)) ([047b0b5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/047b0b56bd61c88122518644e8a6f9b5ab7255bb))
+
 ### [4.4.1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.4.0...v4.4.1) (2022-07-11)
 
 
