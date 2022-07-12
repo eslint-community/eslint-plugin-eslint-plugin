@@ -1,5 +1,7 @@
 # Disallow invalid RuleTester test cases where the `output` matches the `code` (prefer-output-null)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 ⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
 
 Instead of repeating the test case `code`, using `output: null` is more concise and makes it easier to distinguish whether a test case provides an autofix.

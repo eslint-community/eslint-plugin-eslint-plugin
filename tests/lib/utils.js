@@ -119,6 +119,9 @@ describe('utils', () => {
         'const notRule = foo(); export default notRule;',
         'const notRule = function(){}; export default notRule;',
         'const notRule = {}; export default notRule;',
+        'const notRule = {}; export = notRule;',
+        'const notRule: Rule.RuleModule = {}; export = notRule;',
+        'export = {};',
       ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = typescriptEslintParser.parse(noRuleCase, {
@@ -187,6 +190,65 @@ describe('utils', () => {
             meta: { type: 'ObjectExpression' },
             isNewStyle: true,
           },
+
+        // No helper.
+        'export default { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // No helper, `export =` syntax.
+        'export = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // No helper, variable.
+        'const rule = { create() {}, meta: {} }; export default rule;': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // no helper, variable with type.
+        'const rule: Rule.RuleModule = { create() {}, meta: {} }; export default rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // No helper, variable, `export =` syntax.
+        'const rule = { create() {}, meta: {} }; export = rule;': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // No helper, variable with type, `export =` syntax.
+        'const rule: Rule.RuleModule = { create() {}, meta: {} }; export = rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // Helper, variable, `export =` syntax.
+        'const rule = createESLintRule({ create() {}, meta: {} }); export = rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // Helper, variable with type, `export =` syntax.
+        'const rule: Rule.RuleModule = createESLintRule({ create() {}, meta: {} }); export = rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // Helper, `export =` syntax.
+        'export = createESLintRule({ create() {}, meta: {} });': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
 
         // Util function with "{} as const".
         'export default createESLintRule({ create() {}, meta: {} as const });':

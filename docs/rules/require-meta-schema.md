@@ -4,7 +4,9 @@
 
 💡 Some problems reported by this rule are manually fixable by editor [suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-Defining a schema for each rule allows eslint to validate that configuration options are passed correctly. Even when there are no options for a rule, a schema should still be defined (as an empty array) so that eslint can validate that no data is mistakenly passed to the rule.
+Defining a schema for each rule allows eslint to validate that configuration options are passed correctly. Even when there are no options for a rule, a schema can still be defined as an empty array to validate that no data is mistakenly passed to the rule.
+
+As of [ESLint v9](https://github.com/eslint/rfcs/tree/main/designs/2021-schema-object-rules#motivation-for-requiring-schemas), ESLint will validate that options are not provided to a rule when a schema is omitted.
 
 ## Rule Details
 
@@ -74,6 +76,10 @@ module.exports = {
 This rule takes an optional object containing:
 
 * `boolean` — `requireSchemaPropertyWhenOptionless` — Whether the rule should require the `meta.schema` property to be specified (with `schema: []`) for rules that have no options. Defaults to `true`.
+
+## When Not To Use It
+
+As mentioned in the introduction, the need for this rule is reduced as of ESLint v9.
 
 ## Further Reading
 
