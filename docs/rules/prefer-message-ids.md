@@ -1,5 +1,7 @@
 # Require using `messageId` instead of `message` to report rule violations (prefer-message-ids)
 
+✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+
 When reporting a rule violation, it's preferred to provide the violation message with the `messageId` property instead of the `message` property. Message IDs provide the following benefits:
 
 * Rule violation messages can be stored in a central `meta.messages` object for convenient management
