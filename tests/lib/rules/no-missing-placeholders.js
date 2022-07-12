@@ -113,6 +113,60 @@ ruleTester.run('no-missing-placeholders', rule, {
         }
       };
     `,
+    // messageId but no placeholder.
+    `
+      module.exports = {
+        meta: {
+          messages: { myMessageId: 'foo' }
+        },
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId but the message doesn't exist in `meta.messages`.
+    `
+      module.exports = {
+        meta: {
+          messages: { }
+        },
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId but no `meta.messages`.
+    `
+      module.exports = {
+        meta: { },
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId but no `meta`.
+    `
+      module.exports = {
+        create(context) {
+          context.report({ node, messageId: 'myMessageId' });
+        }
+      };
+    `,
+    // messageId with correctly-used placeholder.
+    `
+      module.exports = {
+        meta: {
+          messages: { myMessageId: 'foo {{bar}}' }
+        },
+        create(context) {
+          context.report({
+            node,
+            messageId: 'myMessageId',
+            data: { bar: 'baz' }
+          });
+        }
+      };
+    `,
     // Message in variable.
     `
       const MESSAGE = 'foo {{bar}}';
@@ -136,6 +190,25 @@ ruleTester.run('no-missing-placeholders', rule, {
             suggest: [
               {
                 desc: 'Remove {{functionName}}',
+                data: {
+                  functionName: 'foo'
+                }
+              }
+            ]
+          });
+        }
+      };
+    `,
+    // Suggestion with messageId
+    `
+      module.exports = {
+        meta: { messages: { myMessageId: 'Remove {{functionName}}' } },
+        create(context) {
+          context.report({
+            node,
+            suggest: [
+              {
+                messageId: 'myMessageId',
                 data: {
                   functionName: 'foo'
                 }
@@ -270,6 +343,25 @@ ruleTester.run('no-missing-placeholders', rule, {
       errors: [error('bar')],
     },
     {
+      // Suggestion and messageId
+      code: `
+        module.exports = {
+          meta: { messages: { myMessageId: 'foo {{bar}}' } },
+          create(context) {
+            context.report({
+              node,
+              suggest: [
+                {
+                  messageId: 'myMessageId',
+                }
+              ]
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
+    },
+    {
       // `create` in variable.
       code: `
         function create(context) {
@@ -282,6 +374,21 @@ ruleTester.run('no-missing-placeholders', rule, {
         module.exports = { create };
       `,
       errors: [error('hasOwnProperty')],
+    },
+    {
+      // messageId.
+      code: `
+        module.exports = {
+          meta: { messages: { myMessageId: 'foo {{bar}}' } },
+          create(context) {
+            context.report({
+              node,
+              messageId: 'myMessageId'
+            });
+          }
+        };
+      `,
+      errors: [error('bar')],
     },
   ],
 });
