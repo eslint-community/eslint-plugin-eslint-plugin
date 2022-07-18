@@ -1,5 +1,12 @@
 
 
+### [5.0.1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.0...v5.0.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* export package.json (fixes [#270](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/270)) ([#271](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/271)) ([5cb12cc](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5cb12cc5a01163966d506c7ee3c1b6c88c174ddb))
+
 ## [5.0.0](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v4.4.1...v5.0.0) (2022-07-12)
 
 
