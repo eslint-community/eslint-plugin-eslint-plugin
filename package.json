@@ -4,7 +4,10 @@
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
   "main": "./lib/index.js",
-  "exports": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "scripts": {
     "generate-readme-table": "node build/generate-readme-table.js",
