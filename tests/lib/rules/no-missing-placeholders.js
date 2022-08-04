@@ -17,10 +17,11 @@ const RuleTester = require('eslint').RuleTester;
  * @param {string} missingKey The placeholder that is missing
  * @returns {object} An expected error
  */
-function error(missingKey, type = 'Literal') {
+function error(missingKey, type, extra) {
   return {
     type,
     message: `The placeholder {{${missingKey}}} is missing (must provide it in the report's \`data\` object).`,
+    ...extra,
   };
 }
 
@@ -235,7 +236,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [error('bar', 'Literal')],
     },
     {
       code: `
@@ -249,7 +250,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [error('bar', 'ObjectExpression')],
     },
     {
       code: `
@@ -263,7 +264,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('hasOwnProperty')],
+      errors: [error('hasOwnProperty', 'ObjectExpression')],
     },
     {
       code: `
@@ -271,7 +272,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           context.report(node, 'foo {{bar}}', { baz: 'qux' }); return {};
         };
       `,
-      errors: [error('bar')],
+      errors: [error('bar', 'ObjectExpression')],
     },
     {
       // Message in variable.
@@ -281,7 +282,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           context.report(node, MESSAGE, { baz: 'qux' }); return {};
         };
       `,
-      errors: [error('bar', 'Identifier')],
+      errors: [error('bar', 'ObjectExpression')],
     },
     {
       code: `
@@ -289,7 +290,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           context.report(node, { line: 1, column: 3 }, 'foo {{bar}}', { baz: 'baz' }); return {};
         };
       `,
-      errors: [error('bar')],
+      errors: [error('bar', 'ObjectExpression')],
     },
     {
       code: `
@@ -303,7 +304,19 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [
+        error(
+          'bar',
+          'ObjectExpression',
+          // report on data
+          {
+            line: 7,
+            endLine: 7,
+            column: 21,
+            endColumn: 39,
+          }
+        ),
+      ],
     },
 
     {
@@ -343,7 +356,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [error('bar', 'ObjectExpression')],
     },
     {
       // Suggestion and messageId
@@ -362,7 +375,7 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [error('bar', 'Literal')],
     },
     {
       // `create` in variable.
@@ -376,7 +389,7 @@ ruleTester.run('no-missing-placeholders', rule, {
         }
         module.exports = { create };
       `,
-      errors: [error('hasOwnProperty')],
+      errors: [error('hasOwnProperty', 'ObjectExpression')],
     },
     {
       // messageId.
@@ -391,7 +404,19 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [
+        error(
+          'bar',
+          'Literal',
+          // report on the messageId
+          {
+            line: 7,
+            endLine: 7,
+            column: 26,
+            endColumn: 39,
+          }
+        ),
+      ],
     },
   ],
 });
