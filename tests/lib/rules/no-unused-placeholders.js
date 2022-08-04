@@ -18,7 +18,10 @@ const RuleTester = require('eslint').RuleTester;
  * @returns {object} An expected error
  */
 function error(unusedKey, type = 'Literal') {
-  return { type, message: `The placeholder {{${unusedKey}}} is unused.` };
+  return {
+    type,
+    message: `The placeholder {{${unusedKey}}} is unused (does not exist in the actual message).`,
+  };
 }
 
 // ------------------------------------------------------------------------------

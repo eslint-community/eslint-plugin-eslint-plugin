@@ -20,7 +20,7 @@ const RuleTester = require('eslint').RuleTester;
 function error(missingKey, type, extra) {
   return {
     type,
-    message: `The placeholder {{${missingKey}}} does not exist.`,
+    message: `The placeholder {{${missingKey}}} is missing (must provide it in the report's \`data\` object).`,
     ...extra,
   };
 }
