@@ -20,7 +20,7 @@ const RuleTester = require('eslint').RuleTester;
 function error(unusedKey, extra) {
   return {
     type: 'Property', // The property in the report's `data` object for the unused placeholder.
-    message: `The placeholder {{${unusedKey}}} is unused.`,
+    message: `The placeholder {{${unusedKey}}} is unused (does not exist in the actual message).`,
     ...extra,
   };
 }
