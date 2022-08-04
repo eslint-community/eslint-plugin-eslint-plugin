@@ -63,6 +63,7 @@ ruleTester.run('require-meta-schema', rule, {
       `,
       parserOptions: { sourceType: 'module' },
     },
+    // Variable schema with array value.
     `
       const schema = [];
       module.exports = {
@@ -70,10 +71,46 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    // Variable schema with object value.
     `
       const foo = {};
       module.exports = {
         meta: { schema: foo },
+        create(context) {}
+      };
+    `,
+    // Variable schema with no static value.
+    `
+      module.exports = {
+        meta: { schema },
+        create(context) {}
+      };
+    `,
+    // Variable schema pointing to unknown variable chain.
+    `
+      module.exports = {
+        meta: { schema: baseRule.meta.schema },
+        create(context) {}
+      };
+    `,
+    // Schema with function call as value.
+    `
+      module.exports = {
+        meta: { schema: getSchema() },
+        create(context) {}
+      };
+    `,
+    // Schema with ternary (conditional) expression.
+    `
+      module.exports = {
+        meta: { schema: foo ? [] : {} },
+        create(context) {}
+      };
+    `,
+    // Schema with logical expression.
+    `
+      module.exports = {
+        meta: { schema: foo || {} },
         create(context) {}
       };
     `,
@@ -295,6 +332,28 @@ schema: [] },
       `,
       output: null,
       errors: [{ messageId: 'wrongType', type: 'Identifier', suggestions: [] }],
+    },
+    {
+      // Schema with number literal value.
+      code: `
+        module.exports = {
+          meta: { schema: 123 },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
+    },
+    {
+      // Schema with string literal value.
+      code: `
+        module.exports = {
+          meta: { schema: 'hello world' },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
     },
     {
       code: `
