@@ -1,5 +1,15 @@
 
 
+### [5.0.2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.1...v5.0.2) (2022-08-04)
+
+
+### Bug Fixes
+
+* allow additional schema types in require-meta-schema ([#277](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/277)) ([5bf0648](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/5bf0648f50213fa30e9b623a8db376f41a3af411))
+* clarify report messages for no-missing-placeholders and no-unused-placeholders ([#278](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/278)) ([f5a5c24](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/f5a5c2458e79c405f5a47c802dbca111301f635c))
+* Improve violation reporting location for `no-unused-placeholders` ([#279](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/279)) ([27c0b65](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/27c0b6558a9531c3b87a2776b1553adf29834e87))
+* reporting location in no-missing-placeholders ([#280](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/280)) ([31ff45c](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/31ff45c8840b90f575800ccbb7a35d1ba09c2ba8))
+
 ### [5.0.1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.0...v5.0.1) (2022-07-18)
 
 
