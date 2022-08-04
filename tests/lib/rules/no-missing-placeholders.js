@@ -18,7 +18,10 @@ const RuleTester = require('eslint').RuleTester;
  * @returns {object} An expected error
  */
 function error(missingKey, type = 'Literal') {
-  return { type, message: `The placeholder {{${missingKey}}} does not exist.` };
+  return {
+    type,
+    message: `The placeholder {{${missingKey}}} is missing (must provide it in the report's \`data\` object).`,
+  };
 }
 
 // ------------------------------------------------------------------------------
