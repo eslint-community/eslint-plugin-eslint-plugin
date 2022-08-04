@@ -17,10 +17,11 @@ const RuleTester = require('eslint').RuleTester;
  * @param {string} unusedKey The placeholder that is unused
  * @returns {object} An expected error
  */
-function error(unusedKey, type = 'Literal') {
+function error(unusedKey, extra) {
   return {
-    type,
+    type: 'Property', // The property in the report's `data` object for the unused placeholder.
     message: `The placeholder {{${unusedKey}}} is unused (does not exist in the actual message).`,
+    ...extra,
   };
 }
 
@@ -211,7 +212,18 @@ ruleTester.run('no-unused-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar')],
+      errors: [
+        error(
+          'bar',
+          // report on property in data object
+          {
+            line: 7,
+            endLine: 7,
+            column: 23,
+            endColumn: 26,
+          }
+        ),
+      ],
     },
     {
       // With `create` as variable.
@@ -241,7 +253,7 @@ ruleTester.run('no-unused-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar', 'Identifier')],
+      errors: [error('bar')],
     },
     {
       code: `

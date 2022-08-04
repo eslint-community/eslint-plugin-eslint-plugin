@@ -236,7 +236,19 @@ ruleTester.run('no-missing-placeholders', rule, {
           }
         };
       `,
-      errors: [error('bar', 'Literal')],
+      errors: [
+        error(
+          'bar',
+          'Literal',
+          // report on `message`
+          {
+            line: 6,
+            endLine: 6,
+            column: 24,
+            endColumn: 37,
+          }
+        ),
+      ],
     },
     {
       code: `
