@@ -220,6 +220,13 @@ ruleTester.run('no-unused-message-ids', rule, {
         }
       };
     `,
+    // Ignore when we couldn't find any calls to `context.report()`, likely because an external helper function is in use.
+    `
+      module.exports = {
+        meta: { messages: { foo: 'bar' } },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
@@ -314,28 +321,12 @@ ruleTester.run('no-unused-message-ids', rule, {
       ],
     },
     {
-      // messageId unused with no reports
-      code: `
-          module.exports = {
-            meta: { messages: { foo: 'hello world' } },
-            create(context) { }
-          };
-        `,
-      errors: [
-        {
-          messageId: 'unusedMessage',
-          data: { messageId: 'foo' },
-          type: 'Property',
-        },
-      ],
-    },
-    {
       // messageId unused with meta.messages in variable
       code: `
           const messages = { foo: 'hello world' };
           module.exports = {
             meta: { messages },
-            create(context) { }
+            create(context) { context.report({node, messageId: 'other'}); }
           };
         `,
       errors: [
@@ -353,7 +344,7 @@ ruleTester.run('no-unused-message-ids', rule, {
           const extraMeta = { messages: { ...extraMessages } };
           module.exports = {
             meta: { ...extraMeta },
-            create(context) { }
+            create(context) { context.report({node, messageId: 'other'}); }
           };
         `,
       errors: [
