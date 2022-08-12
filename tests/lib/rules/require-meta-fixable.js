@@ -189,7 +189,7 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
     },
-    // Spread.
+    // Spread in meta.
     `
       const extra = { 'fixable': 'code' };
       module.exports = {
@@ -199,6 +199,19 @@ ruleTester.run('require-meta-fixable', rule, {
         }
       };
     `,
+    // Spread in report.
+    {
+      code: `
+      module.exports = {
+        meta: { fixable: 'code' },
+        create(context) {
+          const extra = { fix: foo };
+          context.report({node, message, ...extra});
+        }
+      };
+    `,
+      options: [{ catchNoFixerButFixableProperty: true }],
+    },
   ],
 
   invalid: [
