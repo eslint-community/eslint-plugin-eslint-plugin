@@ -8,6 +8,7 @@ module.exports = {
   },
   extends: [
     'not-an-aardvark/node',
+    'plugin:eslint-comments/recommended',
     'plugin:node/recommended',
     'plugin:prettier/recommended',
     'plugin:unicorn/recommended',
@@ -22,6 +23,9 @@ module.exports = {
       },
     ],
     'require-jsdoc': 'error',
+
+    'eslint-comments/no-unused-disable': 'error',
+    'eslint-comments/require-description': 'error',
 
     'unicorn/consistent-function-scoping': 'off',
     'unicorn/no-array-callback-reference': 'off',
@@ -64,6 +68,8 @@ module.exports = {
         'no-undef': 'off',
         'no-unused-vars': 'off',
         strict: 'off',
+
+        'eslint-comments/require-description': 'off',
 
         'unicorn/filename-case': 'off',
       },
