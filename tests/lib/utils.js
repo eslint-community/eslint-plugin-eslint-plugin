@@ -1646,4 +1646,39 @@ describe('utils', () => {
       );
     });
   });
+
+  describe('isVariableFromParameter', function () {
+    it('returns true for function parameter', () => {
+      const code =
+        'function myFunc(x) { if (foo) { x = "abc"; } console.log(x) }; myFunc("def");';
+      const ast = espree.parse(code, {
+        ecmaVersion: 9,
+        range: true,
+      });
+
+      const scopeManager = eslintScope.analyze(ast);
+      assert.ok(
+        utils.isVariableFromParameter(
+          ast.body[0].body.body[1].expression.arguments[0],
+          scopeManager
+        )
+      );
+    });
+
+    it('returns false for const variable', () => {
+      const code = 'const x = "abc"; console.log(x);';
+      const ast = espree.parse(code, {
+        ecmaVersion: 9,
+        range: true,
+      });
+
+      const scopeManager = eslintScope.analyze(ast);
+      assert.notOk(
+        utils.isVariableFromParameter(
+          ast.body[1].expression.arguments[0],
+          scopeManager
+        )
+      );
+    });
+  });
 });

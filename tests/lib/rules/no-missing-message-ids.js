@@ -196,6 +196,48 @@ ruleTester.run('no-missing-message-ids', rule, {
         }
       };
     `,
+    // Helper function with messageId parameter, outside rule.
+    `
+      function report(node, messageId) {
+        context.report({node, messageId});
+      }
+      module.exports = {
+        meta: { messages: { foo: 'hello' } },
+        create(context) {
+          report(node, 'foo');
+        }
+      };
+    `,
+    // Helper function with messageId parameter, inside rule, with parameter reassignment.
+    `
+      module.exports = {
+        meta: { messages: { foo: 'hello', bar: 'world' } },
+        create(context) {
+          function report(node, messageId) {
+            if (foo) {
+              messageId = 'bar';
+            }
+            context.report({node, messageId});
+          }
+          report(node, 'foo');
+        }
+      };
+    `,
+    // Helper function with messageId parameter, inside rule, with missing messageId.
+    // TODO: this should be an invalid test case because a non-existent `messageId` is used.
+    // Eventually, we should be able to detect what values are passed to this function for its `messageId` parameter.
+    `
+      module.exports = {
+        meta: { messages: { foo: 'hello' } },
+        create(context) {
+          function report(node, messageId) {
+            context.report({node, messageId});
+          }
+          report(node, 'foo');
+          report(node, 'bar');
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -283,6 +325,30 @@ ruleTester.run('no-missing-message-ids', rule, {
         {
           messageId: 'missingMessage',
           data: { messageId: 'foo' },
+          type: 'Literal',
+        },
+      ],
+    },
+    {
+      // Helper function with messageId parameter, inside rule, with missing messageId due to parameter reassignment.
+      code: `
+        module.exports = {
+          meta: { messages: { foo: 'hello' } },
+          create(context) {
+            function report(node, messageId) {
+              if (foo) {
+                messageId = 'bar';
+              }
+              context.report({node, messageId});
+            }
+            report(node, 'foo');
+          }
+        };
+      `,
+      errors: [
+        {
+          messageId: 'missingMessage',
+          data: { messageId: 'bar' },
           type: 'Literal',
         },
       ],

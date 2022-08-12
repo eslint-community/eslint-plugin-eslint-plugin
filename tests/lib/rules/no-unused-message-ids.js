@@ -227,6 +227,50 @@ ruleTester.run('no-unused-message-ids', rule, {
         create(context) {}
       };
     `,
+    // Helper function messageId parameter, outside rule.
+    `
+      function reportFoo(node, messageId) {
+        context.report({ node, messageId });
+      }
+      module.exports = {
+        meta: { messages: { foo: 'hello', bar: 'world', baz: 'planet' } },
+        create(context) {
+          reportFoo(node, 'foo');
+          reportFoo(node, 'bar');
+          reportFoo(node, 'baz');
+        }
+      };
+    `,
+    // Helper function with messageId parameter, inside rule, parameter reassignment.
+    `
+      module.exports = {
+        meta: { messages: { foo: 'hello', bar: 'world', baz: 'planet' } },
+        create(context) {
+          function reportFoo(node, messageId) {
+            if (foo) {
+              messageId = 'baz';
+            }
+            context.report({ node, messageId });
+          }
+          reportFoo(node, 'foo');
+          reportFoo(node, 'bar');
+        }
+      };
+    `,
+    // Helper function with messageId parameter, outside rule, with an unused messageId.
+    // TODO: this should be an invalid test case because a messageId is unused.
+    // Eventually, we should be able to detect what values are passed to this function for its messageId parameter.
+    `
+      function reportFoo(node, messageId) {
+        context.report({ node, messageId });
+      }
+      module.exports = {
+        meta: { messages: { foo: 'hello', bar: 'world' } },
+        create(context) {
+          reportFoo(node, 'foo');
+        }
+      };
+    `,
   ],
 
   invalid: [
@@ -363,7 +407,7 @@ ruleTester.run('no-unused-message-ids', rule, {
           context.report({ node, messageId });
         }
         module.exports = {
-          meta: { messages: { foo: 'hello world' } },
+          meta: { messages: { foo: 'hello world', bar: 'baz' } },
           create(context) {
             reportFoo(node);
           }
