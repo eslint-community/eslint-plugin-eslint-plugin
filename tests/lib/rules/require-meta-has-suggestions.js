@@ -171,7 +171,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         }
       };
     `,
-    // Unrelated spread syntax.
+    // Unrelated spread syntax in rule.
     {
       code: `
         const extra = {};
@@ -185,13 +185,23 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         ecmaVersion: 9,
       },
     },
-    // Related spread.
+    // Related spread in meta.
     `
       const extra = { hasSuggestions: true };
       module.exports = {
         meta: { ...extra },
         create(context) {
           context.report({node, message, suggest: [{}]});
+        }
+      };
+    `,
+    // Spread in report.
+    `
+      module.exports = {
+        meta: { hasSuggestions: true },
+        create(context) {
+          const extra = { suggest: [{}] };
+          context.report({node, message, ...extra });
         }
       };
     `,
