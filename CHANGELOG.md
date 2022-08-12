@@ -1,5 +1,14 @@
 
 
+### [5.0.3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.2...v5.0.3) (2022-08-12)
+
+
+### Bug Fixes
+
+* false positive with no-unused-message-ids from external violation reporting function ([#286](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/286)) ([01d0eef](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/01d0eef2885b1626642d925735c9cb59c1e611b8))
+* handle spread in context.report() in require-meta-fixable ([#288](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/288)) ([d768112](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d7681123fe78c64a87f52fb719e83bdb3995b7c6))
+* handle spread in context.report() in require-meta-has-suggestions ([#287](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/287)) ([fdffb50](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/fdffb501bf62e25bc59a2f960abb0bcc9327e81d))
+
 ### [5.0.2](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.1...v5.0.2) (2022-08-04)
 
 
