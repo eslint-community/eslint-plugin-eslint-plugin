@@ -1,5 +1,12 @@
 
 
+### [5.0.4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.3...v5.0.4) (2022-08-15)
+
+
+### Bug Fixes
+
+* false positives with violation reporting helper function in `no-unused-message-ids` rule ([#290](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/290)) ([1c30165](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/1c301653a1bd120b121029c83d2d0914615cf9a5))
+
 ### [5.0.3](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.2...v5.0.3) (2022-08-12)
 
 
