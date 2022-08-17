@@ -1,5 +1,12 @@
 
 
+### [5.0.5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.4...v5.0.5) (2022-08-17)
+
+
+### Bug Fixes
+
+* handle suggestions in helper function outside rule or inside nested spread/ternary in `require-meta-has-suggestions` rule ([#291](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/291)) ([aa133a9](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/aa133a93a95f401619325e22e96b432e40f34f57))
+
 ### [5.0.4](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.3...v5.0.4) (2022-08-15)
 
 
