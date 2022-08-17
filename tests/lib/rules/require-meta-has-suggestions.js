@@ -134,6 +134,40 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         }
       };
     `,
+    // Provides suggestions, helper function outside rule.
+    `
+      function report() {
+        context.report({ node, message, suggest: [{}] });
+      }
+      module.exports = {
+        meta: { hasSuggestions: true },
+        create(context) {
+          report();
+        }
+      };
+    `,
+    // Provides suggestions, with complex spread/ternary in reporting.
+    `
+      module.exports = {
+        meta: { hasSuggestions: true },
+        create(context) {
+          context.report({
+            node: node.id,
+            messageId: 'noEmptyWithSuper',
+            ...(useAutoFix
+              ? { fix }
+              : {
+                  suggest: [
+                    {
+                      messageId: 'noEmptyWithSuper',
+                      fix,
+                    },
+                  ],
+                }),
+          });
+        }
+      };
+    `,
     // Provides *dynamic* suggestions, has hasSuggestions property.
     `
       module.exports = {
@@ -205,6 +239,8 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         }
       };
     `,
+    // No rule present.
+    `const foo = { suggest: [{}]}; context.report({node,message,suggest});`,
   ],
 
   invalid: [

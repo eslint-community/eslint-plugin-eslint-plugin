@@ -212,6 +212,8 @@ ruleTester.run('require-meta-fixable', rule, {
     `,
       options: [{ catchNoFixerButFixableProperty: true }],
     },
+    // No rule present.
+    `const foo = { fix: [{}]}; context.report({node,message,fix});`,
   ],
 
   invalid: [
