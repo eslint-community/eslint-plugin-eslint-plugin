@@ -154,6 +154,7 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [

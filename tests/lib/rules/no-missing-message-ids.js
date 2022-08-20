@@ -238,6 +238,7 @@ ruleTester.run('no-missing-message-ids', rule, {
         }
       };
     `,
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [

@@ -72,6 +72,7 @@ ruleTester.run('test-case-property-ordering', rule, {
       create() {},
     };`,
     'module.exports = { create() {} };', // No `meta`.
+    'module.exports = {};', // No rule;
   ],
 
   invalid: [

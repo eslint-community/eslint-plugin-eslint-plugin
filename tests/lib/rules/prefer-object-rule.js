@@ -79,6 +79,7 @@ ruleTester.run('prefer-object-rule', rule, {
       `,
       parserOptions: { sourceType: 'module' },
     },
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [

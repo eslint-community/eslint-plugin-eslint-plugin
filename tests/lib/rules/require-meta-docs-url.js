@@ -25,7 +25,8 @@ const tester = new RuleTester({
 
 tester.run('require-meta-docs-url', rule, {
   valid: [
-    'foo()',
+    'foo()', // No rule.
+    'module.exports = {};', // No rule.
     `
       module.exports.meta = {docs: {url: ""}}
       module.exports.create = function() {}

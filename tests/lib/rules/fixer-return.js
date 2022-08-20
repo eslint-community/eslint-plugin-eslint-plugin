@@ -270,6 +270,7 @@ ruleTester.run('fixer-return', rule, {
         }
     };
     `,
+    `module.exports = {};`, // Not a rule.
   ],
 
   invalid: [

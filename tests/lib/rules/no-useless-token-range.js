@@ -81,17 +81,20 @@ const INVALID_CASES = [
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run('no-useless-token-range', rule, {
   valid: [
-    'sourceCode.getLastToken(foo).range[0]',
-    'sourceCode.getFirstToken(foo).range[1]',
-    'sourceCode.getLastToken(foo).start',
-    'sourceCode.getFirstToken(foo).end',
-    'sourceCode.getSomethingElse(foo).range[0]',
-    'notSourceCode.getFirstToken(foo).range[0]',
-    'sourceCode.getFirstToken(foo, bar).range[0]',
-    'sourceCode.getFirstToken(foo, { skip: 1 }).start',
-    'sourceCode.getLastToken(foo, bar).range[1]',
-    'sourceCode.getLastToken(foo, { skip: 1 }).end',
-  ].map(wrapRule),
+    ...[
+      'sourceCode.getLastToken(foo).range[0]',
+      'sourceCode.getFirstToken(foo).range[1]',
+      'sourceCode.getLastToken(foo).start',
+      'sourceCode.getFirstToken(foo).end',
+      'sourceCode.getSomethingElse(foo).range[0]',
+      'notSourceCode.getFirstToken(foo).range[0]',
+      'sourceCode.getFirstToken(foo, bar).range[0]',
+      'sourceCode.getFirstToken(foo, { skip: 1 }).start',
+      'sourceCode.getLastToken(foo, bar).range[1]',
+      'sourceCode.getLastToken(foo, { skip: 1 }).end',
+    ].map(wrapRule),
+    'module.exports = {};', // Not a rule.
+  ],
 
   invalid: [
     ...INVALID_CASES,

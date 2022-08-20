@@ -122,6 +122,7 @@ ruleTester.run('prefer-message-ids', rule, {
         }
       };
     `,
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [
