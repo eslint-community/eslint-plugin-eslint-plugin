@@ -1,5 +1,12 @@
 
 
+### [5.0.6](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.5...v5.0.6) (2022-08-23)
+
+
+### Bug Fixes
+
+* ensure rules bail out early when no rule present ([#293](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues/293)) ([d1e03a1](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/commit/d1e03a1b65ae37f2e842d802c87237217e9ff136))
+
 ### [5.0.5](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/compare/v5.0.4...v5.0.5) (2022-08-17)
 
 
