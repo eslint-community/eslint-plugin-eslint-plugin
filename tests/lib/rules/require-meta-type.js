@@ -84,6 +84,7 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [

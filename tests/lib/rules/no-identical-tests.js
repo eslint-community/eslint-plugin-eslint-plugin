@@ -67,6 +67,16 @@ ruleTester.run('no-identical-tests', rule, {
         invalid: []
       });
     `,
+    `
+    new NotRuleTester().run('foo', bar, {
+      valid: [],
+      invalid: [{code: 'foo', output: 'baz', errors: ['bar']},{code: 'foo', output: 'baz', errors: ['bar']}]
+    });`, // Not RuleTester.
+    `
+    new RuleTester().notRun('foo', bar, {
+      valid: [],
+      invalid: [{code: 'foo', output: 'baz', errors: ['bar']},{code: 'foo', output: 'baz', errors: ['bar']}]
+    });`, // Not run() from RuleTester.
   ],
 
   invalid: [

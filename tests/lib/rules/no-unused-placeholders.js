@@ -197,6 +197,7 @@ ruleTester.run('no-unused-placeholders', rule, {
         }
       };
     `,
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [

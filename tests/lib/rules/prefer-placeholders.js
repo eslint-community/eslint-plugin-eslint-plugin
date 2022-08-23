@@ -114,6 +114,7 @@ ruleTester.run('prefer-placeholders', rule, {
         }
       };
     `,
+    `module.exports = {};`, // Not a rule.
   ],
 
   invalid: [

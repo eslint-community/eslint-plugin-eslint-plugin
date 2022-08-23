@@ -43,6 +43,16 @@ ruleTester.run('no-only-tests', rule, {
         ]
       });
     `,
+    `
+    new NotRuleTester().run('foo', bar, {
+      valid: [{ code: 'foo', only: true },],
+      invalid: []
+    });`, // Not RuleTester.
+    `
+    new RuleTester().notRun('foo', bar, {
+      valid: [{ code: 'foo', only: true },],
+      invalid: []
+    });`, // Not run() from RuleTester.
   ],
 
   invalid: [

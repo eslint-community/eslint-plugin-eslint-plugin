@@ -222,6 +222,7 @@ ruleTester.run('no-missing-placeholders', rule, {
         }
       };
     `,
+    `module.exports = {};`, // No rule.
   ],
 
   invalid: [

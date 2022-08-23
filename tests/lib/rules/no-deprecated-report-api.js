@@ -78,6 +78,7 @@ ruleTester.run('no-deprecated-report-api', rule, {
         }
       };
     `,
+    `module.exports = {};`, // Not a rule.
   ],
 
   invalid: [

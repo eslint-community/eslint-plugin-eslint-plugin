@@ -58,6 +58,16 @@ ruleTester.run('test-case-property-ordering', rule, {
       `,
       options: [['code', 'errors', 'options', 'output', 'parserOptions']],
     },
+    `
+    new NotRuleTester().run('foo', bar, {
+      valid: [{ code: "foo", options: ["baz"], output: "bar", }],
+      invalid: []
+    });`, // Not RuleTester.
+    `
+    new RuleTester().notRun('foo', bar, {
+      valid: [{ code: "foo", options: ["baz"], output: "bar", }],
+      invalid: []
+    });`, // Not run() from RuleTester.
   ],
 
   invalid: [

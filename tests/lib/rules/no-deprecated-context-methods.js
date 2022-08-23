@@ -32,7 +32,8 @@ ruleTester.run('no-deprecated-context-methods', rule, {
       sourceCode.getFirstToken();
       return {};
     }
-  `,
+    `,
+    `module.exports = {};`, // Not a rule.
   ],
 
   invalid: [

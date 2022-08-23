@@ -271,6 +271,7 @@ ruleTester.run('no-unused-message-ids', rule, {
         }
       };
     `,
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [

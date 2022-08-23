@@ -136,6 +136,16 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       code: getTestCases(['"foo"', "'bar'", '`baz`']),
       options: ['consistent-as-needed'],
     },
+    `
+    new NotRuleTester().run('foo', bar, {
+      valid: [{ code: 'foo' }],
+      invalid: []
+    });`, // Not RuleTester.
+    `
+    new RuleTester().notRun('foo', bar, {
+      valid: [{ code: 'foo' }],
+      invalid: []
+    });`, // Not run() from RuleTester.
   ],
 
   invalid: [

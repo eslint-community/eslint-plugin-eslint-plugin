@@ -183,6 +183,7 @@ ruleTester.run('report-message-format', rule, {
       `,
       options: ['foo'],
     },
+    'module.exports = {};', // No rule.
   ],
 
   invalid: [
