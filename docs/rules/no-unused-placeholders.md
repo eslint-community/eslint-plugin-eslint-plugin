@@ -56,4 +56,4 @@ If you want to allow unused placeholders, you should turn off this rule.
 ## Further Reading
 
 * [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
-* [no-missing-placeholders](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md)
+* [no-missing-placeholders](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md)

@@ -16,7 +16,7 @@ const expectedTableLines = Object.keys(rules)
 
       lines.push(
         [
-          `[${ruleId}](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/${ruleId}.md)`,
+          `[${ruleId}](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/${ruleId}.md)`,
           rule.meta.docs.recommended ? '✔️' : '',
           rule.meta.fixable ? '🛠' : '',
           rule.meta.hasSuggestions ? '💡' : '',

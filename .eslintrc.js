@@ -46,7 +46,7 @@ module.exports = {
           'error',
           {
             pattern:
-              'https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/{{name}}.md',
+              'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/{{name}}.md',
           },
         ],
       },

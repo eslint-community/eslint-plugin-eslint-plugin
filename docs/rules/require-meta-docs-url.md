@@ -80,7 +80,7 @@ This rule has an option.
 ```json
 {
   "eslint-plugin/require-meta-docs-url": ["error", {
-    "pattern": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md"
+    "pattern": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md"
   }]
 }
 ```
