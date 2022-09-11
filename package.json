@@ -28,12 +28,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin.git"
+    "url": "git+https://github.com/eslint-community/eslint-plugin-eslint-plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/issues"
+    "url": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues"
   },
-  "homepage": "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin#readme",
+  "homepage": "https://github.com/eslint-community/eslint-plugin-eslint-plugin#readme",
   "dependencies": {
     "eslint-utils": "^3.0.0",
     "estraverse": "^5.2.0"
