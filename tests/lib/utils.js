@@ -1,6 +1,6 @@
 'use strict';
 
-const { inspect } = require('util');
+const { inspect } = require('node:util');
 const lodash = require('lodash');
 const espree = require('espree');
 const eslintScope = require('eslint-scope');
