@@ -1,8 +1,10 @@
-# Disallow the version of `context.report()` with multiple arguments (no-deprecated-report-api)
+# Disallow the version of `context.report()` with multiple arguments (`eslint-plugin/no-deprecated-report-api`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end rule header -->
 
 ESLint has two APIs that rules can use to report problems.
 

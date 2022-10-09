@@ -1,6 +1,8 @@
-# Require rules to implement a `meta.fixable` property (require-meta-fixable)
+# Require rules to implement a `meta.fixable` property (`eslint-plugin/require-meta-fixable`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
+
+<!-- end rule header -->
 
 ESLint requires fixable rules to specify a valid `meta.fixable` property (with value `code` or `whitespace`).
 

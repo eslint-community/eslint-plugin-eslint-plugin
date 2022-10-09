@@ -1,6 +1,8 @@
-# Enforce consistent usage of shorthand strings for test cases with no options (test-case-shorthand-strings)
+# Enforce consistent usage of shorthand strings for test cases with no options (`eslint-plugin/test-case-shorthand-strings`)
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end rule header -->
 
 When writing valid test cases for rules with `RuleTester`, one can optionally include a string as a test case instead of an object, if the the test case does not use any options.
 

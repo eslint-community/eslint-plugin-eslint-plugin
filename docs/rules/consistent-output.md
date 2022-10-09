@@ -1,6 +1,8 @@
-# Enforce consistent use of `output` assertions in rule tests (consistent-output)
+# Enforce consistent use of `output` assertions in rule tests (`eslint-plugin/consistent-output`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
+
+<!-- end rule header -->
 
 When writing tests for fixable rules, the `output` property on each test case can be used to assert what autofixed code is produced, or to assert that no autofix is produced using `output: null`.
 
