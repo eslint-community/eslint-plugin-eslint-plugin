@@ -1,48 +1,75 @@
 name: CI
-
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
 
 jobs:
-  test:
-    name: Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version:
-          - '18'
-          - '16'
-          - '14'
-        os:
-          - ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm test
-
   lint:
+    name: ⬣ Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
-      - run: npm install
-      - run: npm run lint
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
 
-  eslint7:
-    runs-on: ubuntu-latest
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📥 Install dependencies
+        run: npm install
+
+      - name: ▶️ Run lint script
+        run: npm run lint
+
+  test:
+    name: 🧪 Test (Node@${{ matrix.node }} - ESLint@${{ matrix.eslint }} - ${{ matrix.os }})
+    strategy:
+      matrix:
+        eslint: [8]
+        node: [14.17.0, 14, 16.0.0, 16, 18.0.0, 18]
+        os: [ubuntu-latest]
+        include:
+          # On other platforms
+          - os: windows-latest
+            eslint: 8
+            node: 18
+          - os: macos-latest
+            eslint: 8
+            node: 18
+          # On old ESLint versions
+          - eslint: 7
+            node: 18
+            os: ubuntu-latest
+          # On the minimum supported ESLint/Node.js version
+          - eslint: 7.0.0
+            node: 14.17.0
+            os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: "18.x"
-    - run: npm install
-    - run: npm install --save-dev eslint@7
-    - run: npm test
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 📥 Install dependencies
+        run: npm install
+
+      - name: 📥 Install ESLint
+        run: npm install --save-dev eslint@${{ matrix.eslint }}
+
+      - name: ▶️ Run test script
+        run: npm run test
+
+      - name: ⬆️ Upload coverage report
+        uses: codecov/codecov-action@v3
 
