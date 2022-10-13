@@ -10,13 +10,14 @@
   },
   "license": "MIT",
   "scripts": {
-    "generate-readme-table": "node build/generate-readme-table.js",
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
-    "lint:docs": "markdownlint '**/*.md'",
+    "lint:docs": "markdownlint \"**/*.md\"",
+    "lint:eslint-docs": "npm-run-all \"update:eslint-docs --check\"",
     "lint:js": "eslint --cache .",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
-    "test": "nyc --all --check-coverage --include lib mocha tests --recursive"
+    "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
+    "update:eslint-docs": "eslint-doc-generator --rule-doc-section-include \"Rule Detail\" --ignore-config all --ignore-config rules --ignore-config rules-recommended --ignore-config tests --ignore-config tests-recommended"
   },
   "files": [
     "lib/"
@@ -54,6 +55,7 @@
     "eslint": "^8.23.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-doc-generator": "^0.10.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-eslint-plugin": "file:./",
     "eslint-plugin-markdown": "^3.0.0",

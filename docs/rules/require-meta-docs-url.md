@@ -1,6 +1,8 @@
-# Require rules to implement a `meta.docs.url` property (require-meta-docs-url)
+# Require rules to implement a `meta.docs.url` property (`eslint-plugin/require-meta-docs-url`)
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end rule header -->
 
 A rule can store the URL to its documentation page in `meta.docs.url`. This enables integration tools / IDEs / editors to conveniently provide the link to developers so that they can better understand the rule.
 

@@ -1,6 +1,8 @@
-# Require fixer functions to return a fix (fixer-return)
+# Require fixer functions to return a fix (`eslint-plugin/fixer-return`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
+
+<!-- end rule header -->
 
 In a [fixable](https://eslint.org/docs/developer-guide/working-with-rules#applying-fixes) rule, a fixer function is useless if it never returns anything.
 

@@ -1,4 +1,6 @@
-# Require rules to implement a `meta.docs.description` property with the correct format (require-meta-docs-description)
+# Require rules to implement a `meta.docs.description` property with the correct format (`eslint-plugin/require-meta-docs-description`)
+
+<!-- end rule header -->
 
 Defining a clear and consistent description for each rule helps developers understand what they're used for.
 

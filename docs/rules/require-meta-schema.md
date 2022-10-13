@@ -1,8 +1,10 @@
-# Require rules to implement a `meta.schema` property (require-meta-schema)
+# Require rules to implement a `meta.schema` property (`eslint-plugin/require-meta-schema`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
 
-💡 Some problems reported by this rule are manually fixable by editor [suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
+
+<!-- end rule header -->
 
 Defining a schema for each rule allows eslint to validate that configuration options are passed correctly. Even when there are no options for a rule, a schema can still be defined as an empty array to validate that no data is mistakenly passed to the rule.
 

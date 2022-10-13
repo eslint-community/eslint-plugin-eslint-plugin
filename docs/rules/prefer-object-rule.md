@@ -1,8 +1,10 @@
-# Disallow function-style rules (prefer-object-rule)
+# Disallow function-style rules (`eslint-plugin/prefer-object-rule`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end rule header -->
 
 Prior to ESLint v9, ESLint supported both [function-style](https://eslint.org/docs/developer-guide/working-with-rules-deprecated) and [object-style](https://eslint.org/docs/developer-guide/working-with-rules) rules. However, function-style rules have been deprecated since 2016, and do not support newer features like autofixing and suggestions.
 

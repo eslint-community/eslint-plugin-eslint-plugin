@@ -1,6 +1,8 @@
-# Disallow unused `messageId`s in `meta.messages` (no-unused-message-ids)
+# Disallow unused `messageId`s in `meta.messages` (`eslint-plugin/no-unused-message-ids`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
+
+<!-- end rule header -->
 
 When using `meta.messages` and `messageId` to report rule violations, it's possible to mistakenly leave a message in `meta.messages` that is never used.
 

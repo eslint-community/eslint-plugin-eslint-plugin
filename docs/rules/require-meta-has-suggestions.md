@@ -1,8 +1,10 @@
-# Require suggestable rules to implement a `meta.hasSuggestions` property (require-meta-has-suggestions)
+# Require suggestable rules to implement a `meta.hasSuggestions` property (`eslint-plugin/require-meta-has-suggestions`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end rule header -->
 
 A suggestable ESLint rule should specify the `meta.hasSuggestions` property with a value of `true`. This makes it easier for both humans and tooling to tell whether a rule provides suggestions. [As of ESLint 8](https://eslint.org/blog/2021/06/whats-coming-in-eslint-8.0.0#rules-with-suggestions-now-require-the-metahassuggestions-property), an exception will be thrown if a suggestable rule is missing this property.
 

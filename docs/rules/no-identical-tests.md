@@ -1,8 +1,10 @@
-# Disallow identical tests (no-identical-tests)
+# Disallow identical tests (`eslint-plugin/no-identical-tests`)
 
-✔️ The `"extends": "plugin:eslint-plugin/recommended"` property in a configuration file enables this rule.
+✅ This rule is enabled in the `recommended` config.
 
-⚒️ The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#--fix) can automatically fix some of the problems reported by this rule.
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end rule header -->
 
 Duplicate test cases can cause confusion, can be hard to detect manually in a long file, and serve no purpose.
 
