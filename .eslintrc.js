@@ -33,6 +33,7 @@ module.exports = {
     'unicorn/no-array-reduce': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prefer-module': 'off',
+    'unicorn/prefer-node-protocol': 'off', // TODO: enable once we drop support for Node 14.17.
     'unicorn/prevent-abbreviations': 'off',
   },
   overrides: [
