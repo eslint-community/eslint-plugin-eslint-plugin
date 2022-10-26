@@ -1,6 +1,6 @@
 # Require using `replaceText()` instead of `replaceTextRange()` (`eslint-plugin/prefer-replace-text`)
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 

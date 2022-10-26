@@ -2,7 +2,7 @@
 
 ✅ This rule is enabled in the `recommended` config.
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 When using `meta.messages` and `messageId` to report rule violations, it's possible to mistakenly use a `messageId` that doesn't exist in `meta.messages`.
 

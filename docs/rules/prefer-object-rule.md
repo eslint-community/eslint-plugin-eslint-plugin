@@ -4,7 +4,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 Prior to ESLint v9, ESLint supported both [function-style](https://eslint.org/docs/developer-guide/working-with-rules-deprecated) and [object-style](https://eslint.org/docs/developer-guide/working-with-rules) rules. However, function-style rules have been deprecated since 2016, and do not support newer features like autofixing and suggestions.
 

@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
     "lint:docs": "markdownlint \"**/*.md\"",
-    "lint:eslint-docs": "npm-run-all \"update:eslint-docs --check\"",
+    "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
     "lint:js": "eslint --cache .",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
@@ -55,7 +55,7 @@
     "eslint": "^8.23.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-doc-generator": "^0.14.0",
+    "eslint-doc-generator": "^0.15.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-eslint-plugin": "file:./",
     "eslint-plugin-markdown": "^3.0.0",

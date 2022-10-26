@@ -2,7 +2,7 @@
 
 ✅ This rule is enabled in the `recommended` config.
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 ESLint requires fixable rules to specify a valid `meta.fixable` property (with value `code` or `whitespace`).
 

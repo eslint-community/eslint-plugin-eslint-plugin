@@ -2,7 +2,7 @@
 
 ✅ This rule is enabled in the `recommended` config.
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 This rule aims to disallow unused placeholders in rule report messages.
 

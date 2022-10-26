@@ -2,7 +2,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 When writing valid test cases for rules with `RuleTester`, one can optionally include a string as a test case instead of an object, if the the test case does not use any options.
 

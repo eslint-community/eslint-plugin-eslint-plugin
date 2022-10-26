@@ -4,7 +4,7 @@
 
 💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 Defining a schema for each rule allows eslint to validate that configuration options are passed correctly. Even when there are no options for a rule, a schema can still be defined as an empty array to validate that no data is mistakenly passed to the rule.
 

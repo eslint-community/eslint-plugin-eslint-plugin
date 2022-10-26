@@ -4,7 +4,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 This rule disallows the use of deprecated methods on rule `context` objects.
 

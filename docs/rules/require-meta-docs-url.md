@@ -2,7 +2,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 A rule can store the URL to its documentation page in `meta.docs.url`. This enables integration tools / IDEs / editors to conveniently provide the link to developers so that they can better understand the rule.
 
