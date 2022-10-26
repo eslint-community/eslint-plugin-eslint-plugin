@@ -2,7 +2,7 @@
 
 ✅ This rule is enabled in the `recommended` config.
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 When writing tests for fixable rules, the `output` property on each test case can be used to assert what autofixed code is produced, or to assert that no autofix is produced using `output: null`.
 

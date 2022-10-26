@@ -1,6 +1,6 @@
 # Require using placeholders for dynamic report messages (`eslint-plugin/prefer-placeholders`)
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 Report messages in rules can have placeholders surrounded by curly brackets.
 

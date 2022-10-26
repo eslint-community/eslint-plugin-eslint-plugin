@@ -2,7 +2,7 @@
 
 ✅ This rule is enabled in the `recommended` config.
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 ESLint v5.9.0 introduces a new `--fix-type` option for the command line interface. This option allows users to filter the type of fixes applied when using `--fix`.
 

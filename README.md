@@ -54,7 +54,7 @@ Here's an example ESLint configuration that:
 
 ## <a name='Rules'></a>Rules
 
-<!-- begin rules list -->
+<!-- begin auto-generated rules list -->
 
 ✅ Enabled in the `recommended` configuration.\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
@@ -89,7 +89,7 @@ Here's an example ESLint configuration that:
 | [test-case-property-ordering](docs/rules/test-case-property-ordering.md)                                                                                   | require the properties of a test case to be placed in a consistent order                   |     | 🔧  |     |
 | [test-case-shorthand-strings](docs/rules/test-case-shorthand-strings.md)                                                                                   | enforce consistent usage of shorthand strings for test cases with no options               |     | 🔧  |     |
 
-<!-- end rules list -->
+<!-- end auto-generated rules list -->
 
 ## <a name='Presets'></a>Presets
 

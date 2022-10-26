@@ -2,7 +2,7 @@
 
 ✅ This rule is enabled in the `recommended` config.
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 In a [fixable](https://eslint.org/docs/developer-guide/working-with-rules#applying-fixes) rule, a fixer function is useless if it never returns anything.
 
