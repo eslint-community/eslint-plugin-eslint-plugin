@@ -56,11 +56,12 @@ Here's an example ESLint configuration that:
 
 <!-- begin auto-generated rules list -->
 
-✅ Enabled in the `recommended` configuration.\
+💼 Configurations enabled in.\
+✅ Set in the `recommended` configuration.\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
 💡 Manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-| Name                                                                         | Description                                                                                | ✅  | 🔧 | 💡 |
+| Name                                                                         | Description                                                                                | 💼 | 🔧 | 💡 |
 | :--------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :- | :- | :- |
 | [consistent-output](docs/rules/consistent-output.md)                         | enforce consistent use of `output` assertions in rule tests                                | ✅  |    |    |
 | [fixer-return](docs/rules/fixer-return.md)                                   | require fixer functions to return a fix                                                    | ✅  |    |    |
