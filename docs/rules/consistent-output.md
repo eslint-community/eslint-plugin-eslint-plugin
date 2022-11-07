@@ -1,6 +1,6 @@
 # Enforce consistent use of `output` assertions in rule tests (`eslint-plugin/consistent-output`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` config.
 
 <!-- end auto-generated rule header -->
 

@@ -1,6 +1,6 @@
 # Require rules to implement a `meta.fixable` property (`eslint-plugin/require-meta-fixable`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` config.
 
 <!-- end auto-generated rule header -->
 
