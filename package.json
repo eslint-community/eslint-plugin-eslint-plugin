@@ -11,9 +11,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
-    "lint:docs": "markdownlint \"**/*.md\"",
+    "lint:docs": "eslint --no-inline-config \"**/*.md\" && markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
-    "lint:js": "eslint --cache .",
+    "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" .",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
