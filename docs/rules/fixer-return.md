@@ -1,6 +1,6 @@
 # Require fixer functions to return a fix (`eslint-plugin/fixer-return`)
 
-💼 This rule is enabled in the ✅ `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
 <!-- end auto-generated rule header -->
 

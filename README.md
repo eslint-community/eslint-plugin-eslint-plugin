@@ -56,8 +56,8 @@ Here's an example ESLint configuration that:
 
 <!-- begin auto-generated rules list -->
 
-💼 Configurations enabled in.\
-✅ Set in the `recommended` configuration.\
+💼 [Configurations](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets) enabled in.\
+✅ Set in the `recommended` [configuration](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
 💡 Manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
