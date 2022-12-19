@@ -1,5 +1,13 @@
 
 
+### [5.0.7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.6...v5.0.7) (2022-12-19)
+
+
+### Bug Fixes
+
+* don't use node protocol until we drop Node v14.17 support ([#315](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/315)) ([a5c0b0c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/a5c0b0ce6acd18545e202b15375f176c8b60e9a4))
+* update repo link ([#300](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/300)) ([07cd4ab](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/07cd4abb13002cb9f055b2aaf0f6110f0ee938b9))
+
 ### [5.0.6](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.5...v5.0.6) (2022-08-23)
 
 
