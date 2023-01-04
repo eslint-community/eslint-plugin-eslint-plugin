@@ -65,7 +65,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unicorn": "^44.0.0",
     "eslint-remote-tester": "^3.0.0",
-    "eslint-remote-tester-repositories": "^1.0.0",
     "eslint-scope": "^7.1.1",
     "espree": "^9.4.0",
     "husky": "^8.0.1",

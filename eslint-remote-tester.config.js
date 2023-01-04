@@ -1,7 +1,5 @@
 'use strict';
 
-const { getPathIgnorePattern } = require('eslint-remote-tester-repositories');
-
 /** @type {import('eslint-remote-tester').Config} */
 module.exports = {
   /** Repositories to scan */
@@ -37,11 +35,8 @@ module.exports = {
     'typescript-eslint/typescript-eslint',
   ],
 
-  /** Optional pattern used to exclude paths */
-  pathIgnorePattern: getPathIgnorePattern(),
-
   /** Extensions of files under scanning */
-  extensions: ['js', 'ts'],
+  extensions: ['js', 'mjs', 'cjs', 'ts', 'mts', 'cts'],
 
   /** Optional boolean flag used to enable caching of cloned repositories. For CIs it's ideal to disable caching. Defaults to true. */
   cache: false,
@@ -49,5 +44,12 @@ module.exports = {
   /** ESLint configuration */
   eslintrc: {
     extends: ['plugin:eslint-plugin/all'],
+
+    overrides: [
+      {
+        files: ['*.ts', '*.mts', '*.cts'],
+        parser: '@typescript-eslint/parser',
+      },
+    ],
   },
 };
