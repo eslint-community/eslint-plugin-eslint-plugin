@@ -2,6 +2,7 @@
 
 const { getPathIgnorePattern } = require('eslint-remote-tester-repositories');
 
+/** @type {import('eslint-remote-tester').Config} */
 module.exports = {
   /** Repositories to scan */
   repositories: [
