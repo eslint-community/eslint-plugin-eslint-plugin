@@ -5,3 +5,6 @@ node_modules/
 npm-debug.log
 yarn.lock
 .eslintcache
+
+# eslint-remote-tester
+eslint-remote-tester-results

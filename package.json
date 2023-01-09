@@ -16,6 +16,7 @@
     "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" .",
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
+    "lint:remote": "eslint-remote-tester",
     "release": "release-it",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
     "update:eslint-docs": "eslint-doc-generator"
@@ -63,6 +64,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unicorn": "^44.0.0",
+    "eslint-remote-tester": "^3.0.0",
     "eslint-scope": "^7.1.1",
     "espree": "^9.4.0",
     "husky": "^8.0.1",
