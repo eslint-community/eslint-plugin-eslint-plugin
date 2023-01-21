@@ -1,5 +1,12 @@
 
 
+## [5.0.8](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.7...v5.0.8) (2023-01-20)
+
+
+### Performance Improvements
+
+* use improved comparison algorithm in `no-identical-tests` rule ([#337](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/337)) ([b4da20a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b4da20a0d17cb4352ba2bc0e16519bf8f0015b92))
+
 ### [5.0.7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.6...v5.0.7) (2022-12-19)
 
 
