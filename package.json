@@ -23,7 +23,8 @@
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
-    "lib/"
+    "lib/",
+    "configs/"
   ],
   "keywords": [
     "eslint",
