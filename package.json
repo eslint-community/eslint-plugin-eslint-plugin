@@ -6,6 +6,7 @@
   "main": "./lib/index.js",
   "exports": {
     ".": "./lib/index.js",
+    "./configs": "./configs/index.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",
