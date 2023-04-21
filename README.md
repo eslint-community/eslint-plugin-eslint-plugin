@@ -38,7 +38,7 @@ Here's an example ESLint configuration that:
 * Enables the `recommended` configuration
 * Enables an optional/non-recommended rule
 
-### <a name='eslintrc'></a>eslintrc
+### <a name='eslintrc'></a>**[.eslintrc.json](https://eslint.org/docs/latest/use/configure/configuration-files)**
 
 ```json
 {
@@ -54,7 +54,7 @@ Here's an example ESLint configuration that:
 }
 ```
 
-### <a name='flat'></a>`eslint.config.js`
+### <a name='flat'></a>[`eslint.config.js`](https://eslint.org/docs/latest/use/configure/configuration-files-new) (requires eslint>=v8.23.0)
 
 ```js
 const eslintPluginRecommended = require("eslint-plugin-eslint-plugin/configs/recommended");
