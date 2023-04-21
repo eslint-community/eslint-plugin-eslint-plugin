@@ -4,7 +4,7 @@ const js = require('@eslint/js');
 const { FlatCompat } = require('@eslint/eslintrc');
 const globals = require('globals');
 const markdown = require('eslint-plugin-markdown');
-const eslintPluginConfig = require('eslint-plugin-eslint-plugin/configs').all;
+const eslintPluginConfig = require('eslint-plugin-eslint-plugin/configs/all');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -48,8 +48,9 @@ module.exports = [
   {
     // Apply eslint-plugin rules to our own rules/tests (but not docs).
     files: ['lib/**/*.js', 'tests/**/*.js'],
-    ...eslintPluginConfig,
+    plugins: eslintPluginConfig.plugins,
     rules: {
+      ...eslintPluginConfig.rules,
       'eslint-plugin/report-message-format': ['error', '^[^a-z].*.$'],
       'eslint-plugin/require-meta-docs-url': [
         'error',
