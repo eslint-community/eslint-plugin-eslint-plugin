@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "format": "npx prettier -w .",
+    "format": "npx prettier -w . && npm run lint -- --fix",
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
