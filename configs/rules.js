@@ -5,9 +5,9 @@
 
 'use strict';
 
-const { configs, rules } = require('../lib/index.js');
+const mod = require('../lib/index.js');
 
 module.exports = {
-  plugins: { 'eslint-plugin': { rules } },
-  rules: configs.rules.rules,
+  plugins: { 'eslint-plugin': mod },
+  rules: mod.configs.rules.rules,
 };
