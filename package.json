@@ -6,6 +6,7 @@
   "main": "./lib/index.js",
   "exports": {
     ".": "./lib/index.js",
+    "./configs/*": "./configs/*.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",
@@ -22,7 +23,8 @@
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
-    "lib/"
+    "lib/",
+    "configs/"
   ],
   "keywords": [
     "eslint",
@@ -50,6 +52,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@eslint/eslintrc": "^2.0.2",
+    "@eslint/js": "^8.37.0",
     "@release-it/conventional-changelog": "^4.3.0",
     "@typescript-eslint/parser": "^5.36.2",
     "chai": "^4.3.6",
@@ -67,6 +71,7 @@
     "eslint-remote-tester": "^3.0.0",
     "eslint-scope": "^7.1.1",
     "espree": "^9.4.0",
+    "globals": "^13.20.0",
     "husky": "^8.0.1",
     "lodash": "^4.17.21",
     "markdownlint-cli": "^0.34.0",

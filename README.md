@@ -38,6 +38,8 @@ Here's an example ESLint configuration that:
 * Enables the `recommended` configuration
 * Enables an optional/non-recommended rule
 
+### <a name='eslintrc'></a>**[.eslintrc.json](https://eslint.org/docs/latest/use/configure/configuration-files)**
+
 ```json
 {
     "parserOptions": {
@@ -50,6 +52,21 @@ Here's an example ESLint configuration that:
         "eslint-plugin/require-meta-docs-description": "error"
     }
 }
+```
+
+### <a name='flat'></a>[`eslint.config.js`](https://eslint.org/docs/latest/use/configure/configuration-files-new) (requires eslint>=v8.23.0)
+
+```js
+const eslintPluginRecommended = require("eslint-plugin-eslint-plugin/configs/recommended");
+module.exports = [
+    eslintPluginRecommended,
+    {
+        languageOptions: {sourceType: "commonjs"},
+        rules: {
+            "eslint-plugin/require-meta-docs-description": "error",
+        },
+    },
+];
 ```
 
 ## <a name='Rules'></a>Rules
