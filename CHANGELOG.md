@@ -1,5 +1,12 @@
 
 
+## [5.1.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.8...v5.1.0) (2023-05-18)
+
+
+### Features
+
+* support `eslint.config.js` ([#347](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/347)) ([6f6b1f4](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6f6b1f420d6d18ac13d023f71ce0512caed7cb0e))
+
 ## [5.0.8](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.7...v5.0.8) (2023-01-20)
 
 
