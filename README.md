@@ -91,7 +91,7 @@ module.exports = [
 | [no-unused-message-ids](docs/rules/no-unused-message-ids.md)                 | disallow unused `messageId`s in `meta.messages`                                            | ✅  |    |    |
 | [no-unused-placeholders](docs/rules/no-unused-placeholders.md)               | disallow unused placeholders in rule report messages                                       | ✅  |    |    |
 | [no-useless-token-range](docs/rules/no-useless-token-range.md)               | disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()` | ✅  | 🔧 |    |
-| [prefer-message-ids](docs/rules/prefer-message-ids.md)                       | require using `messageId` instead of `message` to report rule violations                   | ✅  |    |    |
+| [prefer-message-ids](docs/rules/prefer-message-ids.md)                       | require using `messageId` instead of `message` or `desc` to report rule violations         | ✅  |    |    |
 | [prefer-object-rule](docs/rules/prefer-object-rule.md)                       | disallow function-style rules                                                              | ✅  | 🔧 |    |
 | [prefer-placeholders](docs/rules/prefer-placeholders.md)                     | require using placeholders for dynamic report messages                                     |    |    |    |
 | [prefer-replace-text](docs/rules/prefer-replace-text.md)                     | require using `replaceText()` instead of `replaceTextRange()`                              |    |    |    |
@@ -118,14 +118,14 @@ module.exports = [
 
 ## <a name='Presets'></a>Presets
 
-|   | Name | Description |
-|:--|:-----|:------------|
-| ✅ | `recommended` | enables all recommended rules in this plugin |
+|   | Name                | Description                                                               |
+|:--|:--------------------|:--------------------------------------------------------------------------|
+| ✅ | `recommended`       | enables all recommended rules in this plugin                              |
 |   | `rules-recommended` | enables all recommended rules that are aimed at linting ESLint rule files |
 |   | `tests-recommended` | enables all recommended rules that are aimed at linting ESLint test files |
-|   | `all` | enables all rules in this plugin |
-|   | `rules` | enables all rules that are aimed at linting ESLint rule files |
-|   | `tests` | enables all rules that are aimed at linting ESLint test files |
+|   | `all`               | enables all rules in this plugin                                          |
+|   | `rules`             | enables all rules that are aimed at linting ESLint rule files             |
+|   | `tests`             | enables all rules that are aimed at linting ESLint test files             |
 
 ### <a name='Semanticversioningpolicy'></a>Semantic versioning policy
 
