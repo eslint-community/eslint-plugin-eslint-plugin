@@ -76,7 +76,7 @@
     "lodash": "^4.17.21",
     "markdownlint-cli": "^0.35.0",
     "mocha": "^10.0.0",
-    "npm-package-json-lint": "^6.3.0",
+    "npm-package-json-lint": "^7.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
