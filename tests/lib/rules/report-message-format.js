@@ -108,6 +108,17 @@ ruleTester.run('report-message-format', rule, {
       options: ['^foo$'],
     },
     {
+      // Suggestion function
+      code: `
+        module.exports = {
+          create(context) {
+            context.report({node, suggest: [getSuggestion(node)]});
+          }
+        };
+      `,
+      options: ['^foo$'],
+    },
+    {
       // Suggestion message
       code: `
         module.exports = {
