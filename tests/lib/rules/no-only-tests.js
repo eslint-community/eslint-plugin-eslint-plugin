@@ -23,7 +23,8 @@ ruleTester.run('no-only-tests', rule, {
           'foo',
           { code: 'foo', foo: true },
           RuleTester.somethingElse(),
-          notRuleTester.only()
+          notRuleTester.only(),
+          { ...otherOptions },
         ],
         invalid: [
           { code: 'bar', foo: true },

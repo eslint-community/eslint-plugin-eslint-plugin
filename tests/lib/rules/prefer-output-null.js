@@ -25,6 +25,7 @@ ruleTester.run('prefer-output-null', rule, {
       new RuleTester().run('foo', bar, {
         valid: [],
         invalid: [
+          { ...otherOptions },
           {code: 'foo', output: 'bar', errors: ['bar']},
         ]
       });
