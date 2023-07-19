@@ -1,5 +1,14 @@
 
 
+### [5.1.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.1.0...v5.1.1) (2023-07-19)
+
+
+### Bug Fixes
+
+* ignore function calls in `report-message-format` ([dea161d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/dea161d6750b0c5fad88e5902ffc6f7421696f46))
+* ignore SpreadExpressions in no-only-tests and prefer-output-null ([4924042](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/49240423daef1cdba1e22d47136de2c693bfcafe))
+* use latest ECMAScript version in tests ([#364](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/364)) ([7be0c76](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/7be0c7641dba9c3250ca006a3baa75ff0d362128))
+
 ## [5.1.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.0.8...v5.1.0) (2023-05-18)
 
 
