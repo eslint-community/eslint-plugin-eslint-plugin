@@ -55,7 +55,7 @@
     "@eslint/eslintrc": "^2.0.2",
     "@eslint/js": "^8.37.0",
     "@release-it/conventional-changelog": "^4.3.0",
-    "@typescript-eslint/parser": "^5.36.2",
+    "@typescript-eslint/parser": "^6.11.0",
     "chai": "^4.3.6",
     "dirty-chai": "^2.0.1",
     "eslint": "^8.23.0",
