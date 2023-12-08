@@ -1094,13 +1094,14 @@ describe('utils', () => {
 
     for (const args of CASES.keys()) {
       it(args.join(', '), () => {
-        const parsedArgs = espree.parse(`context.report(${args.join(', ')})`, {
+        const node = espree.parse(`context.report(${args.join(', ')})`, {
           ecmaVersion: 6,
           loc: false,
           range: false,
-        }).body[0].expression.arguments;
+        }).body[0].expression;
+        const parsedArgs = node.arguments
         const context = { getScope() {} }; // mock object
-        const reportInfo = utils.getReportInfo(parsedArgs, context);
+        const reportInfo = utils.getReportInfo(node, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
       });
@@ -1274,7 +1275,7 @@ describe('utils', () => {
         });
         const context = { getScope() {} }; // mock object
         const reportNode = ast.body[0].expression;
-        const reportInfo = utils.getReportInfo(reportNode.arguments, context);
+        const reportInfo = utils.getReportInfo(reportNode, context);
         const data = utils.collectReportViolationAndSuggestionData(reportInfo);
         assert(
           lodash.isMatch(data, testCase.shouldMatch),
