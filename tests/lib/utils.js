@@ -1100,7 +1100,7 @@ describe('utils', () => {
           range: false,
         }).body[0].expression;
         const parsedArgs = node.arguments
-        const context = { getScope() {} }; // mock object
+        const context = { sourceCode: { getScope() { return {} } } }; // mock object
         const reportInfo = utils.getReportInfo(node, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
@@ -1273,7 +1273,7 @@ describe('utils', () => {
           ecmaVersion: 6,
           range: true,
         });
-        const context = { getScope() {} }; // mock object
+        const context = { sourceCode: { getScope() { return {} } } }; // mock object
         const reportNode = ast.body[0].expression;
         const reportInfo = utils.getReportInfo(reportNode, context);
         const data = utils.collectReportViolationAndSuggestionData(reportInfo);
