@@ -761,8 +761,14 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
           assert.deepEqual(
-            utils.getTestInfo(scopeManager, ast),
+            utils.getTestInfo(context, ast),
             [],
             'Expected no tests to be found'
           );
@@ -827,7 +833,13 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scopeManager, ast);
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
+          const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1021,7 +1033,13 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scopeManager, ast);
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
+          const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
             testInfo.length,
