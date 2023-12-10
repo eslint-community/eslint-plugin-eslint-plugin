@@ -92,9 +92,13 @@ module.exports = {
 
 ## Options
 
-This rule takes an optional object containing:
+<!-- begin auto-generated rule options list -->
 
-* `boolean` — `catchNoFixerButFixableProperty` — default `false` - Whether the rule should attempt to detect rules that do not have a fixer but enable the `meta.fixable` property. This option is off by default because it increases the chance of false positives since fixers can't always be detected when helper functions are used.
+| Name                             | Description                                                                                                                                                                                                                                                             | Type    | Default |
+| :------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------ |
+| `catchNoFixerButFixableProperty` | Whether the rule should attempt to detect rules that do not have a fixer but enable the `meta.fixable` property. This option is off by default because it increases the chance of false positives since fixers can't always be detected when helper functions are used. | Boolean | `false` |
+
+<!-- end auto-generated rule options list -->
 
 ## Further Reading
 

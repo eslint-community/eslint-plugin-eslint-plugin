@@ -49,9 +49,13 @@ module.exports = {
 
 ## Options
 
-This rule takes an optional object containing:
+<!-- begin auto-generated rule options list -->
 
-* `String` — `pattern` — A regular expression that the description must match. Use `'.+'` to allow anything. Defaults to `^(enforce|require|disallow)`.
+| Name      | Description                                                                         | Type   | Default                         |
+| :-------- | :---------------------------------------------------------------------------------- | :----- | :------------------------------ |
+| `pattern` | A regular expression that the description must match. Use `'.+'` to allow anything. | String | `^(enforce\|require\|disallow)` |
+
+<!-- end auto-generated rule options list -->
 
 ## Further Reading
 

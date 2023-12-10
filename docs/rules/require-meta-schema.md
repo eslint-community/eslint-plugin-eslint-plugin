@@ -75,9 +75,13 @@ module.exports = {
 
 ## Options
 
-This rule takes an optional object containing:
+<!-- begin auto-generated rule options list -->
 
-* `boolean` — `requireSchemaPropertyWhenOptionless` — Whether the rule should require the `meta.schema` property to be specified (with `schema: []`) for rules that have no options. Defaults to `true`.
+| Name                                  | Description                                                                                                                    | Type    | Default |
+| :------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------- | :------ | :------ |
+| `requireSchemaPropertyWhenOptionless` | Whether the rule should require the `meta.schema` property to be specified (with `schema: []`) for rules that have no options. | Boolean | `true`  |
+
+<!-- end auto-generated rule options list -->
 
 ## When Not To Use It
 
