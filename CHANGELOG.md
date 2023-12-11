@@ -1,5 +1,12 @@
 
 
+## [5.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.1.1...v5.2.0) (2023-12-11)
+
+
+### Features
+
+* preparing for eslint v9 ([#400](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/400)) ([35e14cd](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/35e14cd7bc1fd865fa11efd955afe600ef2bbc22))
+
 ### [5.1.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.1.0...v5.1.1) (2023-07-19)
 
 
