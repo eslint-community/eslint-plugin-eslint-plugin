@@ -1,5 +1,12 @@
 
 
+### [5.2.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.2.0...v5.2.1) (2023-12-11)
+
+
+### Bug Fixes
+
+* replace context.getScope() with sourceCode.getScope() ([6aed8bb](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6aed8bbc54abea5c74157c0e34148e56c88a6a7b))
+
 ## [5.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.1.1...v5.2.0) (2023-12-11)
 
 
