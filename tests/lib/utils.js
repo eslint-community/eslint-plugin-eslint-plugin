@@ -761,8 +761,14 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
           assert.deepEqual(
-            utils.getTestInfo(scopeManager, ast),
+            utils.getTestInfo(context, ast),
             [],
             'Expected no tests to be found'
           );
@@ -827,7 +833,13 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scopeManager, ast);
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
+          const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1021,7 +1033,13 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scopeManager, ast);
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
+          const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1094,13 +1112,20 @@ describe('utils', () => {
 
     for (const args of CASES.keys()) {
       it(args.join(', '), () => {
-        const parsedArgs = espree.parse(`context.report(${args.join(', ')})`, {
+        const node = espree.parse(`context.report(${args.join(', ')})`, {
           ecmaVersion: 6,
           loc: false,
           range: false,
-        }).body[0].expression.arguments;
-        const context = { getScope() {} }; // mock object
-        const reportInfo = utils.getReportInfo(parsedArgs, context);
+        }).body[0].expression;
+        const parsedArgs = node.arguments;
+        const context = {
+          sourceCode: {
+            getScope() {
+              return {};
+            },
+          },
+        }; // mock object
+        const reportInfo = utils.getReportInfo(node, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
       });
@@ -1272,9 +1297,15 @@ describe('utils', () => {
           ecmaVersion: 6,
           range: true,
         });
-        const context = { getScope() {} }; // mock object
+        const context = {
+          sourceCode: {
+            getScope() {
+              return {};
+            },
+          },
+        }; // mock object
         const reportNode = ast.body[0].expression;
-        const reportInfo = utils.getReportInfo(reportNode.arguments, context);
+        const reportInfo = utils.getReportInfo(reportNode, context);
         const data = utils.collectReportViolationAndSuggestionData(reportInfo);
         assert(
           lodash.isMatch(data, testCase.shouldMatch),
