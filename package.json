@@ -50,7 +50,7 @@
     "statements": 99
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.1.2",
+    "@commitlint/cli": "^18.5.0",
     "@commitlint/config-conventional": "^17.1.0",
     "@eslint/eslintrc": "^2.0.2",
     "@eslint/js": "^8.37.0",
