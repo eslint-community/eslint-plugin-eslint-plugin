@@ -8,6 +8,7 @@ When reporting a rule violation, it's preferred to provide the violation message
 
 * Rule violation messages can be stored in a central `meta.messages` object for convenient management
 * Rule violation messages do not need to be repeated in both the rule file and rule test file
+* As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness
 
 ## Rule Details
 
