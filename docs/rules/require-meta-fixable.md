@@ -102,5 +102,5 @@ module.exports = {
 
 ## Further Reading
 
-* [ESLint's autofix API](http://eslint.org/docs/developer-guide/working-with-rules#applying-fixes)
-* [ESLint's rule basics mentioning `meta.fixable`](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)
+- [ESLint's autofix API](http://eslint.org/docs/developer-guide/working-with-rules#applying-fixes)
+- [ESLint's rule basics mentioning `meta.fixable`](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)

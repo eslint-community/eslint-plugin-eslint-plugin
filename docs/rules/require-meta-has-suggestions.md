@@ -88,5 +88,5 @@ module.exports = {
 
 ## Further Reading
 
-* [ESLint's suggestion API](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
-* [ESLint rule basics describing the `meta.hasSuggestions` property](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)
+- [ESLint's suggestion API](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+- [ESLint rule basics describing the `meta.hasSuggestions` property](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)

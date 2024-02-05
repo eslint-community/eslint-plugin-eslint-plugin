@@ -66,8 +66,8 @@ new RuleTester().run('example-rule', rule, {
 
 This rule takes an optional string enum option with one of the following values:
 
-* `"consistent"` - (default) if any invalid test cases have output assertions, then all invalid test cases must have output assertions
-* `"always"` - always require invalid test cases to have output assertions
+- `"consistent"` - (default) if any invalid test cases have output assertions, then all invalid test cases must have output assertions
+- `"always"` - always require invalid test cases to have output assertions
 
 ## When Not To Use It
 
@@ -77,4 +77,4 @@ As mentioned in the introduction, the need for this rule is reduced as of ESLint
 
 ## Further Reading
 
-* [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)
+- [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)
