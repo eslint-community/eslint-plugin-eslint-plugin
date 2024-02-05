@@ -44,8 +44,8 @@ module.exports = {
 
 ## Known Limitations
 
-* To ensure that your `SourceCode` instances can be detected, your rule must assign `context.getSourceCode()` to a variable somewhere.
+- To ensure that your `SourceCode` instances can be detected, your rule must assign `context.getSourceCode()` to a variable somewhere.
 
 ## Further Reading
 
-* [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)
+- [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)

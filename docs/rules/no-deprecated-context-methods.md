@@ -10,26 +10,26 @@ This rule disallows the use of deprecated methods on rule `context` objects.
 
 The deprecated methods are:
 
-* `getSource`
-* `getSourceLines`
-* `getAllComments`
-* `getNodeByRangeIndex`
-* `getComments`
-* `getCommentsBefore`
-* `getCommentsAfter`
-* `getCommentsInside`
-* `getJSDocComment`
-* `getFirstToken`
-* `getFirstTokens`
-* `getLastToken`
-* `getLastTokens`
-* `getTokenAfter`
-* `getTokenBefore`
-* `getTokenByRangeStart`
-* `getTokens`
-* `getTokensAfter`
-* `getTokensBefore`
-* `getTokensBetween`
+- `getSource`
+- `getSourceLines`
+- `getAllComments`
+- `getNodeByRangeIndex`
+- `getComments`
+- `getCommentsBefore`
+- `getCommentsAfter`
+- `getCommentsInside`
+- `getJSDocComment`
+- `getFirstToken`
+- `getFirstTokens`
+- `getLastToken`
+- `getLastTokens`
+- `getTokenAfter`
+- `getTokenBefore`
+- `getTokenByRangeStart`
+- `getTokens`
+- `getTokensAfter`
+- `getTokensBefore`
+- `getTokensBetween`
 
 Instead of using these methods, you should use the equivalent methods on [`SourceCode`](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode), e.g. `context.getSourceCode().getText()` instead of `context.getSource()`.
 
@@ -71,4 +71,4 @@ If you need to support very old versions of ESLint where `SourceCode` doesn't ex
 
 ## Further Reading
 
-* [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)
+- [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)

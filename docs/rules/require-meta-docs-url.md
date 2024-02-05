@@ -87,9 +87,12 @@ module.exports = {
 
 ```json
 {
-  "eslint-plugin/require-meta-docs-url": ["error", {
-    "pattern": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md"
-  }]
+  "eslint-plugin/require-meta-docs-url": [
+    "error",
+    {
+      "pattern": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md"
+    }
+  ]
 }
 ```
 

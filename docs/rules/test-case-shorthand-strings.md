@@ -33,10 +33,10 @@ This rule aims to enforce or disallow the use of strings as test cases.
 
 This rule has a string option:
 
-* `as-needed` (default): Requires the use of shorthand strings wherever possible.
-* `never`: Disallows the use of shorthand strings.
-* `consistent`: Requires that either all valid test cases use shorthand strings, or that no valid test cases use them.
-* `consistent-as-needed`: Requires that all valid test cases use the longer object form if there are any valid test cases that require the object form. Otherwise, requires all valid test cases to use shorthand strings.
+- `as-needed` (default): Requires the use of shorthand strings wherever possible.
+- `never`: Disallows the use of shorthand strings.
+- `consistent`: Requires that either all valid test cases use shorthand strings, or that no valid test cases use them.
+- `consistent-as-needed`: Requires that all valid test cases use the longer object form if there are any valid test cases that require the object form. Otherwise, requires all valid test cases to use shorthand strings.
 
 #### `as-needed`
 
@@ -237,10 +237,10 @@ ruleTester.run('example-rule', rule, {
 
 ## Known Limitations
 
-* Test cases which are neither object literals nor string literals are ignored by this rule.
-* In order to find your test cases, your test file needs to match the following common pattern:
-  * `new RuleTester()` or `new (require('eslint')).RuleTester()` is called at the top level of the file
-  * `ruleTester.run` is called at the top level with the same variable (or in the same expression) as the `new RuleTester` instantiation
+- Test cases which are neither object literals nor string literals are ignored by this rule.
+- In order to find your test cases, your test file needs to match the following common pattern:
+  - `new RuleTester()` or `new (require('eslint')).RuleTester()` is called at the top level of the file
+  - `ruleTester.run` is called at the top level with the same variable (or in the same expression) as the `new RuleTester` instantiation
 
 ## When Not To Use It
 
@@ -248,4 +248,4 @@ If you don't care about consistent usage of shorthand strings, you should not tu
 
 ## Further Reading
 
-* [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)
+- [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)

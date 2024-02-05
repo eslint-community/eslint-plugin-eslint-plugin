@@ -6,9 +6,9 @@ Defining a clear and consistent description for each rule helps developers under
 
 In particular, each rule description should begin with an allowed prefix:
 
-* `enforce`
-* `require`
-* `disallow`
+- `enforce`
+- `require`
+- `disallow`
 
 ## Rule Details
 
@@ -59,4 +59,4 @@ module.exports = {
 
 ## Further Reading
 
-* [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)
+- [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)

@@ -8,8 +8,8 @@
 
 ESLint has two APIs that rules can use to report problems.
 
-* The [deprecated API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated) accepts multiple arguments: `context.report(node, [loc], message)`.
-* The ["new API"](http://eslint.org/docs/developer-guide/working-with-rules#contextreport) accepts a single argument: an object containing information about the reported problem.
+- The [deprecated API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated) accepts multiple arguments: `context.report(node, [loc], message)`.
+- The ["new API"](http://eslint.org/docs/developer-guide/working-with-rules#contextreport) accepts a single argument: an object containing information about the reported problem.
 
 It is recommended that all rules use the new API.
 
@@ -41,5 +41,5 @@ module.exports = {
 
 ## Further Reading
 
-* [Deprecated rule API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated)
-* [New rule API](http://eslint.org/docs/developer-guide/working-with-rules)
+- [Deprecated rule API](http://eslint.org/docs/developer-guide/working-with-rules-deprecated)
+- [New rule API](http://eslint.org/docs/developer-guide/working-with-rules)

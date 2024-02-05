@@ -74,4 +74,4 @@ If you want to use rule messages that actually contain double-curly bracket text
 
 ## Further Reading
 
-* [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
+- [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
