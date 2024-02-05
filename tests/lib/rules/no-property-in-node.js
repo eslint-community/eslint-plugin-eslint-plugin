@@ -37,6 +37,11 @@ ruleTester.run('no-property-in-node', rule, {
       declare const node: UnresolvedType;
       'a' in node;
     `,
+    `
+      import * as ESTree from "estree";
+      declare const loc: ESTree.SourceLocation;
+      'a' in loc;
+    `,
   ],
   invalid: [
     {
