@@ -49,6 +49,9 @@ module.exports = {
       {
         files: ['*.ts', '*.mts', '*.cts'],
         parser: '@typescript-eslint/parser',
+        parserOptions: {
+          project: true,
+        },
       },
     ],
   },
