@@ -15,6 +15,29 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run('no-property-in-node', rule, {
+  valid: [
+    `'a' in window;`,
+    `
+      declare const node: Node;
+      'a' in node;
+    `,
+    `
+      type Node = { unrelated: true; };
+      declare const node: Node;
+      'a' in node;
+    `,
+    `
+      interface Node {
+        unrelated: true;
+      };
+      declare const node: Node;
+      'a' in node;
+    `,
+    `
+      declare const node: UnresolvedType;
+      'a' in node;
+    `,
+  ],
   invalid: [
     {
       code: `
@@ -84,28 +107,5 @@ ruleTester.run('no-property-in-node', rule, {
         },
       ],
     },
-  ],
-  valid: [
-    `'a' in window;`,
-    `
-      declare const node: Node;
-      'a' in node;
-    `,
-    `
-      type Node = { unrelated: true; };
-      declare const node: Node;
-      'a' in node;
-    `,
-    `
-      interface Node {
-        unrelated: true;
-      };
-      declare const node: Node;
-      'a' in node;
-    `,
-    `
-      declare const node: UnresolvedType;
-      'a' in node;
-    `,
   ],
 });
