@@ -1,21 +1,20 @@
-# eslint-plugin-eslint-plugin ![CI](https://github.com/eslint-community/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+# eslint-plugin-eslint-plugin ![CI](https://github.com/eslint-community/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) <!-- omit from toc -->
 
 An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and TypeScript are all supported.
 
 <!-- vscode-markdown-toc -->
 
-- [eslint-plugin-eslint-plugin   ](#eslint-plugin-eslint-plugin---)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [**.eslintrc.json**](#eslintrcjson)
-    - [`eslint.config.js` (requires eslint\>=v8.23.0)](#eslintconfigjs-requires-eslintv8230)
-    - [Type Checked Rules](#type-checked-rules)
-  - [Rules](#rules)
-    - [Rules](#rules-1)
-    - [Tests](#tests)
-  - [Presets](#presets)
-    - [Semantic versioning policy](#semantic-versioning-policy)
-    - [Preset usage](#preset-usage)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [**.eslintrc.json**](#eslintrcjson)
+  - [`eslint.config.js` (requires eslint\>=v8.23.0)](#eslintconfigjs-requires-eslintv8230)
+  - [Type Checked Rules](#type-checked-rules)
+- [Rules](#rules)
+  - [Rules](#rules-1)
+  - [Tests](#tests)
+- [Presets](#presets)
+  - [Semantic versioning policy](#semantic-versioning-policy)
+  - [Preset usage](#preset-usage)
 
 <!-- vscode-markdown-toc-config
 	numbering=false
