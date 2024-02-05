@@ -1,6 +1,6 @@
 # Disallow usage of deprecated methods on rule context objects (`eslint-plugin/no-deprecated-context-methods`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, `recommended-type-checked`.
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, ☑️ `recommended-type-checked`.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

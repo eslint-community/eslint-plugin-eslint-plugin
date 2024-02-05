@@ -1,6 +1,6 @@
 # Disallow invalid RuleTester test cases where the `output` matches the `code` (`eslint-plugin/prefer-output-null`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, `recommended-type-checked`.
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, ☑️ `recommended-type-checked`.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

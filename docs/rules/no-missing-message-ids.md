@@ -1,6 +1,6 @@
 # Disallow `messageId`s that are missing from `meta.messages` (`eslint-plugin/no-missing-message-ids`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, `recommended-type-checked`.
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, ☑️ `recommended-type-checked`.
 
 <!-- end auto-generated rule header -->
 

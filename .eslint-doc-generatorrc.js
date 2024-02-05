@@ -2,6 +2,7 @@
 
 /** @type {import('eslint-doc-generator').GenerateOptions} */
 module.exports = {
+  configEmoji: [['recommended-type-checked', '☑️']],
   ignoreConfig: [
     'all',
     'rules',
