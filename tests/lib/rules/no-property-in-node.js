@@ -38,9 +38,60 @@ ruleTester.run('no-property-in-node', rule, {
       'a' in node;
     `,
     `
-      import * as ESTree from "estree";
+      import * as ESTree from 'estree';
       declare const loc: ESTree.SourceLocation;
       'a' in loc;
+    `,
+    `
+      import * as ESTree from 'estree';
+      declare const node: ESTree.Node;
+      a.superClass;
+    `,
+    `
+      import * as ESTree from 'estree';
+      declare const node: ESTree.Node;
+      a.type;
+    `,
+    `
+      import * as ESTree from 'estree';
+      declare const node: ESTree.Node;
+      a.type === 'ClassDeclaration';
+    `,
+    `
+      import * as ESTree from 'estree';
+      declare const node: ESTree.ClassDeclaration | ESTree.FunctionDeclaration;
+      a.type === 'ClassDeclaration';
+    `,
+    `
+      import { TSESTree } from '@typescript-eslint/utils';
+      declare const node: TSESTree.Node;
+      node.superClass;
+    `,
+    `
+      import { TSESTree } from '@typescript-eslint/utils';
+      declare const node: TSESTree.Node;
+      node.type;
+    `,
+    `
+      import { TSESTree } from '@typescript-eslint/utils';
+      declare const node: TSESTree.ClassDeclaration | TSESTree.FunctionDeclaration;
+      node.type === 'ClassDeclaration';
+    `,
+    `
+      import * as eslint from 'eslint';
+      const listener: eslint.Rule.RuleListener = {
+        ClassDeclaration(node) {
+          node.type;
+        },
+      };
+    `,
+    `
+      import * as eslint from 'eslint';
+      const listener: eslint.Rule.RuleListener = {
+        'ClassDeclaration, FunctionDeclaration'(node) {
+          node.type === 'ClassDeclaration';
+        },
+      };
     `,
   ],
   invalid: [
@@ -79,7 +130,7 @@ ruleTester.run('no-property-in-node', rule, {
     },
     {
       code: `
-        import * as ESTree from "estree";
+        import * as ESTree from 'estree';
         declare const node: ESTree.Node;
         'a' in node;
       `,
@@ -97,7 +148,7 @@ ruleTester.run('no-property-in-node', rule, {
       code: `
         import * as eslint from 'eslint';
         const listener: eslint.Rule.RuleListener = {
-          ArrayExpression(node) {
+          ClassDeclaration(node) {
             'a' in node;
           },
         };
