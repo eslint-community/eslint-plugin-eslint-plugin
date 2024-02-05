@@ -1,5 +1,7 @@
 'use strict';
 
+const prettier = require('prettier');
+
 /** @type {import('eslint-doc-generator').GenerateOptions} */
 module.exports = {
   configEmoji: [['recommended-type-checked', '☑️']],
@@ -10,6 +12,11 @@ module.exports = {
     'tests',
     'tests-recommended',
   ],
+  postprocess: async (content, path) =>
+    prettier.format(content, {
+      ...(await prettier.resolveConfig(path)),
+      parser: 'markdown',
+    }),
   ruleDocSectionInclude: ['Rule Details'],
   ruleListSplit: 'meta.docs.category',
   urlConfigs:

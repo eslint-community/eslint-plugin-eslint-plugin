@@ -20,12 +20,14 @@ Examples of **incorrect** code for this rule:
 
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
-  meta: { /* ... */ },
+  meta: {
+    /* ... */
+  },
   create(context) {
     return {
       'ClassDeclaration, FunctionDeclaration'(node) {
         if ('superClass' in node) {
-          console.log("This is a class declaration:", node);
+          console.log('This is a class declaration:', node);
         }
       },
     };
@@ -40,12 +42,14 @@ Examples of **correct** code for this rule:
 
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
-  meta: { /* ... */ },
+  meta: {
+    /* ... */
+  },
   create(context) {
     return {
       'ClassDeclaration, FunctionDeclaration'(node) {
         if (node.type === 'ClassDeclaration') {
-          console.log("This is a class declaration:", node);
+          console.log('This is a class declaration:', node);
         }
       },
     };

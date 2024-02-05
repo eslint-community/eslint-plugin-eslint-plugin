@@ -14,8 +14,8 @@ context.report({
 
 Using placeholders is often preferred over using dynamic report messages, for a few reasons:
 
-* They can help enforce a separation of the message and the data.
-* It will be easier to migrate when ESLint starts supporting placing lint messages in metadata (see [#6740](https://github.com/eslint/eslint/issues/6740))
+- They can help enforce a separation of the message and the data.
+- It will be easier to migrate when ESLint starts supporting placing lint messages in metadata (see [#6740](https://github.com/eslint/eslint/issues/6740))
 
 ## Rule Details
 
@@ -63,4 +63,4 @@ If you need to use string concatenation in your report messages for some reason,
 
 ## Further Reading
 
-* [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
+- [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)

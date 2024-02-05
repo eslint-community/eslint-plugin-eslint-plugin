@@ -89,4 +89,4 @@ As mentioned in the introduction, the need for this rule is reduced as of ESLint
 
 ## Further Reading
 
-* [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)
+- [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)

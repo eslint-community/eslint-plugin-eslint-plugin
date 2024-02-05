@@ -53,4 +53,4 @@ module.exports = {
 
 ## Further Reading
 
-* [Applying Fixes](https://eslint.org/docs/developer-guide/working-with-rules#applying-fixes)
+- [Applying Fixes](https://eslint.org/docs/developer-guide/working-with-rules#applying-fixes)
