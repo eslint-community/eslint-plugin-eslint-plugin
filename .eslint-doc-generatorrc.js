@@ -6,6 +6,7 @@ const prettier = require('prettier');
 module.exports = {
   ignoreConfig: [
     'all',
+    'all-type-checked',
     'rules',
     'rules-recommended',
     'tests',

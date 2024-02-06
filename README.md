@@ -123,14 +123,15 @@ module.exports = [
 
 ## <a name='Presets'></a>Presets
 
-|     | Name                | Description                                                               |
-| :-- | :------------------ | :------------------------------------------------------------------------ |
-| ✅  | `recommended`       | enables all recommended rules in this plugin                              |
-|     | `rules-recommended` | enables all recommended rules that are aimed at linting ESLint rule files |
-|     | `tests-recommended` | enables all recommended rules that are aimed at linting ESLint test files |
-|     | `all`               | enables all rules in this plugin                                          |
-|     | `rules`             | enables all rules that are aimed at linting ESLint rule files             |
-|     | `tests`             | enables all rules that are aimed at linting ESLint test files             |
+|     | Name                | Description                                                                  |
+| :-- | :------------------ | :--------------------------------------------------------------------------- |
+| ✅  | `recommended`       | enables all recommended rules in this plugin                                 |
+|     | `rules-recommended` | enables all recommended rules that are aimed at linting ESLint rule files    |
+|     | `tests-recommended` | enables all recommended rules that are aimed at linting ESLint test files    |
+|     | `all`               | enables all rules in this plugin, including those requiring type information |
+|     | `all-type-checked`  | enables all rules in this plugin, including those requiring type information |
+|     | `rules`             | enables all rules that are aimed at linting ESLint rule files                |
+|     | `tests`             | enables all rules that are aimed at linting ESLint test files                |
 
 ### <a name='Semanticversioningpolicy'></a>Semantic versioning policy
 
