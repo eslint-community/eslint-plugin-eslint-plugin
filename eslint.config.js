@@ -4,6 +4,7 @@ const js = require('@eslint/js');
 const { FlatCompat } = require('@eslint/eslintrc');
 const globals = require('globals');
 const markdown = require('eslint-plugin-markdown');
+const pluginN = require('eslint-plugin-n');
 const eslintPluginConfig = require('eslint-plugin-eslint-plugin/configs/all');
 
 const compat = new FlatCompat({
@@ -15,23 +16,12 @@ module.exports = [
   ...compat.extends(
     'not-an-aardvark/node',
     'plugin:eslint-comments/recommended',
-    'plugin:node/recommended',
     'plugin:prettier/recommended',
     'plugin:unicorn/recommended'
   ),
+  pluginN.configs['flat/recommended'],
   {
-    languageOptions: { sourceType: 'commonjs' },
     rules: {
-      'comma-dangle': [
-        'error',
-        {
-          arrays: 'always-multiline',
-          objects: 'always-multiline',
-          functions: 'never', // disallow trailing commas in function(es2017)
-        },
-      ],
-      'require-jsdoc': 'error',
-
       'eslint-comments/no-unused-disable': 'error',
       'eslint-comments/require-description': 'error',
 
