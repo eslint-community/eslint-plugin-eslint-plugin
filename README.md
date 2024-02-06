@@ -8,7 +8,6 @@ An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and Type
 - [Usage](#usage)
   - [**.eslintrc.json**](#eslintrcjson)
   - [`eslint.config.js` (requires eslint\>=v8.23.0)](#eslintconfigjs-requires-eslintv8230)
-  - [Type Checked Rules](#type-checked-rules)
 - [Rules](#rules)
   - [Rules](#rules-1)
   - [Tests](#tests)
@@ -71,24 +70,6 @@ module.exports = [
     },
   },
 ];
-```
-
-### <a name='Type Checked Rules'></a>Type Checked Rules
-
-Rules marked with _💭 Requires type information_ require enabling [linting with type information](https://typescript-eslint.io/linting/typed-linting).
-These rules are omitted from the `recommended` config, and instead are enabled in the `recommended-type-checked` superset config.
-
-If your plugin is authored in TypeScript, we recommend replacing `recommended` with `recommended-type-checked` and enabling typed linting:
-
-```js
-module.exports = {
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: true,
-    tsconfigRootDir: __dirname,
-  },
-  extends: ['plugin:eslint-plugin/recommended-type-checked'],
-};
 ```
 
 ## <a name='Rules'></a>Rules
