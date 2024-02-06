@@ -97,47 +97,46 @@ module.exports = {
 
 💼 [Configurations](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets) enabled in.\
 ✅ Set in the `recommended` [configuration](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).\
-☑️ Set in the `recommended-type-checked` [configuration](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
 💡 Manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).\
 💭 Requires type information.
 
 ### Rules
 
-| Name                                                                         | Description                                                                                | 💼    | 🔧  | 💡  | 💭  |
-| :--------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :---- | :-- | :-- | :-- |
-| [fixer-return](docs/rules/fixer-return.md)                                   | require fixer functions to return a fix                                                    | ✅ ☑️ |     |     |     |
-| [meta-property-ordering](docs/rules/meta-property-ordering.md)               | enforce the order of meta properties                                                       |       | 🔧  |     |     |
-| [no-deprecated-context-methods](docs/rules/no-deprecated-context-methods.md) | disallow usage of deprecated methods on rule context objects                               | ✅ ☑️ | 🔧  |     |     |
-| [no-deprecated-report-api](docs/rules/no-deprecated-report-api.md)           | disallow the version of `context.report()` with multiple arguments                         | ✅ ☑️ | 🔧  |     |     |
-| [no-missing-message-ids](docs/rules/no-missing-message-ids.md)               | disallow `messageId`s that are missing from `meta.messages`                                | ✅ ☑️ |     |     |     |
-| [no-missing-placeholders](docs/rules/no-missing-placeholders.md)             | disallow missing placeholders in rule report messages                                      | ✅ ☑️ |     |     |     |
-| [no-property-in-node](docs/rules/no-property-in-node.md)                     | disallow using `in` to narrow node types instead of looking at properties                  | ☑️    |     |     | 💭  |
-| [no-unused-message-ids](docs/rules/no-unused-message-ids.md)                 | disallow unused `messageId`s in `meta.messages`                                            | ✅ ☑️ |     |     |     |
-| [no-unused-placeholders](docs/rules/no-unused-placeholders.md)               | disallow unused placeholders in rule report messages                                       | ✅ ☑️ |     |     |     |
-| [no-useless-token-range](docs/rules/no-useless-token-range.md)               | disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()` | ✅ ☑️ | 🔧  |     |     |
-| [prefer-message-ids](docs/rules/prefer-message-ids.md)                       | require using `messageId` instead of `message` or `desc` to report rule violations         | ✅ ☑️ |     |     |     |
-| [prefer-object-rule](docs/rules/prefer-object-rule.md)                       | disallow function-style rules                                                              | ✅ ☑️ | 🔧  |     |     |
-| [prefer-placeholders](docs/rules/prefer-placeholders.md)                     | require using placeholders for dynamic report messages                                     |       |     |     |     |
-| [prefer-replace-text](docs/rules/prefer-replace-text.md)                     | require using `replaceText()` instead of `replaceTextRange()`                              |       |     |     |     |
-| [report-message-format](docs/rules/report-message-format.md)                 | enforce a consistent format for rule report messages                                       |       |     |     |     |
-| [require-meta-docs-description](docs/rules/require-meta-docs-description.md) | require rules to implement a `meta.docs.description` property with the correct format      |       |     |     |     |
-| [require-meta-docs-url](docs/rules/require-meta-docs-url.md)                 | require rules to implement a `meta.docs.url` property                                      |       | 🔧  |     |     |
-| [require-meta-fixable](docs/rules/require-meta-fixable.md)                   | require rules to implement a `meta.fixable` property                                       | ✅ ☑️ |     |     |     |
-| [require-meta-has-suggestions](docs/rules/require-meta-has-suggestions.md)   | require suggestable rules to implement a `meta.hasSuggestions` property                    | ✅ ☑️ | 🔧  |     |     |
-| [require-meta-schema](docs/rules/require-meta-schema.md)                     | require rules to implement a `meta.schema` property                                        | ✅ ☑️ |     | 💡  |     |
-| [require-meta-type](docs/rules/require-meta-type.md)                         | require rules to implement a `meta.type` property                                          | ✅ ☑️ |     |     |     |
+| Name                                                                         | Description                                                                                | 💼  | 🔧  | 💡  | 💭  |
+| :--------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :-- | :-- | :-- | :-- |
+| [fixer-return](docs/rules/fixer-return.md)                                   | require fixer functions to return a fix                                                    | ✅  |     |     |     |
+| [meta-property-ordering](docs/rules/meta-property-ordering.md)               | enforce the order of meta properties                                                       |     | 🔧  |     |     |
+| [no-deprecated-context-methods](docs/rules/no-deprecated-context-methods.md) | disallow usage of deprecated methods on rule context objects                               | ✅  | 🔧  |     |     |
+| [no-deprecated-report-api](docs/rules/no-deprecated-report-api.md)           | disallow the version of `context.report()` with multiple arguments                         | ✅  | 🔧  |     |     |
+| [no-missing-message-ids](docs/rules/no-missing-message-ids.md)               | disallow `messageId`s that are missing from `meta.messages`                                | ✅  |     |     |     |
+| [no-missing-placeholders](docs/rules/no-missing-placeholders.md)             | disallow missing placeholders in rule report messages                                      | ✅  |     |     |     |
+| [no-property-in-node](docs/rules/no-property-in-node.md)                     | disallow using `in` to narrow node types instead of looking at properties                  |     |     |     | 💭  |
+| [no-unused-message-ids](docs/rules/no-unused-message-ids.md)                 | disallow unused `messageId`s in `meta.messages`                                            | ✅  |     |     |     |
+| [no-unused-placeholders](docs/rules/no-unused-placeholders.md)               | disallow unused placeholders in rule report messages                                       | ✅  |     |     |     |
+| [no-useless-token-range](docs/rules/no-useless-token-range.md)               | disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()` | ✅  | 🔧  |     |     |
+| [prefer-message-ids](docs/rules/prefer-message-ids.md)                       | require using `messageId` instead of `message` or `desc` to report rule violations         | ✅  |     |     |     |
+| [prefer-object-rule](docs/rules/prefer-object-rule.md)                       | disallow function-style rules                                                              | ✅  | 🔧  |     |     |
+| [prefer-placeholders](docs/rules/prefer-placeholders.md)                     | require using placeholders for dynamic report messages                                     |     |     |     |     |
+| [prefer-replace-text](docs/rules/prefer-replace-text.md)                     | require using `replaceText()` instead of `replaceTextRange()`                              |     |     |     |     |
+| [report-message-format](docs/rules/report-message-format.md)                 | enforce a consistent format for rule report messages                                       |     |     |     |     |
+| [require-meta-docs-description](docs/rules/require-meta-docs-description.md) | require rules to implement a `meta.docs.description` property with the correct format      |     |     |     |     |
+| [require-meta-docs-url](docs/rules/require-meta-docs-url.md)                 | require rules to implement a `meta.docs.url` property                                      |     | 🔧  |     |     |
+| [require-meta-fixable](docs/rules/require-meta-fixable.md)                   | require rules to implement a `meta.fixable` property                                       | ✅  |     |     |     |
+| [require-meta-has-suggestions](docs/rules/require-meta-has-suggestions.md)   | require suggestable rules to implement a `meta.hasSuggestions` property                    | ✅  | 🔧  |     |     |
+| [require-meta-schema](docs/rules/require-meta-schema.md)                     | require rules to implement a `meta.schema` property                                        | ✅  |     | 💡  |     |
+| [require-meta-type](docs/rules/require-meta-type.md)                         | require rules to implement a `meta.type` property                                          | ✅  |     |     |     |
 
 ### Tests
 
-| Name                                                                     | Description                                                                  | 💼    | 🔧  | 💡  | 💭  |
-| :----------------------------------------------------------------------- | :--------------------------------------------------------------------------- | :---- | :-- | :-- | :-- |
-| [consistent-output](docs/rules/consistent-output.md)                     | enforce consistent use of `output` assertions in rule tests                  | ✅ ☑️ |     |     |     |
-| [no-identical-tests](docs/rules/no-identical-tests.md)                   | disallow identical tests                                                     | ✅ ☑️ | 🔧  |     |     |
-| [no-only-tests](docs/rules/no-only-tests.md)                             | disallow the test case property `only`                                       | ✅ ☑️ |     | 💡  |     |
-| [prefer-output-null](docs/rules/prefer-output-null.md)                   | disallow invalid RuleTester test cases where the `output` matches the `code` | ✅ ☑️ | 🔧  |     |     |
-| [test-case-property-ordering](docs/rules/test-case-property-ordering.md) | require the properties of a test case to be placed in a consistent order     |       | 🔧  |     |     |
-| [test-case-shorthand-strings](docs/rules/test-case-shorthand-strings.md) | enforce consistent usage of shorthand strings for test cases with no options |       | 🔧  |     |     |
+| Name                                                                     | Description                                                                  | 💼  | 🔧  | 💡  | 💭  |
+| :----------------------------------------------------------------------- | :--------------------------------------------------------------------------- | :-- | :-- | :-- | :-- |
+| [consistent-output](docs/rules/consistent-output.md)                     | enforce consistent use of `output` assertions in rule tests                  | ✅  |     |     |     |
+| [no-identical-tests](docs/rules/no-identical-tests.md)                   | disallow identical tests                                                     | ✅  | 🔧  |     |     |
+| [no-only-tests](docs/rules/no-only-tests.md)                             | disallow the test case property `only`                                       | ✅  |     | 💡  |     |
+| [prefer-output-null](docs/rules/prefer-output-null.md)                   | disallow invalid RuleTester test cases where the `output` matches the `code` | ✅  | 🔧  |     |     |
+| [test-case-property-ordering](docs/rules/test-case-property-ordering.md) | require the properties of a test case to be placed in a consistent order     |     | 🔧  |     |     |
+| [test-case-shorthand-strings](docs/rules/test-case-shorthand-strings.md) | enforce consistent usage of shorthand strings for test cases with no options |     | 🔧  |     |     |
 
 <!-- end auto-generated rules list -->
 

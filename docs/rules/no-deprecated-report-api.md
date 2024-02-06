@@ -1,6 +1,6 @@
 # Disallow the version of `context.report()` with multiple arguments (`eslint-plugin/no-deprecated-report-api`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): ✅ `recommended`, ☑️ `recommended-type-checked`.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
