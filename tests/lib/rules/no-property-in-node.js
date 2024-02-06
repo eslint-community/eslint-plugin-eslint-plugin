@@ -1,13 +1,11 @@
 'use strict';
 
-const { ESLintUtils } = require('@typescript-eslint/utils');
+const RuleTester = require('eslint').RuleTester;
 const path = require('path');
 const rule = require('../../../lib/rules/no-property-in-node');
 
-ESLintUtils.RuleTester.afterAll = after;
-
-const ruleTester = new ESLintUtils.RuleTester({
-  parser: '@typescript-eslint/parser',
+const ruleTester = new RuleTester({
+  parser: require.resolve('@typescript-eslint/parser'),
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: path.join(__dirname, '../fixtures'),
