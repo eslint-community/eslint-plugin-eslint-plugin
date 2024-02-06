@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/eslint-community/eslint-plugin-eslint-plugin#readme",
   "dependencies": {
-    "@typescript-eslint/utils": "^6.20.0",
+    "@typescript-eslint/utils": "^5.62.0",
     "eslint-utils": "^3.0.0",
     "estraverse": "^5.3.0",
     "ts-api-utils": "^1.2.0"
@@ -59,8 +59,7 @@
     "@release-it/conventional-changelog": "^4.3.0",
     "@types/eslint": "^8.56.2",
     "@types/estree": "^1.0.5",
-    "@typescript-eslint/parser": "^6.20.0",
-    "@typescript-eslint/rule-tester": "^6.20.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "chai": "^4.3.6",
     "dirty-chai": "^2.0.1",
     "eslint": "^8.23.0",
