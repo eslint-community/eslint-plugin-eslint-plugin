@@ -65,14 +65,10 @@ describe('utils', () => {
     describe('the file does not have a valid rule (ESM)', () => {
       [
         '',
-        'export const foo = { create() {} }',
         'export default { foo: {} }',
         'const foo = {}; export default foo',
         'const foo = 123; export default foo',
         'const foo = function(){}; export default foo',
-
-        // Exports function but not default export.
-        'export function foo (context) { return {}; }',
 
         // Exports function but no object return inside function.
         'export default function (context) { }',
@@ -209,8 +205,41 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        // No helper, exported variable.
+        'export const rule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
         // no helper, variable with type.
         'const rule: Rule.RuleModule = { create() {}, meta: {} }; export default rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported variable with type.
+        'export const rule: Rule.RuleModule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // no helper, exported reference with type.
+        'const rule: Rule.RuleModule = { create() {}, meta: {} }; export {rule};':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported aliased reference with type.
+        'const foo: Rule.RuleModule = { create() {}, meta: {} }; export {foo as rule};':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported variable with type in multiple declarations
+        'export const foo = 5, rule: Rule.RuleModule = { create() {}, meta: {} };':
           {
             create: { type: 'FunctionExpression' },
             meta: { type: 'ObjectExpression' },
@@ -474,6 +503,16 @@ describe('utils', () => {
             meta: { type: 'ObjectExpression' },
             isNewStyle: true,
           },
+        'export const rule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const rule = { create() {}, meta: {} }; export {rule};': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
 
         // ESM (function style)
         'export default function (context) { return {}; }': {
