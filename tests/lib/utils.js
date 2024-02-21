@@ -50,6 +50,12 @@ describe('utils', () => {
         'module.exports = createESLintRule({ create() {}, meta: {} });',
         'module.exports = util.createRule({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
+
+        // Named export of a rule, only supported in ESM within this plugin
+        'module.exports.rule = { create: function() {} };',
+        'exports.rule = { create: function() {} };',
+        'const rule = { create: function() {} }; module.exports.rule = rule;',
+        'const rule = { create: function() {} }; exports.rule = rule;',
       ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
