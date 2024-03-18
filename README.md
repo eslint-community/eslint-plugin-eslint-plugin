@@ -79,8 +79,8 @@ module.exports = [
 💼 [Configurations](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets) enabled in.\
 ✅ Set in the `recommended` [configuration](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).\
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
-💡 Manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).\
-💭 Requires type information.
+💡 Manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).\
+💭 Requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 ### Rules
 
