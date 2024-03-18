@@ -43,8 +43,9 @@ module.exports = {
 
   /** ESLint configuration */
   eslintrc: {
+    root: true,
     extends: ['plugin:eslint-plugin/all'],
-
+    ignorePatterns: ['fixtures/**/*'],
     overrides: [
       {
         files: ['*.ts', '*.mts', '*.cts'],
