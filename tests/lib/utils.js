@@ -86,6 +86,14 @@ describe('utils', () => {
         'export default function () { return {}; }',
         'export default function (foo, bar) { return {}; }',
 
+        // named export of functions
+        // refs: https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/450
+        'export function foo(options) { return {}; }',
+        'export async function foo(options) { return {}; }',
+        'export const foo = function (options) { return {}; }',
+        'export function foo(options) { return; }',
+        'export function foo({opt1, opt2}) { return {}; }',
+
         // Incorrect TypeScript helper structure:
         'export default foo()({ create() {}, meta: {} });',
         'export default foo().bar({ create() {}, meta: {} });',
