@@ -1,5 +1,7 @@
 # Enforce a consistent format for rule report messages (`eslint-plugin/report-message-format`)
 
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all`, `flat/all-type-checked`, `flat/rules`.
+
 <!-- end auto-generated rule header -->
 
 It is sometimes desirable to maintain consistent formatting for all report messages. For example, you might want to mandate that all report messages begin with a capital letter and end with a period.

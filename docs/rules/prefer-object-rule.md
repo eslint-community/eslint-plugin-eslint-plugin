@@ -1,6 +1,6 @@
 # Disallow function-style rules (`eslint-plugin/prefer-object-rule`)
 
-💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all`, `flat/all-type-checked`, `flat/recommended`, `flat/rules`, `flat/rules-recommended`, ✅ `recommended`.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

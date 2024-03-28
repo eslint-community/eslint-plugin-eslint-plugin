@@ -1,5 +1,7 @@
 # Enforce consistent usage of shorthand strings for test cases with no options (`eslint-plugin/test-case-shorthand-strings`)
 
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all`, `flat/all-type-checked`, `flat/tests`.
+
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
 <!-- end auto-generated rule header -->

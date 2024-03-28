@@ -1,6 +1,6 @@
 # Require suggestable rules to implement a `meta.hasSuggestions` property (`eslint-plugin/require-meta-has-suggestions`)
 
-💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
+💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all`, `flat/all-type-checked`, `flat/recommended`, `flat/rules`, `flat/rules-recommended`, ✅ `recommended`.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
