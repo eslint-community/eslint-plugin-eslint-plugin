@@ -1,13 +1,11 @@
 /**
  * @fileoverview the `rules` config for `eslint.config.js`
+ * @deprecated use 'flat/rules' instead
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
 'use strict';
 
-const mod = require('../lib/index.js');
+const plugin = require('../lib/index.js');
 
-module.exports = {
-  plugins: { 'eslint-plugin': mod },
-  rules: mod.configs.rules.rules,
-};
+module.exports = plugin.configs['flat/rules'];
