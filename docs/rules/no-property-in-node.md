@@ -1,7 +1,5 @@
 # Disallow using `in` to narrow node types instead of looking at properties (`eslint-plugin/no-property-in-node`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all-type-checked`, `flat/rules`.
-
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 <!-- end auto-generated rule header -->

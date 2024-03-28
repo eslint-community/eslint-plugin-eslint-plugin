@@ -1,6 +1,6 @@
 # Require using `messageId` instead of `message` or `desc` to report rule violations (`eslint-plugin/prefer-message-ids`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all`, `flat/all-type-checked`, `flat/recommended`, `flat/rules`, `flat/rules-recommended`, ✅ `recommended`.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
 <!-- end auto-generated rule header -->
 

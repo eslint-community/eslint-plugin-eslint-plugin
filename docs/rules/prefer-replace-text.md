@@ -1,7 +1,5 @@
 # Require using `replaceText()` instead of `replaceTextRange()` (`eslint-plugin/prefer-replace-text`)
 
-💼 This rule is enabled in the following [configs](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets): `flat/all`, `flat/all-type-checked`, `flat/rules`.
-
 <!-- end auto-generated rule header -->
 
 ## Rule Details
