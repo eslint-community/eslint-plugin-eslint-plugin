@@ -47,9 +47,6 @@ Here's an example ESLint configuration that:
 
 ```json
 {
-  "parserOptions": {
-    "sourceType": "script"
-  },
   "extends": ["plugin:eslint-plugin/recommended"],
   "rules": {
     "eslint-plugin/require-meta-docs-description": "error"
@@ -60,11 +57,10 @@ Here's an example ESLint configuration that:
 ### <a name='flat'></a>[`eslint.config.js`](https://eslint.org/docs/latest/use/configure/configuration-files-new) (requires eslint>=v8.23.0)
 
 ```js
-const eslintPluginRecommended = require('eslint-plugin-eslint-plugin/configs/recommended');
+const eslintPlugin = require('eslint-plugin-eslint-plugin');
 module.exports = [
-  eslintPluginRecommended,
+  eslintPlugin.configs['flat/recommended'],
   {
-    languageOptions: { sourceType: 'commonjs' },
     rules: {
       'eslint-plugin/require-meta-docs-description': 'error',
     },
@@ -139,7 +135,16 @@ The list of recommended rules will only change in a major release of this plugin
 
 ### <a name='Presetusage'></a>Preset usage
 
-Presets are enabled by adding a line to the `extends` list in your config file. For example, to enable the `recommended` preset, use:
+Both flat and eslintrc configs are supported. For example, to enable the `recommended` preset, use:
+
+eslint.config.js
+
+```js
+const eslintPlugin = require('eslint-plugin-eslint-plugin');
+module.exports = [eslintPlugin.configs['flat/recommended']];
+```
+
+.eslintrc.json
 
 ```json
 {
@@ -148,6 +153,24 @@ Presets are enabled by adding a line to the `extends` list in your config file. 
 ```
 
 Or to apply linting only to the appropriate rule or test files:
+
+eslint.config.js
+
+```js
+const eslintPlugin = require('eslint-plugin-eslint-plugin');
+module.exports = [
+  {
+    files: ['lib/rules/*.{js,ts}'],
+    ...eslintPlugin.configs['flat/rules-recommended'],
+  },
+  {
+    files: ['tests/lib/rules/*.{js,ts}'],
+    ...eslintPlugin.configs['flat/tests-recommended'],
+  },
+];
+```
+
+.eslintrc.js
 
 ```json
 {
