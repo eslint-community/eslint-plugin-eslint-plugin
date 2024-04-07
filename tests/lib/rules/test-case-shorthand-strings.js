@@ -49,11 +49,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
     getTestCases(['"foo"']),
     getTestCases(['"foo"', '"bar"']),
     getTestCases(['"foo"', '"bar"', '{ code: "foo", options: ["bar"] }']),
-    getTestCases([
-      '"foo"',
-      '"bar"',
-      '{ code: "foo", parserOptions: ["bar"] }',
-    ]),
+    getTestCases(['"foo"', '"bar"', '{ code: "foo", parserOptions: ["bar"] }']),
     getTestCases(['`foo`']),
     getTestCases(['tag`foo`']),
 

@@ -18,8 +18,8 @@
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
-    "test:remote": "eslint-remote-tester",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
+    "test:remote": "eslint-remote-tester",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
