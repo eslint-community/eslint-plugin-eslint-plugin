@@ -17,8 +17,8 @@
     "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" .",
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
-    "test:remote": "eslint-remote-tester",
     "release": "release-it",
+    "test:remote": "eslint-remote-tester",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
     "update:eslint-docs": "eslint-doc-generator"
   },
