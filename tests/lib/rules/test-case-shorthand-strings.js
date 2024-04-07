@@ -52,7 +52,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
     getTestCases([
       '"foo"',
       '"bar"',
-      '{ code: "foo", languageOptions: ["bar"] }',
+      '{ code: "foo", parserOptions: ["bar"] }',
     ]),
     getTestCases(['`foo`']),
     getTestCases(['tag`foo`']),
@@ -78,7 +78,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       code: getTestCases([
         '"foo"',
         '"bar"',
-        '{ code: "foo", languageOptions: ["bar"] }',
+        '{ code: "foo", parserOptions: ["bar"] }',
       ]),
       options: ['as-needed'],
     },
