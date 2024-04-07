@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/test-case-shorthand-strings');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 /**
  * Returns the code for some valid test cases
@@ -40,14 +40,20 @@ const UNEXPECTED_SHORTHAND_ERROR = {
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('test-case-shorthand-strings', rule, {
   valid: [
     // default (as-needed)
     getTestCases(['"foo"']),
     getTestCases(['"foo"', '"bar"']),
     getTestCases(['"foo"', '"bar"', '{ code: "foo", options: ["bar"] }']),
-    getTestCases(['"foo"', '"bar"', '{ code: "foo", parserOptions: ["bar"] }']),
+    getTestCases([
+      '"foo"',
+      '"bar"',
+      '{ code: "foo", languageOptions: ["bar"] }',
+    ]),
     getTestCases(['`foo`']),
     getTestCases(['tag`foo`']),
 
@@ -72,7 +78,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       code: getTestCases([
         '"foo"',
         '"bar"',
-        '{ code: "foo", parserOptions: ["bar"] }',
+        '{ code: "foo", languageOptions: ["bar"] }',
       ]),
       options: ['as-needed'],
     },

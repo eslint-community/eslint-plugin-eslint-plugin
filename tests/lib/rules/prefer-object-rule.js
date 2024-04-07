@@ -9,13 +9,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/prefer-object-rule');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('prefer-object-rule', rule, {
   valid: [
     `
@@ -77,7 +79,7 @@ ruleTester.run('prefer-object-rule', rule, {
           },
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     'module.exports = {};', // No rule.
   ],
@@ -141,27 +143,27 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 2, column: 24 }],
+      languageOptions: { sourceType: 'module' },
     },
     {
       code: 'export default function create(context) { return {}; };',
       output: 'export default {create(context) { return {}; }};',
-      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
+      languageOptions: { sourceType: 'module' },
     },
     {
       code: 'export default (context) => { return {}; };',
       output: 'export default {create: (context) => { return {}; }};',
-      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
+      languageOptions: { sourceType: 'module' },
     },
     {
       code: 'const rule = (context) => { return {}; }; export default rule;',
       output:
         'const rule = {create: (context) => { return {}; }}; export default rule;',
-      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
+      languageOptions: { sourceType: 'module' },
     },
   ],
 });

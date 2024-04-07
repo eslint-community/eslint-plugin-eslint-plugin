@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/prefer-output-null');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 const ERROR = { messageId: 'useOutputNull', type: 'Property' };
 
@@ -18,7 +18,9 @@ const ERROR = { messageId: 'useOutputNull', type: 'Property' };
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 'latest' } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('prefer-output-null', rule, {
   valid: [
     `

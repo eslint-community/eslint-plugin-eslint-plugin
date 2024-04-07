@@ -5,13 +5,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-unused-message-ids');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 
 ruleTester.run('no-unused-message-ids', rule, {
   valid: [
@@ -51,7 +53,7 @@ ruleTester.run('no-unused-message-ids', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     // unrelated function 1
     `
@@ -323,7 +325,6 @@ ruleTester.run('no-unused-message-ids', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'unusedMessage',
@@ -331,6 +332,7 @@ ruleTester.run('no-unused-message-ids', rule, {
           type: 'Property',
         },
       ],
+      languageOptions: { sourceType: 'module' },
     },
     {
       // `meta` / `create` in variables

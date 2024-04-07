@@ -5,13 +5,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-missing-message-ids');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 
 ruleTester.run('no-missing-message-ids', rule, {
   valid: [
@@ -75,7 +77,7 @@ ruleTester.run('no-missing-message-ids', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     // unrelated function 1
     `
@@ -321,7 +323,6 @@ ruleTester.run('no-missing-message-ids', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'missingMessage',
@@ -329,6 +330,7 @@ ruleTester.run('no-missing-message-ids', rule, {
           type: 'Literal',
         },
       ],
+      languageOptions: { sourceType: 'module' },
     },
     {
       // Helper function with messageId parameter, inside rule, with missing messageId due to parameter reassignment.

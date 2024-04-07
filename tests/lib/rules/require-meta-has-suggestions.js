@@ -5,13 +5,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/require-meta-has-suggestions');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('require-meta-has-suggestions', rule, {
   valid: [
     'module.exports = context => { return {}; };',
@@ -122,7 +124,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     // Provides suggestions, has hasSuggestions property (as variable).
     `
@@ -215,7 +217,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           create(context) { context.report(node, message, data, fix); }
         };
       `,
-      parserOptions: {
+      languageOptions: {
         ecmaVersion: 9,
       },
     },
@@ -289,7 +291,6 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       output: null,
-      parserOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'shouldBeSuggestable',
@@ -300,6 +301,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           endColumn: 78,
         },
       ],
+      languageOptions: { sourceType: 'module' },
     },
     {
       // Reports suggestions, no hasSuggestions property, violation should be on `meta` object, empty meta object.

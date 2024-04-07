@@ -10,13 +10,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/require-meta-type');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('require-meta-type', rule, {
   valid: [
     `
@@ -33,7 +35,7 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     `
       module.exports = {
@@ -115,8 +117,8 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      languageOptions: { sourceType: 'module' },
     },
     {
       code: `

@@ -5,19 +5,21 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-only-tests');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 'latest' } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('no-only-tests', rule, {
   valid: [
     // No test cases with `only`
     `
       const { RuleTester } = require('eslint');
-      const ruleTester = new RuleTester();
+      const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
       ruleTester.run('foo', bar, {
         valid: [
           'foo',
@@ -34,7 +36,7 @@ ruleTester.run('no-only-tests', rule, {
     // `only` set to `false`
     `
       const { RuleTester } = require('eslint');
-      const ruleTester = new RuleTester();
+      const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
       ruleTester.run('foo', bar, {
         valid: [
           { code: 'foo', only: false },
@@ -61,7 +63,7 @@ ruleTester.run('no-only-tests', rule, {
       // Valid test case with `only`
       code: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [
             { code: 'foo', only: true },
@@ -82,7 +84,7 @@ ruleTester.run('no-only-tests', rule, {
               messageId: 'removeOnly',
               output: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [
             { code: 'foo'  },
@@ -98,7 +100,7 @@ ruleTester.run('no-only-tests', rule, {
       // Invalid test case with `only` (property at end of object, no trailing comma)
       code: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -119,7 +121,7 @@ ruleTester.run('no-only-tests', rule, {
               messageId: 'removeOnly',
               output: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -135,7 +137,7 @@ ruleTester.run('no-only-tests', rule, {
       // Invalid test case with `only` (property at end of object, with trailing comma)
       code: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -156,7 +158,7 @@ ruleTester.run('no-only-tests', rule, {
               messageId: 'removeOnly',
               output: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -172,7 +174,7 @@ ruleTester.run('no-only-tests', rule, {
       // Invalid test case with `only` (property in middle of object)
       code: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -193,7 +195,7 @@ ruleTester.run('no-only-tests', rule, {
               messageId: 'removeOnly',
               output: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -209,7 +211,7 @@ ruleTester.run('no-only-tests', rule, {
       // Invalid test case with `only` (property at beginning of object)
       code: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -230,7 +232,7 @@ ruleTester.run('no-only-tests', rule, {
               messageId: 'removeOnly',
               output: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         ruleTester.run('foo', bar, {
           valid: [],
           invalid: [
@@ -247,7 +249,7 @@ ruleTester.run('no-only-tests', rule, {
       // Valid test case using `RuleTester.only`
       code: `
         const { RuleTester } = require('eslint');
-        const ruleTester = new RuleTester();
+        const ruleTester = new RuleTester({languageOptions: {sourceType: "commonjs"}});
         new RuleTester().run('foo', bar, {
           valid: [
             RuleTester.only('foo'),

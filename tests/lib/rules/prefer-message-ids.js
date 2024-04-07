@@ -5,13 +5,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/prefer-message-ids');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 
 ruleTester.run('prefer-message-ids', rule, {
   valid: [
@@ -50,7 +52,7 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     `
       module.exports = {
@@ -159,8 +161,8 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
       errors: [{ messageId: 'foundMessage', type: 'Property' }],
+      languageOptions: { sourceType: 'module' },
     },
     {
       // With message in variable.
