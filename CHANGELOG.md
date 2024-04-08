@@ -21,6 +21,13 @@
 * update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
 * update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
 
+## [5.5.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.5.0...v5.5.1) (2024-04-08)
+
+
+### Bug Fixes
+
+* improve eslint rule detecting ([#457](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/457)) ([5dccb61](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/5dccb61cc8a732947689e523cfd9dd1adf611ca3))
+
 ## [5.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.4.1...v5.5.0) (2024-04-01)
 
 
