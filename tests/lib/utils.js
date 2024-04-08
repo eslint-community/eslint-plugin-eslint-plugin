@@ -91,6 +91,7 @@ describe('utils', () => {
         'export function foo(options) { return {}; }',
         'export async function foo(options) { return {}; }',
         'export const foo = function (options) { return {}; }',
+        'export const foo = (options) => { return {}; }',
         'export function foo(options) { return; }',
         'export function foo({opt1, opt2}) { return {}; }',
 
