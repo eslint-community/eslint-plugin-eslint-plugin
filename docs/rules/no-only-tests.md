@@ -1,10 +1,10 @@
 # Disallow the test case property `only` (`eslint-plugin/no-only-tests`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
-💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 The [`only` property](https://eslint.org/docs/developer-guide/unit-tests#running-individual-tests) can be used as of [ESLint 7.29](https://eslint.org/blog/2021/06/eslint-v7.29.0-released#highlights) for running individual rule test cases with less-noisy debugging. This feature should be only used in development, as it prevents all the tests from running. Mistakenly checking-in a test case with this property can cause CI tests to incorrectly pass.
 

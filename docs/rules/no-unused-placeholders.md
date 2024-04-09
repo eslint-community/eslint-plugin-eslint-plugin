@@ -1,8 +1,8 @@
 # Disallow unused placeholders in rule report messages (`eslint-plugin/no-unused-placeholders`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 This rule aims to disallow unused placeholders in rule report messages.
 
@@ -57,5 +57,5 @@ If you want to allow unused placeholders, you should turn off this rule.
 
 ## Further Reading
 
-* [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
-* [no-missing-placeholders](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md)
+- [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
+- [no-missing-placeholders](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md)

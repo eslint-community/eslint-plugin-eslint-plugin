@@ -11,7 +11,7 @@ const RuleTester = require('eslint').RuleTester;
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 'latest' } });
 ruleTester.run('no-only-tests', rule, {
   valid: [
     // No test cases with `only`
@@ -23,7 +23,8 @@ ruleTester.run('no-only-tests', rule, {
           'foo',
           { code: 'foo', foo: true },
           RuleTester.somethingElse(),
-          notRuleTester.only()
+          notRuleTester.only(),
+          { ...otherOptions },
         ],
         invalid: [
           { code: 'bar', foo: true },

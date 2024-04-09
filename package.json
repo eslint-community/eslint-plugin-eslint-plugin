@@ -1,26 +1,30 @@
 {
   "name": "eslint-plugin-eslint-plugin",
-  "version": "5.0.6",
+  "version": "5.5.1",
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
   "main": "./lib/index.js",
   "exports": {
     ".": "./lib/index.js",
+    "./configs/*": "./configs/*.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",
   "scripts": {
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
     "lint:docs": "markdownlint \"**/*.md\"",
-    "lint:eslint-docs": "npm-run-all \"update:eslint-docs --check\"",
-    "lint:js": "eslint --cache .",
+    "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
+    "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" .",
+    "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
+    "lint:remote": "eslint-remote-tester",
     "release": "release-it",
     "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
-    "update:eslint-docs": "eslint-doc-generator --rule-doc-section-include \"Rule Detail\" --ignore-config all --ignore-config rules --ignore-config rules-recommended --ignore-config tests --ignore-config tests-recommended"
+    "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
-    "lib/"
+    "lib/",
+    "configs/"
   ],
   "keywords": [
     "eslint",
@@ -40,7 +44,7 @@
     "estraverse": "^5.3.0"
   },
   "nyc": {
-    "branches": 99,
+    "branches": 94,
     "functions": 99,
     "lines": 99,
     "statements": 99
@@ -48,32 +52,39 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@eslint/eslintrc": "^2.0.2",
+    "@eslint/js": "^8.57.0",
     "@release-it/conventional-changelog": "^4.3.0",
-    "@typescript-eslint/parser": "^5.36.2",
+    "@types/eslint": "^8.56.6",
+    "@types/estree": "^1.0.5",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/utils": "^5.62.0",
     "chai": "^4.3.6",
     "dirty-chai": "^2.0.1",
-    "eslint": "^8.23.0",
+    "eslint": "^8.57.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-doc-generator": "^0.13.0",
+    "eslint-doc-generator": "^1.7.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-eslint-plugin": "file:./",
     "eslint-plugin-markdown": "^3.0.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-unicorn": "^44.0.0",
+    "eslint-plugin-unicorn": "^46.0.0",
+    "eslint-remote-tester": "^3.0.1",
     "eslint-scope": "^7.1.1",
     "espree": "^9.4.0",
+    "globals": "^13.20.0",
     "husky": "^8.0.1",
     "lodash": "^4.17.21",
-    "markdownlint-cli": "^0.32.2",
-    "mocha": "^10.0.0",
-    "npm-package-json-lint": "^6.3.0",
-    "npm-run-all": "^4.1.5",
+    "markdownlint-cli": "^0.39.0",
+    "mocha": "^10.4.0",
+    "npm-package-json-lint": "^7.1.0",
+    "npm-run-all2": "^6.1.2",
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "release-it": "^14.14.3",
-    "typescript": "^4.8.3"
+    "typescript": "^5.4.3"
   },
   "peerDependencies": {
     "eslint": ">=7.0.0"

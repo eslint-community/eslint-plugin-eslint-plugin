@@ -2,7 +2,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 A rule can store the URL to its documentation page in `meta.docs.url`. This enables integration tools / IDEs / editors to conveniently provide the link to developers so that they can better understand the rule.
 
@@ -77,17 +77,24 @@ module.exports = {
 
 ## Options
 
-This rule has an option.
+<!-- begin auto-generated rule options list -->
+
+| Name      | Description                                                                                                                                                                    | Type   |
+| :-------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----- |
+| `pattern` | A pattern to enforce rule's document URL. It replaces `{{name}}` placeholder by each rule name. The rule name is the basename of each rule file. Omitting this allows any URL. | String |
+
+<!-- end auto-generated rule options list -->
 
 ```json
 {
-  "eslint-plugin/require-meta-docs-url": ["error", {
-    "pattern": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md"
-  }]
+  "eslint-plugin/require-meta-docs-url": [
+    "error",
+    {
+      "pattern": "https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md"
+    }
+  ]
 }
 ```
-
-- `pattern` (`string`) ... A pattern to enforce rule's document URL. It replaces `{{name}}` placeholder by each rule name. The rule name is the basename of each rule file. Default is `undefined` which allows any URL.
 
 If you set the `pattern` option, this rule adds `meta.docs.url` property automatically when you execute `eslint --fix` command.
 

@@ -1,8 +1,8 @@
 # Disallow missing placeholders in rule report messages (`eslint-plugin/no-missing-placeholders`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 Report messages in rules can have placeholders surrounded by curly brackets.
 
@@ -74,4 +74,4 @@ If you want to use rule messages that actually contain double-curly bracket text
 
 ## Further Reading
 
-* [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
+- [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)

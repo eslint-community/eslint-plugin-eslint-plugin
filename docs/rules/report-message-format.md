@@ -1,6 +1,6 @@
 # Enforce a consistent format for rule report messages (`eslint-plugin/report-message-format`)
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 It is sometimes desirable to maintain consistent formatting for all report messages. For example, you might want to mandate that all report messages begin with a capital letter and end with a period.
 
@@ -16,16 +16,14 @@ For example, in order to mandate that all report messages begin with a capital l
 
 ```json
 {
-    "rules": {
-        "eslint-plugin/report-message-format": ["error", "^[A-Z].*\\.$"]
-    },
-    "plugins": [
-        "eslint-plugin"
-    ]
+  "rules": {
+    "eslint-plugin/report-message-format": ["error", "^[A-Z].*\\.$"]
+  },
+  "plugins": ["eslint-plugin"]
 }
 ```
 
-Note that since this rule uses static analysis and does not actually run your code, it will attempt to match report messages *before* placeholders are inserted.
+Note that since this rule uses static analysis and does not actually run your code, it will attempt to match report messages _before_ placeholders are inserted.
 
 Examples of **incorrect** code for this rule:
 

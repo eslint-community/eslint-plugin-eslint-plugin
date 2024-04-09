@@ -1,13 +1,14 @@
-# Require using `messageId` instead of `message` to report rule violations (`eslint-plugin/prefer-message-ids`)
+# Require using `messageId` instead of `message` or `desc` to report rule violations (`eslint-plugin/prefer-message-ids`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 When reporting a rule violation, it's preferred to provide the violation message with the `messageId` property instead of the `message` property. Message IDs provide the following benefits:
 
-* Rule violation messages can be stored in a central `meta.messages` object for convenient management
-* Rule violation messages do not need to be repeated in both the rule file and rule test file
+- Rule violation messages can be stored in a central `meta.messages` object for convenient management
+- Rule violation messages do not need to be repeated in both the rule file and rule test file
+- As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness
 
 ## Rule Details
 
@@ -58,6 +59,6 @@ module.exports = {
 
 ## Further Reading
 
-* [messageIds API](https://eslint.org/docs/developer-guide/working-with-rules#messageids)
-* [no-invalid-message-ids](./no-invalid-message-ids.md) rule
-* [no-missing-message-ids](./no-missing-message-ids.md) rule
+- [messageIds API](https://eslint.org/docs/developer-guide/working-with-rules#messageids)
+- [no-invalid-message-ids](./no-invalid-message-ids.md) rule
+- [no-missing-message-ids](./no-missing-message-ids.md) rule

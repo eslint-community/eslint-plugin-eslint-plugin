@@ -2,7 +2,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 This rule enforces that meta properties of a rule are placed in a consistent order.
 
@@ -12,7 +12,7 @@ This rule enforces that meta properties of a rule are placed in a consistent ord
 
 This rule has an array option:
 
-* `['type', 'docs', 'fixable', 'hasSuggestions', 'deprecated', 'replacedBy', 'schema', 'messages']` (default): The order that the properties of `meta` should be placed in.
+- `['type', 'docs', 'fixable', 'hasSuggestions', 'deprecated', 'replacedBy', 'schema', 'messages']` (default): The order that the properties of `meta` should be placed in.
 
 Examples of **incorrect** code for this rule:
 

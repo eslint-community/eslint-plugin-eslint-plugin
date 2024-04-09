@@ -1,10 +1,10 @@
 # Require rules to implement a `meta.schema` property (`eslint-plugin/require-meta-schema`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
-💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 Defining a schema for each rule allows eslint to validate that configuration options are passed correctly. Even when there are no options for a rule, a schema can still be defined as an empty array to validate that no data is mistakenly passed to the rule.
 
@@ -75,9 +75,13 @@ module.exports = {
 
 ## Options
 
-This rule takes an optional object containing:
+<!-- begin auto-generated rule options list -->
 
-* `boolean` — `requireSchemaPropertyWhenOptionless` — Whether the rule should require the `meta.schema` property to be specified (with `schema: []`) for rules that have no options. Defaults to `true`.
+| Name                                  | Description                                                                                                                    | Type    | Default |
+| :------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------- | :------ | :------ |
+| `requireSchemaPropertyWhenOptionless` | Whether the rule should require the `meta.schema` property to be specified (with `schema: []`) for rules that have no options. | Boolean | `true`  |
+
+<!-- end auto-generated rule options list -->
 
 ## When Not To Use It
 
@@ -85,4 +89,4 @@ As mentioned in the introduction, the need for this rule is reduced as of ESLint
 
 ## Further Reading
 
-* [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)
+- [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)

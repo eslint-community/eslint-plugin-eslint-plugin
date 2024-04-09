@@ -12,14 +12,15 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - '18'
-          - '16'
-          - '14'
+          - 20
+          - 18
+          - 16
+          - 14
         os:
           - ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
@@ -28,8 +29,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
       - run: npm install
@@ -38,8 +39,8 @@ jobs:
   eslint7:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: "18.x"
     - run: npm install

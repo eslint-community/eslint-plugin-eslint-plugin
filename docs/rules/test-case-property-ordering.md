@@ -2,7 +2,7 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 This rule enforces that the properties of RuleTester test cases are arranged in a consistent order.
 
@@ -12,7 +12,7 @@ This rule enforces that the properties of RuleTester test cases are arranged in 
 
 This rule has an array option:
 
-* `["code", "output", "options", "parserOptions", "errors"]` (default): The properties of a test case should be placed in a consistent order.
+- `["code", "output", "options", "parserOptions", "errors"]` (default): The properties of a test case should be placed in a consistent order.
 
 Examples of **incorrect** code for this rule:
 

@@ -1,8 +1,8 @@
 # Enforce consistent use of `output` assertions in rule tests (`eslint-plugin/consistent-output`)
 
-✅ This rule is enabled in the `recommended` config.
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
-<!-- end rule header -->
+<!-- end auto-generated rule header -->
 
 When writing tests for fixable rules, the `output` property on each test case can be used to assert what autofixed code is produced, or to assert that no autofix is produced using `output: null`.
 
@@ -66,8 +66,8 @@ new RuleTester().run('example-rule', rule, {
 
 This rule takes an optional string enum option with one of the following values:
 
-* `"consistent"` - (default) if any invalid test cases have output assertions, then all invalid test cases must have output assertions
-* `"always"` - always require invalid test cases to have output assertions
+- `"consistent"` - (default) if any invalid test cases have output assertions, then all invalid test cases must have output assertions
+- `"always"` - always require invalid test cases to have output assertions
 
 ## When Not To Use It
 
@@ -77,4 +77,4 @@ As mentioned in the introduction, the need for this rule is reduced as of ESLint
 
 ## Further Reading
 
-* [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)
+- [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)

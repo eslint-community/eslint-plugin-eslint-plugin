@@ -18,13 +18,14 @@ const ERROR = { messageId: 'useOutputNull', type: 'Property' };
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 'latest' } });
 ruleTester.run('prefer-output-null', rule, {
   valid: [
     `
       new RuleTester().run('foo', bar, {
         valid: [],
         invalid: [
+          { ...otherOptions },
           {code: 'foo', output: 'bar', errors: ['bar']},
         ]
       });

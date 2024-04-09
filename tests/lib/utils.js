@@ -50,6 +50,12 @@ describe('utils', () => {
         'module.exports = createESLintRule({ create() {}, meta: {} });',
         'module.exports = util.createRule({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
+
+        // Named export of a rule, only supported in ESM within this plugin
+        'module.exports.rule = { create: function() {} };',
+        'exports.rule = { create: function() {} };',
+        'const rule = { create: function() {} }; module.exports.rule = rule;',
+        'const rule = { create: function() {} }; exports.rule = rule;',
       ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
@@ -65,14 +71,10 @@ describe('utils', () => {
     describe('the file does not have a valid rule (ESM)', () => {
       [
         '',
-        'export const foo = { create() {} }',
         'export default { foo: {} }',
         'const foo = {}; export default foo',
         'const foo = 123; export default foo',
         'const foo = function(){}; export default foo',
-
-        // Exports function but not default export.
-        'export function foo (context) { return {}; }',
 
         // Exports function but no object return inside function.
         'export default function (context) { }',
@@ -83,6 +85,15 @@ describe('utils', () => {
         // Function-style rule but missing context parameter.
         'export default function () { return {}; }',
         'export default function (foo, bar) { return {}; }',
+
+        // named export of functions
+        // refs: https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/450
+        'export function foo(options) { return {}; }',
+        'export async function foo(options) { return {}; }',
+        'export const foo = function (options) { return {}; }',
+        'export const foo = (options) => { return {}; }',
+        'export function foo(options) { return; }',
+        'export function foo({opt1, opt2}) { return {}; }',
 
         // Incorrect TypeScript helper structure:
         'export default foo()({ create() {}, meta: {} });',
@@ -209,8 +220,41 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        // No helper, exported variable.
+        'export const rule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
         // no helper, variable with type.
         'const rule: Rule.RuleModule = { create() {}, meta: {} }; export default rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported variable with type.
+        'export const rule: Rule.RuleModule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // no helper, exported reference with type.
+        'const rule: Rule.RuleModule = { create() {}, meta: {} }; export {rule};':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported aliased reference with type.
+        'const foo: Rule.RuleModule = { create() {}, meta: {} }; export {foo as rule};':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported variable with type in multiple declarations
+        'export const foo = 5, rule: Rule.RuleModule = { create() {}, meta: {} };':
           {
             create: { type: 'FunctionExpression' },
             meta: { type: 'ObjectExpression' },
@@ -474,6 +518,16 @@ describe('utils', () => {
             meta: { type: 'ObjectExpression' },
             isNewStyle: true,
           },
+        'export const rule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const rule = { create() {}, meta: {} }; export {rule};': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
 
         // ESM (function style)
         'export default function (context) { return {}; }': {
@@ -761,8 +815,14 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
           assert.deepEqual(
-            utils.getTestInfo(scopeManager, ast),
+            utils.getTestInfo(context, ast),
             [],
             'Expected no tests to be found'
           );
@@ -827,7 +887,13 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scopeManager, ast);
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
+          const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1021,7 +1087,13 @@ describe('utils', () => {
             sourceType: 'script',
             nodejsScope: true,
           });
-          const testInfo = utils.getTestInfo(scopeManager, ast);
+          const context = {
+            sourceCode: {
+              getDeclaredVariables:
+                scopeManager.getDeclaredVariables.bind(scopeManager),
+            },
+          }; // mock object
+          const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
             testInfo.length,
@@ -1094,13 +1166,20 @@ describe('utils', () => {
 
     for (const args of CASES.keys()) {
       it(args.join(', '), () => {
-        const parsedArgs = espree.parse(`context.report(${args.join(', ')})`, {
+        const node = espree.parse(`context.report(${args.join(', ')})`, {
           ecmaVersion: 6,
           loc: false,
           range: false,
-        }).body[0].expression.arguments;
-        const context = { getScope() {} }; // mock object
-        const reportInfo = utils.getReportInfo(parsedArgs, context);
+        }).body[0].expression;
+        const parsedArgs = node.arguments;
+        const context = {
+          sourceCode: {
+            getScope() {
+              return {};
+            },
+          },
+        }; // mock object
+        const reportInfo = utils.getReportInfo(node, context);
 
         assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
       });
@@ -1272,9 +1351,15 @@ describe('utils', () => {
           ecmaVersion: 6,
           range: true,
         });
-        const context = { getScope() {} }; // mock object
+        const context = {
+          sourceCode: {
+            getScope() {
+              return {};
+            },
+          },
+        }; // mock object
         const reportNode = ast.body[0].expression;
-        const reportInfo = utils.getReportInfo(reportNode.arguments, context);
+        const reportInfo = utils.getReportInfo(reportNode, context);
         const data = utils.collectReportViolationAndSuggestionData(reportInfo);
         assert(
           lodash.isMatch(data, testCase.shouldMatch),
