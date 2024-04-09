@@ -108,7 +108,7 @@ module.exports = [
 
 | Name                                                                     | Description                                                                  | 💼  | 🔧  | 💡  | 💭  |
 | :----------------------------------------------------------------------- | :--------------------------------------------------------------------------- | :-- | :-- | :-- | :-- |
-| [consistent-output](docs/rules/consistent-output.md)                     | enforce consistent use of `output` assertions in rule tests                  | ✅  |     |     |     |
+| [consistent-output](docs/rules/consistent-output.md)                     | enforce consistent use of `output` assertions in rule tests                  |     |     |     |     |
 | [no-identical-tests](docs/rules/no-identical-tests.md)                   | disallow identical tests                                                     | ✅  | 🔧  |     |     |
 | [no-only-tests](docs/rules/no-only-tests.md)                             | disallow the test case property `only`                                       | ✅  |     | 💡  |     |
 | [prefer-output-null](docs/rules/prefer-output-null.md)                   | disallow invalid RuleTester test cases where the `output` matches the `code` | ✅  | 🔧  |     |     |
