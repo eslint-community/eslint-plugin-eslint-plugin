@@ -10,13 +10,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/test-case-property-ordering');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('test-case-property-ordering', rule, {
   valid: [
     `

@@ -9,13 +9,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/meta-property-ordering');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('test-case-property-ordering', rule, {
   valid: [
     `
@@ -31,7 +33,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           meta: {type, docs, fixable, schema, messages},
           create() {},
         };`,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
 
     `
@@ -124,13 +126,13 @@ ruleTester.run('test-case-property-ordering', rule, {
           },
           create() {},
         };`,
-      parserOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'inconsistentOrder',
           data: { order: ['type', 'docs', 'fixable'].join(', ') },
         },
       ],
+      languageOptions: { sourceType: 'module' },
     },
     {
       code: `
