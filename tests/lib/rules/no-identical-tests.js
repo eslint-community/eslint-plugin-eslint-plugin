@@ -234,8 +234,8 @@ ruleTester.run('no-identical-tests', rule, {
           });
         }
       `,
-      errors: [{ messageId: 'identical', type: 'TemplateLiteral' }],
       languageOptions: { ecmaVersion: 2015 },
+      errors: [{ messageId: 'identical', type: 'TemplateLiteral' }],
     },
   ],
 });

@@ -291,6 +291,7 @@ ruleTester.run('require-meta-has-suggestions', rule, {
         };
       `,
       output: null,
+      languageOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'shouldBeSuggestable',
@@ -301,7 +302,6 @@ ruleTester.run('require-meta-has-suggestions', rule, {
           endColumn: 78,
         },
       ],
-      languageOptions: { sourceType: 'module' },
     },
     {
       // Reports suggestions, no hasSuggestions property, violation should be on `meta` object, empty meta object.

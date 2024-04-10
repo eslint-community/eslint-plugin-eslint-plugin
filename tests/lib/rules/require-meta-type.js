@@ -117,8 +117,8 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `

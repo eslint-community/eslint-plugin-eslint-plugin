@@ -143,27 +143,27 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [{ messageId: 'preferObject', line: 2, column: 24 }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 2, column: 24 }],
     },
     {
       code: 'export default function create(context) { return {}; };',
       output: 'export default {create(context) { return {}; }};',
-      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
     },
     {
       code: 'export default (context) => { return {}; };',
       output: 'export default {create: (context) => { return {}; }};',
-      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
     },
     {
       code: 'const rule = (context) => { return {}; }; export default rule;',
       output:
         'const rule = {create: (context) => { return {}; }}; export default rule;',
-      errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
     },
   ],
 });

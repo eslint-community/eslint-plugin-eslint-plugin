@@ -253,8 +253,8 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `

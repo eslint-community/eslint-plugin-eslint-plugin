@@ -214,5 +214,27 @@ ruleTester.run('test-case-property-ordering', rule, {
         },
       ],
     },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {\ncode: "foo",\noutput: "",\nerrors: ["baz"],\nlanguageOptions: "",\n},
+          ]
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {\ncode: "foo",\noutput: "",\nlanguageOptions: "",\nerrors: ["baz"],\n},
+          ]
+        });
+      `,
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, languageOptions, errors].',
+        },
+      ],
+    },
   ],
 });

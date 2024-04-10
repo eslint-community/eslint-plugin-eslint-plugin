@@ -325,6 +325,7 @@ ruleTester.run('no-unused-message-ids', rule, {
           }
         };
       `,
+      languageOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'unusedMessage',
@@ -332,7 +333,6 @@ ruleTester.run('no-unused-message-ids', rule, {
           type: 'Property',
         },
       ],
-      languageOptions: { sourceType: 'module' },
     },
     {
       // `meta` / `create` in variables

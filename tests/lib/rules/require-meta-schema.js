@@ -256,6 +256,7 @@ schema: []
         };
       `,
       output: null,
+      languageOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'missing',
@@ -275,7 +276,6 @@ schema: []
           ],
         },
       ],
-      languageOptions: { sourceType: 'module' },
     },
     {
       code: `
