@@ -126,13 +126,13 @@ ruleTester.run('test-case-property-ordering', rule, {
           },
           create() {},
         };`,
+      languageOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'inconsistentOrder',
           data: { order: ['type', 'docs', 'fixable'].join(', ') },
         },
       ],
-      languageOptions: { sourceType: 'module' },
     },
     {
       code: `

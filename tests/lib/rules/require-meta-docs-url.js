@@ -733,8 +733,8 @@ url: "plugin-name/test.md"
           pattern: 'plugin-name/{{ name }}.md',
         },
       ],
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       // TypeScript
@@ -756,8 +756,8 @@ url: "plugin-name/test.md"
         }
       `,
       options: [{ pattern: 'plugin-name/{{ name }}.md' }],
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       filename: 'test.js',

@@ -159,8 +159,8 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
       code: `

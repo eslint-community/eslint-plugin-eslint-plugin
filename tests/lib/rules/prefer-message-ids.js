@@ -161,8 +161,8 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'foundMessage', type: 'Property' }],
       languageOptions: { sourceType: 'module' },
+      errors: [{ messageId: 'foundMessage', type: 'Property' }],
     },
     {
       // With message in variable.

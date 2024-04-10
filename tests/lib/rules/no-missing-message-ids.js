@@ -323,6 +323,7 @@ ruleTester.run('no-missing-message-ids', rule, {
           }
         };
       `,
+      languageOptions: { sourceType: 'module' },
       errors: [
         {
           messageId: 'missingMessage',
@@ -330,7 +331,6 @@ ruleTester.run('no-missing-message-ids', rule, {
           type: 'Literal',
         },
       ],
-      languageOptions: { sourceType: 'module' },
     },
     {
       // Helper function with messageId parameter, inside rule, with missing messageId due to parameter reassignment.
