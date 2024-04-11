@@ -75,7 +75,7 @@
     "eslint-scope": "^8.0.1",
     "espree": "^10.0.1",
     "globals": "^15.0.0",
-    "husky": "^8.0.1",
+    "husky": "^9.0.0",
     "lodash": "^4.17.21",
     "markdownlint-cli": "^0.39.0",
     "mocha": "^10.4.0",
