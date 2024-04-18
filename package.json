@@ -59,7 +59,7 @@
     "@types/estree": "^1.0.5",
     "@typescript-eslint/parser": "^7.7.0",
     "@typescript-eslint/utils": "^7.7.0",
-    "chai": "^4.4.1",
+    "chai": "^5.0.0",
     "dirty-chai": "^2.0.1",
     "eslint": "^9.0.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
