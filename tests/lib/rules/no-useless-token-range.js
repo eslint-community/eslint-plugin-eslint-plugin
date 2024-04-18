@@ -75,7 +75,7 @@ const INVALID_CASES = [
   Object.assign(invalidCase, {
     code: wrapRule(invalidCase.code),
     output: wrapRule(invalidCase.output),
-  })
+  }),
 );
 
 const ruleTester = new RuleTester({
