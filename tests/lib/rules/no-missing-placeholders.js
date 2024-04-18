@@ -249,7 +249,7 @@ ruleTester.run('no-missing-placeholders', rule, {
             endLine: 6,
             column: 24,
             endColumn: 37,
-          }
+          },
         ),
       ],
     },
@@ -329,7 +329,7 @@ ruleTester.run('no-missing-placeholders', rule, {
             endLine: 7,
             column: 21,
             endColumn: 39,
-          }
+          },
         ),
       ],
     },
@@ -429,7 +429,7 @@ ruleTester.run('no-missing-placeholders', rule, {
             endLine: 7,
             column: 26,
             endColumn: 39,
-          }
+          },
         ),
       ],
     },

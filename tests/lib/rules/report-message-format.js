@@ -327,7 +327,7 @@ ruleTester.run('report-message-format', rule, {
           },
         ],
       },
-      invalidCase
+      invalidCase,
     );
   }),
 });

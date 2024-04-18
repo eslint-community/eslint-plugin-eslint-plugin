@@ -224,7 +224,7 @@ ruleTester.run('no-unused-placeholders', rule, {
             endLine: 7,
             column: 23,
             endColumn: 26,
-          }
+          },
         ),
       ],
     },

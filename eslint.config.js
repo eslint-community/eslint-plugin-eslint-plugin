@@ -17,7 +17,7 @@ module.exports = [
     'not-an-aardvark/node',
     'plugin:eslint-comments/recommended',
     'plugin:prettier/recommended',
-    'plugin:unicorn/recommended'
+    'plugin:unicorn/recommended',
   ),
   pluginN.configs['flat/recommended'],
   {
