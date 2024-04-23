@@ -2,7 +2,13 @@
 
 <!-- end auto-generated rule header -->
 
-Defining a whether recommended value for each rule can help developers understand whether they're recommended.
+Utilizing `meta.docs.recommended` makes it clear from each rule implementation whether a rule is part of the `recommended` config. Some plugins also have scripting for conveniently generating their config based on this flag.
+
+However, this flag may not be appropriate for all plugins:
+
+* Extra scripting/tooling is needed to keep the flags in sync with the config
+* The flag may not scale to plugins that have multiple/many configs or don't have a recommended config
+* Or some may simply prefer to keep the source of truth solely in the config rather than duplicating config membership data in the rules
 
 ## Rule Details
 
@@ -36,4 +42,4 @@ module.exports = {
 
 ## Further Reading
 
-- [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)
+- [Rule Structure](https://eslint.org/docs/latest/extend/custom-rules#rule-structure)
