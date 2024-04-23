@@ -10,13 +10,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/require-meta-fixable');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('require-meta-fixable', rule, {
   valid: [
     // No `meta`.
@@ -50,7 +52,7 @@ ruleTester.run('require-meta-fixable', rule, {
           }
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     // Value in variable.
     `
@@ -138,7 +140,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report(node, message, data, fix); }
         };
       `,
-      parserOptions: {
+      languageOptions: {
         ecmaVersion: 9,
       },
     },
@@ -251,7 +253,7 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {

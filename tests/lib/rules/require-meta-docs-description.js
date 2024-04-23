@@ -5,13 +5,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/require-meta-docs-description');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('require-meta-docs-description', rule, {
   valid: [
     'foo()', // No rule.
@@ -30,7 +32,7 @@ ruleTester.run('require-meta-docs-description', rule, {
           create(context) {}
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     `
       module.exports = {
@@ -157,7 +159,7 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -294,8 +296,10 @@ ruleTester.run('require-meta-docs-description', rule, {
 });
 
 const ruleTesterTypeScript = new RuleTester({
-  parserOptions: { sourceType: 'module' },
-  parser: require.resolve('@typescript-eslint/parser'),
+  languageOptions: {
+    sourceType: 'module',
+    parser: require('@typescript-eslint/parser'),
+  },
 });
 ruleTesterTypeScript.run('require-meta-docs-description (TypeScript)', rule, {
   valid: [

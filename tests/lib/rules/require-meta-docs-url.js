@@ -10,7 +10,7 @@
 // Requirements
 // -----------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 const rule = require('../../../lib/rules/require-meta-docs-url');
 
 // -----------------------------------------------------------------------------
@@ -18,8 +18,8 @@ const rule = require('../../../lib/rules/require-meta-docs-url');
 // -----------------------------------------------------------------------------
 
 const tester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 2020,
+  languageOptions: {
+    sourceType: 'commonjs',
   },
 });
 
@@ -96,7 +96,7 @@ tester.run('require-meta-docs-url', rule, {
           pattern: 'path/to/{{name}}.md',
         },
       ],
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     {
       // TypeScript
@@ -108,7 +108,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       options: [{ pattern: 'path/to/{{name}}.md' }],
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     {
       // `url` in variable.
@@ -733,7 +733,7 @@ url: "plugin-name/test.md"
           pattern: 'plugin-name/{{ name }}.md',
         },
       ],
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {
@@ -756,7 +756,7 @@ url: "plugin-name/test.md"
         }
       `,
       options: [{ pattern: 'plugin-name/{{ name }}.md' }],
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
     },
     {

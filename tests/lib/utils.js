@@ -50,13 +50,19 @@ describe('utils', () => {
         'module.exports = createESLintRule({ create() {}, meta: {} });',
         'module.exports = util.createRule({ create() {}, meta: {} });',
         'module.exports = ESLintUtils.RuleCreator(docsUrl)({ create() {}, meta: {} });',
+
+        // Named export of a rule, only supported in ESM within this plugin
+        'module.exports.rule = { create: function() {} };',
+        'exports.rule = { create: function() {} };',
+        'const rule = { create: function() {} }; module.exports.rule = rule;',
+        'const rule = { create: function() {} }; exports.rule = rule;',
       ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
           const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
-            'Expected no rule to be found'
+            'Expected no rule to be found',
           );
         });
       });
@@ -65,14 +71,10 @@ describe('utils', () => {
     describe('the file does not have a valid rule (ESM)', () => {
       [
         '',
-        'export const foo = { create() {} }',
         'export default { foo: {} }',
         'const foo = {}; export default foo',
         'const foo = 123; export default foo',
         'const foo = function(){}; export default foo',
-
-        // Exports function but not default export.
-        'export function foo (context) { return {}; }',
 
         // Exports function but no object return inside function.
         'export default function (context) { }',
@@ -83,6 +85,15 @@ describe('utils', () => {
         // Function-style rule but missing context parameter.
         'export default function () { return {}; }',
         'export default function (foo, bar) { return {}; }',
+
+        // named export of functions
+        // refs: https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/450
+        'export function foo(options) { return {}; }',
+        'export async function foo(options) { return {}; }',
+        'export const foo = function (options) { return {}; }',
+        'export const foo = (options) => { return {}; }',
+        'export function foo(options) { return; }',
+        'export function foo({opt1, opt2}) { return {}; }',
 
         // Incorrect TypeScript helper structure:
         'export default foo()({ create() {}, meta: {} });',
@@ -101,7 +112,7 @@ describe('utils', () => {
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
-            'Expected no rule to be found'
+            'Expected no rule to be found',
           );
         });
       });
@@ -132,7 +143,7 @@ describe('utils', () => {
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
-            'Expected no rule to be found'
+            'Expected no rule to be found',
           );
         });
       });
@@ -153,7 +164,7 @@ describe('utils', () => {
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
-            'Expected no rule to be found'
+            'Expected no rule to be found',
           );
         });
       });
@@ -209,8 +220,41 @@ describe('utils', () => {
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
         },
+        // No helper, exported variable.
+        'export const rule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
         // no helper, variable with type.
         'const rule: Rule.RuleModule = { create() {}, meta: {} }; export default rule;':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported variable with type.
+        'export const rule: Rule.RuleModule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        // no helper, exported reference with type.
+        'const rule: Rule.RuleModule = { create() {}, meta: {} }; export {rule};':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported aliased reference with type.
+        'const foo: Rule.RuleModule = { create() {}, meta: {} }; export {foo as rule};':
+          {
+            create: { type: 'FunctionExpression' },
+            meta: { type: 'ObjectExpression' },
+            isNewStyle: true,
+          },
+        // no helper, exported variable with type in multiple declarations
+        'export const foo = 5, rule: Rule.RuleModule = { create() {}, meta: {} };':
           {
             create: { type: 'FunctionExpression' },
             meta: { type: 'ObjectExpression' },
@@ -298,8 +342,8 @@ describe('utils', () => {
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
-              CASES[ruleSource]
-            )}`
+              CASES[ruleSource],
+            )}`,
           );
         });
       });
@@ -431,8 +475,8 @@ describe('utils', () => {
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
-              CASES[ruleSource]
-            )}`
+              CASES[ruleSource],
+            )}`,
           );
         });
       });
@@ -474,6 +518,16 @@ describe('utils', () => {
             meta: { type: 'ObjectExpression' },
             isNewStyle: true,
           },
+        'export const rule = { create() {}, meta: {} };': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
+        'const rule = { create() {}, meta: {} }; export {rule};': {
+          create: { type: 'FunctionExpression' },
+          meta: { type: 'ObjectExpression' },
+          isNewStyle: true,
+        },
 
         // ESM (function style)
         'export default function (context) { return {}; }': {
@@ -510,8 +564,8 @@ describe('utils', () => {
           assert(
             lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
-              CASES[ruleSource]
-            )}`
+              CASES[ruleSource],
+            )}`,
           );
         });
       });
@@ -534,7 +588,7 @@ describe('utils', () => {
           const meta = {};
           module.exports = { create, meta };
         `,
-          { ecmaVersion: 6, range: true }
+          { ecmaVersion: 6, range: true },
         );
         const expected = {
           create: { type: 'ArrowFunctionExpression' },
@@ -546,7 +600,7 @@ describe('utils', () => {
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
             lodash.isMatch(ruleInfo, expected),
-            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(expected)}`
+            `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(expected)}`,
           );
         });
       }
@@ -580,15 +634,15 @@ describe('utils', () => {
           it('does not throw with node type PropertyDefinition which is not handled by estraverse (estraverse is used for detecting the object return statement in a function-style rule).', () => {
             const ast = typescriptEslintParser.parse(
               testCase.source,
-              testCase.options
+              testCase.options,
             );
             const scopeManager = eslintScope.analyze(ast);
             const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
             assert(
               lodash.isMatch(ruleInfo, testCase.expected),
               `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
-                testCase.expected
-              )}`
+                testCase.expected,
+              )}`,
             );
           });
         });
@@ -599,7 +653,7 @@ describe('utils', () => {
   describe('getContextIdentifiers', () => {
     const CASES = {
       'module.exports = context => { context; context; context; return {}; }'(
-        ast
+        ast,
       ) {
         return [
           ast.body[0].expression.right.body.body[0].expression,
@@ -613,7 +667,7 @@ describe('utils', () => {
         ];
       },
       'module.exports = { meta: {}, create(notContext) { notContext; notContext; notContext; } }'(
-        ast
+        ast,
       ) {
         return [
           ast.body[0].expression.right.properties[1].value.body.body[0]
@@ -625,7 +679,7 @@ describe('utils', () => {
         ];
       },
       'const create = function(context) { context }; module.exports = { meta: {}, create };'(
-        ast
+        ast,
       ) {
         return [ast.body[0].declarations[0].init.body.body[0].expression];
       },
@@ -644,12 +698,12 @@ describe('utils', () => {
 
         assert(
           identifiers instanceof Set,
-          'getContextIdentifiers should return a Set'
+          'getContextIdentifiers should return a Set',
         );
         assert.strictEqual(
           identifiers.size,
           CASES[ruleSource](ast).length,
-          'has the correct number of results'
+          'has the correct number of results',
         );
         [...identifiers].forEach((identifier, index) => {
           assert.strictEqual(identifier, CASES[ruleSource](ast)[index]);
@@ -697,7 +751,7 @@ describe('utils', () => {
           // Object-style test case used when we need to specify additional information for this test case.
           assert.strictEqual(
             utils.getKeyName(caseInfo.getNode(ast), scopeManager.globalScope),
-            caseInfo.result
+            caseInfo.result,
           );
 
           if (
@@ -706,16 +760,16 @@ describe('utils', () => {
             // Ensure the behavior is correct when `scope` is omitted from the parameters.
             assert.strictEqual(
               utils.getKeyName(caseInfo.getNode(ast)),
-              caseInfo.resultWithoutScope
+              caseInfo.resultWithoutScope,
             );
           }
         } else {
           assert.strictEqual(
             utils.getKeyName(
               ast.body[0].expression.properties[0],
-              scopeManager.globalScope
+              scopeManager.globalScope,
             ),
-            caseInfo
+            caseInfo,
           );
         }
       });
@@ -730,7 +784,7 @@ describe('utils', () => {
 
         assert.strictEqual(
           utils.getKeyName(ast.body[0].expression.properties[0]),
-          CASES_ES9[objectSource]
+          CASES_ES9[objectSource],
         );
       });
     });
@@ -770,7 +824,7 @@ describe('utils', () => {
           assert.deepEqual(
             utils.getTestInfo(context, ast),
             [],
-            'Expected no tests to be found'
+            'Expected no tests to be found',
           );
         });
       });
@@ -844,19 +898,19 @@ describe('utils', () => {
           assert.strictEqual(
             testInfo.length,
             1,
-            'Expected to find one test run'
+            'Expected to find one test run',
           );
 
           assert.strictEqual(
             testInfo[0].valid.length,
             CASES[testSource].valid,
-            `Expected ${CASES[testSource].valid} valid cases but got ${testInfo[0].valid.length}`
+            `Expected ${CASES[testSource].valid} valid cases but got ${testInfo[0].valid.length}`,
           );
 
           assert.strictEqual(
             testInfo[0].invalid.length,
             CASES[testSource].invalid,
-            `Expected ${CASES[testSource].invalid} invalid cases but got ${testInfo[0].invalid.length}`
+            `Expected ${CASES[testSource].invalid} invalid cases but got ${testInfo[0].invalid.length}`,
           );
         });
       });
@@ -1044,7 +1098,7 @@ describe('utils', () => {
           assert.strictEqual(
             testInfo.length,
             CASES[testSource].length,
-            `Expected to find ${CASES[testSource].length} test runs but got ${testInfo.length}`
+            `Expected to find ${CASES[testSource].length} test runs but got ${testInfo.length}`,
           );
 
           CASES[testSource].forEach((testRun, index) => {
@@ -1053,14 +1107,14 @@ describe('utils', () => {
               testInfo[index].valid.length,
               `On run ${index + 1}, expected ${
                 testRun.valid
-              } valid cases but got ${testInfo[index].valid.length}`
+              } valid cases but got ${testInfo[index].valid.length}`,
             );
             assert.strictEqual(
               testRun.invalid,
               testInfo[index].invalid.length,
               `On run ${index + 1}, expected ${
                 testRun.invalid
-              } valid cases but got ${testInfo[index].invalid.length}`
+              } valid cases but got ${testInfo[index].invalid.length}`,
             );
           });
         });
@@ -1157,7 +1211,7 @@ describe('utils', () => {
 
         assert.strictEqual(
           utils.getSourceCodeIdentifiers(scopeManager, ast).size,
-          CASES[testSource]
+          CASES[testSource],
         );
       });
     });
@@ -1310,8 +1364,8 @@ describe('utils', () => {
         assert(
           lodash.isMatch(data, testCase.shouldMatch),
           `Expected \n${inspect(data)}\nto match\n${inspect(
-            testCase.shouldMatch
-          )}`
+            testCase.shouldMatch,
+          )}`,
         );
       }
     });
@@ -1428,7 +1482,7 @@ describe('utils', () => {
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
         ast.body[0].declarations[0].init,
-        scopeManager
+        scopeManager,
       );
       assert.deepEqual(result, ast.body[0].declarations[0].init.properties);
     });
@@ -1443,17 +1497,17 @@ describe('utils', () => {
         {
           ecmaVersion: 9,
           range: true,
-        }
+        },
       );
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
         ast.body[2].declarations[0].init,
-        scopeManager
+        scopeManager,
       );
       assert.deepEqual(result, [
         ...ast.body[0].declarations[0].init.properties, // First spread properties
         ...ast.body[2].declarations[0].init.properties.filter(
-          (property) => property.type !== 'SpreadElement'
+          (property) => property.type !== 'SpreadElement',
         ), // Non-spread properties
         ...ast.body[1].declarations[0].init.properties, // Second spread properties
       ]);
@@ -1467,7 +1521,7 @@ describe('utils', () => {
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
         ast.body[1].declarations[0].init,
-        scopeManager
+        scopeManager,
       );
       assert.deepEqual(result, []);
     });
@@ -1480,7 +1534,7 @@ describe('utils', () => {
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
         ast.body[0].declarations[0].init,
-        scopeManager
+        scopeManager,
       );
       assert.deepEqual(result, []);
     });
@@ -1544,7 +1598,7 @@ describe('utils', () => {
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert.strictEqual(
             utils.getMessagesNode(ruleInfo, scopeManager),
-            testCase.getResult(ast)
+            testCase.getResult(ast),
           );
         });
       });
@@ -1592,7 +1646,7 @@ describe('utils', () => {
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert.deepEqual(
             utils.getMessageIdNodes(ruleInfo, scopeManager),
-            testCase.getResult(ast)
+            testCase.getResult(ast),
           );
         });
       });
@@ -1608,7 +1662,7 @@ describe('utils', () => {
             'foo',
             ruleInfo,
             scopeManager,
-            scopeManager.globalScope
+            scopeManager.globalScope,
           );
         },
         getResult(ast) {
@@ -1623,7 +1677,7 @@ describe('utils', () => {
             'bar',
             ruleInfo,
             scopeManager,
-            scopeManager.globalScope
+            scopeManager.globalScope,
           );
         },
         getResult() {}, // returns undefined
@@ -1639,7 +1693,7 @@ describe('utils', () => {
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert.strictEqual(
             testCase.run(ruleInfo, scopeManager),
-            testCase.getResult(ast)
+            testCase.getResult(ast),
           );
         });
       });
@@ -1666,14 +1720,14 @@ describe('utils', () => {
       assert.deepEqual(
         utils.findPossibleVariableValues(
           ast.body[0].declarations[0].id,
-          scopeManager
+          scopeManager,
         ),
         [
           ast.body[0].declarations[0].init,
           ast.body[1].expression.right,
           ast.body[2].expression.right,
           ast.body[3].consequent.body[0].expression.right,
-        ]
+        ],
       );
     });
   });
@@ -1691,8 +1745,8 @@ describe('utils', () => {
       assert.ok(
         utils.isVariableFromParameter(
           ast.body[0].body.body[1].expression.arguments[0],
-          scopeManager
-        )
+          scopeManager,
+        ),
       );
     });
 
@@ -1707,8 +1761,8 @@ describe('utils', () => {
       assert.notOk(
         utils.isVariableFromParameter(
           ast.body[1].expression.arguments[0],
-          scopeManager
-        )
+          scopeManager,
+        ),
       );
     });
   });

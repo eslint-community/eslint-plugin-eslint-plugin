@@ -21,6 +21,54 @@
 * update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
 * update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
 
+## [6.0.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.5.1...v6.0.0) (2024-04-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* change test-case-property-ordering to add supports languageOptions ([#406](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/406))
+* add `defaultOptions` to meta-property-ordering ([#461](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/461))
+* remove consistent-output from recommended ([#462](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/462))
+* Add missing `deprecated`/`replacedBy` properties to `meta-property-ordering` rule ([#320](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/320))
+* requires node >= 18 & eslint >= 8.23.0 ([#456](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/456))
+
+### Features
+
+* add `defaultOptions` to meta-property-ordering ([#461](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/461)) ([ff28db3](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/ff28db3dc1a6f06f5eca2225570870904acb5851)), closes [#430](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/430)
+* add `name` to flat configs ([#459](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/459)) ([dcb794f](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/dcb794fcad7105e347eacb9c7a60e4c668cab205))
+* Add missing `deprecated`/`replacedBy` properties to `meta-property-ordering` rule ([#320](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/320)) ([1692fe2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/1692fe23cbe707f7d9694ca2b2f10068194b36b5))
+* change test-case-property-ordering to add supports languageOptions ([#406](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/406)) ([0dd0857](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/0dd08577147863f923f5587d72e9a67a5c605f9c))
+* remove consistent-output from recommended ([#462](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/462)) ([c27e18b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/c27e18b16c83df011b8a8f997aa7fd0622889694)), closes [#284](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/284)
+* requires node &gt;= 18 & eslint >= 8.23.0 ([#456](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/456)) ([4adeb6c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/4adeb6ccfee488819f7300746a3e2551cf44a961))
+
+## [5.5.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.5.0...v5.5.1) (2024-04-08)
+
+
+### Bug Fixes
+
+* improve eslint rule detecting ([#457](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/457)) ([5dccb61](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/5dccb61cc8a732947689e523cfd9dd1adf611ca3))
+
+## [5.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.4.1...v5.5.0) (2024-04-01)
+
+
+### Features
+
+* re-export flat configs "flat/*" ([#453](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/453)) ([e3b27e2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/e3b27e26d7d1c864b04a162b38d9384a16bff23a))
+
+## [5.4.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.4.0...v5.4.1) (2024-03-19)
+
+
+### Bug Fixes
+
+* false positives in 5.4.0 for functions that aren't ESLint rules ([#451](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/451)) ([f3ec88e](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f3ec88eedc450b4bab331557e93f7b48a36b5f11))
+
+## [5.4.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.3.0...v5.4.0) (2024-02-26)
+
+
+### Features
+
+* support named exports in ESM/TS ([#449](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/449)) ([aa15471](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/aa15471d4a8dc51a574f646f000d665854d15942))
+
 ### [5.2.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.2.0...v5.2.1) (2023-12-11)
 
 

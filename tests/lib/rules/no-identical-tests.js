@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-identical-tests');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 const ERROR_OBJECT_TEST = { messageId: 'identical', type: 'ObjectExpression' };
 const ERROR_STRING_TEST = { messageId: 'identical', type: 'Literal' };
@@ -19,7 +19,9 @@ const ERROR_STRING_TEST = { messageId: 'identical', type: 'Literal' };
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('no-identical-tests', rule, {
   valid: [
     `
@@ -232,7 +234,7 @@ ruleTester.run('no-identical-tests', rule, {
           });
         }
       `,
-      parserOptions: { ecmaVersion: 2015 },
+      languageOptions: { ecmaVersion: 2015 },
       errors: [{ messageId: 'identical', type: 'TemplateLiteral' }],
     },
   ],

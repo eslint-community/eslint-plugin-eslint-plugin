@@ -41,10 +41,13 @@ module.exports = {
   /** Optional boolean flag used to enable caching of cloned repositories. For CIs it's ideal to disable caching. Defaults to true. */
   cache: false,
 
+  pathIgnorePattern: 'fixtures',
+
   /** ESLint configuration */
   eslintrc: {
+    root: true,
     extends: ['plugin:eslint-plugin/all'],
-
+    // ignorePatterns: ['fixtures/**/*'],  // not working somehow - using `pathIgnorePattern` as of now.
     overrides: [
       {
         files: ['*.ts', '*.mts', '*.cts'],

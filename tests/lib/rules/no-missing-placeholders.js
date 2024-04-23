@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-missing-placeholders');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 /**
  * Create an error for the given key
@@ -29,7 +29,9 @@ function error(missingKey, type, extra) {
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('no-missing-placeholders', rule, {
   valid: [
     `
@@ -247,7 +249,7 @@ ruleTester.run('no-missing-placeholders', rule, {
             endLine: 6,
             column: 24,
             endColumn: 37,
-          }
+          },
         ),
       ],
     },
@@ -327,7 +329,7 @@ ruleTester.run('no-missing-placeholders', rule, {
             endLine: 7,
             column: 21,
             endColumn: 39,
-          }
+          },
         ),
       ],
     },
@@ -427,7 +429,7 @@ ruleTester.run('no-missing-placeholders', rule, {
             endLine: 7,
             column: 26,
             endColumn: 39,
-          }
+          },
         ),
       ],
     },

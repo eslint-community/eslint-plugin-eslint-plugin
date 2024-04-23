@@ -1,9 +1,12 @@
 'use strict';
 
 const rule = require('../../../lib/rules/require-meta-docs-recommended');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 9 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
+
 ruleTester.run('require-meta-docs-recommended', rule, {
   valid: [
     'foo()',
@@ -21,7 +24,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
           create(context) {}
         };
       `,
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     `
       const RECOMMENDED = true;
@@ -80,8 +83,10 @@ ruleTester.run('require-meta-docs-recommended', rule, {
 });
 
 const ruleTesterTypeScript = new RuleTester({
-  parserOptions: { sourceType: 'module' },
-  parser: require.resolve('@typescript-eslint/parser'),
+  languageOptions: {
+    parser: require('@typescript-eslint/parser'),
+    parserOptions: { sourceType: 'module' },
+  },
 });
 
 ruleTesterTypeScript.run('require-meta-docs-recommended (TypeScript)', rule, {

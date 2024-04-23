@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/consistent-output');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 const ERROR = { messageId: 'missingOutput', type: 'ObjectExpression' };
 
@@ -18,7 +18,9 @@ const ERROR = { messageId: 'missingOutput', type: 'ObjectExpression' };
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('consistent-output', rule, {
   valid: [
     `

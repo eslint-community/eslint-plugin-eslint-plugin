@@ -10,13 +10,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/test-case-property-ordering');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('test-case-property-ordering', rule, {
   valid: [
     `
@@ -209,6 +211,28 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].',
+        },
+      ],
+    },
+    {
+      code: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {\ncode: "foo",\noutput: "",\nerrors: ["baz"],\nlanguageOptions: "",\n},
+          ]
+        });
+      `,
+      output: `
+        new RuleTester().run('foo', bar, {
+          valid: [
+            {\ncode: "foo",\noutput: "",\nlanguageOptions: "",\nerrors: ["baz"],\n},
+          ]
+        });
+      `,
+      errors: [
+        {
+          message:
+            'The properties of a test case should be placed in a consistent order: [code, output, languageOptions, errors].',
         },
       ],
     },

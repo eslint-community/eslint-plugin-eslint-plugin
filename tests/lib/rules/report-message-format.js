@@ -10,13 +10,15 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/report-message-format');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('report-message-format', rule, {
   valid: [
     // with no configuration, everything is allowed
@@ -41,7 +43,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     {
       // With message as variable.
@@ -218,7 +220,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
-      parserOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' },
     },
     {
       // With message as variable.
@@ -325,7 +327,7 @@ ruleTester.run('report-message-format', rule, {
           },
         ],
       },
-      invalidCase
+      invalidCase,
     );
   }),
 });

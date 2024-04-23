@@ -40,7 +40,7 @@ module.exports = {
     context.report(
       node,
       'This will get reported, regardless of the value of the {{placeholder}}',
-      { placeholder: foo }
+      { placeholder: foo },
     );
   },
 };

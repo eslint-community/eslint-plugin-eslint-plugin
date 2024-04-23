@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-useless-token-range');
-const RuleTester = require('eslint').RuleTester;
+const RuleTester = require('../eslint-rule-tester').RuleTester;
 
 /**
  * Wraps a code sample as an eslint rule
@@ -75,10 +75,12 @@ const INVALID_CASES = [
   Object.assign(invalidCase, {
     code: wrapRule(invalidCase.code),
     output: wrapRule(invalidCase.output),
-  })
+  }),
 );
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+  languageOptions: { sourceType: 'commonjs' },
+});
 ruleTester.run('no-useless-token-range', rule, {
   valid: [
     ...[
