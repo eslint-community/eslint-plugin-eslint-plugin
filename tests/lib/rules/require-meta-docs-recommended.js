@@ -83,6 +83,7 @@ const ruleTesterTypeScript = new RuleTester({
   parserOptions: { sourceType: 'module' },
   parser: require.resolve('@typescript-eslint/parser'),
 });
+
 ruleTesterTypeScript.run('require-meta-docs-recommended (TypeScript)', rule, {
   valid: [
     `
