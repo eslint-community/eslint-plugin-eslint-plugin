@@ -49,6 +49,12 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         create(context) {}
       };
     `,
+    `
+      module.exports = {
+        meta: { docs: { recommended: RECOMMENDED } },
+        create(context) {}
+      };
+    `,
     {
       code: `
         module.exports = {
