@@ -20,7 +20,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
     {
       code: `
         export default {
-          meta: { docs: { recommended: 'disallow unused variables' } },
+          meta: { docs: { recommended: true } },
           create(context) {}
         };
       `,
@@ -35,20 +35,49 @@ ruleTester.run('require-meta-docs-recommended', rule, {
     `,
 
     `
-      const meta = { docs: { recommended: 'enforce foo' } };
+      const meta = { docs: { recommended: true } };
       module.exports = {
         meta,
         create(context) {}
       };
     `,
     `
-      const extraDocs = { recommended: 123 };
+      const extraDocs = { recommended: true };
       const extraMeta = { docs: { ...extraDocs } };
       module.exports = {
         meta: { ...extraMeta },
         create(context) {}
       };
     `,
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { recommended: undefined } },
+          create(context) {}
+        };
+      `,
+      options: [{ allowNonBoolean: true }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { recommended: 'strict' } },
+          create(context) {}
+        };
+      `,
+      options: [{ allowNonBoolean: true }],
+    },
+    {
+      code: `
+        const extraDocs = { recommended: 'strict' };
+        const extraMeta = { docs: { ...extraDocs } };
+        module.exports = {
+          meta: { ...extraMeta },
+          create(context) {}
+        };
+      `,
+      options: [{ allowNonBoolean: true }],
+    },
   ],
 
   invalid: [
@@ -69,6 +98,36 @@ ruleTester.run('require-meta-docs-recommended', rule, {
     },
     {
       code: `
+        module.exports = {
+          meta: { docs: {} },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'missing', type: 'Property' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { recommended: undefined } },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'incorrect', type: 'Identifier' }],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: { recommended: 'strict' } },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [{ messageId: 'incorrect', type: 'Literal' }],
+    },
+    {
+      code: `
         const extraDocs = { };
         const extraMeta = { docs: { ...extraDocs } };
         module.exports = {
@@ -78,6 +137,12 @@ ruleTester.run('require-meta-docs-recommended', rule, {
     `,
       output: null,
       errors: [{ messageId: 'missing', type: 'Property' }],
+    },
+    {
+      code: 'module.exports = { create(context) {} };',
+      output: null,
+      options: [{ allowNonBoolean: true }],
+      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
     },
   ],
 });
