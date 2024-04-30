@@ -15,15 +15,15 @@ const compat = new FlatCompat({
 module.exports = [
   ...compat.extends(
     'not-an-aardvark/node',
-    'plugin:eslint-comments/recommended',
+    'plugin:@eslint-community/eslint-comments/recommended',
     'plugin:prettier/recommended',
     'plugin:unicorn/recommended',
   ),
   pluginN.configs['flat/recommended'],
   {
     rules: {
-      'eslint-comments/no-unused-disable': 'error',
-      'eslint-comments/require-description': 'error',
+      '@eslint-community/eslint-comments/no-unused-disable': 'error',
+      '@eslint-community/eslint-comments/require-description': 'error',
 
       'unicorn/consistent-function-scoping': 'off',
       'unicorn/no-array-callback-reference': 'off',
@@ -70,7 +70,7 @@ module.exports = [
       'no-unused-vars': 'off',
       strict: 'off',
 
-      'eslint-comments/require-description': 'off',
+      '@eslint-community/eslint-comments/require-description': 'off',
 
       'unicorn/filename-case': 'off',
     },
