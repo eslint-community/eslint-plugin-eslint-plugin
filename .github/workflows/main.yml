@@ -12,6 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
+          - 22
           - 21
           - 20
           - 18
@@ -22,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install --force # ts-eslint does not support eslint v9 yet.
+      - run: npm install
       - run: npm test
 
   lint:
@@ -32,7 +33,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - run: npm install --force # ts-eslint does not support eslint v9 yet.
+      - run: npm install
       - run: npm run lint
 
   eslint8:
@@ -42,7 +43,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: "lts/*"
-    - run: npm install --force # ts-eslint does not support eslint v9 yet.
+    - run: npm install
     - run: npm install --save-dev eslint@8
     - run: npm test
 
@@ -54,6 +55,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - run: npm install --force # ts-eslint does not support eslint v9 yet.
+      - run: npm install
       - run: npm install --save-dev eslint@8 # eslint-remote-tester does not support eslint v9.
       - run: npm run test:remote
