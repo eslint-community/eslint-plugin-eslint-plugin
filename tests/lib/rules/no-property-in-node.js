@@ -93,6 +93,21 @@ ruleTester.run('no-property-in-node', rule, {
         },
       };
     `,
+    {
+      code: `
+        interface Node {
+          type: string;
+        }
+        declare const node: Node;
+        'a' in node;
+        export {};
+      `,
+      options: [
+        {
+          additionalNodeTypeFiles: [/not-found/],
+        },
+      ],
+    },
   ],
   invalid: [
     {
@@ -159,6 +174,30 @@ ruleTester.run('no-property-in-node', rule, {
           line: 5,
           endColumn: 24,
           endLine: 5,
+          messageId: 'in',
+        },
+      ],
+    },
+    {
+      code: `
+        interface Node {
+          type: string;
+        }
+        declare const node: Node;
+        'a' in node;
+        export {};
+      `,
+      options: [
+        {
+          additionalNodeTypeFiles: [/lib[/\\]fixtures[/\\]estree\.ts/],
+        },
+      ],
+      errors: [
+        {
+          column: 9,
+          line: 6,
+          endColumn: 20,
+          endLine: 6,
           messageId: 'in',
         },
       ],
