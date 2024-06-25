@@ -21,6 +21,14 @@
 * update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
 * update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
 
+## [6.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.1.0...v6.2.0) (2024-06-25)
+
+
+### Features
+
+* eslint-utils =&gt; @eslint-community/eslint-utils ([#474](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/474)) ([6db5604](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6db5604b41341dc0f41cc99f81edc0913aa661ac))
+* no-property-in-node add additionalNodeTypeFiles option ([#484](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/484)) ([6cdef14](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6cdef146cea7270364b254f23e04786a89c65dfe))
+
 ## [6.1.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.0.0...v6.1.0) (2024-04-25)
 
 
