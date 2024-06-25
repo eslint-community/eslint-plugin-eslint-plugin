@@ -54,3 +54,33 @@ module.exports = {
   },
 };
 ```
+
+## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name                      | Description                                                                          | Type  |
+| :------------------------ | :----------------------------------------------------------------------------------- | :---- |
+| `additionalNodeTypeFiles` | Any additional regular expressions to consider source files defining AST Node types. | Array |
+
+<!-- end auto-generated rule options list -->
+
+### `additionalNodeTypeFiles`
+
+Here is an example of how the additionalNodeTypeFiles option can be configured in an ESLint configuration file:
+
+```json
+{
+  "rules": {
+    "eslint-plugin/no-property-in-node": [
+      "error",
+      {
+        "additionalNodeTypeFiles": [
+          "/packages[/\\]types[/\\]dist[/\\]generated[/\\]ast-spec.d.ts/",
+          "/custom/path/to/types/definition.d.ts/"
+        ]
+      }
+    ]
+  }
+}
+```
