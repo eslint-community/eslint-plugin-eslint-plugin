@@ -33,6 +33,20 @@ module.exports = {
 `,
     `
 module.exports = {
+meta: {
+schema: [
+  {
+    ['description']: 'Elements to allow.',
+    elements: { type: 'string' },
+    type: 'array',
+  },
+],
+},
+create() {}
+};
+`,
+    `
+module.exports = {
   meta: {
     schema: [
       {
@@ -100,6 +114,31 @@ module.exports = {
           column: 7,
           endColumn: 8,
           endLine: 8,
+          line: 5,
+          messageId: 'missingDescription',
+        },
+      ],
+    },
+    {
+      code: `
+module.exports = {
+  meta: {
+    schema: [
+      {
+        ['de' + 'scription']: 'Computed.',
+        elements: { type: 'string' },
+        type: 'array',
+      },
+    ],
+  },
+  create() {}
+};
+`,
+      errors: [
+        {
+          column: 7,
+          endColumn: 8,
+          endLine: 9,
           line: 5,
           messageId: 'missingDescription',
         },
