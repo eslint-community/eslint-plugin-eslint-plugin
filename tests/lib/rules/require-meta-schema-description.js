@@ -17,6 +17,59 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('require-meta-schema-description', rule, {
   valid: [
+    ``,
+    `
+module.exports = {};
+`,
+    `
+module.exports = {
+  create() {}
+};
+`,
+    `
+module.exports = {
+  meta: {
+    schema: false,
+  },
+  create() {}
+};
+`,
+    `
+module.exports = {
+  meta: {
+    schema: [false],
+  },
+  create() {}
+};
+`,
+    `
+module.exports = {
+  meta: {
+    schema: [
+      {
+        description: 'Elements to allow.',
+        elements: { type: 'string' },
+        type: 'array',
+      },
+    ],
+  },
+};
+`,
+    `
+const descriptionKey = 'description';
+
+module.exports = {
+  meta: {
+    schema: [
+      {
+        [descriptionKey]: 'Elements to allow.',
+        elements: { type: 'string' },
+        type: 'array',
+      },
+    ],
+  },
+};
+`,
     `
 module.exports = {
   meta: {
@@ -125,7 +178,84 @@ module.exports = {
   meta: {
     schema: [
       {
-        ['de' + 'scription']: 'Computed.',
+        [unknownKey]: 'Computed.',
+        elements: { type: 'string' },
+        type: 'array',
+      },
+    ],
+  },
+  create() {}
+};
+`,
+      errors: [
+        {
+          column: 7,
+          endColumn: 8,
+          endLine: 9,
+          line: 5,
+          messageId: 'missingDescription',
+        },
+      ],
+    },
+    {
+      code: `
+module.exports = {
+  meta: {
+    schema: [
+      {
+        [unknownKey()]: 'Computed.',
+        elements: { type: 'string' },
+        type: 'array',
+      },
+    ],
+  },
+  create() {}
+};
+`,
+      errors: [
+        {
+          column: 7,
+          endColumn: 8,
+          endLine: 9,
+          line: 5,
+          messageId: 'missingDescription',
+        },
+      ],
+    },
+    {
+      code: `
+const otherKey = 'other';
+
+module.exports = {
+  meta: {
+    schema: [
+      {
+        [otherKey]: 'Computed.',
+        elements: { type: 'string' },
+        type: 'array',
+      },
+    ],
+  },
+  create() {}
+};
+`,
+      errors: [
+        {
+          column: 7,
+          endColumn: 8,
+          endLine: 11,
+          line: 7,
+          messageId: 'missingDescription',
+        },
+      ],
+    },
+    {
+      code: `
+module.exports = {
+  meta: {
+    schema: [
+      {
+        ['de' + 'scription']: 'Dynamic.',
         elements: { type: 'string' },
         type: 'array',
       },
