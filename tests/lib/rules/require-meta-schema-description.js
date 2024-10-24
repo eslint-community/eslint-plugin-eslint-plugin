@@ -145,6 +145,41 @@ module.exports = {
   create() {}
 };
 `,
+    `
+module.exports = {
+  meta: {
+    schema: [
+      {
+        type: 'object',
+        properties: null,
+        additionalProperties: false
+      }
+    ],
+  },
+  create() {}
+}
+  `,
+    `
+const DEFAULT_OPTIONS = Object.freeze({});
+
+module.exports = {
+  meta: {
+    schema: [
+      {
+        type: 'object',
+        properties: Object.fromEntries(
+          Object.keys(DEFAULT_OPTIONS).map((code) => [
+            code,
+            { type: 'boolean' }
+          ])
+        ),
+        additionalProperties: false
+      }
+    ],
+  },
+  create() {}
+}
+  `,
   ],
 
   invalid: [
