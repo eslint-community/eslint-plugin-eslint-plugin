@@ -21,6 +21,13 @@
 * update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
 * update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
 
+## [6.3.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.2.0...v6.3.0) (2024-10-24)
+
+
+### Features
+
+* add `require-meta-schema-description` rule ([#490](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/490)) ([875200b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/875200b5c87348d10284c7686648e495f392a476))
+
 ## [6.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.1.0...v6.2.0) (2024-06-25)
 
 
