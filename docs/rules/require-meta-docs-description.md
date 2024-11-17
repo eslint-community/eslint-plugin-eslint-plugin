@@ -53,7 +53,7 @@ module.exports = {
 
 | Name      | Description                                                                         | Type   | Default                         |
 | :-------- | :---------------------------------------------------------------------------------- | :----- | :------------------------------ |
-| `pattern` | A regular expression that the description must match. Use `'.+'` to allow anything. | String | `^(enforce\|require\|disallow)` |
+| `pattern` | A regular expression that the description must match. Use `'.+'` to allow anything. | String | `^(Enforce\|Require\|Disallow)` |
 
 <!-- end auto-generated rule options list -->
 
