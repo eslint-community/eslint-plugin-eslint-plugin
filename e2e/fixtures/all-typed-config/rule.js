@@ -4,7 +4,7 @@ const rule = {
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'enforce a test',
+      description: 'Enforce a test',
       recommended: false,
       url: 'https://test.org',
     },

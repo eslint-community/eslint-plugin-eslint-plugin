@@ -16,7 +16,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'disallow rules `meta.schema` properties to include defaults',
+        'Disallow rules `meta.schema` properties to include defaults',
       category: 'Rules',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-meta-schema-default.md',

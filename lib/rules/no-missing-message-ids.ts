@@ -19,7 +19,7 @@ const rule: Rule.RuleModule = {
     type: 'problem',
     docs: {
       description:
-        'disallow `messageId`s that are missing from `meta.messages`',
+        'Disallow `messageId`s that are missing from `meta.messages`',
       category: 'Rules',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-missing-message-ids.md',
