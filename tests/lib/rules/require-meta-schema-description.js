@@ -167,6 +167,21 @@ module.exports = {
     schema: [
       {
         type: 'object',
+        properties: {
+          ...schemaProperties,
+        },
+      }
+    ],
+  },
+  create() {}
+}
+  `,
+`
+module.exports = {
+  meta: {
+    schema: [
+      {
+        type: 'object',
         properties: Object.fromEntries(
           Object.keys(DEFAULT_OPTIONS).map((code) => [
             code,
@@ -179,7 +194,7 @@ module.exports = {
   },
   create() {}
 }
-  `,
+    `,
   ],
 
   invalid: [
