@@ -13,7 +13,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'require only rules with options to implement a `meta.defaultOptions` property',
+        'Require only rules with options to implement a `meta.defaultOptions` property',
       category: 'Rules',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-default-options.md',
