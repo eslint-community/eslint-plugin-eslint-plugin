@@ -75,4 +75,4 @@ As mentioned in the introduction, the need for this rule is reduced as of ESLint
 
 ## Further Reading
 
-- [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)
+- [ESLint plugin docs: Testing a Plugin](https://eslint.org/docs/latest/extend/plugins#testing-a-plugin)

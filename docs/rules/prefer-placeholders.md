@@ -63,4 +63,4 @@ If you need to use string concatenation in your report messages for some reason,
 
 ## Further Reading
 
-- [context.report() API](http://eslint.org/docs/developer-guide/working-with-rules#contextreport)
+- [ESLint rule docs: Using Message Placeholders](https://eslint.org/docs/latest/extend/custom-rules#using-message-placeholders)

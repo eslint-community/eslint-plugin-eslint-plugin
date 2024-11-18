@@ -48,4 +48,4 @@ module.exports = {
 
 ## Further Reading
 
-- [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)
+- [ESLint rule docs: Accessing the Source Code](https://eslint.org/docs/latest/extend/custom-rules#accessing-the-source-code)
