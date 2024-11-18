@@ -90,7 +90,9 @@ ruleTester.run('require-meta-docs-recommended', rule, {
     {
       code: 'module.exports = { create(context) {} };',
       output: null,
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      errors: [
+        { messageId: 'missing', type: 'FunctionExpression', suggestions: [] },
+      ],
     },
     {
       code: `
@@ -100,7 +102,13 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          suggestions: [],
+        },
+      ],
     },
     {
       code: `
@@ -110,7 +118,32 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          suggestions: [
+            {
+              messageId: 'setRecommendedTrue',
+              output: `
+        module.exports = {
+          meta: { docs: { recommended: true } },
+          create(context) {}
+        };
+      `,
+            },
+            {
+              messageId: 'setRecommendedFalse',
+              output: `
+        module.exports = {
+          meta: { docs: { recommended: false } },
+          create(context) {}
+        };
+      `,
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -120,7 +153,32 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'incorrect', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'incorrect',
+          type: 'Identifier',
+          suggestions: [
+            {
+              messageId: 'setRecommendedTrue',
+              output: `
+        module.exports = {
+          meta: { docs: { recommended: true } },
+          create(context) {}
+        };
+      `,
+            },
+            {
+              messageId: 'setRecommendedFalse',
+              output: `
+        module.exports = {
+          meta: { docs: { recommended: false } },
+          create(context) {}
+        };
+      `,
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -130,7 +188,32 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'incorrect', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'incorrect',
+          type: 'Literal',
+          suggestions: [
+            {
+              messageId: 'setRecommendedTrue',
+              output: `
+        module.exports = {
+          meta: { docs: { recommended: true } },
+          create(context) {}
+        };
+      `,
+            },
+            {
+              messageId: 'setRecommendedFalse',
+              output: `
+        module.exports = {
+          meta: { docs: { recommended: false } },
+          create(context) {}
+        };
+      `,
+            },
+          ],
+        },
+      ],
     },
     {
       code: `
@@ -142,13 +225,44 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
     `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          suggestions: [
+            {
+              messageId: 'setRecommendedTrue',
+              output: `
+        const extraDocs = { };
+        const extraMeta = { docs: { ...extraDocs, recommended: true } };
+        module.exports = {
+            meta: { ...extraMeta },
+            create(context) {}
+        };
+    `,
+            },
+            {
+              messageId: 'setRecommendedFalse',
+              output: `
+        const extraDocs = { };
+        const extraMeta = { docs: { ...extraDocs, recommended: false } };
+        module.exports = {
+            meta: { ...extraMeta },
+            create(context) {}
+        };
+    `,
+            },
+          ],
+        },
+      ],
     },
     {
       code: 'module.exports = { create(context) {} };',
       output: null,
       options: [{ allowNonBoolean: true }],
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      errors: [
+        { messageId: 'missing', type: 'FunctionExpression', suggestions: [] },
+      ],
     },
   ],
 });
@@ -178,7 +292,9 @@ ruleTesterTypeScript.run('require-meta-docs-recommended (TypeScript)', rule, {
         });
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
+      ],
     },
   ],
 });
