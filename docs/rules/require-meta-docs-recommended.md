@@ -74,4 +74,4 @@ module.exports = {
 
 ## Further Reading
 
-- [Rule Structure](https://eslint.org/docs/latest/extend/custom-rules#rule-structure)
+- [ESLint rule docs: Rule Structure](https://eslint.org/docs/latest/extend/custom-rules#rule-structure)

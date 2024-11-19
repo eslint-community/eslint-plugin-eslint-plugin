@@ -248,4 +248,4 @@ If you don't care about consistent usage of shorthand strings, you should not tu
 
 ## Further Reading
 
-- [`RuleTester` documentation](http://eslint.org/docs/developer-guide/working-with-plugins#testing)
+- [ESLint plugin docs: Testing a Plugin](https://eslint.org/docs/latest/extend/plugins#testing-a-plugin)

@@ -6,7 +6,7 @@
 
 <!-- end auto-generated rule header -->
 
-Prior to ESLint v9, ESLint supported both [function-style](https://eslint.org/docs/developer-guide/working-with-rules-deprecated) and [object-style](https://eslint.org/docs/developer-guide/working-with-rules) rules. However, function-style rules have been deprecated since 2016, and do not support newer features like autofixing and suggestions.
+Prior to ESLint v9, ESLint supported both [function-style](https://eslint.org/docs/latest/extend/custom-rules-deprecated) and [object-style](https://eslint.org/docs/latest/extend/custom-rules) rules. However, function-style rules have been deprecated since 2016, and do not support newer features like autofixing and suggestions.
 
 As of [ESLint v9](https://github.com/eslint/rfcs/tree/main/designs/2021-schema-object-rules#motivation-for-requiring-object-style-rules), ESLint supports only object-style rules.
 

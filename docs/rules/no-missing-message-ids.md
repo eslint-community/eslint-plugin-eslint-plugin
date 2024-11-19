@@ -58,6 +58,6 @@ module.exports = {
 
 ## Further Reading
 
-- [messageIds API](https://eslint.org/docs/developer-guide/working-with-rules#messageids)
+- [ESLint rule docs: `messageId`s](https://eslint.org/docs/latest/extend/custom-rules#messageids)
 - [no-unused-message-ids](./no-unused-message-ids.md) rule
 - [prefer-message-ids](./prefer-message-ids.md) rule
