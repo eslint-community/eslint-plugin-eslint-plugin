@@ -62,7 +62,7 @@
     "@typescript-eslint/utils": "^7.7.0",
     "chai": "^4.4.1",
     "dirty-chai": "^2.0.1",
-    "eslint": "9.14.0",
+    "eslint": "9.15.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-doc-generator": "^1.7.0",
