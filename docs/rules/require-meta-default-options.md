@@ -1,4 +1,4 @@
-# Require rules with options to implement a `meta.defaultOptions` property (`eslint-plugin/require-meta-default-options`)
+# Require only rules with options to implement a `meta.defaultOptions` property (`eslint-plugin/require-meta-default-options`)
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
