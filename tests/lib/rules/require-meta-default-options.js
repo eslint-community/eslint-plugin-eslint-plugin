@@ -64,6 +64,17 @@ ruleTester.run('require-meta-default-options', rule, {
         create(context) {}
       };
     `,
+    `
+      module.exports = {
+        meta: {
+          schema: {
+            type: 'array'
+          },
+          defaultOptions: []
+        },
+        create(context) {}
+      };
+    `,
   ],
 
   invalid: [
