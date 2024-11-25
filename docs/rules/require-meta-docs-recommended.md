@@ -1,5 +1,7 @@
 # Require rules to implement a `meta.docs.recommended` property (`eslint-plugin/require-meta-docs-recommended`)
 
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+
 <!-- end auto-generated rule header -->
 
 Utilizing `meta.docs.recommended` makes it clear from each rule implementation whether a rule is part of the `recommended` config. Some plugins also have scripting for conveniently generating their config based on this flag.
@@ -72,4 +74,4 @@ module.exports = {
 
 ## Further Reading
 
-- [Rule Structure](https://eslint.org/docs/latest/extend/custom-rules#rule-structure)
+- [ESLint rule docs: Rule Structure](https://eslint.org/docs/latest/extend/custom-rules#rule-structure)

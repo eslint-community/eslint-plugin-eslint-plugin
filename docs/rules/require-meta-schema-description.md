@@ -85,4 +85,4 @@ If your rule options are very simple and well-named, and your rule isn't used by
 
 ## Further Reading
 
-- [working-with-rules#options-schemas](https://eslint.org/docs/developer-guide/working-with-rules#options-schemas)
+- [ESLint rule docs: Options Schemas](https://eslint.org/docs/latest/extend/custom-rules#options-schemas)

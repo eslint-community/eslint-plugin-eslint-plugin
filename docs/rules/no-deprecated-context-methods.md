@@ -31,7 +31,7 @@ The deprecated methods are:
 - `getTokensBefore`
 - `getTokensBetween`
 
-Instead of using these methods, you should use the equivalent methods on [`SourceCode`](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode), e.g. `context.getSourceCode().getText()` instead of `context.getSource()`.
+Instead of using these methods, you should use the equivalent methods on [`SourceCode`](https://eslint.org/docs/latest/extend/custom-rules#accessing-the-source-code), e.g. `context.sourceCode.getText()` instead of `context.getSource()`.
 
 ## Rule Details
 
@@ -71,4 +71,4 @@ If you need to support very old versions of ESLint where `SourceCode` doesn't ex
 
 ## Further Reading
 
-- [`SourceCode` API](https://eslint.org/docs/developer-guide/working-with-rules#contextgetsourcecode)
+- [ESLint rule docs: Accessing the Source Code](https://eslint.org/docs/latest/extend/custom-rules#accessing-the-source-code)

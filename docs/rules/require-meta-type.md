@@ -51,6 +51,6 @@ module.exports = {
 
 ## Further Reading
 
-- [command-line-interface#--fix-type](https://eslint.org/docs/user-guide/command-line-interface#--fix-type)
-- [working-with-rules#rule-basics](https://eslint.org/docs/developer-guide/working-with-rules#rule-basics)
+- [ESLint CLI docs: `--fix-type`](https://eslint.org/docs/latest/use/command-line-interface#--fix-type)
+- [ESLint rule docs: Rule Structure](https://eslint.org/docs/latest/extend/custom-rules#rule-structure)
 - [ESLint v5.9.0 released](https://eslint.org/blog/2018/11/eslint-v5.9.0-released#the-fix-type-option)
