@@ -97,6 +97,7 @@ module.exports = [
 | [prefer-placeholders](docs/rules/prefer-placeholders.md)                         | require using placeholders for dynamic report messages                                     |     |     |     |     |
 | [prefer-replace-text](docs/rules/prefer-replace-text.md)                         | require using `replaceText()` instead of `replaceTextRange()`                              |     |     |     |     |
 | [report-message-format](docs/rules/report-message-format.md)                     | enforce a consistent format for rule report messages                                       |     |     |     |     |
+| [require-meta-default-options](docs/rules/require-meta-default-options.md)       | require only rules with options to implement a `meta.defaultOptions` property              |     | 🔧  |     |     |
 | [require-meta-docs-description](docs/rules/require-meta-docs-description.md)     | require rules to implement a `meta.docs.description` property with the correct format      |     |     |     |     |
 | [require-meta-docs-recommended](docs/rules/require-meta-docs-recommended.md)     | require rules to implement a `meta.docs.recommended` property                              |     |     | 💡  |     |
 | [require-meta-docs-url](docs/rules/require-meta-docs-url.md)                     | require rules to implement a `meta.docs.url` property                                      |     | 🔧  |     |     |
