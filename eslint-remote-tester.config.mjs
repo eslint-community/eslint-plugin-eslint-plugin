@@ -1,7 +1,8 @@
-'use strict';
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
 
 /** @type {import('eslint-remote-tester').Config} */
-module.exports = {
+export default {
   /** Repositories to scan */
   repositories: [
     // A few dozen top ESLint plugins.
@@ -41,18 +42,18 @@ module.exports = {
   /** Optional boolean flag used to enable caching of cloned repositories. For CIs it's ideal to disable caching. Defaults to true. */
   cache: false,
 
-  pathIgnorePattern: 'fixtures',
-
   /** ESLint configuration */
-  eslintrc: {
-    root: true,
-    extends: ['plugin:eslint-plugin/all'],
-    // ignorePatterns: ['fixtures/**/*'],  // not working somehow - using `pathIgnorePattern` as of now.
-    overrides: [
-      {
-        files: ['*.ts', '*.mts', '*.cts'],
-        parser: '@typescript-eslint/parser',
+  eslintConfig: [
+    {
+      files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+      ...eslintPlugin.configs['flat/all'],
+    },
+    {
+      files: ['*.ts', '*.mts', '*.cts'],
+      ...eslintPlugin.configs['flat/all-type-checked'],
+      languageOptions: {
+        parser: tsparser,
       },
-    ],
-  },
+    },
+  ],
 };

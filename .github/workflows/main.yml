@@ -56,5 +56,4 @@ jobs:
         with:
           node-version: "lts/*"
       - run: npm install
-      - run: npm install --save-dev eslint@8 # eslint-remote-tester does not support eslint v9.
       - run: npm run test:remote

@@ -19,7 +19,7 @@ module.exports = [
     'plugin:prettier/recommended',
     'plugin:unicorn/recommended',
   ),
-  pluginN.configs['flat/recommended'],
+  ...pluginN.configs['flat/mixed-esm-and-cjs'],
   {
     rules: {
       '@eslint-community/eslint-comments/no-unused-disable': 'error',
