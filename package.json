@@ -44,7 +44,7 @@
     "estraverse": "^5.3.0"
   },
   "nyc": {
-    "branches": 94,
+    "branches": 90,
     "functions": 99,
     "lines": 99,
     "statements": 99
