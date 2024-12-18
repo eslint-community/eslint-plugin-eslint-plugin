@@ -21,6 +21,15 @@
 * update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
 * update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
 
+## [6.4.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.3.2...v6.4.0) (2024-12-18)
+
+
+### Features
+
+* Add new `no-meta-schema-default` rule ([#503](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/503)) ([dbd96b2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/dbd96b288dcb19e3ab0433169266162c3cff0c60))
+* Add new `require-meta-default-options` rule ([#502](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/502)) ([13e625a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/13e625a2d0273dcc14911b24ea809bf5f46d00c1))
+* Add suggestions to `require-meta-docs-recommended` rule ([#500](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/500)) ([8fda55a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/8fda55a9a283d5cbb6c8343f123357e9be1e85d7))
+
 ## [6.3.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.3.1...v6.3.2) (2024-11-18)
 
 
