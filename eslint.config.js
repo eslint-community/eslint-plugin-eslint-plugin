@@ -41,6 +41,7 @@ module.exports = [
     plugins: eslintPluginConfig.plugins,
     rules: {
       ...eslintPluginConfig.rules,
+      'eslint-plugin/no-meta-schema-default': 'off', // TODO: enable once https://github.com/bmish/eslint-doc-generator/issues/513 is fixed and released
       'eslint-plugin/report-message-format': ['error', '^[^a-z].*.$'],
       'eslint-plugin/require-meta-docs-url': [
         'error',
