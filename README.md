@@ -39,9 +39,10 @@ npm install eslint-plugin-eslint-plugin --save-dev
 
 Here's an example ESLint configuration that:
 
-- Sets `sourceType` to `script` for CJS plugins (most users) (use `module` for ESM/TypeScript)
 - Enables the `recommended` configuration
 - Enables an optional/non-recommended rule
+
+Note: you might need to set `sourceType` to `script` (most users) (use `module` for ESM/TypeScript).
 
 ### <a name='eslintrc'></a>**[.eslintrc.json](https://eslint.org/docs/latest/use/configure/configuration-files)**
 
