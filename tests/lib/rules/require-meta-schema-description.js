@@ -1,11 +1,9 @@
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/require-meta-schema-description');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/require-meta-schema-description.js';
+import { RuleTester } from '../eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

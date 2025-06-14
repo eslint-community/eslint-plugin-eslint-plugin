@@ -2,14 +2,12 @@
  * @author Brad Zacher <https://github.com/bradzacher>
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/prefer-object-rule');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/prefer-object-rule.js';
+import { RuleTester } from '../eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

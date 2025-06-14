@@ -1,15 +1,15 @@
-'use strict';
-
-const { readdirSync, readFileSync } = require('fs');
-const path = require('path');
-const assert = require('chai').assert;
-const plugin = require('../..');
+import { readdirSync, readFileSync } from 'fs';
+import path from 'path';
+import { assert } from 'chai';
+import plugin from '../../lib/index.js';
+import { fileURLToPath } from 'url';
 
 const RULE_NAMES = Object.keys(plugin.rules);
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('rule setup is correct', () => {
   it('should have a list of exported rules and rules directory that match', () => {
-    const filePath = path.join(__dirname, '..', 'lib', 'rules');
+    const filePath = path.join(dirname, '..', 'lib', 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
@@ -34,7 +34,7 @@ describe('rule setup is correct', () => {
 
         it('should have the right contents', () => {
           const filePath = path.join(
-            __dirname,
+            dirname,
             '..',
             '..',
             'lib',
@@ -53,7 +53,7 @@ describe('rule setup is correct', () => {
   });
 
   it('should have tests for all rules', () => {
-    const filePath = path.join(__dirname, 'rules');
+    const filePath = path.join(dirname, 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
@@ -65,7 +65,7 @@ describe('rule setup is correct', () => {
   });
 
   it('should have documentation for all rules', () => {
-    const filePath = path.join(__dirname, '..', '..', 'docs', 'rules');
+    const filePath = path.join(dirname, '..', '..', 'docs', 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(

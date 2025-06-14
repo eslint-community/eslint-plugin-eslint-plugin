@@ -3,14 +3,12 @@
  * @author Teddy Katz
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-missing-placeholders');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/no-missing-placeholders.js';
+import { RuleTester } from '../eslint-rule-tester.js';
 
 /**
  * Create an error for the given key

@@ -1,15 +1,16 @@
-'use strict';
+import { RuleTester } from '../eslint-rule-tester.js';
+import path from 'path';
+import rule from '../../../lib/rules/no-property-in-node.js';
+import { fileURLToPath } from 'url';
+import parser from '@typescript-eslint/parser';
 
-const RuleTester = require('../eslint-rule-tester').RuleTester;
-const path = require('path');
-const rule = require('../../../lib/rules/no-property-in-node');
-
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser,
     parserOptions: {
       project: './tsconfig.json',
-      tsconfigRootDir: path.join(__dirname, '../fixtures'),
+      tsconfigRootDir: path.join(dirname, '../fixtures'),
     },
   },
 });

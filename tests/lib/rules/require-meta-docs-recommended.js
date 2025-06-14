@@ -1,7 +1,6 @@
-'use strict';
-
-const rule = require('../../../lib/rules/require-meta-docs-recommended');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/require-meta-docs-recommended.js';
+import { RuleTester } from '../eslint-rule-tester.js';
+import parser from '@typescript-eslint/parser';
 
 const ruleTester = new RuleTester({
   languageOptions: { sourceType: 'commonjs' },
@@ -269,7 +268,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
 
 const ruleTesterTypeScript = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser,
     parserOptions: { sourceType: 'module' },
   },
 });

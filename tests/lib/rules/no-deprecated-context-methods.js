@@ -3,14 +3,12 @@
  * @author Teddy Katz
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-deprecated-context-methods');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/no-deprecated-context-methods.js';
+import { RuleTester } from '../eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

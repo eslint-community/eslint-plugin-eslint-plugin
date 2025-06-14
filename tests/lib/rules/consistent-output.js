@@ -3,14 +3,12 @@
  * @author Teddy Katz
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/consistent-output');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/consistent-output.js';
+import { RuleTester } from '../eslint-rule-tester.js';
 
 const ERROR = { messageId: 'missingOutput', type: 'ObjectExpression' };
 

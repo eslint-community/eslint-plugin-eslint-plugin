@@ -1,11 +1,10 @@
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/require-meta-docs-description');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/require-meta-docs-description.js';
+import { RuleTester } from '../eslint-rule-tester.js';
+import parser from '@typescript-eslint/parser';
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -298,7 +297,7 @@ ruleTester.run('require-meta-docs-description', rule, {
 const ruleTesterTypeScript = new RuleTester({
   languageOptions: {
     sourceType: 'module',
-    parser: require('@typescript-eslint/parser'),
+    parser,
   },
 });
 ruleTesterTypeScript.run('require-meta-docs-description (TypeScript)', rule, {

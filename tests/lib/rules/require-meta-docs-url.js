@@ -4,14 +4,12 @@
  * See LICENSE file in root directory for full license.
  */
 
-'use strict';
-
 // -----------------------------------------------------------------------------
 // Requirements
 // -----------------------------------------------------------------------------
 
-const RuleTester = require('../eslint-rule-tester').RuleTester;
-const rule = require('../../../lib/rules/require-meta-docs-url');
+import { RuleTester } from '../eslint-rule-tester.js';
+import rule from '../../../lib/rules/require-meta-docs-url.js';
 
 // -----------------------------------------------------------------------------
 // Tests

@@ -3,8 +3,8 @@
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
-'use strict';
+import plugin from '../lib/index.js';
 
-const plugin = require('../lib/index.js');
+const config = plugin.configs['flat/all-type-checked'];
 
-module.exports = plugin.configs['flat/all-type-checked'];
+export default config;

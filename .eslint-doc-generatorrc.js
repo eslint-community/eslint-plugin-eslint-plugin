@@ -1,9 +1,7 @@
-'use strict';
-
-const prettier = require('prettier');
+import prettier from 'prettier';
 
 /** @type {import('eslint-doc-generator').GenerateOptions} */
-module.exports = {
+export default {
   ignoreConfig: [
     'all',
     'all-type-checked',

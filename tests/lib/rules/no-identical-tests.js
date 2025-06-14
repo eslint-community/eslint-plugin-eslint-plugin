@@ -3,14 +3,12 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-identical-tests');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/no-identical-tests.js';
+import { RuleTester } from '../eslint-rule-tester.js';
 
 const ERROR_OBJECT_TEST = { messageId: 'identical', type: 'ObjectExpression' };
 const ERROR_STRING_TEST = { messageId: 'identical', type: 'Literal' };

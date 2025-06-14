@@ -1,18 +1,19 @@
-'use strict';
+import js from '@eslint/js';
+import { FlatCompat } from '@eslint/eslintrc';
+import globals from 'globals';
+import markdown from 'eslint-plugin-markdown';
+import pluginN from 'eslint-plugin-n';
+import eslintPluginConfig from 'eslint-plugin-eslint-plugin/configs/all';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const js = require('@eslint/js');
-const { FlatCompat } = require('@eslint/eslintrc');
-const globals = require('globals');
-const markdown = require('eslint-plugin-markdown');
-const pluginN = require('eslint-plugin-n');
-const eslintPluginConfig = require('eslint-plugin-eslint-plugin/configs/all');
-
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: dirname,
   recommendedConfig: js.configs.recommended,
 });
 
-module.exports = [
+export default [
   ...compat.extends(
     'not-an-aardvark/node',
     'plugin:@eslint-community/eslint-comments/recommended',
