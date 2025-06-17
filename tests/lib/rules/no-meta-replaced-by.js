@@ -29,6 +29,14 @@ const valid = [
       create(context) {},
     };
   `,
+  `
+    module.exports = {
+      meta: {
+        deprecated: true,
+      },
+      create(context) {},
+    };
+  `,
   {
     code: `
       module.exports = {
@@ -55,7 +63,7 @@ const invalid = [
     code: `
       module.exports = {
         meta: {
-          replacedBy: [],
+          replacedBy: ['the-new-rule'],
         },
         create(context) {},
       };
