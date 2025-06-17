@@ -56,10 +56,6 @@ module.exports = {
 };
 ```
 
-## When Not To Use It
-
-If you do not plan to provide rule's documentation in website, you can turn off this rule.
-
 ## Further Reading
 
 - [ESLint docs: `DeprecatedInfo`](https://eslint.org/docs/latest/extend/rule-deprecation#-deprecatedinfo-type)
