@@ -1,6 +1,5 @@
 /**
- * @fileoverview require rules to implement a `meta.type` property
- * @author 唯然<weiran.zsd@outlook.com>
+ * @fileoverview Disallows the usage of `meta.replacedBy` property
  */
 
 'use strict';
