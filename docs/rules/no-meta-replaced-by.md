@@ -49,7 +49,9 @@ module.exports = {
 };
 
 module.exports = {
-  meta: {},
+  meta: {
+    deprecated: true,
+  },
   create() {},
 };
 ```
