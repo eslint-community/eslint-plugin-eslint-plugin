@@ -8,7 +8,9 @@ const ruleTester = new RuleTester({
   languageOptions: {
     parser: require('@typescript-eslint/parser'),
     parserOptions: {
-      project: './tsconfig.json',
+      projectService: {
+        defaultProject: 'tsconfig.json',
+      },
       tsconfigRootDir: path.join(__dirname, '../fixtures'),
     },
   },
