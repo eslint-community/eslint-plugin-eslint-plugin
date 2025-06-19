@@ -9,7 +9,9 @@ const ruleTester = new RuleTester({
   languageOptions: {
     parser,
     parserOptions: {
-      project: './tsconfig.json',
+      projectService: {
+        defaultProject: 'tsconfig.json',
+      },
       tsconfigRootDir: path.join(dirname, '../fixtures'),
     },
   },
