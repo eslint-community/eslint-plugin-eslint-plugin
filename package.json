@@ -19,7 +19,7 @@
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
-    "test": "c8 --check-coverage --all --include lib mocha tests --recursive --timeout 3000",
+    "test": "c8 --check-coverage --all --include lib mocha tests --recursive",
     "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.mjs",
     "update:eslint-docs": "eslint-doc-generator"
   },
