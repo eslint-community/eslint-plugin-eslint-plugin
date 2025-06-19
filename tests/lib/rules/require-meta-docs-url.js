@@ -10,7 +10,7 @@
 // Requirements
 // -----------------------------------------------------------------------------
 
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 const rule = require('../../../lib/rules/require-meta-docs-url');
 
 // -----------------------------------------------------------------------------

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-useless-token-range');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 /**
  * Wraps a code sample as an eslint rule

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/test-case-shorthand-strings');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 /**
  * Returns the code for some valid test cases

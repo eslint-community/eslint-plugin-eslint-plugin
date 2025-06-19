@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/prefer-replace-text');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests

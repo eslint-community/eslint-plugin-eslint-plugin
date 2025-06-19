@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/test-case-property-ordering');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests

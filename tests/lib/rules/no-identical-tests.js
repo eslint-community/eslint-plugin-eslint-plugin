@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-identical-tests');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 const ERROR_OBJECT_TEST = { messageId: 'identical', type: 'ObjectExpression' };
 const ERROR_STRING_TEST = { messageId: 'identical', type: 'Literal' };

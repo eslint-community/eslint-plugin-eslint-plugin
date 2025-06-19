@@ -5,7 +5,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/no-only-tests');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests

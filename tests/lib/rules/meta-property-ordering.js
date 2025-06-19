@@ -9,7 +9,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/meta-property-ordering');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests

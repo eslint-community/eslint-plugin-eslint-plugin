@@ -1,7 +1,7 @@
 'use strict';
 
 const rule = require('../../../lib/rules/require-meta-docs-recommended');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 const ruleTester = new RuleTester({
   languageOptions: { sourceType: 'commonjs' },

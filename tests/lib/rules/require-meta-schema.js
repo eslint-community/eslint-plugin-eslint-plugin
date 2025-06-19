@@ -5,7 +5,7 @@
 // ------------------------------------------------------------------------------
 
 const rule = require('../../../lib/rules/require-meta-schema');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 
 // ------------------------------------------------------------------------------
 // Tests

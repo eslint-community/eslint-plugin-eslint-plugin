@@ -1,6 +1,6 @@
 'use strict';
 
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+const RuleTester = require('eslint').RuleTester;
 const path = require('path');
 const rule = require('../../../lib/rules/no-property-in-node');
 
