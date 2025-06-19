@@ -3,14 +3,12 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/prefer-output-null');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/prefer-output-null.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 const ERROR = { messageId: 'useOutputNull', type: 'Property' };
 

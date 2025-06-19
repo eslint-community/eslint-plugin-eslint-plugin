@@ -1,11 +1,9 @@
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-missing-message-ids');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/no-missing-message-ids.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

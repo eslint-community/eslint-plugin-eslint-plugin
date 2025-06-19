@@ -2,7 +2,6 @@
 
 const js = require('@eslint/js');
 const { FlatCompat } = require('@eslint/eslintrc');
-const globals = require('globals');
 const markdown = require('eslint-plugin-markdown');
 const pluginN = require('eslint-plugin-n');
 const eslintPluginConfig = require('eslint-plugin-eslint-plugin/configs/all');
@@ -54,7 +53,7 @@ module.exports = [
   },
   {
     files: ['tests/**/*.js'],
-    languageOptions: { globals: globals.mocha },
+    languageOptions: { sourceType: 'module' },
   },
   {
     files: ['**/*.md'],

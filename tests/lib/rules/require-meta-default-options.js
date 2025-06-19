@@ -1,7 +1,6 @@
-'use strict';
-
-const rule = require('../../../lib/rules/require-meta-default-options');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/require-meta-default-options.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import parser from '@typescript-eslint/parser';
 
 const ruleTester = new RuleTester({
   languageOptions: { sourceType: 'commonjs' },
@@ -149,7 +148,7 @@ ruleTester.run('require-meta-default-options', rule, {
 
 const ruleTesterTypeScript = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser,
     parserOptions: { sourceType: 'module' },
   },
 });
