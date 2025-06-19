@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
     "moduleResolution": "NodeNext"
-  }
+  },
+  "files": ["estree.ts", "file.ts"]
 }

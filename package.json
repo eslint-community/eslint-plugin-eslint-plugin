@@ -18,7 +18,7 @@
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
-    "test": "nyc --all --check-coverage --include lib mocha tests --recursive",
+    "test": "vitest run --coverage",
     "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.mjs",
     "update:eslint-docs": "eslint-doc-generator"
   },
@@ -43,12 +43,6 @@
     "@eslint-community/eslint-utils": "^4.4.0",
     "estraverse": "^5.3.0"
   },
-  "nyc": {
-    "branches": 95,
-    "functions": 99,
-    "lines": 99,
-    "statements": 99
-  },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
@@ -60,7 +54,7 @@
     "@types/estree": "^1.0.8",
     "@typescript-eslint/parser": "^8.34.1",
     "@typescript-eslint/utils": "^8.34.1",
-    "chai": "^4.5.0",
+    "@vitest/coverage-istanbul": "^3.2.4",
     "eslint": "^9.16.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^9.1.0",
@@ -77,13 +71,12 @@
     "husky": "^9.1.7",
     "lodash": "^4.17.21",
     "markdownlint-cli": "^0.43.0",
-    "mocha": "^11.0.0",
     "npm-package-json-lint": "^8.0.0",
     "npm-run-all2": "^7.0.1",
-    "nyc": "^17.1.0",
     "prettier": "^3.4.1",
     "release-it": "^17.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "eslint": ">=8.23.0"
@@ -107,5 +100,6 @@
     "npm": {
       "skipChecks": true
     }
-  }
+  },
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }

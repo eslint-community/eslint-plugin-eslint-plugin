@@ -1,12 +1,11 @@
-'use strict';
-
-const RuleTester = require('../eslint-rule-tester').RuleTester;
-const path = require('path');
-const rule = require('../../../lib/rules/no-property-in-node');
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import path from 'path';
+import rule from '../../../lib/rules/no-property-in-node.js';
+import parser from '@typescript-eslint/parser';
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser,
     parserOptions: {
       projectService: {
         defaultProject: 'tsconfig.json',

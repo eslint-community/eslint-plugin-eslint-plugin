@@ -3,14 +3,12 @@
  * @author Teddy Katz
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/prefer-placeholders');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/prefer-placeholders.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

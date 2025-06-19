@@ -3,14 +3,12 @@
  * @author Teddy Katz
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/test-case-shorthand-strings');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/test-case-shorthand-strings.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 /**
  * Returns the code for some valid test cases

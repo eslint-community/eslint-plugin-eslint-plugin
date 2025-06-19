@@ -3,14 +3,12 @@
  * @author Teddy Katz
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-useless-token-range');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/no-useless-token-range.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 /**
  * Wraps a code sample as an eslint rule

@@ -2,14 +2,12 @@
  * @fileoverview Enforces the order of meta properties
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/meta-property-ordering');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/meta-property-ordering.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

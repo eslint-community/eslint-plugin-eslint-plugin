@@ -1,11 +1,9 @@
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-only-tests');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/no-only-tests.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

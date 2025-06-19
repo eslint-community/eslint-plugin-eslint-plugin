@@ -3,14 +3,12 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-'use strict';
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/prefer-replace-text');
-const RuleTester = require('../eslint-rule-tester').RuleTester;
+import rule from '../../../lib/rules/prefer-replace-text.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 // ------------------------------------------------------------------------------
 // Tests

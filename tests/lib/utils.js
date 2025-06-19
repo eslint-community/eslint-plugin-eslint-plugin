@@ -1,13 +1,13 @@
-'use strict';
+import { inspect } from 'node:util';
 
-const { inspect } = require('util');
-const lodash = require('lodash');
-const espree = require('espree');
-const eslintScope = require('eslint-scope');
-const estraverse = require('estraverse');
-const assert = require('chai').assert;
-const utils = require('../../lib/utils');
-const typescriptEslintParser = require('@typescript-eslint/parser');
+import typescriptEslintParser from '@typescript-eslint/parser';
+import * as eslintScope from 'eslint-scope';
+import * as espree from 'espree';
+import * as estraverse from 'estraverse';
+import lodash from 'lodash';
+import { assert, describe, it } from 'vitest';
+
+import * as utils from '../../lib/utils.js';
 
 describe('utils', () => {
   describe('getRuleInfo', () => {

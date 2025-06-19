@@ -1,7 +1,6 @@
-'use strict';
+import { assert, describe, it } from 'vitest';
 
-const assert = require('chai').assert;
-const plugin = require('../..');
+import plugin from '../../lib/index.js';
 
 const RULE_NAMES = Object.keys(plugin.rules);
 
