@@ -1,7 +1,7 @@
 import prettier from 'prettier';
 
 /** @type {import('eslint-doc-generator').GenerateOptions} */
-export default {
+const config = {
   ignoreConfig: [
     'all',
     'all-type-checked',
@@ -27,3 +27,5 @@ export default {
   urlConfigs:
     'https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets',
 };
+
+export default config;
