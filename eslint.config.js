@@ -13,13 +13,21 @@ const compat = new FlatCompat({
 });
 
 export default [
+  // Global ignores
+  {
+    ignores: ['node_modules', 'coverage'],
+  },
+  // Global settings
+  {
+    languageOptions: { sourceType: 'module' },
+  },
   ...compat.extends(
     'not-an-aardvark/node',
     'plugin:@eslint-community/eslint-comments/recommended',
     'plugin:prettier/recommended',
     'plugin:unicorn/recommended',
   ),
-  ...pluginN.configs['flat/mixed-esm-and-cjs'],
+  pluginN.configs['flat/recommended'],
   {
     rules: {
       '@eslint-community/eslint-comments/no-unused-disable': 'error',
@@ -51,10 +59,6 @@ export default [
         },
       ],
     },
-  },
-  {
-    files: ['tests/**/*.js'],
-    languageOptions: { sourceType: 'module' },
   },
   {
     files: ['**/*.md'],
