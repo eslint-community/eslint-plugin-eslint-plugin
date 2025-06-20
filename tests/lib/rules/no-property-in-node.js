@@ -1,8 +1,10 @@
 import { RuleTester } from '../../utils/eslint-rule-tester.js';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import rule from '../../../lib/rules/no-property-in-node.js';
 import parser from '@typescript-eslint/parser';
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 const ruleTester = new RuleTester({
   languageOptions: {
     parser,
@@ -10,7 +12,7 @@ const ruleTester = new RuleTester({
       projectService: {
         defaultProject: 'tsconfig.json',
       },
-      tsconfigRootDir: path.join(__dirname, '../fixtures'),
+      tsconfigRootDir: path.join(dirname, '../fixtures'),
     },
   },
 });

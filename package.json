@@ -4,6 +4,7 @@
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
   "main": "./lib/index.js",
+  "type": "module",
   "exports": {
     ".": "./lib/index.js",
     "./configs/*": "./configs/*.js",
