@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import rule from '../../../lib/rules/no-useless-token-range.js';
-import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import { RuleTester } from 'eslint';
 
 /**
  * Wraps a code sample as an eslint rule

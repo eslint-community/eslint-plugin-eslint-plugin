@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     include: ['tests/lib/**/*.js'],
     exclude: ['tests/lib/fixtures/**'],
+    setupFiles: ['tests/utils/test-setup.js'],
     clearMocks: true,
     coverage: {
       all: true,

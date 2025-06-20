@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import rule from '../../../lib/rules/consistent-output.js';
-import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import { RuleTester } from 'eslint';
 
 const ERROR = { messageId: 'missingOutput', type: 'ObjectExpression' };
 
