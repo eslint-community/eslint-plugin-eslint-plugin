@@ -7,7 +7,7 @@
 // ------------------------------------------------------------------------------
 
 import rule from '../../../lib/rules/no-meta-replaced-by.js';
-import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -1,4 +1,4 @@
-import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import { RuleTester } from 'eslint';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import rule from '../../../lib/rules/no-property-in-node.js';

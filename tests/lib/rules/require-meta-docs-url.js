@@ -8,7 +8,7 @@
 // Requirements
 // -----------------------------------------------------------------------------
 
-import { RuleTester } from '../../utils/eslint-rule-tester.js';
+import { RuleTester } from 'eslint';
 import rule from '../../../lib/rules/require-meta-docs-url.js';
 
 // -----------------------------------------------------------------------------

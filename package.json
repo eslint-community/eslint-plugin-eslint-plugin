@@ -7,7 +7,6 @@
   "type": "module",
   "exports": {
     ".": "./lib/index.js",
-    "./configs/*": "./configs/*.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",
@@ -24,8 +23,8 @@
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
-    "lib/",
-    "configs/"
+    "CHANGELOG.md",
+    "lib/"
   ],
   "keywords": [
     "eslint",
@@ -79,7 +78,7 @@
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "eslint": ">=8.23.0"
+    "eslint": ">=9.0.0"
   },
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"

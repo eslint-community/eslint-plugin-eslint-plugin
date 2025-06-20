@@ -9,13 +9,6 @@ const config = {
     'rules-recommended',
     'tests',
     'tests-recommended',
-    'flat/recommended',
-    'flat/all',
-    'flat/all-type-checked',
-    'flat/rules',
-    'flat/rules-recommended',
-    'flat/tests',
-    'flat/tests-recommended',
   ],
   postprocess: async (content, path) =>
     prettier.format(content, {
