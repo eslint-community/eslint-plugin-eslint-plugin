@@ -6,8 +6,6 @@ An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and Type
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [**.eslintrc.json**](#eslintrcjson)
-  - [`eslint.config.js` (requires eslint\>=v8.23.0)](#eslintconfigjs-requires-eslintv8230)
 - [Rules](#rules)
   - [Rules](#rules-1)
   - [Tests](#tests)
@@ -42,25 +40,13 @@ Here's an example ESLint configuration that:
 - Enables the `recommended` configuration
 - Enables an optional/non-recommended rule
 
-Note: you might need to set `sourceType` to `script` (most users) (use `module` for ESM/TypeScript).
-
-### <a name='eslintrc'></a>**[.eslintrc.json](https://eslint.org/docs/latest/use/configure/configuration-files)**
-
-```json
-{
-  "extends": ["plugin:eslint-plugin/recommended"],
-  "rules": {
-    "eslint-plugin/require-meta-docs-description": "error"
-  }
-}
-```
-
-### <a name='flat'></a>[`eslint.config.js`](https://eslint.org/docs/latest/use/configure/configuration-files-new) (requires eslint>=v8.23.0)
+Note: you might need to set `sourceType` to `module` or `script` depending on your codebase.
 
 ```js
-const eslintPlugin = require('eslint-plugin-eslint-plugin');
-module.exports = [
-  eslintPlugin.configs['flat/recommended'],
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+
+export default [
+  eslintPlugin.configs.recommended,
   {
     rules: {
       'eslint-plugin/require-meta-docs-description': 'error',
@@ -141,54 +127,27 @@ The list of recommended rules will only change in a major release of this plugin
 
 ### <a name='Presetusage'></a>Preset usage
 
-Both flat and eslintrc configs are supported. For example, to enable the `recommended` preset, use:
-
-eslint.config.js
+Example of applying the `recommended` config to all files.
 
 ```js
-const eslintPlugin = require('eslint-plugin-eslint-plugin');
-module.exports = [eslintPlugin.configs['flat/recommended']];
-```
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
-.eslintrc.json
-
-```json
-{
-  "extends": ["plugin:eslint-plugin/recommended"]
-}
+export default [eslintPlugin.configs.recommended];
 ```
 
 Or to apply linting only to the appropriate rule or test files:
 
-eslint.config.js
-
 ```js
-const eslintPlugin = require('eslint-plugin-eslint-plugin');
-module.exports = [
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+
+export default [
   {
     files: ['lib/rules/*.{js,ts}'],
-    ...eslintPlugin.configs['flat/rules-recommended'],
+    ...eslintPlugin.configs['rules-recommended'],
   },
   {
     files: ['tests/lib/rules/*.{js,ts}'],
-    ...eslintPlugin.configs['flat/tests-recommended'],
+    ...eslintPlugin.configs['tests-recommended'],
   },
 ];
-```
-
-.eslintrc.js
-
-```json
-{
-  "overrides": [
-    {
-      "files": ["lib/rules/*.{js,ts}"],
-      "extends": ["plugin:eslint-plugin/rules-recommended"]
-    },
-    {
-      "files": ["tests/lib/rules/*.{js,ts}"],
-      "extends": ["plugin:eslint-plugin/tests-recommended"]
-    }
-  ]
-}
 ```

@@ -4,7 +4,7 @@ import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
 import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
-import eslintPluginConfig from 'eslint-plugin-eslint-plugin/configs/all';
+import eslintPlugin from './lib/index.js';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const compat = new FlatCompat({
@@ -46,9 +46,9 @@ export default [
   {
     // Apply eslint-plugin rules to our own rules/tests (but not docs).
     files: ['lib/**/*.js', 'tests/**/*.js'],
-    plugins: eslintPluginConfig.plugins,
+    plugins: { 'eslint-plugin': eslintPlugin },
     rules: {
-      ...eslintPluginConfig.rules,
+      ...eslintPlugin.configs.all.rules,
       'eslint-plugin/no-meta-schema-default': 'off', // TODO: enable once https://github.com/bmish/eslint-doc-generator/issues/513 is fixed and released
       'eslint-plugin/report-message-format': ['error', '^[^a-z].*.$'],
       'eslint-plugin/require-meta-docs-url': [
