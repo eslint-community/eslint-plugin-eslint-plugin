@@ -8,5 +8,3 @@ yarn.lock
 
 # eslint-remote-tester
 eslint-remote-tester-results
-
-coverage/
