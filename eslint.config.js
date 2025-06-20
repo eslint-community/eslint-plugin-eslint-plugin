@@ -77,6 +77,8 @@ export default [
 
       '@eslint-community/eslint-comments/require-description': 'off',
 
+      'n/no-missing-imports': 'off',
+
       'unicorn/filename-case': 'off',
     },
   },
