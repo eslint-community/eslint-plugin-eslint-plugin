@@ -96,29 +96,54 @@ module.exports = {
 }
 ```
 
+```js
+// eslint.config.js
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+
+export default [
+  {
+    plugins: { 'eslint-plugin': eslintPlugin },
+    rules: {
+      'eslint-plugin/require-meta-docs-url': [
+        'error',
+        {
+          pattern:
+            'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/{{name}}.md',
+        },
+      ],
+    },
+  },
+];
+```
+
 If you set the `pattern` option, this rule adds `meta.docs.url` property automatically when you execute `eslint --fix` command.
 
 ## Version specific URL
 
-If you want to enforce version-specific URLs, it's feasible easily with `.eslintrc.js` and `npm version <type>` script.
+If you want to enforce version-specific URLs, it's feasible easily with `eslint.config.js` and `npm version <type>` script.
 For example:
 
-**.eslintrc.js**:
+**eslint.config.js**:
 
 ```js
-// const version = require("./package.json").version;
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+import packageMetadata from './package.json' with { type: 'json' };
 
-module.exports = {
-  plugins: ['eslint-plugin'],
-  rules: {
-    'eslint-plugin/require-meta-docs-url': [
-      'error',
-      {
-        pattern: `path/to/v${version}/docs/rules/{{name}}.md`,
-      },
-    ],
+const { version } = packageMetadata;
+
+export default [
+  {
+    plugins: { 'eslint-plugin': eslintPlugin },
+    rules: {
+      'eslint-plugin/require-meta-docs-url': [
+        'error',
+        {
+          pattern: `path/to/v${version}/docs/rules/{{name}}.md`,
+        },
+      ],
+    },
   },
-};
+];
 ```
 
 **package.json**:

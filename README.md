@@ -43,6 +43,7 @@ Here's an example ESLint configuration that:
 Note: you might need to set `sourceType` to `module` or `script` depending on your codebase.
 
 ```js
+// eslint.config.js
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
 export default [
@@ -130,6 +131,7 @@ The list of recommended rules will only change in a major release of this plugin
 Example of applying the `recommended` config to all files.
 
 ```js
+// eslint.config.js
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
 export default [eslintPlugin.configs.recommended];
@@ -138,6 +140,7 @@ export default [eslintPlugin.configs.recommended];
 Or to apply linting only to the appropriate rule or test files:
 
 ```js
+// eslint.config.js
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
 export default [
