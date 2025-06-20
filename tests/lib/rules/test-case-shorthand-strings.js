@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import rule from '../../../lib/rules/test-case-shorthand-strings.js';
-import { RuleTester } from '../eslint-rule-tester.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 /**
  * Returns the code for some valid test cases

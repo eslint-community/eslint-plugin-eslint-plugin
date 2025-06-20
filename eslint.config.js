@@ -1,11 +1,10 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
-import globals from 'globals';
 import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
 import eslintPluginConfig from 'eslint-plugin-eslint-plugin/configs/all';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const compat = new FlatCompat({
@@ -55,7 +54,7 @@ export default [
   },
   {
     files: ['tests/**/*.js'],
-    languageOptions: { globals: globals.mocha },
+    languageOptions: { sourceType: 'module' },
   },
   {
     files: ['**/*.md'],

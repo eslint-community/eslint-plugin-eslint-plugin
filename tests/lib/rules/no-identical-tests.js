@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import rule from '../../../lib/rules/no-identical-tests.js';
-import { RuleTester } from '../eslint-rule-tester.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 const ERROR_OBJECT_TEST = { messageId: 'identical', type: 'ObjectExpression' };
 const ERROR_STRING_TEST = { messageId: 'identical', type: 'Literal' };

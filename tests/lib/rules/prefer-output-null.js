@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import rule from '../../../lib/rules/prefer-output-null.js';
-import { RuleTester } from '../eslint-rule-tester.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 
 const ERROR = { messageId: 'useOutputNull', type: 'Property' };
 

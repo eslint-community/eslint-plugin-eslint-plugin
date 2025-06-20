@@ -1,7 +1,7 @@
-import { RuleTester } from '../eslint-rule-tester.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 import path from 'path';
-import rule from '../../../lib/rules/no-property-in-node.js';
 import { fileURLToPath } from 'url';
+import rule from '../../../lib/rules/no-property-in-node.js';
 import parser from '@typescript-eslint/parser';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));

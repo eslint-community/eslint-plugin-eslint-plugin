@@ -1,4 +1,5 @@
-import { assert } from 'chai';
+import { assert, describe, it } from 'vitest';
+
 import plugin from '../../lib/index.js';
 
 const RULE_NAMES = Object.keys(plugin.rules);

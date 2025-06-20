@@ -1,5 +1,5 @@
 import rule from '../../../lib/rules/require-meta-default-options.js';
-import { RuleTester } from '../eslint-rule-tester.js';
+import { RuleTester } from '../../utils/eslint-rule-tester.js';
 import parser from '@typescript-eslint/parser';
 
 const ruleTester = new RuleTester({

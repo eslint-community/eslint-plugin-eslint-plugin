@@ -6,6 +6,7 @@
 import { RuleTester as ESLintRuleTester } from 'eslint';
 import * as unsupportedApi from 'eslint/use-at-your-own-risk';
 import packageConfig from 'eslint/package.json' with { type: 'json' };
+import * as vitest from 'vitest';
 
 const { version: eslintVersion } = packageConfig;
 
@@ -15,3 +16,6 @@ const FlatRuleTester = unsupportedApi.FlatRuleTester;
 export const gteEslintV9 = +eslintVersion.split('.')[0] >= 9;
 
 export const RuleTester = gteEslintV9 ? ESLintRuleTester : FlatRuleTester;
+RuleTester.describe = vitest.describe;
+RuleTester.it = vitest.it;
+RuleTester.itOnly = vitest.it.only;

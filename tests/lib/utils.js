@@ -1,11 +1,13 @@
-import { inspect } from 'util';
-import lodash from 'lodash';
-import * as espree from 'espree';
-import * as eslintScope from 'eslint-scope';
-import * as estraverse from 'estraverse';
-import { assert } from 'chai';
-import * as utils from '../../lib/utils.js';
+import { inspect } from 'node:util';
+
 import typescriptEslintParser from '@typescript-eslint/parser';
+import * as eslintScope from 'eslint-scope';
+import * as espree from 'espree';
+import * as estraverse from 'estraverse';
+import lodash from 'lodash';
+import { assert, describe, it } from 'vitest';
+
+import * as utils from '../../lib/utils.js';
 
 describe('utils', () => {
   describe('getRuleInfo', () => {

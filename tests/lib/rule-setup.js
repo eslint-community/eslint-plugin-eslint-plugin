@@ -1,8 +1,10 @@
-import { readdirSync, readFileSync } from 'fs';
-import path from 'path';
-import { assert } from 'chai';
+import { readdirSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { assert, describe, it } from 'vitest';
+
 import plugin from '../../lib/index.js';
-import { fileURLToPath } from 'url';
 
 const RULE_NAMES = Object.keys(plugin.rules);
 const dirname = path.dirname(fileURLToPath(import.meta.url));
