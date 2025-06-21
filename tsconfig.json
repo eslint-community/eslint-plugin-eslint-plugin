@@ -12,6 +12,10 @@
     "target": "ES2024",
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "eslint-plugin-eslint-plugin": ["./lib/index.ts"]
+    }
+  },
+  "include": ["lib/**/*", "tests/**/*", "types/**/*"]
 }
