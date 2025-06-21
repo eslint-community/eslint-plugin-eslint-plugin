@@ -33,6 +33,7 @@ export default [
       '@eslint-community/eslint-comments/no-unused-disable': 'error',
       '@eslint-community/eslint-comments/require-description': 'error',
 
+      'unicorn/expiring-todo-comments': 'off',
       'unicorn/consistent-function-scoping': 'off',
       'unicorn/no-array-callback-reference': 'off',
       'unicorn/no-array-for-each': 'off',
