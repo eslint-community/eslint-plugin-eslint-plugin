@@ -74,8 +74,8 @@ export default [
 | [meta-property-ordering](docs/rules/meta-property-ordering.md)                   | enforce the order of meta properties                                                       |     | 🔧  |     |     |
 | [no-deprecated-context-methods](docs/rules/no-deprecated-context-methods.md)     | disallow usage of deprecated methods on rule context objects                               | ✅  | 🔧  |     |     |
 | [no-deprecated-report-api](docs/rules/no-deprecated-report-api.md)               | disallow the version of `context.report()` with multiple arguments                         | ✅  | 🔧  |     |     |
-| [no-meta-replaced-by](docs/rules/no-meta-replaced-by.md)                         | disallow using the `meta.replacedBy` rule property                                         |     |     |     |     |
-| [no-meta-schema-default](docs/rules/no-meta-schema-default.md)                   | disallow rules `meta.schema` properties to include defaults                                |     |     |     |     |
+| [no-meta-replaced-by](docs/rules/no-meta-replaced-by.md)                         | disallow using the `meta.replacedBy` rule property                                         | ✅  |     |     |     |
+| [no-meta-schema-default](docs/rules/no-meta-schema-default.md)                   | disallow rules `meta.schema` properties to include defaults                                | ✅  |     |     |     |
 | [no-missing-message-ids](docs/rules/no-missing-message-ids.md)                   | disallow `messageId`s that are missing from `meta.messages`                                | ✅  |     |     |     |
 | [no-missing-placeholders](docs/rules/no-missing-placeholders.md)                 | disallow missing placeholders in rule report messages                                      | ✅  |     |     |     |
 | [no-property-in-node](docs/rules/no-property-in-node.md)                         | disallow using `in` to narrow node types instead of looking at properties                  |     |     |     | 💭  |
@@ -87,14 +87,14 @@ export default [
 | [prefer-placeholders](docs/rules/prefer-placeholders.md)                         | require using placeholders for dynamic report messages                                     |     |     |     |     |
 | [prefer-replace-text](docs/rules/prefer-replace-text.md)                         | require using `replaceText()` instead of `replaceTextRange()`                              |     |     |     |     |
 | [report-message-format](docs/rules/report-message-format.md)                     | enforce a consistent format for rule report messages                                       |     |     |     |     |
-| [require-meta-default-options](docs/rules/require-meta-default-options.md)       | require only rules with options to implement a `meta.defaultOptions` property              |     | 🔧  |     |     |
+| [require-meta-default-options](docs/rules/require-meta-default-options.md)       | require only rules with options to implement a `meta.defaultOptions` property              | ✅  | 🔧  |     |     |
 | [require-meta-docs-description](docs/rules/require-meta-docs-description.md)     | require rules to implement a `meta.docs.description` property with the correct format      |     |     |     |     |
 | [require-meta-docs-recommended](docs/rules/require-meta-docs-recommended.md)     | require rules to implement a `meta.docs.recommended` property                              |     |     | 💡  |     |
 | [require-meta-docs-url](docs/rules/require-meta-docs-url.md)                     | require rules to implement a `meta.docs.url` property                                      |     | 🔧  |     |     |
 | [require-meta-fixable](docs/rules/require-meta-fixable.md)                       | require rules to implement a `meta.fixable` property                                       | ✅  |     |     |     |
 | [require-meta-has-suggestions](docs/rules/require-meta-has-suggestions.md)       | require suggestable rules to implement a `meta.hasSuggestions` property                    | ✅  | 🔧  |     |     |
 | [require-meta-schema](docs/rules/require-meta-schema.md)                         | require rules to implement a `meta.schema` property                                        | ✅  |     | 💡  |     |
-| [require-meta-schema-description](docs/rules/require-meta-schema-description.md) | require rules `meta.schema` properties to include descriptions                             |     |     |     |     |
+| [require-meta-schema-description](docs/rules/require-meta-schema-description.md) | require rules `meta.schema` properties to include descriptions                             | ✅  |     |     |     |
 | [require-meta-type](docs/rules/require-meta-type.md)                             | require rules to implement a `meta.type` property                                          | ✅  |     |     |     |
 
 ### Tests
