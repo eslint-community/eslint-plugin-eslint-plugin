@@ -2,15 +2,17 @@
  * @fileoverview Enforce consistent use of `output` assertions in rule tests
  * @author Teddy Katz
  */
+import type { Rule } from 'eslint';
 
-import { getKeyName, getTestInfo } from '../utils.js';
+import { getKeyName, getTestInfo } from '../utils';
+
+const keyNameMapper = (property: Parameters<typeof getKeyName>[0]) =>
+  getKeyName(property);
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -20,7 +22,7 @@ const rule = {
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/consistent-output.md',
     },
-    fixable: null, // or "code" or "whitespace"
+    fixable: undefined, // or "code" or "whitespace"
     schema: [
       {
         type: 'string',
@@ -37,20 +39,17 @@ const rule = {
   },
 
   create(context) {
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
     const always = context.options[0] && context.options[0] === 'always';
 
     return {
       Program(ast) {
         getTestInfo(context, ast).forEach((testRun) => {
           const readableCases = testRun.invalid.filter(
-            (testCase) => testCase.type === 'ObjectExpression',
+            (testCase) => testCase?.type === 'ObjectExpression',
           );
           const casesWithoutOutput = readableCases.filter(
             (testCase) =>
-              !testCase.properties.map(getKeyName).includes('output'),
+              !testCase.properties.map(keyNameMapper).includes('output'),
           );
 
           if (
