@@ -4,6 +4,31 @@
  */
 
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type {
+  ArrowFunctionExpression,
+  FunctionExpression,
+  Identifier,
+  Node,
+  Position,
+  SourceLocation,
+} from 'estree';
+
+import {
+  getContextIdentifiers,
+  isAutoFixerFunction,
+  isSuggestionFixerFunction,
+} from '../utils';
+import type { FunctionInfo } from '../types';
+
+const DEFAULT_FUNC_INFO: FunctionInfo = {
+  upper: null,
+  codePath: null,
+  hasReturnWithFixer: false,
+  hasYieldWithFixer: false,
+  shouldCheck: false,
+  node: null,
+};
 
 import {
   getContextIdentifiers,
@@ -14,9 +39,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -25,7 +48,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/fixer-return.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       missingFix: 'Fixer function never returned a fix.',
@@ -33,15 +56,8 @@ const rule = {
   },
 
   create(context) {
-    let funcInfo = {
-      upper: null,
-      codePath: null,
-      hasReturnWithFixer: false,
-      hasYieldWithFixer: false,
-      shouldCheck: false,
-      node: null,
-    };
-    let contextIdentifiers;
+    let funcInfo: FunctionInfo = DEFAULT_FUNC_INFO;
+    let contextIdentifiers = new Set<Identifier>();
 
     /**
      * As we exit the fix() function, ensure we have returned or yielded a real fix by this point.
@@ -52,9 +68,13 @@ const rule = {
      * @returns {void}
      */
     function ensureFunctionReturnedFix(
-      node,
-      loc = (node.id || node).loc.start,
-    ) {
+      node: ArrowFunctionExpression | FunctionExpression,
+      loc: Position | SourceLocation | undefined = (node.type ===
+        'FunctionExpression' && node.id
+        ? node.id
+        : node
+      ).loc?.start,
+    ): void {
       if (
         (node.generator && !funcInfo.hasYieldWithFixer) || // Generator function never yielded a fix
         (!node.generator && !funcInfo.hasReturnWithFixer) // Non-generator function never returned a fix
@@ -70,10 +90,9 @@ const rule = {
     /**
      * Check if a returned/yielded node is likely to be a fix or not.
      * A fix is an object created by fixer.replaceText() for example and returned by the fix function.
-     * @param {ASTNode} node - node to check
-     * @returns {boolean}
+     * @param node - node to check
      */
-    function isFix(node) {
+    function isFix(node: Node): boolean {
       if (node.type === 'ArrayExpression' && node.elements.length === 0) {
         // An empty array is not a fix.
         return false;
@@ -104,7 +123,7 @@ const rule = {
       },
 
       // Stacks this function's information.
-      onCodePathStart(codePath, node) {
+      onCodePathStart(codePath: Rule.CodePath, node: Node) {
         funcInfo = {
           upper: funcInfo,
           codePath,
@@ -119,7 +138,7 @@ const rule = {
 
       // Pops this function's information.
       onCodePathEnd() {
-        funcInfo = funcInfo.upper;
+        funcInfo = funcInfo.upper ?? DEFAULT_FUNC_INFO;
       },
 
       // Yield in generators
@@ -147,7 +166,7 @@ const rule = {
       'ArrowFunctionExpression:exit'(node) {
         if (funcInfo.shouldCheck) {
           const sourceCode = context.sourceCode;
-          const loc = sourceCode.getTokenBefore(node.body).loc; // Show violation on arrow (=>).
+          const loc = sourceCode.getTokenBefore(node.body)?.loc; // Show violation on arrow (=>).
           if (node.expression) {
             // When the return is implied (no curly braces around the body), we have to check the single body node directly.
             if (!isFix(node.body)) {
