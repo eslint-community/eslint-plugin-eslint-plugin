@@ -2,14 +2,14 @@
  * @fileoverview Disallows the usage of `meta.replacedBy` property
  */
 
-import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.js';
+import type { Rule } from 'eslint';
+
+import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
