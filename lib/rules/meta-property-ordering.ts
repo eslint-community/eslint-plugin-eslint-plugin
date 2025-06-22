@@ -1,6 +1,7 @@
 /**
  * @fileoverview Enforces the order of meta properties
  */
+import type { Rule } from 'eslint';
 
 import { getKeyName, getRuleInfo } from '../utils.js';
 
@@ -16,12 +17,13 @@ const defaultOrder = [
   'messages',
 ];
 
+const keyNameMapper = (property: Parameters<typeof getKeyName>[0]) =>
+  getKeyName(property);
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -52,24 +54,29 @@ const rule = {
       return {};
     }
 
-    const order = context.options[0] || defaultOrder;
+    const order: string[] = context.options[0] || defaultOrder;
 
-    const orderMap = new Map(order.map((name, i) => [name, i]));
+    const orderMap = new Map<string | null, number>(
+      order.map((name, i) => [name, i]),
+    );
 
     return {
       Program() {
-        if (!ruleInfo.meta || ruleInfo.meta.properties.length < 2) {
+        if (
+          !ruleInfo.meta ||
+          ruleInfo.meta.type !== 'ObjectExpression' ||
+          ruleInfo.meta.properties.length < 2
+        ) {
           return;
         }
 
         const props = ruleInfo.meta.properties;
 
-        let last;
+        let last = Number.NEGATIVE_INFINITY;
 
         const violatingProps = props.filter((prop) => {
-          const curr = orderMap.has(getKeyName(prop))
-            ? orderMap.get(getKeyName(prop))
-            : Number.POSITIVE_INFINITY;
+          const curr =
+            orderMap.get(getKeyName(prop)) ?? Number.POSITIVE_INFINITY;
           return last > (last = curr);
         });
 
@@ -80,7 +87,8 @@ const rule = {
         const knownProps = props
           .filter((prop) => orderMap.has(getKeyName(prop)))
           .sort(
-            (a, b) => orderMap.get(getKeyName(a)) - orderMap.get(getKeyName(b)),
+            (a, b) =>
+              orderMap.get(getKeyName(a))! - orderMap.get(getKeyName(b))!,
           );
         const unknownProps = props.filter(
           (prop) => !orderMap.has(getKeyName(prop)),
@@ -91,7 +99,7 @@ const rule = {
             node: violatingProp,
             messageId: 'inconsistentOrder',
             data: {
-              order: knownProps.map(getKeyName).join(', '),
+              order: knownProps.map(keyNameMapper).join(', '),
             },
             fix(fixer) {
               const expectedProps = [...knownProps, ...unknownProps];
