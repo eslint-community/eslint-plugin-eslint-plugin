@@ -3,7 +3,9 @@
  * @author Teddy Katz
  */
 
-import { getContextIdentifiers } from '../utils.js';
+import type { Rule } from 'eslint';
+import { getContextIdentifiers } from '../utils';
+import type { Identifier, MemberExpression } from 'estree';
 
 const DEPRECATED_PASSTHROUGHS = {
   getSource: 'getText',
@@ -26,14 +28,12 @@ const DEPRECATED_PASSTHROUGHS = {
   getTokensAfter: 'getTokensAfter',
   getTokensBefore: 'getTokensBefore',
   getTokensBetween: 'getTokensBetween',
-};
+} satisfies Record<string, string>;
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -66,30 +66,29 @@ const rule = {
               contextId.parent.type === 'MemberExpression' &&
               contextId === contextId.parent.object &&
               contextId.parent.property.type === 'Identifier' &&
-              Object.prototype.hasOwnProperty.call(
-                DEPRECATED_PASSTHROUGHS,
-                contextId.parent.property.name,
-              ),
+              contextId.parent.property.name in DEPRECATED_PASSTHROUGHS,
           )
-          .forEach((contextId) =>
-            context.report({
+          .forEach((contextId) => {
+            const parentPropertyName = (
+              (contextId.parent as MemberExpression).property as Identifier
+            ).name as keyof typeof DEPRECATED_PASSTHROUGHS;
+            return context.report({
               node: contextId.parent,
               messageId: 'newFormat',
               data: {
                 contextName: contextId.name,
-                original: contextId.parent.property.name,
-                replacement:
-                  DEPRECATED_PASSTHROUGHS[contextId.parent.property.name],
+                original: parentPropertyName,
+                replacement: DEPRECATED_PASSTHROUGHS[parentPropertyName],
               },
               fix: (fixer) => [
                 fixer.insertTextAfter(contextId, '.getSourceCode()'),
                 fixer.replaceText(
-                  contextId.parent.property,
-                  DEPRECATED_PASSTHROUGHS[contextId.parent.property.name],
+                  (contextId.parent as MemberExpression).property,
+                  DEPRECATED_PASSTHROUGHS[parentPropertyName],
                 ),
               ],
-            }),
-          );
+            });
+          });
       },
     };
   },

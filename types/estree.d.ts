@@ -20,6 +20,7 @@ declare module 'estree' {
   }
 
   interface NodeMap {
+    TSAsExpression: TSAsExpression;
     TSExportAssignment: TSExportAssignment;
   }
 }
