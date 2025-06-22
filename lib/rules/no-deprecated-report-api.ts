@@ -2,15 +2,15 @@
  * @fileoverview Disallow the version of `context.report()` with multiple arguments
  * @author Teddy Katz
  */
+import type { Rule } from 'eslint';
+import type { Identifier } from 'estree';
 
 import { getContextIdentifiers, getReportInfo } from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -29,7 +29,7 @@ const rule = {
 
   create(context) {
     const sourceCode = context.sourceCode;
-    let contextIdentifiers;
+    let contextIdentifiers: Set<Identifier> = new Set();
 
     // ----------------------------------------------------------------------
     // Public
@@ -45,7 +45,7 @@ const rule = {
       CallExpression(node) {
         if (
           node.callee.type === 'MemberExpression' &&
-          contextIdentifiers.has(node.callee.object) &&
+          contextIdentifiers.has(node.callee.object as Identifier) &&
           node.callee.property.type === 'Identifier' &&
           node.callee.property.name === 'report' &&
           (node.arguments.length > 1 ||
@@ -56,8 +56,10 @@ const rule = {
             node: node.callee.property,
             messageId: 'useNewAPI',
             fix(fixer) {
-              const openingParen = sourceCode.getTokenBefore(node.arguments[0]);
-              const closingParen = sourceCode.getLastToken(node);
+              const openingParen = sourceCode.getTokenBefore(
+                node.arguments[0],
+              )!;
+              const closingParen = sourceCode.getLastToken(node)!;
               const reportInfo = getReportInfo(node, context);
 
               if (!reportInfo) {
@@ -68,7 +70,8 @@ const rule = {
                 [openingParen.range[1], closingParen.range[0]],
                 `{${Object.keys(reportInfo)
                   .map(
-                    (key) => `${key}: ${sourceCode.getText(reportInfo[key])}`,
+                    (key) =>
+                      `${key}: ${sourceCode.getText(reportInfo[key as keyof typeof reportInfo])}`,
                   )
                   .join(', ')}}`,
               );
