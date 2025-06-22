@@ -3,14 +3,15 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-import { getTestInfo } from '../utils.js';
+import type { Rule } from 'eslint';
+import type { Expression, SpreadElement } from 'estree';
+
+import { getTestInfo } from '../utils';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -27,20 +28,13 @@ const rule = {
   },
 
   create(context) {
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
     const sourceCode = context.sourceCode;
 
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
     /**
      * Create a unique cache key
-     * @param {object} test
-     * @returns {string}
+     * @param test
      */
-    function toKey(test) {
+    function toKey(test: Expression | SpreadElement): string {
       if (test.type !== 'ObjectExpression') {
         return JSON.stringify([test.type, sourceCode.getText(test)]);
       }
@@ -55,28 +49,30 @@ const rule = {
         getTestInfo(context, ast).forEach((testRun) => {
           [testRun.valid, testRun.invalid].forEach((tests) => {
             const cache = new Set();
-            tests.forEach((test) => {
-              const key = toKey(test);
-              if (cache.has(key)) {
-                context.report({
-                  node: test,
-                  messageId: 'identical',
-                  fix(fixer) {
-                    const start = sourceCode.getTokenBefore(test);
-                    const end = sourceCode.getTokenAfter(test);
-                    return fixer.removeRange(
-                      // should remove test's trailing comma
-                      [
-                        start.range[1],
-                        end.value === ',' ? end.range[1] : test.range[1],
-                      ],
-                    );
-                  },
-                });
-              } else {
-                cache.add(key);
-              }
-            });
+            tests
+              .filter((test) => !!test)
+              .forEach((test) => {
+                const key = toKey(test);
+                if (cache.has(key)) {
+                  context.report({
+                    node: test,
+                    messageId: 'identical',
+                    fix(fixer) {
+                      const start = sourceCode.getTokenBefore(test)!;
+                      const end = sourceCode.getTokenAfter(test)!;
+                      return fixer.removeRange(
+                        // should remove test's trailing comma
+                        [
+                          start.range[1],
+                          end.value === ',' ? end.range[1] : test.range![1],
+                        ],
+                      );
+                    },
+                  });
+                } else {
+                  cache.add(key);
+                }
+              });
           });
         });
       },
