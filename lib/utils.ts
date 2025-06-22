@@ -3,6 +3,7 @@ import type { Rule, Scope } from 'eslint';
 import estraverse from 'estraverse';
 import type {
   ArrowFunctionExpression,
+  AssignmentProperty,
   CallExpression,
   Directive,
   Expression,
@@ -20,6 +21,7 @@ import type {
   Statement,
   Super,
   TSExportAssignment,
+  VariableDeclarator,
 } from 'estree';
 
 import type { PartialRuleInfo, RuleInfo, TestInfo } from './types';
@@ -982,19 +984,20 @@ export function getMessageIdNodeById(
   );
 }
 
+const isProperty = (node: Node): node is Property => node.type === 'Property';
 export function getMetaSchemaNode(
-  metaNode,
+  metaNode: Node,
   scopeManager: Scope.ScopeManager,
-): Node | undefined {
-  return evaluateObjectProperties(metaNode, scopeManager).find(
-    (p) => p.type === 'Property' && getKeyName(p) === 'schema',
-  );
+): AssignmentProperty | Property | undefined {
+  return evaluateObjectProperties(metaNode, scopeManager)
+    .filter(isProperty)
+    .find((p) => getKeyName(p) === 'schema');
 }
 
 export function getMetaSchemaNodeProperty(
-  schemaNode,
+  schemaNode: AssignmentProperty | Property,
   scopeManager: Scope.ScopeManager,
-) {
+): Node | null {
   if (!schemaNode) {
     return null;
   }
@@ -1002,7 +1005,7 @@ export function getMetaSchemaNodeProperty(
   let { value } = schemaNode;
   if (value.type === 'Identifier' && value.name !== 'undefined') {
     const variable = findVariable(
-      scopeManager.acquire(value) || scopeManager.globalScope,
+      scopeManager.acquire(value) || scopeManager.globalScope!,
       value,
     );
 
@@ -1015,10 +1018,10 @@ export function getMetaSchemaNodeProperty(
       variable.defs[0].node.type !== 'VariableDeclarator' ||
       !variable.defs[0].node.init
     ) {
-      return;
+      return null;
     }
 
-    value = variable.defs[0].node.init;
+    value = (variable.defs[0].node as VariableDeclarator).init! as Expression;
   }
 
   return value;

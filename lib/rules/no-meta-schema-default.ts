@@ -1,17 +1,17 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
 
 import {
   getMetaSchemaNode,
   getMetaSchemaNodeProperty,
   getRuleInfo,
-} from '../utils.js';
+} from '../utils';
+import type { Expression, SpreadElement } from 'estree';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -31,7 +31,7 @@ const rule = {
     const sourceCode = context.sourceCode;
     const { scopeManager } = sourceCode;
     const ruleInfo = getRuleInfo(sourceCode);
-    if (!ruleInfo) {
+    if (!ruleInfo || !ruleInfo.meta) {
       return {};
     }
 
@@ -43,31 +43,32 @@ const rule = {
     const schemaProperty = getMetaSchemaNodeProperty(schemaNode, scopeManager);
 
     if (schemaProperty?.type === 'ObjectExpression') {
-      checkSchemaElement(schemaProperty, true);
+      checkSchemaElement(schemaProperty);
     } else if (schemaProperty?.type === 'ArrayExpression') {
       for (const element of schemaProperty.elements) {
-        checkSchemaElement(element, true);
+        checkSchemaElement(element);
       }
     }
 
     return {};
 
-    function checkSchemaElement(node) {
-      if (node.type !== 'ObjectExpression') {
+    function checkSchemaElement(node: Expression | SpreadElement | null) {
+      if (node?.type !== 'ObjectExpression') {
         return;
       }
 
-      for (const { type, key, value } of node.properties) {
-        if (type !== 'Property') {
+      for (const property of node.properties) {
+        if (property.type !== 'Property') {
           continue;
         }
+        const { key, value } = property;
         const staticKey =
           key.type === 'Identifier' ? { value: key.name } : getStaticValue(key);
         if (!staticKey?.value) {
           continue;
         }
 
-        switch (key.name ?? key.value) {
+        switch ('name' in key ? key.name : 'value' in key ? key.value : '') {
           case 'allOf':
           case 'anyOf':
           case 'oneOf': {
@@ -81,9 +82,12 @@ const rule = {
           }
 
           case 'properties': {
-            if (Array.isArray(value.properties)) {
+            if ('properties' in value && Array.isArray(value.properties)) {
               for (const property of value.properties) {
-                if (property.value?.type === 'ObjectExpression') {
+                if (
+                  'value' in property &&
+                  property.value.type === 'ObjectExpression'
+                ) {
                   checkSchemaElement(property.value);
                 }
               }
@@ -93,8 +97,7 @@ const rule = {
           }
 
           case 'elements': {
-            checkSchemaElement(value);
-
+            checkSchemaElement(value as Expression | SpreadElement);
             break;
           }
 
