@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 import type { Rule } from 'eslint';
-import type { Identifier } from 'estree';
+import type { Node } from 'estree';
 
 import { getContextIdentifiers, getReportInfo } from '../utils.js';
 
@@ -29,7 +29,7 @@ const rule: Rule.RuleModule = {
 
   create(context) {
     const sourceCode = context.sourceCode;
-    let contextIdentifiers: Set<Identifier> = new Set();
+    let contextIdentifiers: Set<Node>;
 
     // ----------------------------------------------------------------------
     // Public
@@ -45,7 +45,7 @@ const rule: Rule.RuleModule = {
       CallExpression(node) {
         if (
           node.callee.type === 'MemberExpression' &&
-          contextIdentifiers.has(node.callee.object as Identifier) &&
+          contextIdentifiers.has(node.callee.object) &&
           node.callee.property.type === 'Identifier' &&
           node.callee.property.name === 'report' &&
           (node.arguments.length > 1 ||

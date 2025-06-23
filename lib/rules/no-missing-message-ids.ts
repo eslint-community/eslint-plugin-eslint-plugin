@@ -1,19 +1,20 @@
+import type { Rule } from 'eslint';
+import type { Node } from 'estree';
+
 import {
   collectReportViolationAndSuggestionData,
   findPossibleVariableValues,
   getContextIdentifiers,
-  getMessagesNode,
   getMessageIdNodeById,
+  getMessagesNode,
   getReportInfo,
   getRuleInfo,
-} from '../utils.js';
+} from '../utils';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -23,7 +24,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-missing-message-ids.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       missingMessage:
@@ -41,7 +42,7 @@ const rule = {
 
     const messagesNode = getMessagesNode(ruleInfo, scopeManager);
 
-    let contextIdentifiers;
+    let contextIdentifiers: Set<Node>;
 
     if (!messagesNode || messagesNode.type !== 'ObjectExpression') {
       // If we can't find `meta.messages`, disable the rule.
@@ -54,7 +55,7 @@ const rule = {
       },
 
       CallExpression(node) {
-        const scope = sourceCode.getScope(node);
+        const scope = context.sourceCode.getScope(node);
         // Check for messageId properties used in known calls to context.report();
         if (
           node.callee.type === 'MemberExpression' &&
