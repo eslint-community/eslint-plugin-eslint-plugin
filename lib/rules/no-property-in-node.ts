@@ -1,3 +1,6 @@
+import type { Rule } from 'eslint';
+import type { Type } from 'typescript';
+
 const defaultTypedNodeSourceFileTesters = [
   /@types[/\\]estree[/\\]index\.d\.ts/,
   /@typescript-eslint[/\\]types[/\\]dist[/\\]generated[/\\]ast-spec\.d\.ts/,
@@ -23,11 +26,14 @@ const defaultTypedNodeSourceFileTesters = [
  * }
  * ```
  *
- * @param {import('typescript').Type} type
- * @param {RegExp[]} typedNodeSourceFileTesters
+ * @param type
+ * @param typedNodeSourceFileTesters
  * @returns Whether the type seems to include a known ESTree or TSESTree AST node.
  */
-function isAstNodeType(type, typedNodeSourceFileTesters) {
+function isAstNodeType(
+  type: Type & { types?: Type[] },
+  typedNodeSourceFileTesters: RegExp[],
+): boolean {
   return (type.types || [type])
     .filter((typePart) => typePart.getProperty('type'))
     .flatMap(
@@ -42,8 +48,7 @@ function isAstNodeType(type, typedNodeSourceFileTesters) {
     });
 }
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -51,6 +56,7 @@ const rule = {
         'disallow using `in` to narrow node types instead of looking at properties',
       category: 'Rules',
       recommended: false,
+      // @ts-expect-error -- need to augment the type of `Rule.RuleMetaData` to include `requiresTypeChecking`
       requiresTypeChecking: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-property-in-node.md',
     },
@@ -75,11 +81,14 @@ const rule = {
   },
 
   create(context) {
+    const additionalNodeTypeFiles: string[] =
+      context.options[0]?.additionalNodeTypeFiles ?? [];
+
     const typedNodeSourceFileTesters = [
       ...defaultTypedNodeSourceFileTesters,
-      ...(context.options[0]?.additionalNodeTypeFiles?.map(
-        (filePath) => new RegExp(filePath),
-      ) ?? []),
+      ...additionalNodeTypeFiles.map(
+        (filePath: string) => new RegExp(filePath),
+      ),
     ];
 
     return {
