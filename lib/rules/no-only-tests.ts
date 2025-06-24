@@ -3,11 +3,11 @@ import {
   isOpeningBraceToken,
   isClosingBraceToken,
 } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
 
-import { getTestInfo } from '../utils.js';
+import { getTestInfo } from '../utils';
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -30,7 +30,7 @@ const rule = {
       Program(ast) {
         for (const testRun of getTestInfo(context, ast)) {
           for (const test of [...testRun.valid, ...testRun.invalid]) {
-            if (test.type === 'ObjectExpression') {
+            if (test?.type === 'ObjectExpression') {
               // Test case object: { code: 'const x = 123;', ... }
 
               const onlyProperty = test.properties.find(
@@ -53,9 +53,9 @@ const rule = {
                         const sourceCode = context.sourceCode;
 
                         const tokenBefore =
-                          sourceCode.getTokenBefore(onlyProperty);
+                          sourceCode.getTokenBefore(onlyProperty)!;
                         const tokenAfter =
-                          sourceCode.getTokenAfter(onlyProperty);
+                          sourceCode.getTokenAfter(onlyProperty)!;
                         if (
                           (isCommaToken(tokenBefore) &&
                             isCommaToken(tokenAfter)) || // In middle of properties
@@ -79,7 +79,7 @@ const rule = {
                 });
               }
             } else if (
-              test.type === 'CallExpression' &&
+              test?.type === 'CallExpression' &&
               test.callee.type === 'MemberExpression' &&
               test.callee.object.type === 'Identifier' &&
               test.callee.object.name === 'RuleTester' &&
