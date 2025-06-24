@@ -1,5 +1,5 @@
 import { getStaticValue, findVariable } from '@eslint-community/eslint-utils';
-import type { Rule, Scope } from 'eslint';
+import type { Rule, Scope, SourceCode } from 'eslint';
 import estraverse from 'estraverse';
 import type {
   ArrowFunctionExpression,
@@ -24,7 +24,13 @@ import type {
   VariableDeclarator,
 } from 'estree';
 
-import type { PartialRuleInfo, RuleInfo, TestInfo } from './types';
+import type {
+  MetaDocsProperty,
+  PartialRuleInfo,
+  RuleInfo,
+  TestInfo,
+  ViolationAndSuppressionData,
+} from './types';
 
 const functionTypes = new Set([
   'FunctionExpression',
@@ -81,11 +87,7 @@ function collectInterestingProperties<T extends string>(
   return properties.reduce<Record<string, Expression | Pattern>>(
     (parsedProps, prop) => {
       const keyValue = getKeyName(prop);
-      if (
-        prop.type === 'Property' &&
-        keyValue &&
-        interestingKeys.has(keyValue as T)
-      ) {
+      if (isProperty(prop) && keyValue && interestingKeys.has(keyValue as T)) {
         // In TypeScript, unwrap any usage of `{} as const`.
         parsedProps[keyValue] =
           prop.value.type === 'TSAsExpression'
@@ -338,7 +340,7 @@ function findObjectPropertyValueByKeyName(
 ): Property['value'] | undefined {
   const property = obj.properties.find(
     (prop) =>
-      prop.type === 'Property' &&
+      isProperty(prop) &&
       prop.key.type === 'Identifier' &&
       prop.key.name === keyName,
   ) as Property | undefined;
@@ -378,12 +380,12 @@ function findVariableValue(
  * @param node
  * @returns the list of elements
  */
-function collectArrayElements(node: Node): (Node | null)[] {
+function collectArrayElements(node: Node): Node[] {
   if (!node) {
     return [];
   }
   if (node.type === 'ArrayExpression') {
-    return node.elements;
+    return node.elements.filter((element) => element !== null);
   }
   if (node.type === 'ConditionalExpression') {
     return [
@@ -675,7 +677,13 @@ export function getTestInfo(
  * Gets information on a report, given the ASTNode of context.report().
  * @param node The ASTNode of context.report()
  */
-export function getReportInfo(node: CallExpression, context: Rule.RuleContext) {
+export function getReportInfo(
+  node: CallExpression,
+  context: Rule.RuleContext,
+):
+  | Record<string, Property['value']>
+  | Record<string, Expression | SpreadElement>
+  | null {
   const reportArgs = node.arguments;
 
   // If there is exactly one argument, the API expects an object.
@@ -689,19 +697,22 @@ export function getReportInfo(node: CallExpression, context: Rule.RuleContext) {
 
   if (reportArgs.length === 1) {
     if (reportArgs[0].type === 'ObjectExpression') {
-      return reportArgs[0].properties.reduce((reportInfo, property) => {
-        const propName = getKeyName(property);
+      return reportArgs[0].properties.reduce<Record<string, Property['value']>>(
+        (reportInfo, property) => {
+          const propName = getKeyName(property);
 
-        if (propName !== null) {
-          return Object.assign(reportInfo, { [propName]: property.value });
-        }
-        return reportInfo;
-      }, {});
+          if (propName !== null && 'value' in property) {
+            return Object.assign(reportInfo, { [propName]: property.value });
+          }
+          return reportInfo;
+        },
+        {},
+      );
     }
     return null;
   }
 
-  let keys;
+  let keys: string[];
   const sourceCode = context.sourceCode;
   const scope = sourceCode.getScope(node);
   const secondArgStaticValue = getStaticValue(reportArgs[1], scope);
@@ -735,13 +746,13 @@ export function getReportInfo(node: CallExpression, context: Rule.RuleContext) {
 /**
  * Gets a set of all `sourceCode` identifiers.
  * @param scopeManager
- * @param {ASTNode} ast The AST of the file. This must have `parent` properties.
- * @returns {Set<ASTNode>} A set of all identifiers referring to the `SourceCode` object.
+ * @param ast The AST of the file. This must have `parent` properties.
+ * @returns A set of all identifiers referring to the `SourceCode` object.
  */
 export function getSourceCodeIdentifiers(
   scopeManager: Scope.ScopeManager,
-  ast,
-) {
+  ast: Program,
+): Set<Identifier> {
   return new Set(
     [...getContextIdentifiers(scopeManager, ast)]
       .filter(
@@ -767,17 +778,21 @@ export function getSourceCodeIdentifiers(
 
 /**
  * Insert a given property into a given object literal.
- * @param {SourceCodeFixer} fixer The fixer.
- * @param {Node} node The ObjectExpression node to insert a property.
- * @param {string} propertyText The property code to insert.
- * @returns {void}
+ * @param fixer The fixer.
+ * @param node The ObjectExpression node to insert a property.
+ * @param propertyText The property code to insert.
  */
-export function insertProperty(fixer, node, propertyText, sourceCode) {
+export function insertProperty(
+  fixer: Rule.RuleFixer,
+  node: ObjectExpression,
+  propertyText: string,
+  sourceCode: SourceCode,
+): Rule.Fix {
   if (node.properties.length === 0) {
     return fixer.replaceText(node, `{\n${propertyText}\n}`);
   }
   return fixer.insertTextAfter(
-    sourceCode.getLastToken(node.properties.at(-1)),
+    sourceCode.getLastToken(node.properties.at(-1)!)!,
     `,\n${propertyText}`,
   );
 }
@@ -788,8 +803,8 @@ export function insertProperty(fixer, node, propertyText, sourceCode) {
  * @returns {messageId?: String, message?: String, data?: Object, fix?: Function}[]
  */
 export function collectReportViolationAndSuggestionData(
-  reportInfo: ReturnType<typeof getReportInfo>,
-) {
+  reportInfo: NonNullable<ReturnType<typeof getReportInfo>>,
+): ViolationAndSuppressionData[] {
   return [
     // Violation message
     {
@@ -854,12 +869,12 @@ export function isSuggestionFixerFunction(
   return (
     (node.type === 'FunctionExpression' ||
       node.type === 'ArrowFunctionExpression') &&
-    parent.type === 'Property' &&
+    isProperty(parent) &&
     parent.key.type === 'Identifier' &&
     parent.key.name === 'fix' &&
     parent.parent.type === 'ObjectExpression' &&
     parent.parent.parent.type === 'ArrayExpression' &&
-    parent.parent.parent.parent.type === 'Property' &&
+    isProperty(parent.parent.parent.parent) &&
     parent.parent.parent.parent.key.type === 'Identifier' &&
     parent.parent.parent.parent.key.name === 'suggest' &&
     parent.parent.parent.parent.parent.type === 'ObjectExpression' &&
@@ -882,7 +897,7 @@ export function isSuggestionFixerFunction(
  * @returns the list of all properties that could be found
  */
 export function evaluateObjectProperties(
-  objectNode: Node,
+  objectNode: Node | undefined,
   scopeManager: Scope.ScopeManager,
 ): Node[] {
   if (!objectNode || objectNode.type !== 'ObjectExpression') {
@@ -903,46 +918,51 @@ export function evaluateObjectProperties(
 
 export function getMetaDocsProperty(
   propertyName: string,
-  ruleInfo,
+  ruleInfo: RuleInfo,
   scopeManager: Scope.ScopeManager,
-) {
-  const metaNode = ruleInfo.meta;
+): MetaDocsProperty {
+  const metaNode = ruleInfo.meta ?? undefined;
 
-  const docsNode = evaluateObjectProperties(metaNode, scopeManager).find(
-    (p) => p.type === 'Property' && getKeyName(p) === 'docs',
-  );
+  const docsNode = evaluateObjectProperties(metaNode, scopeManager)
+    .filter(isProperty)
+    .find((p) => getKeyName(p) === 'docs');
 
   const metaPropertyNode = evaluateObjectProperties(
     docsNode?.value,
     scopeManager,
-  ).find((p) => p.type === 'Property' && getKeyName(p) === propertyName);
+  )
+    .filter(isProperty)
+    .find((p) => getKeyName(p) === propertyName);
 
   return { docsNode, metaNode, metaPropertyNode };
 }
 
 /**
  * Get the `meta.messages` node from a rule.
- * @param {RuleInfo} ruleInfo
+ * @param ruleInfo
  * @param scopeManager
  */
 export function getMessagesNode(
-  ruleInfo,
+  ruleInfo: RuleInfo | null,
   scopeManager: Scope.ScopeManager,
-): Node | undefined {
+): ObjectExpression | undefined {
   if (!ruleInfo) {
     return;
   }
 
-  const metaNode = ruleInfo.meta;
-  const messagesNode = evaluateObjectProperties(metaNode, scopeManager).find(
-    (p) => p.type === 'Property' && getKeyName(p) === 'messages',
-  );
+  const metaNode = ruleInfo.meta ?? undefined;
+  const messagesNode = evaluateObjectProperties(metaNode, scopeManager)
+    .filter(isProperty)
+    .find((p) => getKeyName(p) === 'messages');
 
   if (messagesNode) {
     if (messagesNode.value.type === 'ObjectExpression') {
       return messagesNode.value;
     }
-    const value = findVariableValue(messagesNode.value, scopeManager);
+    const value = findVariableValue(
+      messagesNode.value as Identifier,
+      scopeManager,
+    );
     if (value && value.type === 'ObjectExpression') {
       return value;
     }
@@ -951,13 +971,13 @@ export function getMessagesNode(
 
 /**
  * Get the list of messageId properties from `meta.messages` for a rule.
- * @param {RuleInfo} ruleInfo
+ * @param ruleInfo
  * @param scopeManager
  */
 export function getMessageIdNodes(
-  ruleInfo,
+  ruleInfo: RuleInfo,
   scopeManager: Scope.ScopeManager,
-): Node | undefined {
+): Node[] | undefined {
   const messagesNode = getMessagesNode(ruleInfo, scopeManager);
 
   return messagesNode && messagesNode.type === 'ObjectExpression'
@@ -965,30 +985,30 @@ export function getMessageIdNodes(
     : undefined;
 }
 
+const isProperty = (node: Node): node is Property => node.type === 'Property';
 /**
  * Get the messageId property from a rule's `meta.messages` that matches the given `messageId`.
  * @param messageId - the messageId to check for
- * @param {RuleInfo} ruleInfo
+ * @param ruleInfo
  * @param scopeManager
  * @param scope
  * @returns The matching messageId property from `meta.messages`.
  */
 export function getMessageIdNodeById(
   messageId: string,
-  ruleInfo,
+  ruleInfo: RuleInfo,
   scopeManager: Scope.ScopeManager,
   scope: Scope.Scope,
-): Node | undefined {
-  return getMessageIdNodes(ruleInfo, scopeManager).find(
-    (p) => p.type === 'Property' && getKeyName(p, scope) === messageId,
-  );
+): Property | undefined {
+  return getMessageIdNodes(ruleInfo, scopeManager)
+    ?.filter(isProperty)
+    .find((p) => getKeyName(p, scope) === messageId);
 }
 
-const isProperty = (node: Node): node is Property => node.type === 'Property';
 export function getMetaSchemaNode(
   metaNode: Node,
   scopeManager: Scope.ScopeManager,
-): AssignmentProperty | Property | undefined {
+): Property | undefined {
   return evaluateObjectProperties(metaNode, scopeManager)
     .filter(isProperty)
     .find((p) => getKeyName(p) === 'schema');
@@ -1034,11 +1054,11 @@ export function getMetaSchemaNodeProperty(
  * @returns the values that the given variable could be initialized to.
  */
 export function findPossibleVariableValues(
-  node: Node,
+  node: Identifier,
   scopeManager: Scope.ScopeManager,
 ): Node[] {
   const variable = findVariable(
-    scopeManager.acquire(node) || scopeManager.globalScope,
+    scopeManager.acquire(node) || scopeManager.globalScope!,
     node,
   );
   return ((variable && variable.references) || []).flatMap((ref) => {
@@ -1070,11 +1090,11 @@ export function isUndefinedIdentifier(node: Node): boolean {
  * @returns whether the variable comes from a function parameter
  */
 export function isVariableFromParameter(
-  node: Node,
+  node: Identifier,
   scopeManager: Scope.ScopeManager,
 ): boolean {
   const variable = findVariable(
-    scopeManager.acquire(node) || scopeManager.globalScope,
+    scopeManager.acquire(node) || scopeManager.globalScope!,
     node,
   );
 

@@ -1,5 +1,5 @@
 import type { Rule } from 'eslint';
-import type { Node } from 'estree';
+import type { Identifier, Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
@@ -70,13 +70,16 @@ const rule: Rule.RuleModule = {
 
           const reportMessagesAndDataArray =
             collectReportViolationAndSuggestionData(reportInfo);
-          for (const { messageId } of reportMessagesAndDataArray.filter(
-            (obj) => obj.messageId,
-          )) {
+          for (const messageId of reportMessagesAndDataArray
+            .map((obj) => obj.messageId)
+            .filter((messageId) => !!messageId)) {
             const values =
               messageId.type === 'Literal'
                 ? [messageId]
-                : findPossibleVariableValues(messageId, scopeManager);
+                : findPossibleVariableValues(
+                    messageId as Identifier,
+                    scopeManager,
+                  );
 
             // Look for any possible string values we found for this messageId.
             values.forEach((val) => {

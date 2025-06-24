@@ -3,23 +3,23 @@
  * @author Teddy Katz
  */
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
 
 import {
   collectReportViolationAndSuggestionData,
+  getContextIdentifiers,
   getKeyName,
+  getMessageIdNodeById,
+  getMessagesNode,
   getReportInfo,
   getRuleInfo,
-  getMessagesNode,
-  getMessageIdNodeById,
-  getContextIdentifiers,
-} from '../utils.js';
+} from '../utils';
+import type { Node } from 'estree';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -28,7 +28,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-missing-placeholders.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       placeholderDoesNotExist:
@@ -40,7 +40,7 @@ const rule = {
     const sourceCode = context.sourceCode;
     const { scopeManager } = sourceCode;
 
-    let contextIdentifiers;
+    let contextIdentifiers: Set<Node>;
 
     const ruleInfo = getRuleInfo(sourceCode);
     if (!ruleInfo) {
@@ -96,9 +96,9 @@ const rule = {
             messageId,
             data,
           } of reportMessagesAndDataArray.filter((obj) => obj.message)) {
-            const messageStaticValue = getStaticValue(message, scope);
+            const messageStaticValue = getStaticValue(message!, scope);
             if (
-              ((message.type === 'Literal' &&
+              ((message?.type === 'Literal' &&
                 typeof message.value === 'string') ||
                 (messageStaticValue &&
                   typeof messageStaticValue.value === 'string')) &&
@@ -107,20 +107,21 @@ const rule = {
               // Same regex as the one ESLint uses
               // https://github.com/eslint/eslint/blob/e5446449d93668ccbdb79d78cc69f165ce4fde07/lib/eslint.js#L990
               const PLACEHOLDER_MATCHER = /{{\s*([^{}]+?)\s*}}/g;
-              let match;
+              let match: RegExpExecArray | null;
 
-              while (
-                (match = PLACEHOLDER_MATCHER.exec(
-                  message.value || messageStaticValue.value,
-                ))
-              ) {
+              const messageText: string =
+                // @ts-expect-error
+                message.value || messageStaticValue.value;
+              while ((match = PLACEHOLDER_MATCHER.exec(messageText))) {
                 const matchingProperty =
                   data &&
-                  data.properties.find((prop) => getKeyName(prop) === match[1]);
+                  data.properties.find(
+                    (prop) => getKeyName(prop) === match![1],
+                  );
 
                 if (!matchingProperty) {
                   context.report({
-                    node: data || messageId || message,
+                    node: (data || messageId || message) as Node,
                     messageId: 'placeholderDoesNotExist',
                     data: { missingKey: match[1] },
                   });

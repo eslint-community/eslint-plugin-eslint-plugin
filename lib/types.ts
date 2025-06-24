@@ -1,10 +1,15 @@
 import type { Rule } from 'eslint';
 import type {
+  ArrayPattern,
   ArrowFunctionExpression,
+  AssignmentPattern,
   Expression,
   FunctionDeclaration,
   FunctionExpression,
   Node,
+  ObjectPattern,
+  Property,
+  RestElement,
   SpreadElement,
 } from 'estree';
 
@@ -31,4 +36,41 @@ export interface RuleInfo extends PartialRuleInfo {
 export type TestInfo = {
   invalid: (Expression | SpreadElement | null)[];
   valid: (Expression | SpreadElement | null)[];
+};
+
+export type ViolationAndSuppressionData = {
+  messageId?:
+    | Expression
+    | SpreadElement
+    | ObjectPattern
+    | ArrayPattern
+    | RestElement
+    | AssignmentPattern;
+  message?:
+    | Expression
+    | SpreadElement
+    | ObjectPattern
+    | ArrayPattern
+    | RestElement
+    | AssignmentPattern;
+  data?:
+    | Expression
+    | SpreadElement
+    | ObjectPattern
+    | ArrayPattern
+    | RestElement
+    | AssignmentPattern;
+  fix?:
+    | Expression
+    | SpreadElement
+    | ObjectPattern
+    | ArrayPattern
+    | RestElement
+    | AssignmentPattern;
+};
+
+export type MetaDocsProperty = {
+  docsNode: Property | undefined;
+  metaNode: Node | undefined;
+  metaPropertyNode: Property | undefined;
 };
