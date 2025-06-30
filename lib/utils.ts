@@ -899,14 +899,17 @@ export function isSuggestionFixerFunction(
 export function evaluateObjectProperties(
   objectNode: Node | undefined,
   scopeManager: Scope.ScopeManager,
-): Node[] {
+): (Property | SpreadElement)[] {
   if (!objectNode || objectNode.type !== 'ObjectExpression') {
     return [];
   }
 
   return objectNode.properties.flatMap((property) => {
     if (property.type === 'SpreadElement') {
-      const value = findVariableValue(property.argument, scopeManager);
+      const value = findVariableValue(
+        property.argument as Identifier,
+        scopeManager,
+      );
       if (value && value.type === 'ObjectExpression') {
         return value.properties;
       }
@@ -977,7 +980,7 @@ export function getMessagesNode(
 export function getMessageIdNodes(
   ruleInfo: RuleInfo,
   scopeManager: Scope.ScopeManager,
-): Node[] | undefined {
+): (Property | SpreadElement)[] | undefined {
   const messagesNode = getMessagesNode(ruleInfo, scopeManager);
 
   return messagesNode && messagesNode.type === 'ObjectExpression'

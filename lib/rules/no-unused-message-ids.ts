@@ -1,3 +1,5 @@
+import type { Rule } from 'eslint';
+
 import {
   collectReportViolationAndSuggestionData,
   findPossibleVariableValues,
@@ -7,14 +9,14 @@ import {
   getReportInfo,
   getRuleInfo,
   isVariableFromParameter,
-} from '../utils.js';
+} from '../utils';
+import type { Identifier, Node } from 'estree';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -23,7 +25,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-unused-message-ids.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       unusedMessage: 'The messageId "{{messageId}}" is never used.',
@@ -38,8 +40,8 @@ const rule = {
       return {};
     }
 
-    const messageIdsUsed = new Set();
-    let contextIdentifiers;
+    const messageIdsUsed = new Set<string | null>();
+    let contextIdentifiers: Set<Node>;
     let hasSeenUnknownMessageId = false;
     let hasSeenViolationReport = false;
 
@@ -64,7 +66,7 @@ const rule = {
           return;
         }
 
-        const scope = sourceCode.getScope(ast);
+        const scope = sourceCode.getScope(sourceCode.ast);
 
         const messageIdNodesUnused = messageIdNodes.filter(
           (node) => !messageIdsUsed.has(getKeyName(node, scope)),
@@ -76,7 +78,7 @@ const rule = {
             node: messageIdNode,
             messageId: 'unusedMessage',
             data: {
-              messageId: getKeyName(messageIdNode, scope),
+              messageId: getKeyName(messageIdNode, scope)!,
             },
           });
         }
@@ -99,13 +101,16 @@ const rule = {
 
           const reportMessagesAndDataArray =
             collectReportViolationAndSuggestionData(reportInfo);
-          for (const { messageId } of reportMessagesAndDataArray.filter(
-            (obj) => obj.messageId,
-          )) {
+          for (const messageId of reportMessagesAndDataArray
+            .map((obj) => obj.messageId)
+            .filter((messageId) => !!messageId)) {
             const values =
               messageId.type === 'Literal'
                 ? [messageId]
-                : findPossibleVariableValues(messageId, scopeManager);
+                : findPossibleVariableValues(
+                    messageId as Identifier,
+                    scopeManager,
+                  );
             if (
               values.length === 0 ||
               values.some((val) => val.type !== 'Literal')
@@ -113,7 +118,10 @@ const rule = {
               // When a dynamic messageId is used and we can't detect its value, disable the rule to avoid false positives.
               hasSeenUnknownMessageId = true;
             }
-            values.forEach((val) => messageIdsUsed.add(val.value));
+            values.forEach(
+              (val) =>
+                'value' in val && messageIdsUsed.add(val.value as string),
+            );
           }
         }
       },
@@ -127,18 +135,23 @@ const rule = {
           const values =
             node.value.type === 'Literal'
               ? [node.value]
-              : findPossibleVariableValues(node.value, scopeManager);
+              : findPossibleVariableValues(
+                  node.value as Identifier,
+                  scopeManager,
+                );
 
           if (
             values.length === 0 ||
             values.some((val) => val.type !== 'Literal') ||
-            isVariableFromParameter(node.value, scopeManager)
+            isVariableFromParameter(node.value as Identifier, scopeManager)
           ) {
             // When a dynamic messageId is used and we can't detect its value, disable the rule to avoid false positives.
             hasSeenUnknownMessageId = true;
           }
 
-          values.forEach((val) => messageIdsUsed.add(val.value));
+          values.forEach(
+            (val) => 'value' in val && messageIdsUsed.add(val.value as string),
+          );
         }
       },
     };
