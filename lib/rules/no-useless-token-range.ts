@@ -2,15 +2,22 @@
  * @fileoverview Disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()`
  * @author Teddy Katz
  */
+import type { Rule } from 'eslint';
+import type {
+  CallExpression,
+  Expression,
+  MemberExpression,
+  Node,
+  Property,
+  SpreadElement,
+} from 'estree';
 
 import { getKeyName, getSourceCodeIdentifiers } from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -37,10 +44,10 @@ const rule = {
     /**
      * Determines whether a second argument to getFirstToken or getLastToken changes the output of the function.
      * This occurs when the second argument exists and is not an object literal, or has keys other than `includeComments`.
-     * @param {ASTNode} arg The second argument to `sourceCode.getFirstToken()` or `sourceCode.getLastToken()`
-     * @returns {boolean} `true` if the argument affects the output of getFirstToken or getLastToken
+     * @param arg The second argument to `sourceCode.getFirstToken()` or `sourceCode.getLastToken()`
+     * @returns `true` if the argument affects the output of getFirstToken or getLastToken
      */
-    function affectsGetTokenOutput(arg) {
+    function affectsGetTokenOutput(arg: Expression | SpreadElement): boolean {
       if (!arg) {
         return false;
       }
@@ -51,33 +58,35 @@ const rule = {
         arg.properties.length >= 2 ||
         (arg.properties.length === 1 &&
           (getKeyName(arg.properties[0]) !== 'includeComments' ||
-            arg.properties[0].value.type !== 'Literal'))
+            (arg.properties[0] as Property).value.type !== 'Literal'))
       );
+    }
+
+    function isMemberExpression(node: Node): node is MemberExpression {
+      return node.type === 'MemberExpression';
     }
 
     /**
      * Determines whether a node is a MemberExpression that accesses the `range` property
-     * @param {ASTNode} node The node
-     * @returns {boolean} `true` if the node is a MemberExpression that accesses the `range` property
+     * @param node The node
+     * @returns `true` if the node is a MemberExpression that accesses the `range` property
      */
-    function isRangeAccess(node) {
+    function isRangeAccess(node: MemberExpression): boolean {
       return (
-        node.type === 'MemberExpression' &&
-        node.property.type === 'Identifier' &&
-        node.property.name === 'range'
+        node.property.type === 'Identifier' && node.property.name === 'range'
       );
     }
 
     /**
      * Determines whether a MemberExpression accesses the `start` property (either `.range[0]` or `.start`).
      * Note that this will also work correctly if the `.range` MemberExpression is passed.
-     * @param {ASTNode} memberExpression The MemberExpression node to check
-     * @returns {boolean} `true` if this node accesses either `.range[0]` or `.start`
+     * @param memberExpression The MemberExpression node to check
+     * @returns `true` if this node accesses either `.range[0]` or `.start`
      */
-    function isStartAccess(memberExpression) {
+    function isStartAccess(memberExpression: MemberExpression): boolean {
       if (
         isRangeAccess(memberExpression) &&
-        memberExpression.parent.type === 'MemberExpression'
+        isMemberExpression(memberExpression.parent)
       ) {
         return isStartAccess(memberExpression.parent);
       }
@@ -87,6 +96,7 @@ const rule = {
         (memberExpression.computed &&
           memberExpression.property.type === 'Literal' &&
           memberExpression.property.value === 0 &&
+          isMemberExpression(memberExpression.object) &&
           isRangeAccess(memberExpression.object))
       );
     }
@@ -94,13 +104,13 @@ const rule = {
     /**
      * Determines whether a MemberExpression accesses the `start` property (either `.range[1]` or `.end`).
      * Note that this will also work correctly if the `.range` MemberExpression is passed.
-     * @param {ASTNode} memberExpression The MemberExpression node to check
-     * @returns {boolean} `true` if this node accesses either `.range[1]` or `.end`
+     * @param memberExpression The MemberExpression node to check
+     * @returns `true` if this node accesses either `.range[1]` or `.end`
      */
-    function isEndAccess(memberExpression) {
+    function isEndAccess(memberExpression: MemberExpression): boolean {
       if (
         isRangeAccess(memberExpression) &&
-        memberExpression.parent.type === 'MemberExpression'
+        isMemberExpression(memberExpression.parent)
       ) {
         return isEndAccess(memberExpression.parent);
       }
@@ -110,6 +120,7 @@ const rule = {
         (memberExpression.computed &&
           memberExpression.property.type === 'Literal' &&
           memberExpression.property.value === 1 &&
+          isMemberExpression(memberExpression.object) &&
           isRangeAccess(memberExpression.object))
       );
     }
@@ -123,14 +134,14 @@ const rule = {
         [...getSourceCodeIdentifiers(sourceCode.scopeManager, ast)]
           .filter(
             (identifier) =>
-              identifier.parent.type === 'MemberExpression' &&
+              isMemberExpression(identifier.parent) &&
               identifier.parent.object === identifier &&
               identifier.parent.property.type === 'Identifier' &&
               identifier.parent.parent.type === 'CallExpression' &&
               identifier.parent === identifier.parent.parent.callee &&
               identifier.parent.parent.arguments.length <= 2 &&
               !affectsGetTokenOutput(identifier.parent.parent.arguments[1]) &&
-              identifier.parent.parent.parent.type === 'MemberExpression' &&
+              isMemberExpression(identifier.parent.parent.parent) &&
               identifier.parent.parent ===
                 identifier.parent.parent.parent.object &&
               ((isStartAccess(identifier.parent.parent.parent) &&
@@ -139,20 +150,22 @@ const rule = {
                   identifier.parent.property.name === 'getLastToken')),
           )
           .forEach((identifier) => {
-            const fullRangeAccess = isRangeAccess(
-              identifier.parent.parent.parent,
-            )
-              ? identifier.parent.parent.parent.parent
-              : identifier.parent.parent.parent;
+            const fullRangeAccess =
+              isMemberExpression(identifier.parent.parent.parent) &&
+              isRangeAccess(identifier.parent.parent.parent)
+                ? identifier.parent.parent.parent.parent
+                : identifier.parent.parent.parent;
             const replacementText =
               sourceCode.text.slice(
-                fullRangeAccess.range[0],
-                identifier.parent.parent.range[0],
+                fullRangeAccess.range![0],
+                identifier.parent.parent.range![0],
               ) +
-              sourceCode.getText(identifier.parent.parent.arguments[0]) +
+              sourceCode.getText(
+                (identifier.parent.parent as CallExpression).arguments[0],
+              ) +
               sourceCode.text.slice(
-                identifier.parent.parent.range[1],
-                fullRangeAccess.range[1],
+                identifier.parent.parent.range![1],
+                fullRangeAccess.range![1],
               );
             context.report({
               node: identifier.parent.parent,
@@ -161,7 +174,9 @@ const rule = {
               fix(fixer) {
                 return fixer.replaceText(
                   identifier.parent.parent,
-                  sourceCode.getText(identifier.parent.parent.arguments[0]),
+                  sourceCode.getText(
+                    (identifier.parent.parent as CallExpression).arguments[0],
+                  ),
                 );
               },
             });
