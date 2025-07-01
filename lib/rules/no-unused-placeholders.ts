@@ -4,6 +4,8 @@
  */
 
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type { Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
@@ -18,9 +20,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -29,7 +29,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-unused-placeholders.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       placeholderUnused:
@@ -41,7 +41,7 @@ const rule = {
     const sourceCode = context.sourceCode;
     const { scopeManager } = sourceCode;
 
-    let contextIdentifiers;
+    let contextIdentifiers = new Set<Node>();
 
     const ruleInfo = getRuleInfo(sourceCode);
     if (!ruleInfo) {
@@ -94,30 +94,32 @@ const rule = {
           for (const { message, data } of reportMessagesAndDataArray.filter(
             (obj) => obj.message,
           )) {
-            const messageStaticValue = getStaticValue(message, scope);
+            const messageStaticValue = getStaticValue(message!, scope);
             if (
-              ((message.type === 'Literal' &&
+              ((message?.type === 'Literal' &&
                 typeof message.value === 'string') ||
                 (messageStaticValue &&
                   typeof messageStaticValue.value === 'string')) &&
               data &&
               data.type === 'ObjectExpression'
             ) {
-              const messageValue = message.value || messageStaticValue.value;
+              const messageValue: string =
+                // @ts-expect-error
+                message.value || messageStaticValue.value;
               // https://github.com/eslint/eslint/blob/2874d75ed8decf363006db25aac2d5f8991bd969/lib/linter.js#L986
               const PLACEHOLDER_MATCHER = /{{\s*([^{}]+?)\s*}}/g;
-              const placeholdersInMessage = new Set();
+              const placeholdersInMessage = new Set<string>();
 
-              messageValue.replaceAll(
-                PLACEHOLDER_MATCHER,
-                (fullMatch, term) => {
-                  placeholdersInMessage.add(term);
-                },
-              );
+              const matches = messageValue.matchAll(PLACEHOLDER_MATCHER);
+              for (const match of matches) {
+                if (match[1]) {
+                  placeholdersInMessage.add(match[1]);
+                }
+              }
 
               data.properties.forEach((prop) => {
                 const key = getKeyName(prop);
-                if (!placeholdersInMessage.has(key)) {
+                if (key && !placeholdersInMessage.has(key)) {
                   context.report({
                     node: prop,
                     messageId: 'placeholderUnused',
