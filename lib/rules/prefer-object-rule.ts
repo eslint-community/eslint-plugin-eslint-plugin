@@ -1,15 +1,14 @@
 /**
  * @author Brad Zacher <https://github.com/bradzacher>
  */
+import type { Rule } from 'eslint';
 
 import { getRuleInfo } from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -26,10 +25,6 @@ const rule = {
   },
 
   create(context) {
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
-
     const sourceCode = context.sourceCode;
     const ruleInfo = getRuleInfo(sourceCode);
     if (!ruleInfo) {
@@ -48,7 +43,6 @@ const rule = {
           *fix(fixer) {
             // note - we intentionally don't worry about formatting here, as otherwise we have
             //        to indent the function correctly
-
             if (
               ruleInfo.create.type === 'FunctionExpression' ||
               ruleInfo.create.type === 'FunctionDeclaration'
@@ -59,7 +53,7 @@ const rule = {
               );
 
               /* istanbul ignore if */
-              if (!openParenToken) {
+              if (!openParenToken || !ruleInfo.create.range) {
                 // this shouldn't happen, but guarding against crashes just in case
                 return null;
               }
