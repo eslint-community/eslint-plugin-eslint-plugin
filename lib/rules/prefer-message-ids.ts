@@ -1,4 +1,6 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type { Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
@@ -11,9 +13,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -23,7 +23,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-message-ids.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       messagesMissing:
@@ -40,7 +40,7 @@ const rule = {
       return {};
     }
 
-    let contextIdentifiers;
+    let contextIdentifiers: Set<Node>;
 
     // ----------------------------------------------------------------------
     // Public
@@ -57,10 +57,11 @@ const rule = {
         const metaNode = ruleInfo.meta;
         const messagesNode =
           metaNode &&
+          metaNode.type === 'ObjectExpression' &&
           metaNode.properties &&
-          metaNode.properties.find(
-            (p) => p.type === 'Property' && getKeyName(p) === 'messages',
-          );
+          metaNode.properties
+            .filter((p) => p.type === 'Property')
+            .find((p) => getKeyName(p) === 'messages');
 
         if (!messagesNode) {
           context.report({
@@ -76,6 +77,7 @@ const rule = {
         }
 
         if (
+          staticValue.value &&
           typeof staticValue.value === 'object' &&
           staticValue.value.constructor === Object &&
           Object.keys(staticValue.value).length === 0
@@ -98,11 +100,12 @@ const rule = {
             return;
           }
 
-          const reportMessagesAndDataArray =
-            collectReportViolationAndSuggestionData(reportInfo).filter(
-              (obj) => obj.message,
-            );
-          for (const { message } of reportMessagesAndDataArray) {
+          const reportMessages = collectReportViolationAndSuggestionData(
+            reportInfo,
+          )
+            .map((obj) => obj.message)
+            .filter((message) => !!message);
+          for (const message of reportMessages) {
             context.report({
               node: message.parent,
               messageId: 'foundMessage',

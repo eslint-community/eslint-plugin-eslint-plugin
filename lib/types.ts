@@ -8,6 +8,7 @@ import type {
   FunctionExpression,
   Node,
   ObjectPattern,
+  Pattern,
   Property,
   RestElement,
   SpreadElement,
@@ -25,7 +26,7 @@ export interface FunctionInfo {
 export interface PartialRuleInfo {
   create?: Node | null;
   isNewStyle?: boolean;
-  meta?: Node | null;
+  meta?: Expression | Pattern | FunctionDeclaration | null;
 }
 
 export interface RuleInfo extends PartialRuleInfo {
