@@ -3,14 +3,15 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
+import type { Rule } from 'eslint';
+import type { Property } from 'estree';
+
 import { getTestInfo } from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -29,45 +30,50 @@ const rule = {
   },
 
   create(context) {
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
-
     const sourceCode = context.sourceCode;
 
     return {
       Program(ast) {
         getTestInfo(context, ast).forEach((testRun) => {
-          testRun.invalid.forEach((test) => {
-            /**
-             * Get a test case's giving keyname node.
-             * @param {string} the keyname to find.
-             * @returns {Node} found node; if not found, return null;
-             */
-            function getTestInfoProperty(key) {
-              if (test.type === 'ObjectExpression') {
-                return test.properties.find(
-                  (item) => item.type === 'Property' && item.key.name === key,
-                );
+          testRun.invalid
+            .filter((test) => !!test)
+            .forEach((test) => {
+              /**
+               * Get a test case's given key name node.
+               * @param the keyname to find.
+               * @returns found node; if not found, return null;
+               */
+              function getTestInfoProperty(key: string): Property | null {
+                if (test.type === 'ObjectExpression') {
+                  return (
+                    test.properties
+                      .filter((item) => item.type === 'Property')
+                      .find(
+                        (item) =>
+                          item.key.type === 'Identifier' &&
+                          item.key.name === key,
+                      ) ?? null
+                  );
+                }
+                return null;
               }
-              return null;
-            }
 
-            const code = getTestInfoProperty('code');
-            const output = getTestInfoProperty('output');
+              const code = getTestInfoProperty('code');
+              const output = getTestInfoProperty('output');
 
-            if (
-              output &&
-              sourceCode.getText(output.value) ===
-                sourceCode.getText(code.value)
-            ) {
-              context.report({
-                node: output,
-                messageId: 'useOutputNull',
-                fix: (fixer) => fixer.replaceText(output.value, 'null'),
-              });
-            }
-          });
+              if (
+                output &&
+                code &&
+                sourceCode.getText(output.value) ===
+                  sourceCode.getText(code.value)
+              ) {
+                context.report({
+                  node: output,
+                  messageId: 'useOutputNull',
+                  fix: (fixer) => fixer.replaceText(output.value, 'null'),
+                });
+              }
+            });
         });
       },
     };
