@@ -4,6 +4,8 @@
  */
 
 import { findVariable } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import { Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
@@ -14,9 +16,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -25,7 +25,7 @@ const rule = {
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-placeholders.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       usePlaceholders:
@@ -34,14 +34,10 @@ const rule = {
   },
 
   create(context) {
-    let contextIdentifiers;
+    let contextIdentifiers = new Set<Node>();
 
     const sourceCode = context.sourceCode;
     const { scopeManager } = sourceCode;
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       Program(ast) {
@@ -60,16 +56,17 @@ const rule = {
             return;
           }
 
-          const reportMessagesAndDataArray =
-            collectReportViolationAndSuggestionData(reportInfo).filter(
-              (obj) => obj.message,
-            );
-          for (let { message: messageNode } of reportMessagesAndDataArray) {
+          const reportMessages = collectReportViolationAndSuggestionData(
+            reportInfo,
+          ).map((obj) => obj.message);
+          for (let messageNode of reportMessages.filter(
+            (message) => !!message,
+          )) {
             if (messageNode.type === 'Identifier') {
               // See if we can find the variable declaration.
 
               const variable = findVariable(
-                scopeManager.acquire(messageNode) || scopeManager.globalScope,
+                scopeManager.acquire(messageNode) || scopeManager.globalScope!,
                 messageNode,
               );
 
