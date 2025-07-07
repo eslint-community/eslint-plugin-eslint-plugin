@@ -2,19 +2,27 @@
  * @fileoverview prefer using `replaceText()` instead of `replaceTextRange()`
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
+import type { Rule } from 'eslint';
+import type { Identifier, Node } from 'estree';
 
+import type { FunctionInfo } from '../types.js';
 import {
   getContextIdentifiers,
   isAutoFixerFunction,
   isSuggestionFixerFunction,
 } from '../utils.js';
 
+const DEFAULT_FUNC_INFO: FunctionInfo = {
+  upper: null,
+  codePath: null,
+  shouldCheck: false,
+  node: null,
+};
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -24,7 +32,7 @@ const rule = {
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-replace-text.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       useReplaceText: 'Use replaceText instead of replaceTextRange.',
@@ -33,13 +41,8 @@ const rule = {
 
   create(context) {
     const sourceCode = context.sourceCode;
-    let funcInfo = {
-      upper: null,
-      codePath: null,
-      shouldCheck: false,
-      node: null,
-    };
-    let contextIdentifiers;
+    let funcInfo = DEFAULT_FUNC_INFO;
+    let contextIdentifiers: Set<Identifier>;
 
     return {
       Program(ast) {
@@ -50,20 +53,20 @@ const rule = {
       },
 
       // Stacks this function's information.
-      onCodePathStart(codePath, node) {
+      onCodePathStart(codePath: Rule.CodePath, node: Node) {
         funcInfo = {
           upper: funcInfo,
           codePath,
           shouldCheck:
-            isAutoFixerFunction(node, contextIdentifiers) ||
-            isSuggestionFixerFunction(node, contextIdentifiers),
+            isAutoFixerFunction(node, contextIdentifiers, context) ||
+            isSuggestionFixerFunction(node, contextIdentifiers, context),
           node,
         };
       },
 
       // Pops this function's information.
       onCodePathEnd() {
-        funcInfo = funcInfo.upper;
+        funcInfo = funcInfo.upper ?? DEFAULT_FUNC_INFO;
       },
 
       // Checks the replaceTextRange arguments.

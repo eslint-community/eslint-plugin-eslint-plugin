@@ -130,8 +130,8 @@ const rule: Rule.RuleModule = {
           hasYieldWithFixer: false,
           hasReturnWithFixer: false,
           shouldCheck:
-            isAutoFixerFunction(node, contextIdentifiers) ||
-            isSuggestionFixerFunction(node, contextIdentifiers),
+            isAutoFixerFunction(node, contextIdentifiers, context) ||
+            isSuggestionFixerFunction(node, contextIdentifiers, context),
           node,
         };
       },

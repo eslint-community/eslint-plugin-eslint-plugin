@@ -842,6 +842,7 @@ export function collectReportViolationAndSuggestionData(
 export function isAutoFixerFunction(
   node: Node,
   contextIdentifiers: Set<Identifier>,
+  context: Rule.RuleContext,
 ): node is FunctionExpression | ArrowFunctionExpression {
   const parent = node.parent;
   return (
@@ -852,7 +853,7 @@ export function isAutoFixerFunction(
     contextIdentifiers.has(parent.parent.parent.callee.object as Identifier) &&
     parent.parent.parent.callee.property.type === 'Identifier' &&
     parent.parent.parent.callee.property.name === 'report' &&
-    getReportInfo(parent.parent.parent)?.fix === node
+    getReportInfo(parent.parent.parent, context)?.fix === node
   );
 }
 
@@ -860,10 +861,12 @@ export function isAutoFixerFunction(
  * Whether the provided node represents a suggestion fixer function.
  * @param node
  * @param contextIdentifiers
+ * @param context
  */
 export function isSuggestionFixerFunction(
   node: Node,
   contextIdentifiers: Set<Identifier>,
+  context: Rule.RuleContext,
 ): boolean {
   const parent = node.parent;
   return (
@@ -880,12 +883,14 @@ export function isSuggestionFixerFunction(
     parent.parent.parent.parent.parent.type === 'ObjectExpression' &&
     parent.parent.parent.parent.parent.parent.type === 'CallExpression' &&
     contextIdentifiers.has(
+      // @ts-expect-error -- Property 'object' does not exist on type 'Expression | Super'.  Property 'object' does not exist on type 'ClassExpression'.ts(2339)
       parent.parent.parent.parent.parent.parent.callee.object,
     ) &&
+    // @ts-expect-error -- Property 'property' does not exist on type 'Expression | Super'.  Property 'property' does not exist on type 'ClassExpression'.ts(2339)
     parent.parent.parent.parent.parent.parent.callee.property.name ===
       'report' &&
-    getReportInfo(parent.parent.parent.parent.parent.parent).suggest ===
-      parent.parent.parent
+    getReportInfo(parent.parent.parent.parent.parent.parent, context)
+      ?.suggest === parent.parent.parent
   );
 }
 

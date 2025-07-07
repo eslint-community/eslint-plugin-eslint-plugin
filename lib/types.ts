@@ -16,8 +16,8 @@ import type {
 
 export interface FunctionInfo {
   codePath: Rule.CodePath | null;
-  hasReturnWithFixer: boolean;
-  hasYieldWithFixer: boolean;
+  hasReturnWithFixer?: boolean;
+  hasYieldWithFixer?: boolean;
   node: Node | null;
   shouldCheck: boolean;
   upper: FunctionInfo | null;
