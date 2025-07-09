@@ -2,8 +2,9 @@
  * @fileoverview enforce a consistent format for rule report messages
  * @author Teddy Katz
  */
-
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule, Scope } from 'eslint';
+import type { Expression, Node, Pattern, SpreadElement } from 'estree';
 
 import {
   getContextIdentifiers,
@@ -15,9 +16,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -26,7 +25,7 @@ const rule = {
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/report-message-format.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [
       {
         description: 'Format that all report messages must match.',
@@ -41,14 +40,16 @@ const rule = {
 
   create(context) {
     const pattern = new RegExp(context.options[0] || '');
-    let contextIdentifiers;
+    let contextIdentifiers: Set<Node>;
 
     /**
      * Report a message node if it doesn't match the given formatting
-     * @param {ASTNode} message The message AST node
-     * @returns {void}
+     * @param message The message AST node
      */
-    function processMessageNode(message, scope) {
+    function processMessageNode(
+      message: Expression | Pattern | SpreadElement,
+      scope: Scope.Scope,
+    ): void {
       const staticValue = getStaticValue(message, scope);
       if (
         (message.type === 'Literal' &&
@@ -56,8 +57,8 @@ const rule = {
           !pattern.test(message.value)) ||
         (message.type === 'TemplateLiteral' &&
           message.quasis.length === 1 &&
-          !pattern.test(message.quasis[0].value.cooked)) ||
-        (staticValue && !pattern.test(staticValue.value))
+          !pattern.test(message.quasis[0].value.cooked ?? '')) ||
+        (staticValue && !pattern.test(staticValue.value as string))
       ) {
         context.report({
           node: message,
@@ -73,10 +74,6 @@ const rule = {
       return {};
     }
 
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
-
     return {
       Program(ast) {
         const scope = sourceCode.getScope(ast);
@@ -89,10 +86,9 @@ const rule = {
           ruleInfo &&
           ruleInfo.meta &&
           ruleInfo.meta.type === 'ObjectExpression' &&
-          ruleInfo.meta.properties.find(
-            (prop) =>
-              prop.type === 'Property' && getKeyName(prop) === 'messages',
-          );
+          ruleInfo.meta.properties
+            .filter((prop) => prop.type === 'Property')
+            .find((prop) => getKeyName(prop) === 'messages');
 
         if (
           !messagesObject ||
@@ -125,13 +121,12 @@ const rule = {
           if (suggest && suggest.type === 'ArrayExpression') {
             suggest.elements
               .flatMap((obj) =>
-                obj.type === 'ObjectExpression' ? obj.properties : [],
+                !!obj && obj.type === 'ObjectExpression' ? obj.properties : [],
               )
+              .filter((prop) => prop.type === 'Property')
               .filter(
                 (prop) =>
-                  prop.type === 'Property' &&
-                  prop.key.type === 'Identifier' &&
-                  prop.key.name === 'message',
+                  prop.key.type === 'Identifier' && prop.key.name === 'message',
               )
               .map((prop) => prop.value)
               .forEach((it) => processMessageNode(it, scope));
