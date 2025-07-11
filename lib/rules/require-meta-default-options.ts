@@ -1,3 +1,5 @@
+import type { Rule } from 'eslint';
+
 import {
   evaluateObjectProperties,
   getKeyName,
@@ -6,8 +8,7 @@ import {
   getRuleInfo,
 } from '../utils.js';
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -45,10 +46,9 @@ const rule = {
       return {};
     }
 
-    const metaDefaultOptions = evaluateObjectProperties(
-      metaNode,
-      scopeManager,
-    ).find((p) => p.type === 'Property' && getKeyName(p) === 'defaultOptions');
+    const metaDefaultOptions = evaluateObjectProperties(metaNode, scopeManager)
+      .filter((p) => p.type === 'Property')
+      .find((p) => getKeyName(p) === 'defaultOptions');
 
     if (
       schemaProperty.type === 'ArrayExpression' &&
@@ -68,7 +68,7 @@ const rule = {
 
     if (!metaDefaultOptions) {
       context.report({
-        node: metaNode,
+        node: metaNode!,
         messageId: 'missingDefaultOptions',
         fix(fixer) {
           return fixer.insertTextAfter(schemaProperty, ', defaultOptions: []');
@@ -87,8 +87,11 @@ const rule = {
 
     const isArrayRootSchema =
       schemaProperty.type === 'ObjectExpression' &&
-      schemaProperty.properties.find((property) => property.key.name === 'type')
-        ?.value.value === 'array';
+      schemaProperty.properties
+        .filter((property) => property.type === 'Property')
+        // @ts-expect-error
+        .find((property) => property.key.name === 'type')?.value.value ===
+        'array';
 
     if (metaDefaultOptions.value.elements.length === 0 && !isArrayRootSchema) {
       context.report({
