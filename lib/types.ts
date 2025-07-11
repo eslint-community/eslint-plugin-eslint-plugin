@@ -26,7 +26,7 @@ export interface FunctionInfo {
 export interface PartialRuleInfo {
   create?: Node | null;
   isNewStyle?: boolean;
-  meta?: Expression | Pattern | FunctionDeclaration | null;
+  meta?: Expression | Pattern | FunctionDeclaration;
 }
 
 export interface RuleInfo extends PartialRuleInfo {

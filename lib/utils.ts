@@ -216,7 +216,7 @@ function getRuleExportsESM(
       );
     } else if (isFunctionRule(node)) {
       // Check `export default function(context) { return { ... }; }`
-      return { create: node, meta: null, isNewStyle: false };
+      return { create: node, meta: undefined, isNewStyle: false };
     } else if (isTypeScriptRuleHelper(node)) {
       // Check `export default someTypeScriptHelper({ create() {}, meta: {} });
       return collectInterestingProperties(
@@ -235,7 +235,7 @@ function getRuleExportsESM(
           );
         } else if (isFunctionRule(possibleRule)) {
           // Check `const possibleRule = function(context) { return { ... } }; export default possibleRule;`
-          return { create: possibleRule, meta: null, isNewStyle: false };
+          return { create: possibleRule, meta: undefined, isNewStyle: false };
         } else if (isTypeScriptRuleHelper(possibleRule)) {
           // Check `const possibleRule = someTypeScriptHelper({ ... }); export default possibleRule;
           return collectInterestingProperties(
@@ -276,7 +276,7 @@ function getRuleExportsCJS(
           // Check `module.exports = function (context) { return { ... }; }`
 
           exportsIsFunction = true;
-          return { create: node.right, meta: null, isNewStyle: false };
+          return { create: node.right, meta: undefined, isNewStyle: false };
         } else if (node.right.type === 'ObjectExpression') {
           // Check `module.exports = { create: function () {}, meta: {} }`
 
@@ -296,7 +296,11 @@ function getRuleExportsCJS(
               );
             } else if (isFunctionRule(possibleRule)) {
               // Check `const possibleRule = function(context) { return { ... } }; module.exports = possibleRule;`
-              return { create: possibleRule, meta: null, isNewStyle: false };
+              return {
+                create: possibleRule,
+                meta: undefined,
+                isNewStyle: false,
+              };
             }
           }
         }
@@ -1014,7 +1018,7 @@ export function getMessageIdNodeById(
 }
 
 export function getMetaSchemaNode(
-  metaNode: Node,
+  metaNode: Node | undefined,
   scopeManager: Scope.ScopeManager,
 ): Property | undefined {
   return evaluateObjectProperties(metaNode, scopeManager)
@@ -1023,7 +1027,7 @@ export function getMetaSchemaNode(
 }
 
 export function getMetaSchemaNodeProperty(
-  schemaNode: AssignmentProperty | Property,
+  schemaNode: AssignmentProperty | Property | undefined,
   scopeManager: Scope.ScopeManager,
 ): Node | null {
   if (!schemaNode) {
