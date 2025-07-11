@@ -1,15 +1,11 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
 
 import { getMetaDocsProperty, getRuleInfo } from '../utils.js';
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const DEFAULT_PATTERN = new RegExp('^(enforce|require|disallow)');
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -19,7 +15,7 @@ const rule = {
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-docs-description.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [
       {
         type: 'object',
@@ -94,7 +90,7 @@ const rule = {
           context.report({
             node: descriptionNode.value,
             messageId: 'mismatch',
-            data: { pattern },
+            data: { pattern: String(pattern) },
           });
         }
       },
