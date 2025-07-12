@@ -1,4 +1,6 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type { ObjectExpression } from 'estree';
 
 import {
   getMetaDocsProperty,
@@ -6,12 +8,11 @@ import {
   isUndefinedIdentifier,
 } from '../utils.js';
 
-/**
- * @param {import('eslint').Rule.RuleFixer} fixer
- * @param {import('estree').ObjectExpression} objectNode
- * @param {boolean} recommendedValue
- */
-function insertRecommendedProperty(fixer, objectNode, recommendedValue) {
+function insertRecommendedProperty(
+  fixer: Rule.RuleFixer,
+  objectNode: ObjectExpression,
+  recommendedValue: boolean,
+) {
   if (objectNode.properties.length === 0) {
     return fixer.replaceText(
       objectNode,
@@ -19,13 +20,12 @@ function insertRecommendedProperty(fixer, objectNode, recommendedValue) {
     );
   }
   return fixer.insertTextAfter(
-    objectNode.properties.at(-1),
+    objectNode.properties.at(-1)!,
     `, recommended: ${recommendedValue}`,
   );
 }
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -35,7 +35,7 @@ const rule = {
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-docs-recommended.md',
     },
-    fixable: null,
+    fixable: undefined,
     hasSuggestions: true,
     schema: [
       {
@@ -74,18 +74,19 @@ const rule = {
     } = getMetaDocsProperty('recommended', ruleInfo, scopeManager);
 
     if (!descriptionNode) {
-      const suggestions =
-        docsNode?.value?.type === 'ObjectExpression'
+      const docNodeValue = docsNode?.value;
+      const suggestions: Rule.SuggestionReportDescriptor[] =
+        docNodeValue?.type === 'ObjectExpression'
           ? [
               {
                 messageId: 'setRecommendedTrue',
                 fix: (fixer) =>
-                  insertRecommendedProperty(fixer, docsNode.value, true),
+                  insertRecommendedProperty(fixer, docNodeValue, true),
               },
               {
                 messageId: 'setRecommendedFalse',
                 fix: (fixer) =>
-                  insertRecommendedProperty(fixer, docsNode.value, false),
+                  insertRecommendedProperty(fixer, docNodeValue, false),
               },
             ]
           : [];
