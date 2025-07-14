@@ -1,9 +1,10 @@
 /**
  * @author Toru Nagashima <https://github.com/mysticatea>
  */
-
 import path from 'node:path';
+
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
 
 import {
   getMetaDocsProperty,
@@ -16,8 +17,7 @@ import {
 // Rule Definition
 // -----------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -50,8 +50,8 @@ const rule = {
 
   /**
    * Creates AST event handlers for require-meta-docs-url.
-   * @param {RuleContext} context - The rule context.
-   * @returns {Object} AST event handlers.
+   * @param context - The rule context.
+   * @returns AST event handlers.
    */
   create(context) {
     const options = context.options[0] || {};
@@ -67,10 +67,10 @@ const rule = {
 
     /**
      * Check whether a given URL is the expected URL.
-     * @param {string} url The URL to check.
-     * @returns {boolean} `true` if the node is the expected URL.
+     * @param url The URL to check.
+     * @returns `true` if the node is the expected URL.
      */
-    function isExpectedUrl(url) {
+    function isExpectedUrl(url: string | undefined | null): boolean {
       return Boolean(
         typeof url === 'string' &&
           (expectedUrl === undefined || url === expectedUrl),
@@ -102,7 +102,7 @@ const rule = {
           return;
         }
 
-        if (isExpectedUrl(staticValue && staticValue.value)) {
+        if (isExpectedUrl(staticValue && (staticValue.value as string))) {
           return;
         }
 
