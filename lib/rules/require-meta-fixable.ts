@@ -2,8 +2,9 @@
  * @fileoverview require rules to implement a `meta.fixable` property
  * @author Teddy Katz
  */
-
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type { Node } from 'estree';
 
 import {
   evaluateObjectProperties,
@@ -15,9 +16,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -57,8 +56,8 @@ const rule = {
     const sourceCode = context.sourceCode;
     const { scopeManager } = sourceCode;
     const ruleInfo = getRuleInfo(sourceCode);
-    let contextIdentifiers;
-    let usesFixFunctions;
+    let contextIdentifiers: Set<Node>;
+    let usesFixFunctions = false;
 
     if (!ruleInfo) {
       return {};
@@ -87,9 +86,9 @@ const rule = {
         const scope = sourceCode.getScope(ast);
         const metaFixableProp =
           ruleInfo &&
-          evaluateObjectProperties(ruleInfo.meta, scopeManager).find(
-            (prop) => getKeyName(prop) === 'fixable',
-          );
+          evaluateObjectProperties(ruleInfo.meta, scopeManager)
+            .filter((prop) => prop.type === 'Property')
+            .find((prop) => getKeyName(prop) === 'fixable');
 
         if (metaFixableProp) {
           const staticValue = getStaticValue(metaFixableProp.value, scope);
@@ -99,7 +98,9 @@ const rule = {
           }
 
           if (
-            !['code', 'whitespace', null, undefined].includes(staticValue.value)
+            !['code', 'whitespace', null, undefined].includes(
+              staticValue.value as string,
+            )
           ) {
             // `fixable` property has an invalid value.
             context.report({
@@ -111,7 +112,7 @@ const rule = {
 
           if (
             usesFixFunctions &&
-            !['code', 'whitespace'].includes(staticValue.value)
+            !['code', 'whitespace'].includes(staticValue.value as string)
           ) {
             // Rule is fixable but `fixable` property does not have a fixable value.
             context.report({
@@ -121,7 +122,7 @@ const rule = {
           } else if (
             catchNoFixerButFixableProperty &&
             !usesFixFunctions &&
-            ['code', 'whitespace'].includes(staticValue.value)
+            ['code', 'whitespace'].includes(staticValue.value as string)
           ) {
             // Rule is NOT fixable but `fixable` property has a fixable value.
             context.report({
