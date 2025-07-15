@@ -2,6 +2,7 @@
  * @fileoverview Requires the properties of a test case to be placed in a consistent order.
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
+import type { Rule } from 'eslint';
 
 import { getKeyName, getTestInfo } from '../utils.js';
 
@@ -18,12 +19,13 @@ const defaultOrder = [
   'errors',
 ];
 
+const keyNameMapper = (property: Parameters<typeof getKeyName>[0]) =>
+  getKeyName(property);
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -52,7 +54,7 @@ const rule = {
     // ----------------------------------------------------------------------
     // Public
     // ----------------------------------------------------------------------
-    const order = context.options[0] || defaultOrder;
+    const order: string[] = context.options[0] || defaultOrder;
     const sourceCode = context.sourceCode;
 
     return {
@@ -60,10 +62,14 @@ const rule = {
         getTestInfo(context, ast).forEach((testRun) => {
           [testRun.valid, testRun.invalid].forEach((tests) => {
             tests.forEach((test) => {
-              const properties = (test && test.properties) || [];
-              const keyNames = properties.map(getKeyName);
+              const properties =
+                (test && test.type === 'ObjectExpression' && test.properties) ||
+                [];
+              const keyNames = properties
+                .map(keyNameMapper)
+                .filter((keyName) => keyName !== null);
 
-              for (let i = 0, lastChecked; i < keyNames.length; i++) {
+              for (let i = 0, lastChecked = 0; i < keyNames.length; i++) {
                 const current = order.indexOf(keyNames[i]);
 
                 // current < lastChecked to catch unordered;

@@ -39,7 +39,8 @@ const rule: Rule.RuleModule = {
   },
 
   create(context) {
-    const always = context.options[0] && context.options[0] === 'always';
+    const always: boolean =
+      context.options[0] && context.options[0] === 'always';
 
     return {
       Program(ast) {
