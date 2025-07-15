@@ -1,4 +1,6 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type { Node, Property } from 'estree';
 
 import {
   evaluateObjectProperties,
@@ -11,9 +13,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -40,15 +40,15 @@ const rule = {
     if (!ruleInfo) {
       return {};
     }
-    let contextIdentifiers;
-    let ruleReportsSuggestions;
+    let contextIdentifiers: Set<Node>;
+    let ruleReportsSuggestions = false;
 
     /**
      * Check if a "suggest" object property from a rule violation report should be considered to contain suggestions.
-     * @param {Node} node - the "suggest" object property to check
-     * @returns {boolean} whether this property should be considered to contain suggestions
+     * @param node - the "suggest" object property to check
+     * @returns whether this property should be considered to contain suggestions
      */
-    function doesPropertyContainSuggestions(node) {
+    function doesPropertyContainSuggestions(node: Property): boolean {
       const scope = sourceCode.getScope(node);
       const staticValue = getStaticValue(node.value, scope);
       if (
@@ -84,7 +84,9 @@ const rule = {
           const suggestProp = evaluateObjectProperties(
             node.arguments[0],
             scopeManager,
-          ).find((prop) => getKeyName(prop) === 'suggest');
+          )
+            .filter((prop) => prop.type === 'Property')
+            .find((prop) => getKeyName(prop) === 'suggest');
           if (suggestProp && doesPropertyContainSuggestions(suggestProp)) {
             ruleReportsSuggestions = true;
           }
@@ -107,7 +109,9 @@ const rule = {
         const hasSuggestionsProperty = evaluateObjectProperties(
           metaNode,
           scopeManager,
-        ).find((prop) => getKeyName(prop) === 'hasSuggestions');
+        )
+          .filter((prop) => prop.type === 'Property')
+          .find((prop) => getKeyName(prop) === 'hasSuggestions');
         const hasSuggestionsStaticValue =
           hasSuggestionsProperty &&
           getStaticValue(hasSuggestionsProperty.value, scope);
@@ -133,6 +137,7 @@ const rule = {
                     'hasSuggestions: true, ',
                   );
                 }
+                return null;
               },
             });
           } else if (
@@ -153,6 +158,7 @@ const rule = {
                     'true',
                   );
                 }
+                return null;
               },
             });
           }
