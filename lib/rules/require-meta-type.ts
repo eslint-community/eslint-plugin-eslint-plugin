@@ -2,8 +2,8 @@
  * @fileoverview require rules to implement a `meta.type` property
  * @author 薛定谔的猫<weiran.zsd@outlook.com>
  */
-
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
 
 import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.js';
 
@@ -12,9 +12,7 @@ const VALID_TYPES = new Set(['problem', 'suggestion', 'layout']);
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -23,7 +21,7 @@ const rule = {
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-type.md',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
     messages: {
       missing:
@@ -34,10 +32,6 @@ const rule = {
   },
 
   create(context) {
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
-
     const sourceCode = context.sourceCode;
     const ruleInfo = getRuleInfo(sourceCode);
     if (!ruleInfo) {
@@ -50,9 +44,9 @@ const rule = {
         const { scopeManager } = sourceCode;
 
         const metaNode = ruleInfo.meta;
-        const typeNode = evaluateObjectProperties(metaNode, scopeManager).find(
-          (p) => p.type === 'Property' && getKeyName(p) === 'type',
-        );
+        const typeNode = evaluateObjectProperties(metaNode, scopeManager)
+          .filter((p) => p.type === 'Property')
+          .find((p) => getKeyName(p) === 'type');
 
         if (!typeNode) {
           context.report({
@@ -68,7 +62,7 @@ const rule = {
           return;
         }
 
-        if (!VALID_TYPES.has(staticValue.value)) {
+        if (!VALID_TYPES.has(staticValue.value as string)) {
           context.report({ node: typeNode.value, messageId: 'unexpected' });
         }
       },
