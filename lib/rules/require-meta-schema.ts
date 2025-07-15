@@ -1,3 +1,6 @@
+import type { Rule } from 'eslint';
+import type { Node } from 'estree';
+
 import {
   getContextIdentifiers,
   getMetaSchemaNode,
@@ -10,9 +13,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -55,7 +56,7 @@ const rule = {
       return {};
     }
 
-    let contextIdentifiers;
+    let contextIdentifiers: Set<Node>;
     const metaNode = ruleInfo.meta;
 
     // Options
