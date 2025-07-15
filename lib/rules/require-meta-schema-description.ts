@@ -1,4 +1,6 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
+import type { Rule } from 'eslint';
+import type { Expression, SpreadElement } from 'estree';
 
 import {
   getMetaSchemaNode,
@@ -9,9 +11,7 @@ import {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
-const rule = {
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -51,15 +51,20 @@ const rule = {
 
     return {};
 
-    function checkSchemaElement(node, isRoot) {
-      if (node.type !== 'ObjectExpression') {
+    function checkSchemaElement(
+      node: Expression | SpreadElement | null,
+      isRoot = false,
+    ): void {
+      if (!node || node.type !== 'ObjectExpression') {
         return;
       }
 
       let hadChildren = false;
       let hadDescription = false;
 
-      for (const { key, value } of node.properties) {
+      for (const { key, value } of node.properties.filter(
+        (prop) => prop.type === 'Property',
+      )) {
         if (!key) {
           continue;
         }
@@ -69,6 +74,7 @@ const rule = {
           continue;
         }
 
+        // @ts-expect-error
         switch (key.name ?? key.value) {
           case 'description': {
             hadDescription = true;
@@ -90,9 +96,12 @@ const rule = {
           case 'properties': {
             hadChildren = true;
 
-            if (Array.isArray(value.properties)) {
+            if ('properties' in value && Array.isArray(value.properties)) {
               for (const property of value.properties) {
-                if (property.value?.type === 'ObjectExpression') {
+                if (
+                  'value' in property &&
+                  property.value?.type === 'ObjectExpression'
+                ) {
                   checkSchemaElement(property.value);
                 }
               }
