@@ -15,7 +15,8 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "eslint-plugin-eslint-plugin": ["./lib/index.ts"]
-    }
+    },
+    "types": ["eslint-scope", "espree", "estree", "lodash", "node"]
   },
   "include": ["lib/**/*", "tests/**/*", "types/**/*"]
 }
