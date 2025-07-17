@@ -13,7 +13,7 @@ import { RuleTester } from 'eslint';
 // Tests
 // ------------------------------------------------------------------------------
 
-const valid = [
+const valid: string[] = [
   'module.exports = {};',
   `
     module.exports = {
@@ -34,8 +34,7 @@ const valid = [
       create(context) {},
     };
   `,
-  {
-    code: `
+  `
       module.exports = {
         meta: {
           deprecated: {
@@ -51,11 +50,9 @@ const valid = [
         create(context) {},
       };
     `,
-    errors: 0,
-  },
 ];
 
-const invalid = [
+const invalid: RuleTester.InvalidTestCase[] = [
   {
     code: `
       module.exports = {
@@ -109,7 +106,13 @@ const invalid = [
   },
 ];
 
-const testToESM = (test) => {
+type ValidTest = (typeof valid)[number];
+type InvalidTest = (typeof invalid)[number];
+type TestCase = ValidTest | InvalidTest;
+
+function testToESM(test: ValidTest): ValidTest;
+function testToESM(test: InvalidTest): InvalidTest;
+function testToESM(test: TestCase): TestCase {
   if (typeof test === 'string') {
     return test.replace('module.exports =', 'export default');
   }
@@ -120,7 +123,7 @@ const testToESM = (test) => {
     ...test,
     code,
   };
-};
+}
 
 new RuleTester({
   languageOptions: { sourceType: 'commonjs' },
@@ -132,6 +135,6 @@ new RuleTester({
 new RuleTester({
   languageOptions: { sourceType: 'module' },
 }).run('no-meta-replaced-by', rule, {
-  valid: valid.map(testToESM),
-  invalid: invalid.map(testToESM),
+  valid: valid.map((testCase) => testToESM(testCase)),
+  invalid: invalid.map((testCase) => testToESM(testCase)),
 });
