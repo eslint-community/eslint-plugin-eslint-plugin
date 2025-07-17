@@ -1,18 +1,13 @@
-import { assert, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import plugin from '../../lib/index.js';
 
-const RULE_NAMES = Object.keys(plugin.rules);
-
 describe('exported plugin', () => {
   describe('has a meta.docs.url property on each rule', () => {
-    RULE_NAMES.forEach((ruleName) => {
-      it(ruleName, () => {
-        assert.match(
-          plugin.rules[ruleName].meta.docs.url,
-          /^https:\/\/github.com\/eslint-community\/eslint-plugin-eslint-plugin\/tree\/HEAD\/docs\/rules\/[\w-]+\.md$/,
-        );
-      });
-    });
+    it.each(Object.entries(plugin.rules))('$0', (_, rule) =>
+      expect(rule.meta?.docs?.url).toMatch(
+        /^https:\/\/github.com\/eslint-community\/eslint-plugin-eslint-plugin\/tree\/HEAD\/docs\/rules\/[\w-]+\.md$/,
+      ),
+    );
   });
 });
