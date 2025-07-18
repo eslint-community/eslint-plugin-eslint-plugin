@@ -48,23 +48,21 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
     "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "^9.16.0",
+    "@eslint/js": "^9.31.0",
     "@release-it/conventional-changelog": "^9.0.3",
-    "@types/eslint": "^9.6.1",
     "@types/estree": "^1.0.8",
     "@typescript-eslint/parser": "^8.34.1",
     "@typescript-eslint/utils": "^8.34.1",
     "@vitest/coverage-istanbul": "^3.2.4",
-    "eslint": "^9.16.0",
+    "eslint": "^9.31.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-doc-generator": "^2.0.0",
-    "eslint-plugin-eslint-plugin": "file:./",
-    "eslint-plugin-markdown": "^5.0.0",
-    "eslint-plugin-n": "^17.14.0",
-    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-doc-generator": "^2.2.2",
+    "eslint-plugin-markdown": "^5.1.0",
+    "eslint-plugin-n": "^17.21.0",
+    "eslint-plugin-prettier": "^5.5.3",
     "eslint-plugin-unicorn": "^56.0.1",
-    "eslint-remote-tester": "^4.0.1",
+    "eslint-remote-tester": "^4.0.2",
     "eslint-scope": "^8.0.1",
     "espree": "^10.0.1",
     "husky": "^9.1.7",
@@ -99,5 +97,6 @@
     "npm": {
       "skipChecks": true
     }
-  }
+  },
+  "packageManager": "pnpm@10.13.0+sha512.e08cbfa5d0c47e148d9d92965513af3d06a42ff99b6e0e82a7d10512858d0fb680a03c1e6772d369a2305c79306c9257989a3576b7057d6877469c9a1c7563f0"
 }
