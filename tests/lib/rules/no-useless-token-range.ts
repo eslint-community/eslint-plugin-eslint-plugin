@@ -12,10 +12,10 @@ import { RuleTester } from 'eslint';
 
 /**
  * Wraps a code sample as an eslint rule
- * @param {string} code source text given a `sourceCode` variable
- * @returns {string} rule code containing that source text
+ * @param code source text given a `sourceCode` variable
+ * @returns rule code containing that source text
  */
-function wrapRule(code) {
+function wrapRule(code: string): string {
   return `
     module.exports = {
       create(context) {
