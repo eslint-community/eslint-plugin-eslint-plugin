@@ -12,10 +12,14 @@ import { RuleTester } from 'eslint';
 
 /**
  * Create an error for the given key
- * @param {string} missingKey The placeholder that is missing
- * @returns {object} An expected error
+ * @param missingKey The placeholder that is missing
+ * @returns An expected error
  */
-function error(missingKey, type, extra) {
+function error(
+  missingKey: string,
+  type?: string,
+  extra?: Partial<RuleTester.TestCaseError>,
+): RuleTester.TestCaseError {
   return {
     type,
     message: `The placeholder {{${missingKey}}} is missing (must provide it in the report's \`data\` object).`,
