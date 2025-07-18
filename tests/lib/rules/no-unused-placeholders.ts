@@ -12,10 +12,13 @@ import { RuleTester } from 'eslint';
 
 /**
  * Create an error for the given key
- * @param {string} unusedKey The placeholder that is unused
- * @returns {object} An expected error
+ * @param unusedKey The placeholder that is unused
+ * @returns An expected error
  */
-function error(unusedKey, extra) {
+function error(
+  unusedKey: string,
+  extra?: Partial<RuleTester.TestCaseError>,
+): RuleTester.TestCaseError {
   return {
     type: 'Property', // The property in the report's `data` object for the unused placeholder.
     message: `The placeholder {{${unusedKey}}} is unused (does not exist in the actual message).`,
