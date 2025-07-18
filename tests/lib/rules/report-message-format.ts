@@ -218,7 +218,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
-      languageOptions: { sourceType: 'module' },
+      languageOptions: { sourceType: 'module' as const },
     },
     {
       // With message as variable.
