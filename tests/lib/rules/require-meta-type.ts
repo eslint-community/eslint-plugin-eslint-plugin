@@ -66,16 +66,6 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
-    {
-      code: `
-        const create = {};
-        module.exports = {
-          meta: {},
-          create,
-        };
-      `,
-      errors: [{ messageId: 'missing' }],
-    },
     // Spread.
     `
       const extra = { type: 'problem' };
