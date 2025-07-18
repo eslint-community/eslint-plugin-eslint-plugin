@@ -12,10 +12,10 @@ import { RuleTester } from 'eslint';
 
 /**
  * Returns the code for some valid test cases
- * @param {string[]} cases The code representation of valid test cases
+ * @param cases The code representation of valid test cases
  * @returns {string} Code representing the test cases
  */
-function getTestCases(cases) {
+function getTestCases(cases: string[]): string {
   return `
     new RuleTester().run('foo', bar, {
       valid: [
