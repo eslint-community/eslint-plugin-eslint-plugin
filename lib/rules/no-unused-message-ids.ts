@@ -9,7 +9,7 @@ import {
   getReportInfo,
   getRuleInfo,
   isVariableFromParameter,
-} from '../utils';
+} from '../utils.js';
 import type { Identifier, Node } from 'estree';
 
 // ------------------------------------------------------------------------------

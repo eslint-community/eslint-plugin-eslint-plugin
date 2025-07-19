@@ -13,7 +13,7 @@ import {
   getMessagesNode,
   getReportInfo,
   getRuleInfo,
-} from '../utils';
+} from '../utils.js';
 import type { Node } from 'estree';
 
 // ------------------------------------------------------------------------------

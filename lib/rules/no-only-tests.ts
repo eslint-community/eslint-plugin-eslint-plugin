@@ -5,7 +5,7 @@ import {
 } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 
-import { getTestInfo } from '../utils';
+import { getTestInfo } from '../utils.js';
 
 const rule: Rule.RuleModule = {
   meta: {

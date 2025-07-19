@@ -2,47 +2,61 @@
  * @fileoverview An ESLint plugin for linting ESLint plugins
  * @author Teddy Katz
  */
-import packageMetadata from '../package.json' with { type: 'json' };
-import consistentOutput from './rules/consistent-output';
-import fixerReturn from './rules/fixer-return';
-import metaPropertyOrdering from './rules/meta-property-ordering';
-import noDeprecatedContextMethods from './rules/no-deprecated-context-methods';
-import noDeprecatedReportApi from './rules/no-deprecated-report-api';
-import noIdenticalTests from './rules/no-identical-tests';
-import noMetaReplacedBy from './rules/no-meta-replaced-by';
-import noMetaSchemaDefault from './rules/no-meta-schema-default';
-import noMissingMessageIds from './rules/no-missing-message-ids';
-import noMissingPlaceholders from './rules/no-missing-placeholders';
-import noOnlyTests from './rules/no-only-tests';
-import noPropertyInNode from './rules/no-property-in-node';
-import noUnusedMessageIds from './rules/no-unused-message-ids';
-import noUnusedPlaceholders from './rules/no-unused-placeholders';
-import noUselessTokenRange from './rules/no-useless-token-range';
-import preferMessageIds from './rules/prefer-message-ids';
-import preferObjectRule from './rules/prefer-object-rule';
-import preferOutputNull from './rules/prefer-output-null';
-import preferPlaceholders from './rules/prefer-placeholders';
-import preferReplaceText from './rules/prefer-replace-text';
-import reportMessageFormat from './rules/report-message-format';
-import requireMetaDefaultOptions from './rules/require-meta-default-options';
-import requireMetaDocsDescription from './rules/require-meta-docs-description';
-import requireMetaDocsRecommended from './rules/require-meta-docs-recommended';
-import requireMetaDocsUrl from './rules/require-meta-docs-url';
-import requireMetaFixable from './rules/require-meta-fixable';
-import requireMetaHasSuggestions from './rules/require-meta-has-suggestions';
-import requireMetaSchemaDescription from './rules/require-meta-schema-description';
-import requireMetaSchema from './rules/require-meta-schema';
-import requireMetaType from './rules/require-meta-type';
-import testCasePropertyOrdering from './rules/test-case-property-ordering';
-import testCaseShorthandStrings from './rules/test-case-shorthand-strings';
 import type { ESLint, Rule } from 'eslint';
 
+import packageMetadata from '../package.json' with { type: 'json' };
+import consistentOutput from './rules/consistent-output.js';
+import fixerReturn from './rules/fixer-return.js';
+import metaPropertyOrdering from './rules/meta-property-ordering.js';
+import noDeprecatedContextMethods from './rules/no-deprecated-context-methods.js';
+import noDeprecatedReportApi from './rules/no-deprecated-report-api.js';
+import noIdenticalTests from './rules/no-identical-tests.js';
+import noMetaReplacedBy from './rules/no-meta-replaced-by.js';
+import noMetaSchemaDefault from './rules/no-meta-schema-default.js';
+import noMissingMessageIds from './rules/no-missing-message-ids.js';
+import noMissingPlaceholders from './rules/no-missing-placeholders.js';
+import noOnlyTests from './rules/no-only-tests.js';
+import noPropertyInNode from './rules/no-property-in-node.js';
+import noUnusedMessageIds from './rules/no-unused-message-ids.js';
+import noUnusedPlaceholders from './rules/no-unused-placeholders.js';
+import noUselessTokenRange from './rules/no-useless-token-range.js';
+import preferMessageIds from './rules/prefer-message-ids.js';
+import preferObjectRule from './rules/prefer-object-rule.js';
+import preferOutputNull from './rules/prefer-output-null.js';
+import preferPlaceholders from './rules/prefer-placeholders.js';
+import preferReplaceText from './rules/prefer-replace-text.js';
+import reportMessageFormat from './rules/report-message-format.js';
+import requireMetaDefaultOptions from './rules/require-meta-default-options.js';
+import requireMetaDocsDescription from './rules/require-meta-docs-description.js';
+import requireMetaDocsRecommended from './rules/require-meta-docs-recommended.js';
+import requireMetaDocsUrl from './rules/require-meta-docs-url.js';
+import requireMetaFixable from './rules/require-meta-fixable.js';
+import requireMetaHasSuggestions from './rules/require-meta-has-suggestions.js';
+import requireMetaSchemaDescription from './rules/require-meta-schema-description.js';
+import requireMetaSchema from './rules/require-meta-schema.js';
+import requireMetaType from './rules/require-meta-type.js';
+import testCasePropertyOrdering from './rules/test-case-property-ordering.js';
+import testCaseShorthandStrings from './rules/test-case-shorthand-strings.js';
+
 const PLUGIN_NAME = packageMetadata.name.replace(/^eslint-plugin-/, '');
-const CONFIG_NAMES = ['all', 'all-type-checked', 'recommended', 'rules', 'tests', 'rules-recommended', 'tests-recommended'] as const;
+const CONFIG_NAMES = [
+  'all',
+  'all-type-checked',
+  'recommended',
+  'rules',
+  'tests',
+  'rules-recommended',
+  'tests-recommended',
+] as const;
 type ConfigName = (typeof CONFIG_NAMES)[number];
 
 const configFilters: Record<ConfigName, (rule: Rule.RuleModule) => boolean> = {
-  all: (rule: Rule.RuleModule) => !(rule.meta?.docs && 'requiresTypeChecking' in rule.meta.docs && rule.meta.docs.requiresTypeChecking),
+  all: (rule: Rule.RuleModule) =>
+    !(
+      rule.meta?.docs &&
+      'requiresTypeChecking' in rule.meta.docs &&
+      rule.meta.docs.requiresTypeChecking
+    ),
   'all-type-checked': () => true,
   recommended: (rule: Rule.RuleModule) => !!rule.meta?.docs?.recommended,
   rules: (rule: Rule.RuleModule) => rule.meta?.docs?.category === 'Rules',
@@ -106,7 +120,7 @@ const plugin = {
         plugins: {
           get PLUGIN_NAME() {
             return plugin;
-          }
+          },
         },
         rules: Object.fromEntries(
           (Object.keys(allRules) as (keyof typeof allRules)[])
@@ -115,8 +129,7 @@ const plugin = {
         ),
       },
     });
-  }, {})
+  }, {}),
 } satisfies ESLint.Plugin;
-
 
 export default plugin;

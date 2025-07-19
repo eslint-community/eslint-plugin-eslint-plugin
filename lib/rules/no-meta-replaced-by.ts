@@ -4,7 +4,7 @@
 
 import type { Rule } from 'eslint';
 
-import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils';
+import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

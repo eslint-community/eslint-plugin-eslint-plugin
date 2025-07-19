@@ -18,7 +18,7 @@ import {
   getContextIdentifiers,
   isAutoFixerFunction,
   isSuggestionFixerFunction,
-} from '../utils';
+} from '../utils.js';
 import type { FunctionInfo } from '../types';
 
 const DEFAULT_FUNC_INFO: FunctionInfo = {

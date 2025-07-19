@@ -4,7 +4,7 @@
  */
 import type { Rule } from 'eslint';
 
-import { getKeyName, getTestInfo } from '../utils';
+import { getKeyName, getTestInfo } from '../utils.js';
 
 const keyNameMapper = (property: Parameters<typeof getKeyName>[0]) =>
   getKeyName(property);

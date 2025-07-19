@@ -5,7 +5,7 @@ import {
   getMetaSchemaNode,
   getMetaSchemaNodeProperty,
   getRuleInfo,
-} from '../utils';
+} from '../utils.js';
 import type { Expression, SpreadElement } from 'estree';
 
 // ------------------------------------------------------------------------------

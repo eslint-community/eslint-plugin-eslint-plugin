@@ -6,7 +6,7 @@
 import type { Rule } from 'eslint';
 import type { Expression, SpreadElement } from 'estree';
 
-import { getTestInfo } from '../utils';
+import { getTestInfo } from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
