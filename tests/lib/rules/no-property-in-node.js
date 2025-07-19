@@ -1,6 +1,6 @@
 import { RuleTester } from 'eslint';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import rule from '../../../lib/rules/no-property-in-node.js';
 import parser from '@typescript-eslint/parser';
 

@@ -2,8 +2,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
+import { defineConfig } from 'eslint/config';
 import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
+// @ts-expect-error - eslint-plugin is not typed yet
 import eslintPlugin from './lib/index.js';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -12,7 +14,7 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
 });
 
-export default [
+export default defineConfig([
   // Global ignores
   {
     ignores: ['node_modules', 'coverage'],
@@ -39,7 +41,6 @@ export default [
       'unicorn/no-array-reduce': 'off',
       'unicorn/no-null': 'off',
       'unicorn/prefer-module': 'off',
-      'unicorn/prefer-node-protocol': 'off', // TODO: enable once we drop support for Node 14.17.
       'unicorn/prevent-abbreviations': 'off',
     },
   },
@@ -82,4 +83,4 @@ export default [
       'unicorn/filename-case': 'off',
     },
   },
-];
+]);
