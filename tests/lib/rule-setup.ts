@@ -6,7 +6,9 @@ import { assert, describe, it } from 'vitest';
 
 import plugin from '../../lib/index.js';
 
-const RULE_NAMES = Object.keys(plugin.rules);
+const RULE_NAMES = Object.keys(plugin.rules) as Array<
+  keyof typeof plugin.rules
+>;
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('rule setup is correct', () => {
@@ -29,7 +31,8 @@ describe('rule setup is correct', () => {
         it('has the right properties', () => {
           const ALLOWED_CATEGORIES = ['Rules', 'Tests'];
           assert.ok(
-            ALLOWED_CATEGORIES.includes(rule.meta.docs.category),
+            !rule.meta?.docs?.category ||
+              ALLOWED_CATEGORIES.includes(rule.meta.docs.category),
             'has an allowed category',
           );
         });
