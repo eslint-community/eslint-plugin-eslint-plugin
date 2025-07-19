@@ -50,7 +50,9 @@
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.31.0",
     "@release-it/conventional-changelog": "^9.0.3",
+    "@types/eslint-plugin-markdown": "^2.0.2",
     "@types/estree": "^1.0.8",
+    "@types/node": "^20.19.0",
     "@typescript-eslint/parser": "^8.34.1",
     "@typescript-eslint/utils": "^8.34.1",
     "@vitest/coverage-istanbul": "^3.2.4",
@@ -66,6 +68,7 @@
     "eslint-scope": "^8.0.1",
     "espree": "^10.0.1",
     "husky": "^9.1.7",
+    "jiti": "^2.4.2",
     "lodash": "^4.17.21",
     "markdownlint-cli": "^0.43.0",
     "npm-package-json-lint": "^8.0.0",
@@ -97,6 +100,5 @@
     "npm": {
       "skipChecks": true
     }
-  },
-  "packageManager": "pnpm@10.13.0+sha512.e08cbfa5d0c47e148d9d92965513af3d06a42ff99b6e0e82a7d10512858d0fb680a03c1e6772d369a2305c79306c9257989a3576b7057d6877469c9a1c7563f0"
+  }
 }
