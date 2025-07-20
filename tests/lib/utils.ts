@@ -8,6 +8,39 @@ import lodash from 'lodash';
 import { assert, describe, it } from 'vitest';
 
 import * as utils from '../../lib/utils.js';
+import type {
+  ArrayExpression,
+  ArrowFunctionExpression,
+  AssignmentExpression,
+  AssignmentPattern,
+  BlockStatement,
+  CallExpression,
+  ExpressionStatement,
+  FunctionDeclaration,
+  FunctionExpression,
+  Identifier,
+  IfStatement,
+  Literal,
+  MemberExpression,
+  ObjectExpression,
+  Program,
+  Property,
+  SpreadElement,
+  VariableDeclaration,
+} from 'estree';
+import type { Rule, Scope } from 'eslint';
+import type { RuleInfo } from '../../lib/types.js';
+
+type MockRuleInfo = {
+  create: {
+    id?: { name: string };
+    type: string;
+  };
+  meta: {
+    type: string;
+  } | null;
+  isNewStyle: boolean;
+};
 
 describe('utils', () => {
   describe('getRuleInfo', () => {
@@ -58,7 +91,10 @@ describe('utils', () => {
         'const rule = { create: function() {} }; exports.rule = rule;',
       ].forEach((noRuleCase) => {
         it(`returns null for ${noRuleCase}`, () => {
-          const ast = espree.parse(noRuleCase, { ecmaVersion: 8, range: true });
+          const ast = espree.parse(noRuleCase, {
+            ecmaVersion: 8,
+            range: true,
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
@@ -108,7 +144,7 @@ describe('utils', () => {
             ecmaVersion: 8,
             range: true,
             sourceType: 'module',
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
@@ -139,7 +175,7 @@ describe('utils', () => {
             ecmaVersion: 8,
             range: true,
             sourceType: 'module',
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
@@ -160,7 +196,7 @@ describe('utils', () => {
           const ast = typescriptEslintParser.parse(noRuleCase, {
             range: true,
             sourceType: 'script',
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           assert.isNull(
             utils.getRuleInfo({ ast, scopeManager }),
@@ -171,7 +207,7 @@ describe('utils', () => {
     });
 
     describe('the file has a valid rule (TypeScript + TypeScript parser + ESM)', () => {
-      const CASES = {
+      const CASES: Record<string, MockRuleInfo> = {
         // Util function only
         'export default createESLintRule<Options, MessageIds>({ create() {}, meta: {} });':
           {
@@ -336,11 +372,11 @@ describe('utils', () => {
             ecmaVersion: 6,
             range: true,
             sourceType: 'module',
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
-            lodash.isMatch(ruleInfo, CASES[ruleSource]),
+            ruleInfo && lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
               CASES[ruleSource],
             )}`,
@@ -350,7 +386,7 @@ describe('utils', () => {
     });
 
     describe('the file has a valid rule (CJS)', () => {
-      const CASES = {
+      const CASES: Record<string, MockRuleInfo> = {
         'module.exports = { create: function foo() {} };': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } }, // (This property will actually contain the AST node.)
           meta: null,
@@ -469,11 +505,11 @@ describe('utils', () => {
             ecmaVersion: 6,
             range: true,
             sourceType: 'script',
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
-            lodash.isMatch(ruleInfo, CASES[ruleSource]),
+            ruleInfo && lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
               CASES[ruleSource],
             )}`,
@@ -483,7 +519,7 @@ describe('utils', () => {
     });
 
     describe('the file has a valid rule (ESM)', () => {
-      const CASES = {
+      const CASES: Record<string, MockRuleInfo> = {
         // ESM (object style)
         'export default { create() {} }': {
           create: { type: 'FunctionExpression' },
@@ -558,11 +594,11 @@ describe('utils', () => {
             ecmaVersion: 6,
             range: true,
             sourceType: 'module',
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
-            lodash.isMatch(ruleInfo, CASES[ruleSource]),
+            ruleInfo && lodash.isMatch(ruleInfo, CASES[ruleSource]),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
               CASES[ruleSource],
             )}`,
@@ -581,7 +617,7 @@ describe('utils', () => {
         },
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'script' },
         { ignoreEval: true, ecmaVersion: 6, sourceType: 'module' },
-      ]) {
+      ] as eslintScope.AnalyzeOptions[]) {
         const ast = espree.parse(
           `
           const create = (context) => {};
@@ -589,7 +625,7 @@ describe('utils', () => {
           module.exports = { create, meta };
         `,
           { ecmaVersion: 6, range: true },
-        );
+        ) as unknown as Program;
         const expected = {
           create: { type: 'ArrowFunctionExpression' },
           meta: { type: 'ObjectExpression' },
@@ -599,7 +635,7 @@ describe('utils', () => {
           const scopeManager = eslintScope.analyze(ast, scopeOptions);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert(
-            lodash.isMatch(ruleInfo, expected),
+            ruleInfo && lodash.isMatch(ruleInfo, expected),
             `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(expected)}`,
           );
         });
@@ -607,7 +643,11 @@ describe('utils', () => {
     });
 
     describe('the file has newer syntax', () => {
-      const CASES = [
+      const CASES: {
+        source: string;
+        options: { sourceType: 'script' | 'module' };
+        expected: MockRuleInfo;
+      }[] = [
         {
           source:
             'module.exports = function(context) { class Foo { @someDecorator() someProp }; return {}; };',
@@ -635,11 +675,11 @@ describe('utils', () => {
             const ast = typescriptEslintParser.parse(
               testCase.source,
               testCase.options,
-            );
+            ) as unknown as Program;
             const scopeManager = eslintScope.analyze(ast);
             const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
             assert(
-              lodash.isMatch(ruleInfo, testCase.expected),
+              ruleInfo && lodash.isMatch(ruleInfo, testCase.expected),
               `Expected \n${inspect(ruleInfo)}\nto match\n${inspect(
                 testCase.expected,
               )}`,
@@ -651,43 +691,71 @@ describe('utils', () => {
   });
 
   describe('getContextIdentifiers', () => {
-    const CASES = {
+    type ContextIdentifierMapFn = (ast: Program) => Identifier[];
+    const CASES: Record<string, ContextIdentifierMapFn> = {
       'module.exports = context => { context; context; context; return {}; }'(
         ast,
       ) {
+        const expression = (ast.body[0] as ExpressionStatement)
+          .expression as AssignmentExpression;
+        const blockStatement = (expression.right as ArrowFunctionExpression)
+          .body as BlockStatement;
         return [
-          ast.body[0].expression.right.body.body[0].expression,
-          ast.body[0].expression.right.body.body[1].expression,
-          ast.body[0].expression.right.body.body[2].expression,
+          (blockStatement.body[0] as ExpressionStatement)
+            .expression as Identifier,
+          (blockStatement.body[0] as ExpressionStatement)
+            .expression as Identifier,
+          (blockStatement.body[0] as ExpressionStatement)
+            .expression as Identifier,
         ];
       },
       'module.exports = { meta: {}, create(context, foo = context) {} }'(ast) {
+        const expression = (ast.body[0] as ExpressionStatement)
+          .expression as AssignmentExpression;
+        const functionExpression = (
+          (expression.right as ObjectExpression).properties[1] as Property
+        ).value as FunctionExpression;
         return [
-          ast.body[0].expression.right.properties[1].value.params[1].right,
+          (functionExpression.params[1] as AssignmentPattern)
+            .right as Identifier,
         ];
       },
       'module.exports = { meta: {}, create(notContext) { notContext; notContext; notContext; } }'(
         ast,
       ) {
+        const expression = (ast.body[0] as ExpressionStatement)
+          .expression as AssignmentExpression;
+        const functionExpression = (
+          (expression.right as ObjectExpression).properties[1] as Property
+        ).value as FunctionExpression;
         return [
-          ast.body[0].expression.right.properties[1].value.body.body[0]
-            .expression,
-          ast.body[0].expression.right.properties[1].value.body.body[1]
-            .expression,
-          ast.body[0].expression.right.properties[1].value.body.body[2]
-            .expression,
+          (functionExpression.body.body[0] as ExpressionStatement)
+            .expression as Identifier,
+          (functionExpression.body.body[1] as ExpressionStatement)
+            .expression as Identifier,
+          (functionExpression.body.body[2] as ExpressionStatement)
+            .expression as Identifier,
         ];
       },
       'const create = function(context) { context }; module.exports = { meta: {}, create };'(
         ast,
       ) {
-        return [ast.body[0].declarations[0].init.body.body[0].expression];
+        const declaration = ast.body[0] as VariableDeclaration;
+        const functionExpression = declaration.declarations[0]
+          .init as FunctionExpression;
+        return [
+          (functionExpression?.body.body[0] as ExpressionStatement)
+            .expression as Identifier,
+        ];
       },
     };
 
     Object.keys(CASES).forEach((ruleSource) => {
       it(ruleSource, () => {
-        const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
+        const ast = espree.parse(ruleSource, {
+          ecmaVersion: 6,
+          range: true,
+        }) as unknown as Program;
         const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
@@ -713,7 +781,16 @@ describe('utils', () => {
   });
 
   describe('getKeyName', () => {
-    const CASES = {
+    const CASES: Record<
+      string,
+      | string
+      | null
+      | {
+          getNode: (ast: Program) => Property | SpreadElement;
+          result: string;
+          resultWithoutScope?: string | null;
+        }
+    > = {
       '({ foo: 1 })': 'foo',
       '({ "foo": 1 })': 'foo',
       '({ ["foo"]: 1 })': 'foo',
@@ -730,7 +807,9 @@ describe('utils', () => {
       '({ [key]: 1 })': null,
       'const key = "foo"; ({ [key]: 1 });': {
         getNode(ast) {
-          return ast.body[1].expression.properties[0];
+          const expression = (ast.body[1] as ExpressionStatement)
+            .expression as ObjectExpression;
+          return expression.properties[0];
         },
         result: 'foo',
         resultWithoutScope: null,
@@ -738,7 +817,10 @@ describe('utils', () => {
     };
     Object.keys(CASES).forEach((objectSource) => {
       it(objectSource, () => {
-        const ast = espree.parse(objectSource, { ecmaVersion: 6, range: true });
+        const ast = espree.parse(objectSource, {
+          ecmaVersion: 6,
+          range: true,
+        }) as unknown as Program;
         const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
@@ -764,9 +846,11 @@ describe('utils', () => {
             );
           }
         } else {
+          const expression = (ast.body[0] as ExpressionStatement)
+            .expression as ObjectExpression;
           assert.strictEqual(
             utils.getKeyName(
-              ast.body[0].expression.properties[0],
+              expression.properties[0],
               scopeManager.globalScope,
             ),
             caseInfo,
@@ -775,15 +859,20 @@ describe('utils', () => {
       });
     });
 
-    const CASES_ES9 = {
+    const CASES_ES9: Record<string, string | null> = {
       '({ ...foo })': null,
     };
     Object.keys(CASES_ES9).forEach((objectSource) => {
       it(objectSource, () => {
-        const ast = espree.parse(objectSource, { ecmaVersion: 9, range: true });
+        const ast = espree.parse(objectSource, {
+          ecmaVersion: 9,
+          range: true,
+        }) as unknown as Program;
 
+        const expression = (ast.body[0] as ExpressionStatement)
+          .expression as ObjectExpression;
         assert.strictEqual(
-          utils.getKeyName(ast.body[0].expression.properties[0]),
+          utils.getKeyName(expression.properties[0]),
           CASES_ES9[objectSource],
         );
       });
@@ -808,7 +897,7 @@ describe('utils', () => {
           const ast = espree.parse(noTestsCase, {
             ecmaVersion: 8,
             range: true,
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
@@ -820,7 +909,7 @@ describe('utils', () => {
               getDeclaredVariables:
                 scopeManager.getDeclaredVariables.bind(scopeManager),
             },
-          }; // mock object
+          } as unknown as Rule.RuleContext; // mock object
           assert.deepEqual(
             utils.getTestInfo(context, ast),
             [],
@@ -831,7 +920,7 @@ describe('utils', () => {
     });
 
     describe('the file has valid tests', () => {
-      const CASES = {
+      const CASES: Record<string, { valid: number; invalid: number }> = {
         'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
           { valid: 1, invalid: 2 },
         'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
@@ -880,7 +969,10 @@ describe('utils', () => {
 
       Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
-          const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
+          const ast = espree.parse(testSource, {
+            ecmaVersion: 6,
+            range: true,
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
@@ -892,7 +984,7 @@ describe('utils', () => {
               getDeclaredVariables:
                 scopeManager.getDeclaredVariables.bind(scopeManager),
             },
-          }; // mock object
+          } as unknown as Rule.RuleContext; // mock object
           const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
@@ -917,7 +1009,7 @@ describe('utils', () => {
     });
 
     describe('the file has multiple test runs', () => {
-      const CASES = {
+      const CASES: Record<string, { valid: number; invalid: number }[]> = {
         [`
           new RuleTester().run(foo, bar, { valid: [foo], invalid: [] });
           new RuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
@@ -1080,7 +1172,10 @@ describe('utils', () => {
 
       Object.keys(CASES).forEach((testSource) => {
         it(testSource, () => {
-          const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
+          const ast = espree.parse(testSource, {
+            ecmaVersion: 6,
+            range: true,
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast, {
             ignoreEval: true,
             ecmaVersion: 6,
@@ -1092,7 +1187,7 @@ describe('utils', () => {
               getDeclaredVariables:
                 scopeManager.getDeclaredVariables.bind(scopeManager),
             },
-          }; // mock object
+          } as unknown as Rule.RuleContext; // mock object
           const testInfo = utils.getTestInfo(context, ast);
 
           assert.strictEqual(
@@ -1123,7 +1218,28 @@ describe('utils', () => {
   });
 
   describe('getReportInfo', () => {
-    const CASES = new Map([
+    type GetReportInfoFn = {
+      (args: readonly (Identifier | ObjectExpression)[]): {
+        node: Identifier | ObjectExpression;
+        message: Identifier | ObjectExpression;
+        data: Identifier | ObjectExpression;
+        fix: Identifier | ObjectExpression;
+        loc?: Identifier | ObjectExpression;
+      };
+      (): null;
+      (): {
+        node: { type: string; name: string; start: number; end: number };
+        message: {
+          type: string;
+          name: string;
+          start: number;
+          end: number;
+        };
+      };
+    };
+
+    // @ts-expect-error - These types need some more work
+    const CASES = new Map<string[], GetReportInfoFn>([
       [[], () => null],
       [['foo', 'bar'], () => null],
       [
@@ -1166,28 +1282,30 @@ describe('utils', () => {
 
     for (const args of CASES.keys()) {
       it(args.join(', '), () => {
-        const node = espree.parse(`context.report(${args.join(', ')})`, {
+        const program = espree.parse(`context.report(${args.join(', ')})`, {
           ecmaVersion: 6,
           loc: false,
           range: false,
-        }).body[0].expression;
-        const parsedArgs = node.arguments;
+        }) as unknown as Program;
+        const node = (program.body[0] as ExpressionStatement)
+          .expression as CallExpression;
+        const parsedArgs = node.arguments as (Identifier | ObjectExpression)[];
         const context = {
           sourceCode: {
             getScope() {
               return {};
             },
           },
-        }; // mock object
+        } as unknown as Rule.RuleContext; // mock object
         const reportInfo = utils.getReportInfo(node, context);
 
-        assert.deepEqual(reportInfo, CASES.get(args)(parsedArgs));
+        assert.deepEqual(reportInfo, CASES.get(args)?.(parsedArgs));
       });
     }
   });
 
   describe('getSourceCodeIdentifiers', () => {
-    const CASES = {
+    const CASES: Record<string, number> = {
       'module.exports = context => { const sourceCode = context.getSourceCode(); sourceCode; foo; return {}; }': 2,
       'module.exports = context => { const x = 1, sc = context.getSourceCode(); sc; sc; sc; sourceCode; return {}; }': 4,
       'module.exports = context => { const sourceCode = context.getNotSourceCode(); return {}; }': 0,
@@ -1195,7 +1313,10 @@ describe('utils', () => {
 
     Object.keys(CASES).forEach((testSource) => {
       it(testSource, () => {
-        const ast = espree.parse(testSource, { ecmaVersion: 6, range: true });
+        const ast = espree.parse(testSource, {
+          ecmaVersion: 6,
+          range: true,
+        }) as unknown as Program;
         const scopeManager = eslintScope.analyze(ast, {
           ignoreEval: true,
           ecmaVersion: 6,
@@ -1205,7 +1326,9 @@ describe('utils', () => {
 
         estraverse.traverse(ast, {
           enter(node, parent) {
-            node.parent = parent;
+            if (parent) {
+              node.parent = parent;
+            }
           },
         });
 
@@ -1218,7 +1341,17 @@ describe('utils', () => {
   });
 
   describe('collectReportViolationAndSuggestionData', () => {
-    const CASES = [
+    type Data = {
+      message?: { type: string; value: string };
+      messageId?: { type: string; value: string };
+      data?: { type: string; properties?: { key: { name: string } }[] };
+      fix?: { type: string };
+    };
+    type TestCase = {
+      code: string;
+      shouldMatch: Data[];
+    };
+    const CASES: TestCase[] = [
       {
         // One suggestion.
         code: `
@@ -1350,19 +1483,22 @@ describe('utils', () => {
         const ast = espree.parse(testCase.code, {
           ecmaVersion: 6,
           range: true,
-        });
+        }) as unknown as Program;
         const context = {
           sourceCode: {
             getScope() {
               return {};
             },
           },
-        }; // mock object
-        const reportNode = ast.body[0].expression;
+        } as unknown as Rule.RuleContext; // mock object
+        const reportNode = (ast.body[0] as ExpressionStatement)
+          .expression as CallExpression;
         const reportInfo = utils.getReportInfo(reportNode, context);
-        const data = utils.collectReportViolationAndSuggestionData(reportInfo);
+        const data =
+          reportInfo &&
+          utils.collectReportViolationAndSuggestionData(reportInfo);
         assert(
-          lodash.isMatch(data, testCase.shouldMatch),
+          data && lodash.isMatch(data, testCase.shouldMatch),
           `Expected \n${inspect(data)}\nto match\n${inspect(
             testCase.shouldMatch,
           )}`,
@@ -1372,36 +1508,55 @@ describe('utils', () => {
   });
 
   describe('isAutoFixerFunction / isSuggestionFixerFunction', () => {
-    const CASES = {
+    type TestCase = {
+      expected: boolean;
+      node: ArrayExpression | FunctionExpression;
+      context: Identifier | undefined;
+      fn:
+        | typeof utils.isAutoFixerFunction
+        | typeof utils.isSuggestionFixerFunction;
+    };
+
+    const getReportCallExpression = (ast: Program): CallExpression =>
+      (ast.body[0] as ExpressionStatement).expression as CallExpression;
+    const getReportParamObjectExpression = (ast: Program): ObjectExpression =>
+      getReportCallExpression(ast).arguments[0] as ObjectExpression;
+    const getReportParamObjectProperty = (ast: Program): Property =>
+      getReportParamObjectExpression(ast).properties[0] as Property;
+    const getReportCalleeIdentifier = (ast: Program): Identifier =>
+      (getReportCallExpression(ast).callee as MemberExpression)
+        .object as Identifier;
+
+    const CASES: Record<string, (ast: Program) => TestCase> = {
       // isAutoFixerFunction
       'context.report({ fix(fixer) {} });'(ast) {
         return {
           expected: true,
-          node: ast.body[0].expression.arguments[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: getReportParamObjectProperty(ast).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isAutoFixerFunction,
         };
       },
       'context.notReport({ fix(fixer) {} });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: getReportParamObjectProperty(ast).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isAutoFixerFunction,
         };
       },
       'context.report({ notFix(fixer) {} });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: getReportParamObjectProperty(ast).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isAutoFixerFunction,
         };
       },
       'notContext.report({ notFix(fixer) {} });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value,
+          node: getReportParamObjectProperty(ast).value as FunctionExpression,
           context: undefined,
           fn: utils.isAutoFixerFunction,
         };
@@ -1411,43 +1566,59 @@ describe('utils', () => {
       'context.report({ suggest: [{ fix(fixer) {} }] });'(ast) {
         return {
           expected: true,
-          node: ast.body[0].expression.arguments[0].properties[0].value
-            .elements[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: (
+            (
+              (getReportParamObjectProperty(ast).value as ArrayExpression)
+                .elements[0] as ObjectExpression
+            ).properties[0] as Property
+          ).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isSuggestionFixerFunction,
         };
       },
       'context.notReport({ suggest: [{ fix(fixer) {} }] });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value
-            .elements[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: (
+            (
+              (getReportParamObjectProperty(ast).value as ArrayExpression)
+                .elements[0] as ObjectExpression
+            ).properties[0] as Property
+          ).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isSuggestionFixerFunction,
         };
       },
       'context.report({ notSuggest: [{ fix(fixer) {} }] });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value
-            .elements[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: (
+            (
+              (getReportParamObjectProperty(ast).value as ArrayExpression)
+                .elements[0] as ObjectExpression
+            ).properties[0] as Property
+          ).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isSuggestionFixerFunction,
         };
       },
       'context.report({ suggest: [{ notFix(fixer) {} }] });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value
-            .elements[0].properties[0].value,
-          context: ast.body[0].expression.callee.object,
+          node: (
+            (
+              (getReportParamObjectProperty(ast).value as ArrayExpression)
+                .elements[0] as ObjectExpression
+            ).properties[0] as Property
+          ).value as FunctionExpression,
+          context: getReportCalleeIdentifier(ast),
           fn: utils.isSuggestionFixerFunction,
         };
       },
       'notContext.report({ suggest: [{ fix(fixer) {} }] });'(ast) {
         return {
           expected: false,
-          node: ast.body[0].expression.arguments[0].properties[0].value,
+          node: getReportParamObjectProperty(ast).value as ArrayExpression,
           context: undefined,
           fn: utils.isSuggestionFixerFunction,
         };
@@ -1456,18 +1627,32 @@ describe('utils', () => {
 
     Object.keys(CASES).forEach((ruleSource) => {
       it(ruleSource, () => {
-        const ast = espree.parse(ruleSource, { ecmaVersion: 6, range: true });
+        const ast = espree.parse(ruleSource, {
+          ecmaVersion: 6,
+          range: true,
+        }) as unknown as Program;
+        const context = {
+          sourceCode: {
+            getScope() {
+              return {};
+            },
+          },
+        } as unknown as Rule.RuleContext; // mock object
 
         // Add parent to each node.
         estraverse.traverse(ast, {
           enter(node, parent) {
-            node.parent = parent;
+            if (parent) {
+              node.parent = parent;
+            }
           },
         });
 
         const testCase = CASES[ruleSource](ast);
-        const contextIdentifiers = new Set([testCase.context]);
-        const result = testCase.fn(testCase.node, contextIdentifiers);
+        const contextIdentifiers = new Set(
+          [testCase.context].filter((node) => !!node),
+        );
+        const result = testCase.fn(testCase.node, contextIdentifiers, context);
         assert.strictEqual(result, testCase.expected);
       });
     });
@@ -1475,19 +1660,29 @@ describe('utils', () => {
 
   describe('evaluateObjectProperties', function () {
     it('behaves correctly with simple object expression', function () {
+      const getObjectExpression = (ast: Program): ObjectExpression =>
+        (ast.body[0] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
       const ast = espree.parse('const obj = { a: 123, b: foo() };', {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
-        ast.body[0].declarations[0].init,
+        getObjectExpression(ast),
         scopeManager,
       );
-      assert.deepEqual(result, ast.body[0].declarations[0].init.properties);
+      assert.deepEqual(result, getObjectExpression(ast).properties);
     });
 
     it('behaves correctly with spreads of objects', function () {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
       const ast = espree.parse(
         `
         const extra1 = { a: 123 };
@@ -1498,29 +1693,33 @@ describe('utils', () => {
           ecmaVersion: 9,
           range: true,
         },
-      );
+      ) as unknown as Program;
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
-        ast.body[2].declarations[0].init,
+        getObjectExpression(ast, 2),
         scopeManager,
       );
       assert.deepEqual(result, [
-        ...ast.body[0].declarations[0].init.properties, // First spread properties
-        ...ast.body[2].declarations[0].init.properties.filter(
+        ...getObjectExpression(ast, 0).properties, // First spread properties
+        ...getObjectExpression(ast, 2).properties.filter(
           (property) => property.type !== 'SpreadElement',
         ), // Non-spread properties
-        ...ast.body[1].declarations[0].init.properties, // Second spread properties
+        ...getObjectExpression(ast, 1).properties, // Second spread properties
       ]);
     });
 
     it('behaves correctly with non-variable spreads', function () {
+      const getObjectExpression = (ast: Program): ObjectExpression =>
+        (ast.body[1] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
       const ast = espree.parse(`function foo() {} const obj = { ...foo() };`, {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
-        ast.body[1].declarations[0].init,
+        getObjectExpression(ast),
         scopeManager,
       );
       assert.deepEqual(result, []);
@@ -1530,10 +1729,11 @@ describe('utils', () => {
       const ast = espree.parse(`const obj = { ...foo };`, {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(
-        ast.body[0].declarations[0].init,
+        (ast.body[0] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression,
         scopeManager,
       );
       assert.deepEqual(result, []);
@@ -1543,7 +1743,7 @@ describe('utils', () => {
       const ast = espree.parse(`foo();`, {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(ast.body[0], scopeManager);
       assert.deepEqual(result, []);
@@ -1551,12 +1751,26 @@ describe('utils', () => {
   });
 
   describe('getMessagesNode', function () {
-    [
+    type TestCase = {
+      code: string;
+      getResult: ((ast: Program) => ObjectExpression) | (() => void);
+    };
+    const CASES: TestCase[] = [
       {
         code: 'module.exports = { meta: { messages: {} }, create(context) {} };',
         getResult(ast) {
-          return ast.body[0].expression.right.properties[0].value.properties[0]
-            .value;
+          return (
+            (
+              (
+                (
+                  (
+                    (ast.body[0] as ExpressionStatement)
+                      .expression as AssignmentExpression
+                  ).right as ObjectExpression
+                ).properties[0] as Property
+              ).value as ObjectExpression
+            ).properties[0] as Property
+          ).value as ObjectExpression;
         },
       },
       {
@@ -1566,7 +1780,8 @@ describe('utils', () => {
           module.exports = { meta: { messages }, create(context) {} };
         `,
         getResult(ast) {
-          return ast.body[0].declarations[0].init;
+          return (ast.body[0] as VariableDeclaration).declarations[0]
+            .init as ObjectExpression;
         },
       },
       {
@@ -1576,24 +1791,32 @@ describe('utils', () => {
           module.exports = { meta: { ...extra }, create(context) {} };
         `,
         getResult(ast) {
-          return ast.body[0].declarations[0].init.properties[0].value;
+          return (
+            (
+              (ast.body[0] as VariableDeclaration).declarations[0]
+                .init as ObjectExpression
+            ).properties[0] as Property
+          ).value as ObjectExpression;
         },
       },
       {
         code: `module.exports = { meta: FOO, create(context) {} };`,
-        getResult() {}, // returns undefined
+        getResult() {
+          return undefined;
+        }, // returns undefined
       },
       {
         code: `module.exports = { create(context) {} };`,
         getResult() {}, // returns undefined
       },
-    ].forEach((testCase) => {
+    ];
+    CASES.forEach((testCase) => {
       describe(testCase.code, () => {
         it('returns the right node', () => {
           const ast = espree.parse(testCase.code, {
             ecmaVersion: 9,
             range: true,
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert.strictEqual(
@@ -1606,12 +1829,28 @@ describe('utils', () => {
   });
 
   describe('getMessageIdNodes', function () {
-    [
+    type TestCase = {
+      code: string;
+      getResult: (ast: Program) => Property[];
+    };
+    const CASES: TestCase[] = [
       {
         code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
         getResult(ast) {
-          return ast.body[0].expression.right.properties[0].value.properties[0]
-            .value.properties;
+          return (
+            (
+              (
+                (
+                  (
+                    (
+                      (ast.body[0] as ExpressionStatement)
+                        .expression as AssignmentExpression
+                    ).right as ObjectExpression
+                  ).properties[0] as Property
+                ).value as ObjectExpression
+              ).properties[0] as Property
+            ).value as ObjectExpression
+          ).properties as Property[];
         },
       },
       {
@@ -1621,7 +1860,10 @@ describe('utils', () => {
           module.exports = { meta: { messages }, create(context) {} };
         `,
         getResult(ast) {
-          return ast.body[0].declarations[0].init.properties;
+          return (
+            (ast.body[0] as VariableDeclaration).declarations[0]
+              .init as ObjectExpression
+          ).properties as Property[];
         },
       },
       {
@@ -1632,20 +1874,24 @@ describe('utils', () => {
           module.exports = { meta: { ...extra }, create(context) {} };
         `,
         getResult(ast) {
-          return ast.body[0].declarations[0].init.properties;
+          return (
+            (ast.body[0] as VariableDeclaration).declarations[0]
+              .init as ObjectExpression
+          ).properties as Property[];
         },
       },
-    ].forEach((testCase) => {
+    ];
+    CASES.forEach((testCase) => {
       describe(testCase.code, () => {
         it('returns the right node', () => {
           const ast = espree.parse(testCase.code, {
             ecmaVersion: 9,
             range: true,
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert.deepEqual(
-            utils.getMessageIdNodes(ruleInfo, scopeManager),
+            ruleInfo && utils.getMessageIdNodes(ruleInfo, scopeManager),
             testCase.getResult(ast),
           );
         });
@@ -1654,7 +1900,15 @@ describe('utils', () => {
   });
 
   describe('getMessageIdNodeById', function () {
-    [
+    type TestCase = {
+      code: string;
+      run: (
+        ruleInfo: RuleInfo,
+        scopeManager: Scope.ScopeManager,
+      ) => Property | undefined;
+      getResult: ((ast: Program) => Property) | (() => void);
+    };
+    const CASES: TestCase[] = [
       {
         code: 'module.exports = { meta: { messages: { foo: "hello world" } }, create(context) {} };',
         run(ruleInfo, scopeManager) {
@@ -1662,12 +1916,24 @@ describe('utils', () => {
             'foo',
             ruleInfo,
             scopeManager,
-            scopeManager.globalScope,
+            scopeManager.globalScope!,
           );
         },
         getResult(ast) {
-          return ast.body[0].expression.right.properties[0].value.properties[0]
-            .value.properties[0];
+          return (
+            (
+              (
+                (
+                  (
+                    (
+                      (ast.body[0] as ExpressionStatement)
+                        .expression as AssignmentExpression
+                    ).right as ObjectExpression
+                  ).properties[0] as Property
+                ).value as ObjectExpression
+              ).properties[0] as Property
+            ).value as ObjectExpression
+          ).properties[0] as Property;
         },
       },
       {
@@ -1677,22 +1943,24 @@ describe('utils', () => {
             'bar',
             ruleInfo,
             scopeManager,
-            scopeManager.globalScope,
+            scopeManager.globalScope!,
           );
         },
         getResult() {}, // returns undefined
       },
-    ].forEach((testCase) => {
+    ];
+
+    CASES.forEach((testCase) => {
       describe(testCase.code, () => {
         it('returns the right node', () => {
           const ast = espree.parse(testCase.code, {
             ecmaVersion: 9,
             range: true,
-          });
+          }) as unknown as Program;
           const scopeManager = eslintScope.analyze(ast);
           const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
           assert.strictEqual(
-            testCase.run(ruleInfo, scopeManager),
+            ruleInfo && testCase.run(ruleInfo, scopeManager),
             testCase.getResult(ast),
           );
         });
@@ -1707,26 +1975,39 @@ describe('utils', () => {
       const ast = espree.parse(code, {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
 
       // Add parent to each node.
       estraverse.traverse(ast, {
         enter(node, parent) {
-          node.parent = parent;
+          if (parent) {
+            node.parent = parent;
+          }
         },
       });
 
       const scopeManager = eslintScope.analyze(ast);
       assert.deepEqual(
         utils.findPossibleVariableValues(
-          ast.body[0].declarations[0].id,
+          (ast.body[0] as VariableDeclaration).declarations[0].id as Identifier,
           scopeManager,
         ),
         [
-          ast.body[0].declarations[0].init,
-          ast.body[1].expression.right,
-          ast.body[2].expression.right,
-          ast.body[3].consequent.body[0].expression.right,
+          (ast.body[0] as VariableDeclaration).declarations[0].init as Literal,
+          (
+            (ast.body[1] as ExpressionStatement)
+              .expression as AssignmentExpression
+          ).right,
+          (
+            (ast.body[2] as ExpressionStatement)
+              .expression as AssignmentExpression
+          ).right,
+          (
+            (
+              ((ast.body[3] as IfStatement).consequent as BlockStatement)
+                .body[0] as ExpressionStatement
+            ).expression as AssignmentExpression
+          ).right,
         ],
       );
     });
@@ -1739,12 +2020,17 @@ describe('utils', () => {
       const ast = espree.parse(code, {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
 
       const scopeManager = eslintScope.analyze(ast);
       assert.ok(
         utils.isVariableFromParameter(
-          ast.body[0].body.body[1].expression.arguments[0],
+          (
+            (
+              (ast.body[0] as FunctionDeclaration).body
+                .body[1] as ExpressionStatement
+            ).expression as CallExpression
+          ).arguments[0] as Identifier,
           scopeManager,
         ),
       );
@@ -1755,12 +2041,13 @@ describe('utils', () => {
       const ast = espree.parse(code, {
         ecmaVersion: 9,
         range: true,
-      });
+      }) as unknown as Program;
 
       const scopeManager = eslintScope.analyze(ast);
       assert.notOk(
         utils.isVariableFromParameter(
-          ast.body[1].expression.arguments[0],
+          ((ast.body[1] as ExpressionStatement).expression as CallExpression)
+            .arguments[0] as Identifier,
           scopeManager,
         ),
       );
