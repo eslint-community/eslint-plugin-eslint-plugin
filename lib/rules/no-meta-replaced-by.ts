@@ -1,7 +1,6 @@
 /**
  * @fileoverview Disallows the usage of `meta.replacedBy` property
  */
-
 import type { Rule } from 'eslint';
 
 import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.js';

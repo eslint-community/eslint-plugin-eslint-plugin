@@ -1,12 +1,12 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
+import type { Expression, SpreadElement } from 'estree';
 
 import {
   getMetaSchemaNode,
   getMetaSchemaNodeProperty,
   getRuleInfo,
 } from '../utils.js';
-import type { Expression, SpreadElement } from 'estree';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

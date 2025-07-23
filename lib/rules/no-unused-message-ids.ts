@@ -1,4 +1,5 @@
 import type { Rule } from 'eslint';
+import type { Identifier, Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
@@ -10,7 +11,6 @@ import {
   getRuleInfo,
   isVariableFromParameter,
 } from '../utils.js';
-import type { Identifier, Node } from 'estree';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

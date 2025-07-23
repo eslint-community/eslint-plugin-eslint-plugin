@@ -2,7 +2,6 @@
  * @fileoverview disallow identical tests
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
-
 import type { Rule } from 'eslint';
 import type { Expression, SpreadElement } from 'estree';
 

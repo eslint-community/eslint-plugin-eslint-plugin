@@ -5,7 +5,7 @@
 
 import { findVariable } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
-import { Node } from 'estree';
+import type { Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,

@@ -2,7 +2,6 @@
  * @fileoverview require fixer functions to return a fix
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
-
 import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 import type {

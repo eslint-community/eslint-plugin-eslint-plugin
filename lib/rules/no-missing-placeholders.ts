@@ -4,6 +4,7 @@
  */
 import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
+import type { Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
@@ -14,7 +15,6 @@ import {
   getReportInfo,
   getRuleInfo,
 } from '../utils.js';
-import type { Node } from 'estree';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

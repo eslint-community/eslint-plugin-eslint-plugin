@@ -2,10 +2,10 @@
  * @fileoverview Disallows usage of deprecated methods on rule context objects
  * @author Teddy Katz
  */
-
 import type { Rule } from 'eslint';
-import { getContextIdentifiers } from '../utils.js';
 import type { Identifier, MemberExpression } from 'estree';
+
+import { getContextIdentifiers } from '../utils.js';
 
 const DEPRECATED_PASSTHROUGHS = {
   getSource: 'getText',
