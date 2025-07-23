@@ -118,7 +118,7 @@ const plugin = {
       [configName]: {
         name: `${PLUGIN_NAME}/${configName}`,
         plugins: {
-          get PLUGIN_NAME() {
+          get [PLUGIN_NAME](): ESLint.Plugin {
             return plugin;
           },
         },
