@@ -1,7 +1,9 @@
-import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
+import type { Config } from 'eslint-remote-tester';
 
-/** @type {import('eslint-remote-tester').Config} */
+// @ts-expect-error - eslint-plugin is not typed yet
+import eslintPlugin from './lib/index.js';
+
 export default {
   /** Repositories to scan */
   repositories: [
@@ -43,6 +45,7 @@ export default {
   cache: false,
 
   /** ESLint configuration */
+  // @ts-expect-error - eslint-plugin is not typed yet
   eslintConfig: [
     {
       files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
@@ -56,4 +59,4 @@ export default {
       },
     },
   ],
-};
+} satisfies Config;

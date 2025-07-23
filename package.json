@@ -19,7 +19,7 @@
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
     "test": "vitest run --coverage",
-    "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.mjs",
+    "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.ts",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
