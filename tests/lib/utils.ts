@@ -703,9 +703,9 @@ describe('utils', () => {
         return [
           (blockStatement.body[0] as ExpressionStatement)
             .expression as Identifier,
-          (blockStatement.body[0] as ExpressionStatement)
+          (blockStatement.body[1] as ExpressionStatement)
             .expression as Identifier,
-          (blockStatement.body[0] as ExpressionStatement)
+          (blockStatement.body[2] as ExpressionStatement)
             .expression as Identifier,
         ];
       },
