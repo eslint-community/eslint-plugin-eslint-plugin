@@ -19,7 +19,7 @@ import {
   isAutoFixerFunction,
   isSuggestionFixerFunction,
 } from '../utils.js';
-import type { FunctionInfo } from '../types';
+import type { FunctionInfo } from '../types.js';
 
 const DEFAULT_FUNC_INFO: FunctionInfo = {
   upper: null,
@@ -29,12 +29,6 @@ const DEFAULT_FUNC_INFO: FunctionInfo = {
   shouldCheck: false,
   node: null,
 };
-
-import {
-  getContextIdentifiers,
-  isAutoFixerFunction,
-  isSuggestionFixerFunction,
-} from '../utils.js';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
