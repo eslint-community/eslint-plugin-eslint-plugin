@@ -2,7 +2,7 @@
  * @fileoverview An ESLint plugin for linting ESLint plugins
  * @author Teddy Katz
  */
-import type { ESLint, Rule } from 'eslint';
+import type { ESLint, Linter, Rule } from 'eslint';
 
 import packageMetadata from '../package.json' with { type: 'json' };
 import consistentOutput from './rules/consistent-output.js';
@@ -67,6 +67,20 @@ const configFilters: Record<ConfigName, (rule: Rule.RuleModule) => boolean> = {
     configFilters.recommended(rule) && configFilters.tests(rule),
 };
 
+const createConfig = (configName: ConfigName): Linter.Config => ({
+  name: `${PLUGIN_NAME}/${configName}`,
+  plugins: {
+    get [PLUGIN_NAME](): ESLint.Plugin {
+      return plugin;
+    },
+  },
+  rules: Object.fromEntries(
+    (Object.keys(allRules) as (keyof typeof allRules)[])
+      .filter((ruleName) => configFilters[configName](allRules[ruleName]))
+      .map((ruleName) => [`${PLUGIN_NAME}/${ruleName}`, 'error']),
+  ),
+});
+
 // ------------------------------------------------------------------------------
 // Plugin Definition
 // ------------------------------------------------------------------------------
@@ -113,23 +127,15 @@ const plugin = {
     version: packageMetadata.version,
   },
   rules: allRules,
-  configs: CONFIG_NAMES.reduce((configs, configName) => {
-    return Object.assign(configs, {
-      [configName]: {
-        name: `${PLUGIN_NAME}/${configName}`,
-        plugins: {
-          get [PLUGIN_NAME](): ESLint.Plugin {
-            return plugin;
-          },
-        },
-        rules: Object.fromEntries(
-          (Object.keys(allRules) as (keyof typeof allRules)[])
-            .filter((ruleName) => configFilters[configName](allRules[ruleName]))
-            .map((ruleName) => [`${PLUGIN_NAME}/${ruleName}`, 'error']),
-        ),
-      },
-    });
-  }, {}),
+  configs: {
+    all: createConfig('all'),
+    'all-type-checked': createConfig('all-type-checked'),
+    recommended: createConfig('recommended'),
+    rules: createConfig('rules'),
+    tests: createConfig('tests'),
+    'rules-recommended': createConfig('rules-recommended'),
+    'tests-recommended': createConfig('tests-recommended'),
+  },
 } satisfies ESLint.Plugin;
 
 export default plugin;
