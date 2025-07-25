@@ -21,6 +21,21 @@
 * update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
 * update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
 
+## [7.0.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.5.0...v7.0.0) (2025-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* require Node 20, 22, 24+ ([#529](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/529))
+* remove eslint v8 / eslintrc support and remove `flat/` prefix from configs ([#528](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/528))
+* move to ESM only ([#516](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/516))
+
+### Features
+
+* move to ESM only ([#516](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/516)) ([9cd5af8](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/9cd5af882bf992a63d05a9b21dd4366c384b5150))
+* remove eslint v8 / eslintrc support and remove `flat/` prefix from configs ([#528](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/528)) ([03cf3d7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/03cf3d7b857561d24fd0bfdbeeb926cb6bc02d10))
+* require Node 20, 22, 24+ ([#529](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/529)) ([b2994c7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b2994c73ba71576cdd96d95469613b4d573740c2))
+
 ## [6.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.4.0...v6.5.0) (2025-06-18)
 
 
