@@ -19,7 +19,7 @@
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
     "test": "vitest run --coverage",
-    "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.mjs",
+    "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.ts",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
@@ -64,7 +64,7 @@
     "eslint-plugin-n": "^17.21.0",
     "eslint-plugin-prettier": "^5.5.3",
     "eslint-plugin-unicorn": "^56.0.1",
-    "eslint-remote-tester": "^4.0.2",
+    "eslint-remote-tester": "^4.0.3",
     "eslint-scope": "^8.0.1",
     "espree": "^10.0.1",
     "husky": "^9.1.7",
