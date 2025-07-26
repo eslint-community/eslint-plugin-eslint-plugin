@@ -36,9 +36,9 @@ type MockRuleInfo = {
     id?: { name: string };
     type: string;
   };
-  meta: {
+  meta?: {
     type: string;
-  } | null;
+  } | undefined;
   isNewStyle: boolean;
 };
 
@@ -389,12 +389,10 @@ describe('utils', () => {
       const CASES: Record<string, MockRuleInfo> = {
         'module.exports = { create: function foo() {} };': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } }, // (This property will actually contain the AST node.)
-          meta: null,
           isNewStyle: true,
         },
         'module.exports = { create: () => { } };': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
           isNewStyle: true,
         },
         'module.exports = { create() {}, meta: { } };': {
@@ -416,12 +414,10 @@ describe('utils', () => {
         'module.exports = { create: () => { } }; exports.create = function foo() {}; exports.meta = {};':
           {
             create: { type: 'ArrowFunctionExpression' },
-            meta: null,
             isNewStyle: true,
           },
         'exports.meta = {}; module.exports = { create: () => { } };': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
           isNewStyle: true,
         },
         'module.exports = { create: () => { } }; module.exports.meta = {};': {
@@ -441,44 +437,43 @@ describe('utils', () => {
         },
         'module.exports = { create: (context) => { } }; exports.meta = {};': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
           isNewStyle: true,
         },
         'module.exports = function foo(context) { return {}; }': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'module.exports = function foo(slightlyDifferentContextName) { return {}; }':
           {
             create: { type: 'FunctionExpression', id: { name: 'foo' } },
-            meta: null,
+            meta: undefined,
             isNewStyle: false,
           },
         'module.exports = function foo({ report }) { return {}; }': {
           create: { type: 'FunctionExpression', id: { name: 'foo' } },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'module.exports = (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'module.exports = (context) => { if (foo) { return {}; } }': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'exports.meta = {}; module.exports = (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'module.exports = (context) => { return {}; }; module.exports.meta = {};':
           {
             create: { type: 'ArrowFunctionExpression' },
-            meta: null,
+            meta: undefined,
             isNewStyle: false,
           },
         'const create = function(context) { return {}; }; const meta = {}; module.exports = { create, meta };':
@@ -494,7 +489,7 @@ describe('utils', () => {
         },
         'const rule = function(context) {return{};}; module.exports = rule;': {
           create: { type: 'FunctionExpression' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
       };
@@ -523,7 +518,6 @@ describe('utils', () => {
         // ESM (object style)
         'export default { create() {} }': {
           create: { type: 'FunctionExpression' },
-          meta: null,
           isNewStyle: true,
         },
         'export default { create() {}, meta: {} }': {
@@ -568,22 +562,21 @@ describe('utils', () => {
         // ESM (function style)
         'export default function (context) { return {}; }': {
           create: { type: 'FunctionDeclaration' },
-          meta: null,
           isNewStyle: false,
         },
         'export default function (context) { if (foo) { return {}; } }': {
           create: { type: 'FunctionDeclaration' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'export default (context) => { return {}; }': {
           create: { type: 'ArrowFunctionExpression' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
         'const rule = function(context) {return {};}; export default rule;': {
           create: { type: 'FunctionExpression' },
-          meta: null,
+          meta: undefined,
           isNewStyle: false,
         },
       };
@@ -654,7 +647,7 @@ describe('utils', () => {
           options: { sourceType: 'script' },
           expected: {
             create: { type: 'FunctionExpression' },
-            meta: null,
+            meta: undefined,
             isNewStyle: false,
           },
         },
@@ -664,7 +657,7 @@ describe('utils', () => {
           options: { sourceType: 'module' },
           expected: {
             create: { type: 'FunctionDeclaration' },
-            meta: null,
+            meta: undefined,
             isNewStyle: false,
           },
         },
