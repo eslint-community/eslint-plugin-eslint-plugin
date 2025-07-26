@@ -2,9 +2,10 @@
  * @fileoverview An ESLint plugin for linting ESLint plugins
  * @author Teddy Katz
  */
+import { createRequire } from 'node:module';
+
 import type { ESLint, Linter, Rule } from 'eslint';
 
-import packageMetadata from '../package.json' with { type: 'json' };
 import consistentOutput from './rules/consistent-output.js';
 import fixerReturn from './rules/fixer-return.js';
 import metaPropertyOrdering from './rules/meta-property-ordering.js';
@@ -37,6 +38,13 @@ import requireMetaSchema from './rules/require-meta-schema.js';
 import requireMetaType from './rules/require-meta-type.js';
 import testCasePropertyOrdering from './rules/test-case-property-ordering.js';
 import testCaseShorthandStrings from './rules/test-case-shorthand-strings.js';
+
+const require = createRequire(import.meta.url);
+
+const packageMetadata = require("../package.json") as {
+	name: string;
+	version: string;
+};
 
 const PLUGIN_NAME = packageMetadata.name.replace(/^eslint-plugin-/, '');
 const CONFIG_NAMES = [
