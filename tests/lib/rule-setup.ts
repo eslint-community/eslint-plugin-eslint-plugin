@@ -1,6 +1,5 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import { assert, describe, it } from 'vitest';
 
@@ -9,18 +8,17 @@ import plugin from '../../lib/index.js';
 const RULE_NAMES = Object.keys(plugin.rules) as Array<
   keyof typeof plugin.rules
 >;
-const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('rule setup is correct', () => {
   it('should have a list of exported rules and rules directory that match', () => {
-    const filePath = path.join(dirname, '..', 'lib', 'rules');
+    const filePath = path.join(import.meta.dirname, '..', 'lib', 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
       RULE_NAMES,
       files
         .filter((file) => !file.startsWith('.'))
-        .map((file) => file.replace('.js', '')),
+        .map((file) => file.replace('.ts', '')),
     );
   });
 
@@ -39,18 +37,18 @@ describe('rule setup is correct', () => {
 
         it('should have the right contents', () => {
           const filePath = path.join(
-            dirname,
+            import.meta.dirname,
             '..',
             '..',
             'lib',
             'rules',
-            `${ruleName}.js`,
+            `${ruleName}.ts`,
           );
           const file = readFileSync(filePath, 'utf8');
 
           assert.ok(
-            file.includes("/** @type {import('eslint').Rule.RuleModule} */"),
-            'includes jsdoc comment for rule type',
+            file.includes("const rule: Rule.RuleModule"),
+            'is defined as type RuleModule',
           );
         });
       });
@@ -58,19 +56,19 @@ describe('rule setup is correct', () => {
   });
 
   it('should have tests for all rules', () => {
-    const filePath = path.join(dirname, 'rules');
+    const filePath = path.join(import.meta.dirname, 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
       RULE_NAMES,
       files
         .filter((file) => !file.startsWith('.'))
-        .map((file) => file.replace('.js', '')),
+        .map((file) => file.replace('.ts', '')),
     );
   });
 
   it('should have documentation for all rules', () => {
-    const filePath = path.join(dirname, '..', '..', 'docs', 'rules');
+    const filePath = path.join(import.meta.dirname, '..', '..', 'docs', 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
