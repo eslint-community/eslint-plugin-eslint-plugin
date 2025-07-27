@@ -1,5 +1,7 @@
 # Disallow rules `meta.schema` properties to include defaults (`eslint-plugin/no-meta-schema-default`)
 
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
+
 <!-- end auto-generated rule header -->
 
 Since ESLint v9.15.0, rules' default options are supported using `meta.defaultOptions`. Additionally defining them using the `default` property in `meta.schema` is confusing, error-prone, and can be ambiguous for complex schemas.
