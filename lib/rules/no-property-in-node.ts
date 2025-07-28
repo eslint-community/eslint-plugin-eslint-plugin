@@ -26,8 +26,6 @@ const defaultTypedNodeSourceFileTesters = [
  * }
  * ```
  *
- * @param type
- * @param typedNodeSourceFileTesters
  * @returns Whether the type seems to include a known ESTree or TSESTree AST node.
  */
 function isAstNodeType(
