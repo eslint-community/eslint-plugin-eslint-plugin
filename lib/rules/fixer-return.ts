@@ -56,9 +56,8 @@ const rule: Rule.RuleModule = {
      * As we exit the fix() function, ensure we have returned or yielded a real fix by this point.
      * If not, report the function as a violation.
      *
-     * @param {ASTNode} node - A node to check.
-     * @param {Location} loc - Optional location to report violation on.
-     * @returns {void}
+     * @param node - A node to check.
+     * @param loc - Optional location to report violation on.
      */
     function ensureFunctionReturnedFix(
       node: ArrowFunctionExpression | FunctionExpression,
