@@ -31,7 +31,6 @@ const rule: Rule.RuleModule = {
 
     /**
      * Create a unique cache key
-     * @param test
      */
     function toKey(test: Expression | SpreadElement): string {
       if (test.type !== 'ObjectExpression') {
