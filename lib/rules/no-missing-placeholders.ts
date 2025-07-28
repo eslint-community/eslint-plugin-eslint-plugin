@@ -96,7 +96,8 @@ const rule: Rule.RuleModule = {
             messageId,
             data,
           } of reportMessagesAndDataArray.filter((obj) => obj.message)) {
-            const messageStaticValue = getStaticValue(message!, scope);
+            if (!message) continue;
+            const messageStaticValue = getStaticValue(message, scope);
             if (
               ((message?.type === 'Literal' &&
                 typeof message.value === 'string') ||
