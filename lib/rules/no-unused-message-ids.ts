@@ -56,7 +56,7 @@ const rule: Rule.RuleModule = {
         contextIdentifiers = getContextIdentifiers(scopeManager, ast);
       },
 
-      'Program:exit'(ast) {
+      'Program:exit'() {
         if (hasSeenUnknownMessageId || !hasSeenViolationReport) {
           /*
           Bail out when the rule is likely to have false positives.
@@ -107,10 +107,9 @@ const rule: Rule.RuleModule = {
             const values =
               messageId.type === 'Literal'
                 ? [messageId]
-                : findPossibleVariableValues(
-                    messageId as Identifier,
-                    scopeManager,
-                  );
+                : messageId.type === 'Identifier'
+                  ? findPossibleVariableValues(messageId, scopeManager)
+                  : [];
             if (
               values.length === 0 ||
               values.some((val) => val.type !== 'Literal')
@@ -118,10 +117,11 @@ const rule: Rule.RuleModule = {
               // When a dynamic messageId is used and we can't detect its value, disable the rule to avoid false positives.
               hasSeenUnknownMessageId = true;
             }
-            values.forEach(
-              (val) =>
-                'value' in val && messageIdsUsed.add(val.value as string),
-            );
+            values
+              .filter((value) => value.type === 'Literal')
+              .map((value) => value.value)
+              .filter((value) => typeof value === 'string')
+              .forEach((value) => messageIdsUsed.add(value));
           }
         }
       },
@@ -143,15 +143,18 @@ const rule: Rule.RuleModule = {
           if (
             values.length === 0 ||
             values.some((val) => val.type !== 'Literal') ||
-            isVariableFromParameter(node.value as Identifier, scopeManager)
+            (node.value.type === 'Identifier' &&
+              isVariableFromParameter(node.value, scopeManager))
           ) {
             // When a dynamic messageId is used and we can't detect its value, disable the rule to avoid false positives.
             hasSeenUnknownMessageId = true;
           }
 
-          values.forEach(
-            (val) => 'value' in val && messageIdsUsed.add(val.value as string),
-          );
+          values
+            .filter((val) => val.type === 'Literal')
+            .map((val) => val.value)
+            .filter((val) => typeof val === 'string')
+            .forEach((val) => messageIdsUsed.add(val));
         }
       },
     };
