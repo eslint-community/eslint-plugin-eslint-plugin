@@ -13,7 +13,7 @@ import { RuleTester } from 'eslint';
 /**
  * Returns the code for some valid test cases
  * @param cases The code representation of valid test cases
- * @returns {string} Code representing the test cases
+ * @returns Code representing the test cases
  */
 function getTestCases(cases: string[]): string {
   return `
