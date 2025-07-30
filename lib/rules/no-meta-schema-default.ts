@@ -68,7 +68,7 @@ const rule: Rule.RuleModule = {
           continue;
         }
 
-        switch ('name' in key ? key.name : 'value' in key ? key.value : '') {
+        switch (staticKey.value) {
           case 'allOf':
           case 'anyOf':
           case 'oneOf': {
