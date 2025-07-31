@@ -58,12 +58,9 @@ const rule: Rule.RuleModule = {
         arg.properties.length >= 2 ||
         (arg.properties.length === 1 &&
           (getKeyName(arg.properties[0]) !== 'includeComments' ||
-            (arg.properties[0] as Property).value.type !== 'Literal'))
+            (arg.properties[0].type === 'Property' &&
+              arg.properties[0].value.type !== 'Literal')))
       );
-    }
-
-    function isMemberExpression(node: Node): node is MemberExpression {
-      return node.type === 'MemberExpression';
     }
 
     /**
@@ -86,7 +83,7 @@ const rule: Rule.RuleModule = {
     function isStartAccess(memberExpression: MemberExpression): boolean {
       if (
         isRangeAccess(memberExpression) &&
-        isMemberExpression(memberExpression.parent)
+        memberExpression.parent.type === 'MemberExpression'
       ) {
         return isStartAccess(memberExpression.parent);
       }
@@ -96,7 +93,7 @@ const rule: Rule.RuleModule = {
         (memberExpression.computed &&
           memberExpression.property.type === 'Literal' &&
           memberExpression.property.value === 0 &&
-          isMemberExpression(memberExpression.object) &&
+          memberExpression.object.type === 'MemberExpression' &&
           isRangeAccess(memberExpression.object))
       );
     }
@@ -110,7 +107,7 @@ const rule: Rule.RuleModule = {
     function isEndAccess(memberExpression: MemberExpression): boolean {
       if (
         isRangeAccess(memberExpression) &&
-        isMemberExpression(memberExpression.parent)
+        memberExpression.parent.type === 'MemberExpression'
       ) {
         return isEndAccess(memberExpression.parent);
       }
@@ -120,7 +117,7 @@ const rule: Rule.RuleModule = {
         (memberExpression.computed &&
           memberExpression.property.type === 'Literal' &&
           memberExpression.property.value === 1 &&
-          isMemberExpression(memberExpression.object) &&
+          memberExpression.object.type === 'MemberExpression' &&
           isRangeAccess(memberExpression.object))
       );
     }
@@ -134,14 +131,14 @@ const rule: Rule.RuleModule = {
         [...getSourceCodeIdentifiers(sourceCode.scopeManager, ast)]
           .filter(
             (identifier) =>
-              isMemberExpression(identifier.parent) &&
+              identifier.parent.type === 'MemberExpression' &&
               identifier.parent.object === identifier &&
               identifier.parent.property.type === 'Identifier' &&
               identifier.parent.parent.type === 'CallExpression' &&
               identifier.parent === identifier.parent.parent.callee &&
               identifier.parent.parent.arguments.length <= 2 &&
               !affectsGetTokenOutput(identifier.parent.parent.arguments[1]) &&
-              isMemberExpression(identifier.parent.parent.parent) &&
+              identifier.parent.parent.parent.type === 'MemberExpression' &&
               identifier.parent.parent ===
                 identifier.parent.parent.parent.object &&
               ((isStartAccess(identifier.parent.parent.parent) &&
@@ -150,36 +147,35 @@ const rule: Rule.RuleModule = {
                   identifier.parent.property.name === 'getLastToken')),
           )
           .forEach((identifier) => {
-            const fullRangeAccess =
-              isMemberExpression(identifier.parent.parent.parent) &&
-              isRangeAccess(identifier.parent.parent.parent)
-                ? identifier.parent.parent.parent.parent
-                : identifier.parent.parent.parent;
-            const replacementText =
-              sourceCode.text.slice(
-                fullRangeAccess.range![0],
-                identifier.parent.parent.range![0],
-              ) +
-              sourceCode.getText(
-                (identifier.parent.parent as CallExpression).arguments[0],
-              ) +
-              sourceCode.text.slice(
-                identifier.parent.parent.range![1],
-                fullRangeAccess.range![1],
-              );
-            context.report({
-              node: identifier.parent.parent,
-              messageId: 'useReplacement',
-              data: { replacementText },
-              fix(fixer) {
-                return fixer.replaceText(
-                  identifier.parent.parent,
-                  sourceCode.getText(
-                    (identifier.parent.parent as CallExpression).arguments[0],
-                  ),
+            const callExpression = identifier.parent.parent;
+            if (callExpression.type === 'CallExpression') {
+              const fullRangeAccess =
+                identifier.parent.parent.parent.type === 'MemberExpression' &&
+                isRangeAccess(identifier.parent.parent.parent)
+                  ? identifier.parent.parent.parent.parent
+                  : identifier.parent.parent.parent;
+              const replacementText =
+                sourceCode.text.slice(
+                  fullRangeAccess.range![0],
+                  identifier.parent.parent.range![0],
+                ) +
+                sourceCode.getText(callExpression.arguments[0]) +
+                sourceCode.text.slice(
+                  identifier.parent.parent.range![1],
+                  fullRangeAccess.range![1],
                 );
-              },
-            });
+              context.report({
+                node: identifier.parent.parent,
+                messageId: 'useReplacement',
+                data: { replacementText },
+                fix(fixer) {
+                  return fixer.replaceText(
+                    identifier.parent.parent,
+                    sourceCode.getText(callExpression.arguments[0]),
+                  );
+                },
+              });
+            }
           });
       },
     };
