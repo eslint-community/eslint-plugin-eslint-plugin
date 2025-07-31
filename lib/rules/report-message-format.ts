@@ -58,7 +58,9 @@ const rule: Rule.RuleModule = {
         (message.type === 'TemplateLiteral' &&
           message.quasis.length === 1 &&
           !pattern.test(message.quasis[0].value.cooked ?? '')) ||
-        (staticValue && !pattern.test(staticValue.value as string))
+        (staticValue &&
+          typeof staticValue.value === 'string' &&
+          !pattern.test(staticValue.value))
       ) {
         context.report({
           node: message,
