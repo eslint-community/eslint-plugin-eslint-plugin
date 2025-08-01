@@ -102,7 +102,11 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        if (isExpectedUrl(staticValue && (staticValue.value as string))) {
+        if (
+          staticValue &&
+          typeof staticValue.value === 'string' &&
+          isExpectedUrl(staticValue.value)
+        ) {
           return;
         }
 
