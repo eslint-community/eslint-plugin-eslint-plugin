@@ -62,7 +62,10 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        if (!VALID_TYPES.has(staticValue.value as string)) {
+        if (
+          typeof staticValue.value !== 'string' ||
+          !VALID_TYPES.has(staticValue.value)
+        ) {
           context.report({ node: typeNode.value, messageId: 'unexpected' });
         }
       },
