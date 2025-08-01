@@ -98,9 +98,9 @@ const rule: Rule.RuleModule = {
           }
 
           if (
-            !['code', 'whitespace', null, undefined].includes(
-              staticValue.value as string,
-            )
+            staticValue.value &&
+            (typeof staticValue.value !== 'string' ||
+              !['code', 'whitespace'].includes(staticValue.value))
           ) {
             // `fixable` property has an invalid value.
             context.report({
@@ -112,7 +112,8 @@ const rule: Rule.RuleModule = {
 
           if (
             usesFixFunctions &&
-            !['code', 'whitespace'].includes(staticValue.value as string)
+            (typeof staticValue.value !== 'string' ||
+              !['code', 'whitespace'].includes(staticValue.value))
           ) {
             // Rule is fixable but `fixable` property does not have a fixable value.
             context.report({
@@ -122,7 +123,8 @@ const rule: Rule.RuleModule = {
           } else if (
             catchNoFixerButFixableProperty &&
             !usesFixFunctions &&
-            ['code', 'whitespace'].includes(staticValue.value as string)
+            typeof staticValue.value === 'string' &&
+            ['code', 'whitespace'].includes(staticValue.value)
           ) {
             // Rule is NOT fixable but `fixable` property has a fixable value.
             context.report({
