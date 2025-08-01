@@ -6,6 +6,8 @@ import type {
   Expression,
   FunctionDeclaration,
   FunctionExpression,
+  MaybeNamedClassDeclaration,
+  MaybeNamedFunctionDeclaration,
   Node,
   ObjectPattern,
   Pattern,
@@ -24,7 +26,11 @@ export interface FunctionInfo {
 }
 
 export interface PartialRuleInfo {
-  create?: Node | null;
+  create?:
+    | Node
+    | MaybeNamedFunctionDeclaration
+    | MaybeNamedClassDeclaration
+    | null;
   isNewStyle?: boolean;
   meta?: Expression | Pattern | FunctionDeclaration;
 }

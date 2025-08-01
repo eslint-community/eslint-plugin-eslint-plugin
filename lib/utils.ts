@@ -10,6 +10,8 @@ import type {
   FunctionDeclaration,
   FunctionExpression,
   Identifier,
+  MaybeNamedClassDeclaration,
+  MaybeNamedFunctionDeclaration,
   MemberExpression,
   ModuleDeclaration,
   Node,
@@ -38,7 +40,12 @@ const functionTypes = new Set([
   'FunctionDeclaration',
 ]);
 const isFunctionType = (
-  node: Node | null | undefined,
+  node:
+    | MaybeNamedClassDeclaration
+    | MaybeNamedFunctionDeclaration
+    | Node
+    | null
+    | undefined,
 ): node is FunctionExpression | ArrowFunctionExpression | FunctionDeclaration =>
   !!node && functionTypes.has(node.type);
 
@@ -124,7 +131,9 @@ function hasObjectReturn(node: Node): boolean {
  * Determine if the given node is likely to be a function-style rule.
  * @param node
  */
-function isFunctionRule(node: Node): boolean {
+function isFunctionRule(
+  node: Node | MaybeNamedFunctionDeclaration | MaybeNamedClassDeclaration,
+): boolean {
   return (
     isFunctionType(node) && // Is a function expression or declaration.
     isNormalFunctionExpression(node) && // Is a function definition.
@@ -137,7 +146,7 @@ function isFunctionRule(node: Node): boolean {
  * Check if the given node is a function call representing a known TypeScript rule creator format.
  */
 function isTypeScriptRuleHelper(
-  node: Node,
+  node: Node | MaybeNamedFunctionDeclaration | MaybeNamedClassDeclaration,
 ): node is CallExpression & { arguments: ObjectExpression[] } {
   return (
     node.type === 'CallExpression' &&
@@ -167,13 +176,18 @@ function getRuleExportsESM(
   },
   scopeManager: Scope.ScopeManager,
 ): PartialRuleInfo {
-  const possibleNodes: Node[] = [];
+  const possibleNodes: (
+    | Node
+    | MaybeNamedClassDeclaration
+    | Expression
+    | MaybeNamedFunctionDeclaration
+  )[] = [];
 
   for (const statement of ast.body) {
     switch (statement.type) {
       // export default rule;
       case 'ExportDefaultDeclaration': {
-        possibleNodes.push(statement.declaration as Identifier);
+        possibleNodes.push(statement.declaration);
         break;
       }
       // export = rule;
