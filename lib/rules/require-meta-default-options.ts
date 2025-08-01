@@ -67,13 +67,17 @@ const rule: Rule.RuleModule = {
     }
 
     if (!metaDefaultOptions) {
-      context.report({
-        node: metaNode!,
-        messageId: 'missingDefaultOptions',
-        fix(fixer) {
-          return fixer.insertTextAfter(schemaProperty, ', defaultOptions: []');
-        },
-      });
+      metaNode &&
+        context.report({
+          node: metaNode,
+          messageId: 'missingDefaultOptions',
+          fix(fixer) {
+            return fixer.insertTextAfter(
+              schemaProperty,
+              ', defaultOptions: []',
+            );
+          },
+        });
       return {};
     }
 
