@@ -17,7 +17,7 @@ const compat = new FlatCompat({
 export default defineConfig([
   // Global ignores
   {
-    ignores: ['node_modules', 'coverage'],
+    ignores: ['node_modules', 'coverage', 'dist'],
   },
   // Global settings
   {
