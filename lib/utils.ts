@@ -94,7 +94,11 @@ function collectInterestingProperties<T extends string>(
   return properties.reduce<Record<string, Expression | Pattern>>(
     (parsedProps, prop) => {
       const keyValue = getKeyName(prop);
-      if (isProperty(prop) && keyValue && interestingKeys.has(keyValue as T)) {
+      if (
+        prop.type === 'Property' &&
+        keyValue &&
+        interestingKeys.has(keyValue as T)
+      ) {
         // In TypeScript, unwrap any usage of `{} as const`.
         parsedProps[keyValue] =
           prop.value.type === 'TSAsExpression'
@@ -204,9 +208,9 @@ function getRuleExportsESM(
         if (statement.declaration) {
           const nodes =
             statement.declaration.type === 'VariableDeclaration'
-              ? statement.declaration.declarations.map(
-                  (declarator) => declarator.init!,
-                )
+              ? statement.declaration.declarations
+                  .map((declarator) => declarator.init)
+                  .filter((init) => !!init)
               : [statement.declaration];
 
           // named exports like `export const rule = { ... };`
@@ -278,7 +282,8 @@ function getRuleExportsCJS(
     .filter((expression) => expression.type === 'AssignmentExpression')
     .filter((expression) => expression.left.type === 'MemberExpression')
     .reduce<PartialRuleInfo>((currentExports, node) => {
-      const leftExpression = node.left as MemberExpression;
+      const leftExpression = node.left;
+      if (leftExpression.type !== 'MemberExpression') return currentExports;
       if (
         leftExpression.object.type === 'Identifier' &&
         leftExpression.object.name === 'module' &&
@@ -358,7 +363,7 @@ function findObjectPropertyValueByKeyName(
 ): Property['value'] | undefined {
   const property = obj.properties.find(
     (prop) =>
-      isProperty(prop) &&
+      prop.type === 'Property' &&
       prop.key.type === 'Identifier' &&
       prop.key.name === keyName,
   ) as Property | undefined;
@@ -395,7 +400,6 @@ function findVariableValue(
  * If a ternary conditional expression is involved, retrieve the elements that may exist on both sides of it.
  * Ex: [a, b, c] will return [a, b, c]
  * Ex: foo ? [a, b, c] : [d, e, f] will return [a, b, c, d, e, f]
- * @param node
  * @returns the list of elements
  */
 function collectArrayElements(node: Node): Node[] {
@@ -471,10 +475,11 @@ export function getContextIdentifiers(
 ): Set<Identifier> {
   const ruleInfo = getRuleInfo({ ast, scopeManager });
 
+  const firstCreateParam = ruleInfo?.create.params[0];
   if (
     !ruleInfo ||
     ruleInfo.create?.params.length === 0 ||
-    ruleInfo.create.params[0].type !== 'Identifier'
+    firstCreateParam?.type !== 'Identifier'
   ) {
     return new Set();
   }
@@ -482,10 +487,7 @@ export function getContextIdentifiers(
   return new Set(
     scopeManager
       .getDeclaredVariables(ruleInfo.create)
-      .find(
-        (variable) =>
-          variable.name === (ruleInfo.create.params[0] as Identifier).name,
-      )!
+      .find((variable) => variable.name === firstCreateParam.name)!
       .references.map((ref) => ref.identifier),
   );
 }
@@ -509,7 +511,9 @@ export function getKeyName(
       // Variable key: { [myVariable]: 'hello world' }
       if (scope) {
         const staticValue = getStaticValue(property.key, scope);
-        return staticValue ? (staticValue.value as string) : null;
+        return staticValue && typeof staticValue.value === 'string'
+          ? staticValue.value
+          : null;
       }
       // TODO: ensure scope is always passed to getKeyName() so we don't need to handle the case where it's not passed.
       return null;
@@ -890,12 +894,12 @@ export function isSuggestionFixerFunction(
   return (
     (node.type === 'FunctionExpression' ||
       node.type === 'ArrowFunctionExpression') &&
-    isProperty(parent) &&
+    parent.type === 'Property' &&
     parent.key.type === 'Identifier' &&
     parent.key.name === 'fix' &&
     parent.parent.type === 'ObjectExpression' &&
     parent.parent.parent.type === 'ArrayExpression' &&
-    isProperty(parent.parent.parent.parent) &&
+    parent.parent.parent.parent.type === 'Property' &&
     parent.parent.parent.parent.key.type === 'Identifier' &&
     parent.parent.parent.parent.key.name === 'suggest' &&
     parent.parent.parent.parent.parent.type === 'ObjectExpression' &&
@@ -950,14 +954,14 @@ export function getMetaDocsProperty(
   const metaNode = ruleInfo.meta ?? undefined;
 
   const docsNode = evaluateObjectProperties(metaNode, scopeManager)
-    .filter(isProperty)
+    .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === 'docs');
 
   const metaPropertyNode = evaluateObjectProperties(
     docsNode?.value,
     scopeManager,
   )
-    .filter(isProperty)
+    .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === propertyName);
 
   return { docsNode, metaNode, metaPropertyNode };
@@ -978,7 +982,7 @@ export function getMessagesNode(
 
   const metaNode = ruleInfo.meta ?? undefined;
   const messagesNode = evaluateObjectProperties(metaNode, scopeManager)
-    .filter(isProperty)
+    .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === 'messages');
 
   if (messagesNode) {
@@ -1011,7 +1015,6 @@ export function getMessageIdNodes(
     : undefined;
 }
 
-const isProperty = (node: Node): node is Property => node.type === 'Property';
 /**
  * Get the messageId property from a rule's `meta.messages` that matches the given `messageId`.
  * @param messageId - the messageId to check for
@@ -1027,7 +1030,7 @@ export function getMessageIdNodeById(
   scope: Scope.Scope,
 ): Property | undefined {
   return getMessageIdNodes(ruleInfo, scopeManager)
-    ?.filter(isProperty)
+    ?.filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p, scope) === messageId);
 }
 
@@ -1036,7 +1039,7 @@ export function getMetaSchemaNode(
   scopeManager: Scope.ScopeManager,
 ): Property | undefined {
   return evaluateObjectProperties(metaNode, scopeManager)
-    .filter(isProperty)
+    .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === 'schema');
 }
 
