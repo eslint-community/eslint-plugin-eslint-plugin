@@ -5,7 +5,6 @@ import { FlatCompat } from '@eslint/eslintrc';
 import { defineConfig } from 'eslint/config';
 import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
-// @ts-expect-error - eslint-plugin is not typed yet
 import eslintPlugin from './lib/index.js';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
