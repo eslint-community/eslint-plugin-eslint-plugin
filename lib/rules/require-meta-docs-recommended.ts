@@ -19,8 +19,15 @@ function insertRecommendedProperty(
       `{ recommended: ${recommendedValue} }`,
     );
   }
+  const lastProperty = objectNode.properties.at(-1);
+  if (!lastProperty) {
+    return fixer.replaceText(
+      objectNode,
+      `{ recommended: ${recommendedValue} }`,
+    );
+  }
   return fixer.insertTextAfter(
-    objectNode.properties.at(-1)!,
+    lastProperty,
     `, recommended: ${recommendedValue}`,
   );
 }
