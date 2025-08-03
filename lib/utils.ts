@@ -813,8 +813,12 @@ export function insertProperty(
   if (node.properties.length === 0) {
     return fixer.replaceText(node, `{\n${propertyText}\n}`);
   }
+  const lastProperty = node.properties.at(-1);
+  if (!lastProperty) {
+    return fixer.replaceText(node, `{\n${propertyText}\n}`);
+  }
   return fixer.insertTextAfter(
-    sourceCode.getLastToken(node.properties.at(-1)!)!,
+    sourceCode.getLastToken(lastProperty)!,
     `,\n${propertyText}`,
   );
 }
