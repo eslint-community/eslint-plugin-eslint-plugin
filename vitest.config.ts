@@ -2,9 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['tests/lib/**/*.js'],
+    include: ['tests/lib/**/*.ts'],
     exclude: ['tests/lib/fixtures/**'],
-    setupFiles: ['tests/utils/test-setup.js'],
+    setupFiles: ['tests/utils/test-setup.ts'],
     clearMocks: true,
     coverage: {
       all: true,
