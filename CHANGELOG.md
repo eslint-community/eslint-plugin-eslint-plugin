@@ -11,10 +11,7 @@
 ### Features
 
 * migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
-* enable `no-meta-replaced-by`, `no-meta-schema-default`, `require-meta-default-options`, `require-meta-schema-description` as `recommended` rules ([#530](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/530)) ([b353bd1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b353bd1d716c79fc8be458f6de8846c2d5c910f2))
-* remove eslint v8 / eslintrc support and remove `flat/` prefix from configs ([#528](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/528)) ([03cf3d7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/03cf3d7b857561d24fd0bfdbeeb926cb6bc02d10))
-* move to ESM only ([#516](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/516)) ([9cd5af8](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/9cd5af882bf992a63d05a9b21dd4366c384b5150))
-* require Node 20, 22, 24+ ([#529](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/529)) ([b2994c7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b2994c73ba71576cdd96d95469613b4d573740c2))
+
 
 ## [6.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.4.0...v6.5.0) (2025-06-18)
 
