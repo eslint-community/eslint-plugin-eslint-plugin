@@ -59,8 +59,8 @@
     "@types/estree": "^1.0.8",
     "@types/lodash": "^4.17.18",
     "@types/node": "^20.19.0",
-    "@typescript-eslint/parser": "^8.34.1",
-    "@typescript-eslint/utils": "^8.34.1",
+    "@typescript-eslint/parser": "^8.38.0",
+    "@typescript-eslint/utils": "^8.38.0",
     "@vitest/coverage-istanbul": "^3.2.4",
     "eslint": "^9.31.0",
     "eslint-config-not-an-aardvark": "^2.1.0",
@@ -74,7 +74,7 @@
     "eslint-scope": "^8.0.1",
     "espree": "^10.0.1",
     "husky": "^9.1.7",
-    "jiti": "^2.4.2",
+    "jiti": "^2.5.1",
     "lodash": "^4.17.21",
     "markdownlint-cli": "^0.43.0",
     "npm-package-json-lint": "^8.0.0",
@@ -82,7 +82,7 @@
     "prettier": "^3.4.1",
     "release-it": "^17.2.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3",
+    "typescript": "~5.9.2",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
