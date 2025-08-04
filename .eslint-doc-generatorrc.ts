@@ -1,7 +1,7 @@
 import prettier from 'prettier';
+import type { GenerateOptions } from 'eslint-doc-generator';
 
-/** @type {import('eslint-doc-generator').GenerateOptions} */
-const config = {
+const config: GenerateOptions = {
   ignoreConfig: [
     'all',
     'all-type-checked',
