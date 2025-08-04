@@ -34,6 +34,7 @@ jobs:
           node-version: 'lts/*'
       - run: npm install
       - run: npm run lint
+      - run: npm run format:check
 
   test-remote:
     name: eslint-remote-tester
