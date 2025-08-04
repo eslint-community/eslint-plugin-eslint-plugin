@@ -1,5 +1,7 @@
 # Disallow using the `meta.replacedBy` rule property (`eslint-plugin/no-meta-replaced-by`)
 
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
+
 <!-- end auto-generated rule header -->
 
 As of ESLint v9.21.0, the rule property `meta.deprecated` can be either a boolean or an object of type `DeprecatedInfo`. The `DeprecatedInfo` type includes an optional `replacedBy` array that replaces the now-deprecated `meta.replacedBy` property.
