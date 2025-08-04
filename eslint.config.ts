@@ -78,9 +78,6 @@ export default tseslint.config([
     // Markdown JS code samples in documentation:
     files: ['**/*.md/*.js', '**/*.md/*.ts'],
     plugins: { markdown },
-    languageOptions: {
-      sourceType: 'module',
-    },
     linterOptions: { noInlineConfig: true },
     rules: {
       'no-undef': 'off',
