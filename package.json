@@ -71,7 +71,7 @@
     "eslint-doc-generator": "^2.2.2",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-n": "^17.21.0",
-    "eslint-plugin-unicorn": "^60.0.0",
+    "eslint-plugin-unicorn": "^56.0.1",
     "eslint-remote-tester": "^4.0.3",
     "eslint-scope": "^8.0.1",
     "espree": "^10.0.1",

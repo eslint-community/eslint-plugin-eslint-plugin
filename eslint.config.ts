@@ -6,7 +6,6 @@ import prettier from 'eslint-config-prettier/flat';
 import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
 import tseslint from 'typescript-eslint';
-import unicorn from 'eslint-plugin-unicorn';
 
 import eslintPlugin from './lib/index.js';
 
@@ -28,9 +27,10 @@ export default tseslint.config([
   ...compat.extends(
     'not-an-aardvark/node',
     'plugin:@eslint-community/eslint-comments/recommended',
+    'plugin:unicorn/recommended',
   ),
-  unicorn.configs.recommended,
   pluginN.configs['flat/recommended'],
+  prettier,
   {
     rules: {
       '@eslint-community/eslint-comments/no-unused-disable': 'error',
@@ -78,6 +78,9 @@ export default tseslint.config([
     // Markdown JS code samples in documentation:
     files: ['**/*.md/*.js', '**/*.md/*.ts'],
     plugins: { markdown },
+    languageOptions: {
+      sourceType: 'module',
+    },
     linterOptions: { noInlineConfig: true },
     rules: {
       'no-undef': 'off',
@@ -93,5 +96,4 @@ export default tseslint.config([
       'unicorn/filename-case': 'off',
     },
   },
-  prettier,
 ]);
