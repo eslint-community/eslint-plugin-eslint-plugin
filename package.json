@@ -3,28 +3,30 @@
   "version": "6.5.0",
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",
   "scripts": {
+    "build": "tsup",
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
     "lint:docs": "markdownlint \"**/*.md\"",
-    "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
+    "lint:eslint-docs": "npm-run-all -s build \"update:eslint-docs -- --check\"",
     "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" .",
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\"",
     "lint:package-json": "npmPkgJsonLint .",
     "release": "release-it",
     "test": "vitest run --coverage",
-    "test:remote": "eslint-remote-tester -c ./eslint-remote-tester.config.ts",
+    "test:remote": "eslint-remote-tester",
+    "typecheck": "tsc",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
     "CHANGELOG.md",
-    "lib/"
+    "dist/"
   ],
   "keywords": [
     "eslint",
@@ -51,7 +53,11 @@
     "@eslint/js": "^9.31.0",
     "@release-it/conventional-changelog": "^9.0.3",
     "@types/eslint-plugin-markdown": "^2.0.2",
+    "@types/eslint-scope": "^8.3.0",
+    "@types/espree": "^10.1.0",
+    "@types/estraverse": "^5.1.7",
     "@types/estree": "^1.0.8",
+    "@types/lodash": "^4.17.18",
     "@types/node": "^20.19.0",
     "@typescript-eslint/parser": "^8.34.1",
     "@typescript-eslint/utils": "^8.34.1",
@@ -75,6 +81,7 @@
     "npm-run-all2": "^7.0.1",
     "prettier": "^3.4.1",
     "release-it": "^17.2.0",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },
