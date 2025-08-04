@@ -1,44 +1,19 @@
-## [5.3.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.2.1...v5.3.0) (2024-02-06)
-
-
-### Features
-
-* add no-property-in-node rule ([#433](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/433)) ([d2b9372](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/d2b9372279d39b9ca9db2c0874b7dfab6a19c208))
-
-
-### Documentation
-
-* add another justification for prefer-message-ids rule ([#426](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/426)) ([209d178](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/209d1784becc8541f973658a687d3ab3ca5bf9f4))
-
-
-### Chores
-
-* add release-please ([#421](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/421)) ([d7331ca](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/d7331caec0cdc53a5733ba68672e691be931c2a5))
-* config renovate ([#409](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/409)) ([3c845be](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/3c845be79474d0e9364ae79714adaa6072a143d8))
-* postprocess with prettier in eslint-doc-generator ([#435](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/435)) ([015c207](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/015c207caeefdc732bd245b56df576d2699c22c6))
-* remove dependentbot.yml infavor of renovate ([#439](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/439)) ([6ae0ee6](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6ae0ee669bcab78fb04fcae818d84afcb37e8e3b))
-* replace dependency npm-run-all with npm-run-all2 ^5.0.0 ([#427](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/427)) ([062743d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/062743d963c982fdc67a8f44b2229c9136402b2c))
-* update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
-* update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
-
 ## [7.0.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.5.0...v7.0.0) (2025-08-04)
 
 
 ### ⚠ BREAKING CHANGES
 
-* enable no-meta-replaced-by, no-meta-schema-default, require-meta-default-options, require-meta-schema-description as recommended rules
 * enable `no-meta-replaced-by`, `no-meta-schema-default`, `require-meta-default-options`, `require-meta-schema-description` as `recommended` rules ([#530](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/530))
-* require Node 20, 22, 24+ ([#529](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/529))
 * remove eslint v8 / eslintrc support and remove `flat/` prefix from configs ([#528](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/528))
 * move to ESM only ([#516](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/516))
+* require Node 20, 22, 24+ ([#529](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/529))
 
 ### Features
 
-* enable `no-meta-replaced-by`, `no-meta-schema-default`, `require-meta-default-options`, `require-meta-schema-description` as `recommended` rules ([#530](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/530)) ([b353bd1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b353bd1d716c79fc8be458f6de8846c2d5c910f2))
-* enable no-meta-replaced-by, no-meta-schema-default, require-meta-default-options, require-meta-schema-description as recommended rules ([b353bd1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b353bd1d716c79fc8be458f6de8846c2d5c910f2))
 * migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
-* move to ESM only ([#516](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/516)) ([9cd5af8](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/9cd5af882bf992a63d05a9b21dd4366c384b5150))
+* enable `no-meta-replaced-by`, `no-meta-schema-default`, `require-meta-default-options`, `require-meta-schema-description` as `recommended` rules ([#530](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/530)) ([b353bd1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b353bd1d716c79fc8be458f6de8846c2d5c910f2))
 * remove eslint v8 / eslintrc support and remove `flat/` prefix from configs ([#528](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/528)) ([03cf3d7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/03cf3d7b857561d24fd0bfdbeeb926cb6bc02d10))
+* move to ESM only ([#516](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/516)) ([9cd5af8](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/9cd5af882bf992a63d05a9b21dd4366c384b5150))
 * require Node 20, 22, 24+ ([#529](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/529)) ([b2994c7](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b2994c73ba71576cdd96d95469613b4d573740c2))
 
 ## [6.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.4.0...v6.5.0) (2025-06-18)
@@ -140,6 +115,30 @@
 ### Features
 
 * support named exports in ESM/TS ([#449](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/449)) ([aa15471](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/aa15471d4a8dc51a574f646f000d665854d15942))
+
+## [5.3.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.2.1...v5.3.0) (2024-02-06)
+
+
+### Features
+
+* add no-property-in-node rule ([#433](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/433)) ([d2b9372](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/d2b9372279d39b9ca9db2c0874b7dfab6a19c208))
+
+
+### Documentation
+
+* add another justification for prefer-message-ids rule ([#426](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/426)) ([209d178](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/209d1784becc8541f973658a687d3ab3ca5bf9f4))
+
+
+### Chores
+
+* add release-please ([#421](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/421)) ([d7331ca](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/d7331caec0cdc53a5733ba68672e691be931c2a5))
+* config renovate ([#409](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/409)) ([3c845be](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/3c845be79474d0e9364ae79714adaa6072a143d8))
+* postprocess with prettier in eslint-doc-generator ([#435](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/435)) ([015c207](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/015c207caeefdc732bd245b56df576d2699c22c6))
+* remove dependentbot.yml infavor of renovate ([#439](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/439)) ([6ae0ee6](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6ae0ee669bcab78fb04fcae818d84afcb37e8e3b))
+* replace dependency npm-run-all with npm-run-all2 ^5.0.0 ([#427](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/427)) ([062743d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/062743d963c982fdc67a8f44b2229c9136402b2c))
+* update dependency markdownlint-cli to ^0.38.0 ([#410](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/410)) ([6b53c5b](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6b53c5b7b8bc9e19dcb86796ab29019f89c449fc))
+* update dependency markdownlint-cli to ^0.39.0 ([#431](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/431)) ([f005a2c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f005a2c0231b8b77f6862dca81b4a6e3099e0493))
+
 
 ### [5.2.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v5.2.0...v5.2.1) (2023-12-11)
 
