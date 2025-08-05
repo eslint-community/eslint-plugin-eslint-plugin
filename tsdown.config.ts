@@ -1,7 +1,7 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-  bundle: false,
+  unbundle: true,
   clean: true,
   dts: true,
   entry: ['lib/**/*.ts'],

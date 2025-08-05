@@ -11,7 +11,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",
@@ -83,7 +83,7 @@
     "npm-run-all2": "^7.0.1",
     "prettier": "^3.6.2",
     "release-it": "^17.2.0",
-    "tsup": "^8.5.0",
+    "tsdown": "^0.13.3",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
     "vitest": "^3.2.4"
