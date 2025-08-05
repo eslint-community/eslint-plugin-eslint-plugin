@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import plugin from '../../lib/index.js';
+import plugin from '../../lib/index.ts';
 
 describe('exported plugin', () => {
   describe('has a meta.docs.url property on each rule', () => {

@@ -1,7 +1,7 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 
-import { getMetaDocsProperty, getRuleInfo } from '../utils.js';
+import { getMetaDocsProperty, getRuleInfo } from '../utils.ts';
 
 const DEFAULT_PATTERN = new RegExp('^(enforce|require|disallow)');
 

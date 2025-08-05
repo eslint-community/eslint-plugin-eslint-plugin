@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/require-meta-type.js';
+import rule from '../../../lib/rules/require-meta-type.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

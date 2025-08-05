@@ -11,7 +11,7 @@ import {
   collectReportViolationAndSuggestionData,
   getContextIdentifiers,
   getReportInfo,
-} from '../utils.js';
+} from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

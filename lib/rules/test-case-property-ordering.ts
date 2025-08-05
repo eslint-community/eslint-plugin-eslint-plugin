@@ -4,7 +4,7 @@
  */
 import type { Rule } from 'eslint';
 
-import { getKeyName, getTestInfo } from '../utils.js';
+import { getKeyName, getTestInfo } from '../utils.ts';
 
 const defaultOrder = [
   'filename',

@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-deprecated-context-methods.js';
+import rule from '../../../lib/rules/no-deprecated-context-methods.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-missing-placeholders.js';
+import rule from '../../../lib/rules/no-missing-placeholders.ts';
 import { RuleTester } from 'eslint';
 
 /**

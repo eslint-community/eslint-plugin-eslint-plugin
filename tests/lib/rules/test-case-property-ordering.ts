@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/test-case-property-ordering.js';
+import rule from '../../../lib/rules/test-case-property-ordering.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

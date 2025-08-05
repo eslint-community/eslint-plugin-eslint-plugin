@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-useless-token-range.js';
+import rule from '../../../lib/rules/no-useless-token-range.ts';
 import { RuleTester } from 'eslint';
 
 /**

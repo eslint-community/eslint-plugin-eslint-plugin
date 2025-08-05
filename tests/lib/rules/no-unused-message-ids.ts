@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-unused-message-ids.js';
+import rule from '../../../lib/rules/no-unused-message-ids.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

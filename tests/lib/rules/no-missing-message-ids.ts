@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-missing-message-ids.js';
+import rule from '../../../lib/rules/no-missing-message-ids.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------
