@@ -32,9 +32,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          check-latest: true
       - run: npm install
       - run: npm run lint
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          check-latest: true
+      - run: npm install
       - run: npm run format:check
 
   test-remote:
