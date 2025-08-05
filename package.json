@@ -14,7 +14,7 @@
     "build": "tsup",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "npm-run-all --continue-on-error --aggregate-output -s lint:*",
+    "lint": "npm-run-all --continue-on-error -s lint:*",
     "lint:docs": "markdownlint \"**/*.md\"",
     "lint:eslint-docs": "npm-run-all -s build \"update:eslint-docs -- --check\"",
     "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" .",
