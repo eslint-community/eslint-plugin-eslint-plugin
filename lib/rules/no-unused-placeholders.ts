@@ -103,7 +103,7 @@ const rule: Rule.RuleModule = {
               data.type === 'ObjectExpression'
             ) {
               const messageValue: string =
-                // @ts-expect-error
+                // @ts-expect-error -- Property 'value' does not exist on type 'SimpleCallExpression'.ts(2339)
                 message.value || messageStaticValue.value;
               // https://github.com/eslint/eslint/blob/2874d75ed8decf363006db25aac2d5f8991bd969/lib/linter.js#L986
               const PLACEHOLDER_MATCHER = /{{\s*([^{}]+?)\s*}}/g;

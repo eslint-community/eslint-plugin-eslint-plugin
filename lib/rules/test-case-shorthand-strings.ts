@@ -79,24 +79,29 @@ const rule: Rule.RuleModule = {
 
       let caseInfoFilter: (caseInfo: (typeof caseInfoList)[number]) => boolean;
       switch (shorthandOption) {
-        case 'as-needed':
+        case 'as-needed': {
           caseInfoFilter = (caseInfo) =>
             !caseInfo.shorthand && !caseInfo.needsLongform;
           break;
-        case 'never':
+        }
+        case 'never': {
           caseInfoFilter = (caseInfo) => caseInfo.shorthand;
           break;
-        case 'consistent':
+        }
+        case 'consistent': {
           caseInfoFilter = isConsistent
             ? () => false
             : (caseInfo) => caseInfo.shorthand;
           break;
-        case 'consistent-as-needed':
+        }
+        case 'consistent-as-needed': {
           caseInfoFilter = (caseInfo) =>
             caseInfo.shorthand === hasCaseNeedingLongform;
           break;
-        default:
-          return; // invalid option
+        }
+        default: {
+          return;
+        } // invalid option
       }
 
       caseInfoList.filter(caseInfoFilter).forEach((badCaseInfo) => {
@@ -112,7 +117,7 @@ const rule: Rule.RuleModule = {
               badCaseInfo.node,
               badCaseInfo.shorthand
                 ? `{code: ${sourceCode.getText(badCaseInfo.node)}}`
-                : // @ts-expect-error
+                : // @ts-expect-error -- Property 'properties' does not exist on type 'SimpleLiteral'.ts(2339)
                   sourceCode.getText(badCaseInfo.node.properties[0].value),
             );
           },

@@ -12,7 +12,6 @@ import type {
   Identifier,
   MaybeNamedClassDeclaration,
   MaybeNamedFunctionDeclaration,
-  MemberExpression,
   ModuleDeclaration,
   Node,
   ObjectExpression,
@@ -359,7 +358,7 @@ function getRuleExportsCJS(
  */
 function findObjectPropertyValueByKeyName(
   obj: ObjectExpression,
-  keyName: String,
+  keyName: string,
 ): Property['value'] | undefined {
   const property = obj.properties.find(
     (prop) =>

@@ -36,9 +36,11 @@ type MockRuleInfo = {
     id?: { name: string };
     type: string;
   };
-  meta?: {
-    type: string;
-  } | undefined;
+  meta?:
+    | {
+        type: string;
+      }
+    | undefined;
   isNewStyle: boolean;
 };
 
@@ -1794,9 +1796,7 @@ describe('utils', () => {
       },
       {
         code: `module.exports = { meta: FOO, create(context) {} };`,
-        getResult() {
-          return undefined;
-        }, // returns undefined
+        getResult() {}, // returns undefined
       },
       {
         code: `module.exports = { create(context) {} };`,

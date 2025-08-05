@@ -3,14 +3,7 @@
  * @author Teddy Katz
  */
 import type { Rule } from 'eslint';
-import type {
-  CallExpression,
-  Expression,
-  MemberExpression,
-  Node,
-  Property,
-  SpreadElement,
-} from 'estree';
+import type { Expression, MemberExpression, SpreadElement } from 'estree';
 
 import { getKeyName, getSourceCodeIdentifiers } from '../utils.js';
 

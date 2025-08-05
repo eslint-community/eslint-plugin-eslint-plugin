@@ -74,7 +74,7 @@ const rule: Rule.RuleModule = {
           continue;
         }
 
-        // @ts-expect-error
+        // @ts-expect-error == Property 'name' does not exist on type 'ClassExpression'.ts(2339)
         switch (key.name ?? key.value) {
           case 'description': {
             hadDescription = true;
