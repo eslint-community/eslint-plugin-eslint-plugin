@@ -7,7 +7,7 @@ import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
 import tseslint from 'typescript-eslint';
 
-import eslintPlugin from './lib/index.js';
+import eslintPlugin from './lib/index.ts';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const compat = new FlatCompat({
