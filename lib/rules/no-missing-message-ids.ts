@@ -72,7 +72,7 @@ const rule: Rule.RuleModule = {
             collectReportViolationAndSuggestionData(reportInfo);
           for (const messageId of reportMessagesAndDataArray
             .map((obj) => obj.messageId)
-            .filter((messageId) => !!messageId)) {
+            .filter((id) => !!id)) {
             const values =
               messageId.type === 'Literal'
                 ? [messageId]

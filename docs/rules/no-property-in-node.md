@@ -13,9 +13,7 @@ Instead, checking a node's `type` property is generally considered preferable.
 
 Examples of **incorrect** code for this rule:
 
-```ts
-/* eslint eslint-plugin/no-property-in-node: error */
-
+```js
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
@@ -25,7 +23,7 @@ module.exports = {
     return {
       'ClassDeclaration, FunctionDeclaration'(node) {
         if ('superClass' in node) {
-          console.log('This is a class declaration:', node);
+          // This is a class declaration
         }
       },
     };
@@ -35,9 +33,7 @@ module.exports = {
 
 Examples of **correct** code for this rule:
 
-```ts
-/* eslint eslint-plugin/no-property-in-node: error */
-
+```js
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
@@ -47,7 +43,7 @@ module.exports = {
     return {
       'ClassDeclaration, FunctionDeclaration'(node) {
         if (node.type === 'ClassDeclaration') {
-          console.log('This is a class declaration:', node);
+          // This is a class declaration;
         }
       },
     };

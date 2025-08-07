@@ -111,7 +111,7 @@ const rule: Rule.RuleModule = {
               let match: RegExpExecArray | null;
 
               const messageText: string =
-                // @ts-expect-error
+                // @ts-expect-error -- Property 'value' does not exist on type 'ArrayExpression'.ts(2339)
                 message.value || messageStaticValue.value;
               while ((match = PLACEHOLDER_MATCHER.exec(messageText))) {
                 const matchingProperty =

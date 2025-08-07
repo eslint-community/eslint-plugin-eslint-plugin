@@ -76,15 +76,13 @@ ruleTester.run('require-meta-type', rule, {
     `,
     'module.exports = {};', // No rule.
     // No `create` function.
-    {
-      code: `
+    `
         const create = {};
         module.exports = {
           meta: {},
           create,
         };
       `,
-    },
   ],
 
   invalid: [

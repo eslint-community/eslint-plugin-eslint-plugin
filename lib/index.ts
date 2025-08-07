@@ -41,24 +41,14 @@ import testCaseShorthandStrings from './rules/test-case-shorthand-strings.js';
 
 const require = createRequire(import.meta.url);
 
-const packageMetadata = require("../package.json") as {
-	name: string;
-	version: string;
+const packageMetadata = require('../package.json') as {
+  name: string;
+  version: string;
 };
 
 const PLUGIN_NAME = packageMetadata.name.replace(/^eslint-plugin-/, '');
-const CONFIG_NAMES = [
-  'all',
-  'all-type-checked',
-  'recommended',
-  'rules',
-  'tests',
-  'rules-recommended',
-  'tests-recommended',
-] as const;
-type ConfigName = (typeof CONFIG_NAMES)[number];
 
-const configFilters: Record<ConfigName, (rule: Rule.RuleModule) => boolean> = {
+const configFilters: Record<string, (rule: Rule.RuleModule) => boolean> = {
   all: (rule: Rule.RuleModule) =>
     !(
       rule.meta?.docs &&
@@ -75,7 +65,7 @@ const configFilters: Record<ConfigName, (rule: Rule.RuleModule) => boolean> = {
     configFilters.recommended(rule) && configFilters.tests(rule),
 };
 
-const createConfig = (configName: ConfigName): Linter.Config => ({
+const createConfig = (configName: string): Linter.Config => ({
   name: `${PLUGIN_NAME}/${configName}`,
   plugins: {
     get [PLUGIN_NAME](): ESLint.Plugin {

@@ -2,9 +2,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
-import { defineConfig } from 'eslint/config';
 import markdown from 'eslint-plugin-markdown';
 import pluginN from 'eslint-plugin-n';
+import tseslint from 'typescript-eslint';
 import eslintPlugin from './lib/index.js';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -13,14 +13,14 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
 });
 
-export default defineConfig([
+export default tseslint.config([
   // Global ignores
   {
-    ignores: ['node_modules', 'coverage', 'dist'],
+    ignores: ['node_modules', 'coverage', 'dist', 'tests/lib/fixtures'],
   },
   // Global settings
   {
-    languageOptions: { sourceType: 'module' },
+    languageOptions: { parser: tseslint.parser, sourceType: 'module' },
   },
   ...compat.extends(
     'not-an-aardvark/node',
@@ -41,11 +41,18 @@ export default defineConfig([
       'unicorn/no-null': 'off',
       'unicorn/prefer-module': 'off',
       'unicorn/prevent-abbreviations': 'off',
+      'unicorn/no-nested-ternary': 'off',
     },
   },
+  // TypeScript rules
+  tseslint.configs.recommended.map((config) => ({
+    files: ['**/*.ts', '**/*.mts', '**/*.cts'],
+    ...config,
+    rules: { ...config.rules, 'n/no-missing-import': 'off' },
+  })),
   {
     // Apply eslint-plugin rules to our own rules/tests (but not docs).
-    files: ['lib/**/*.js', 'tests/**/*.js'],
+    files: ['lib/**/*.ts', 'tests/**/*.ts'],
     plugins: { 'eslint-plugin': eslintPlugin },
     rules: {
       ...eslintPlugin.configs.all.rules,
@@ -67,12 +74,14 @@ export default defineConfig([
   },
   {
     // Markdown JS code samples in documentation:
-    files: ['**/*.md/*.js'],
+    files: ['**/*.md/*.js', '**/*.md/*.ts'],
     plugins: { markdown },
     linterOptions: { noInlineConfig: true },
     rules: {
       'no-undef': 'off',
       'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+
       strict: 'off',
 
       '@eslint-community/eslint-comments/require-description': 'off',

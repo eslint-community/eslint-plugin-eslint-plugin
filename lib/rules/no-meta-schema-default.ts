@@ -83,12 +83,9 @@ const rule: Rule.RuleModule = {
 
           case 'properties': {
             if ('properties' in value && Array.isArray(value.properties)) {
-              for (const property of value.properties) {
-                if (
-                  'value' in property &&
-                  property.value.type === 'ObjectExpression'
-                ) {
-                  checkSchemaElement(property.value);
+              for (const prop of value.properties) {
+                if ('value' in prop && prop.value.type === 'ObjectExpression') {
+                  checkSchemaElement(prop.value);
                 }
               }
             }

@@ -67,7 +67,7 @@ const rule: Rule.RuleModule = {
     }
 
     if (!metaDefaultOptions) {
-      metaNode &&
+      if (metaNode) {
         context.report({
           node: metaNode,
           messageId: 'missingDefaultOptions',
@@ -78,6 +78,7 @@ const rule: Rule.RuleModule = {
             );
           },
         });
+      }
       return {};
     }
 
@@ -93,7 +94,7 @@ const rule: Rule.RuleModule = {
       schemaProperty.type === 'ObjectExpression' &&
       schemaProperty.properties
         .filter((property) => property.type === 'Property')
-        // @ts-expect-error
+        // @ts-expect-error -- Property 'name' does not exist on type 'ArrayExpression'.ts(2339)
         .find((property) => property.key.name === 'type')?.value.value ===
         'array';
 

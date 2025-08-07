@@ -47,7 +47,7 @@ describe('rule setup is correct', () => {
           const file = readFileSync(filePath, 'utf8');
 
           assert.ok(
-            file.includes("const rule: Rule.RuleModule"),
+            file.includes('const rule: Rule.RuleModule'),
             'is defined as type RuleModule',
           );
         });
@@ -68,7 +68,13 @@ describe('rule setup is correct', () => {
   });
 
   it('should have documentation for all rules', () => {
-    const filePath = path.join(import.meta.dirname, '..', '..', 'docs', 'rules');
+    const filePath = path.join(
+      import.meta.dirname,
+      '..',
+      '..',
+      'docs',
+      'rules',
+    );
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(

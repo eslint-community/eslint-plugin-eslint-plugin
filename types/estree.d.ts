@@ -1,4 +1,4 @@
-import { Program as EstreeProgram } from 'estree';
+import type { Expression, Identifier, Node } from 'estree';
 
 /**
  * This file augments the `estree` types to include a couple of types that are not built-in to `estree` that we're using.

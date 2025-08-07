@@ -56,15 +56,19 @@ const rule: Rule.RuleModule = {
                           sourceCode.getTokenBefore(onlyProperty);
                         const tokenAfter =
                           sourceCode.getTokenAfter(onlyProperty);
-                        if ((tokenBefore && tokenAfter) &&
+                        if (
+                          tokenBefore &&
+                          tokenAfter &&
                           ((isCommaToken(tokenBefore) &&
                             isCommaToken(tokenAfter)) || // In middle of properties
-                          (isOpeningBraceToken(tokenBefore) &&
-                            isCommaToken(tokenAfter))) // At beginning of properties
+                            (isOpeningBraceToken(tokenBefore) &&
+                              isCommaToken(tokenAfter))) // At beginning of properties
                         ) {
                           yield fixer.remove(tokenAfter); // Remove extra comma.
                         }
-                        if ((tokenBefore && tokenAfter) &&
+                        if (
+                          tokenBefore &&
+                          tokenAfter &&
                           isCommaToken(tokenBefore) &&
                           isClosingBraceToken(tokenAfter)
                         ) {
