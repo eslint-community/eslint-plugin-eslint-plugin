@@ -13,7 +13,8 @@ Instead, checking a node's `type` property is generally considered preferable.
 
 Examples of **incorrect** code for this rule:
 
-```ts
+```js
+/** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
     /* ... */
@@ -27,12 +28,13 @@ module.exports = {
       },
     };
   },
-} satisfies Rule.RuleModule;
+};
 ```
 
 Examples of **correct** code for this rule:
 
-```ts
+```js
+/** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
     /* ... */
@@ -46,7 +48,7 @@ module.exports = {
       },
     };
   },
-} satisfies Rule.RuleModule;
+};
 ```
 
 ## Options
