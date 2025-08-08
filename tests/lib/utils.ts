@@ -1653,8 +1653,8 @@ describe('utils', () => {
     });
   });
 
-  describe('evaluateObjectProperties', function () {
-    it('behaves correctly with simple object expression', function () {
+  describe('evaluateObjectProperties', () => {
+    it('behaves correctly with simple object expression', () => {
       const getObjectExpression = (ast: Program): ObjectExpression =>
         (ast.body[0] as VariableDeclaration).declarations[0]
           .init as ObjectExpression;
@@ -1670,7 +1670,7 @@ describe('utils', () => {
       assert.deepEqual(result, getObjectExpression(ast).properties);
     });
 
-    it('behaves correctly with spreads of objects', function () {
+    it('behaves correctly with spreads of objects', () => {
       const getObjectExpression = (
         ast: Program,
         bodyElement: number,
@@ -1703,7 +1703,7 @@ describe('utils', () => {
       ]);
     });
 
-    it('behaves correctly with non-variable spreads', function () {
+    it('behaves correctly with non-variable spreads', () => {
       const getObjectExpression = (ast: Program): ObjectExpression =>
         (ast.body[1] as VariableDeclaration).declarations[0]
           .init as ObjectExpression;
@@ -1720,7 +1720,7 @@ describe('utils', () => {
       assert.deepEqual(result, []);
     });
 
-    it('behaves correctly with spread with variable that cannot be found', function () {
+    it('behaves correctly with spread with variable that cannot be found', () => {
       const ast = espree.parse(`const obj = { ...foo };`, {
         ecmaVersion: 9,
         range: true,
@@ -1734,7 +1734,7 @@ describe('utils', () => {
       assert.deepEqual(result, []);
     });
 
-    it('behaves correctly when passed wrong node type', function () {
+    it('behaves correctly when passed wrong node type', () => {
       const ast = espree.parse(`foo();`, {
         ecmaVersion: 9,
         range: true,
@@ -1745,7 +1745,7 @@ describe('utils', () => {
     });
   });
 
-  describe('getMessagesNode', function () {
+  describe('getMessagesNode', () => {
     type TestCase = {
       code: string;
       getResult: ((ast: Program) => ObjectExpression) | (() => void);
@@ -1821,7 +1821,7 @@ describe('utils', () => {
     });
   });
 
-  describe('getMessageIdNodes', function () {
+  describe('getMessageIdNodes', () => {
     type TestCase = {
       code: string;
       getResult: (ast: Program) => Property[];
@@ -1892,7 +1892,7 @@ describe('utils', () => {
     });
   });
 
-  describe('getMessageIdNodeById', function () {
+  describe('getMessageIdNodeById', () => {
     type TestCase = {
       code: string;
       run: (
@@ -1961,7 +1961,7 @@ describe('utils', () => {
     });
   });
 
-  describe('findPossibleVariableValues', function () {
+  describe('findPossibleVariableValues', () => {
     it('returns the right nodes', () => {
       const code =
         'let x = 123; x = 456; x = foo(); if (foo) { x = 789; } x(); console.log(x); x += "shouldIgnore"; x + "shouldIgnore";';
@@ -2006,7 +2006,7 @@ describe('utils', () => {
     });
   });
 
-  describe('isVariableFromParameter', function () {
+  describe('isVariableFromParameter', () => {
     it('returns true for function parameter', () => {
       const code =
         'function myFunc(x) { if (foo) { x = "abc"; } console.log(x) }; myFunc("def");';
