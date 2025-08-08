@@ -3,7 +3,7 @@
  */
 import type { Rule } from 'eslint';
 
-import { getRuleInfo } from '../utils.js';
+import { getRuleInfo } from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/prefer-replace-text.js';
+import rule from '../../../lib/rules/prefer-replace-text.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

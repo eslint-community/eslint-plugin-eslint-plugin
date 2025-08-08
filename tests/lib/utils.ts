@@ -7,7 +7,7 @@ import * as estraverse from 'estraverse';
 import lodash from 'lodash';
 import { assert, describe, it } from 'vitest';
 
-import * as utils from '../../lib/utils.js';
+import * as utils from '../../lib/utils.ts';
 import type {
   ArrayExpression,
   ArrowFunctionExpression,
@@ -29,7 +29,7 @@ import type {
   VariableDeclaration,
 } from 'estree';
 import type { Rule, Scope } from 'eslint';
-import type { RuleInfo } from '../../lib/types.js';
+import type { RuleInfo } from '../../lib/types.ts';
 
 type MockRuleInfo = {
   create: {

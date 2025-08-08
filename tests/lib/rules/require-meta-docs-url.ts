@@ -9,7 +9,7 @@
 // -----------------------------------------------------------------------------
 
 import { RuleTester } from 'eslint';
-import rule from '../../../lib/rules/require-meta-docs-url.js';
+import rule from '../../../lib/rules/require-meta-docs-url.ts';
 
 // -----------------------------------------------------------------------------
 // Tests

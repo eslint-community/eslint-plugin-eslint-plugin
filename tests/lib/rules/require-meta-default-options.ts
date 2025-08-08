@@ -1,4 +1,4 @@
-import rule from '../../../lib/rules/require-meta-default-options.js';
+import rule from '../../../lib/rules/require-meta-default-options.ts';
 import { RuleTester } from 'eslint';
 import parser from '@typescript-eslint/parser';
 

@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/report-message-format.js';
+import rule from '../../../lib/rules/report-message-format.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

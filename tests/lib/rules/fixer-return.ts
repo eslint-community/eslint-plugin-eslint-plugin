@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/fixer-return.js';
+import rule from '../../../lib/rules/fixer-return.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

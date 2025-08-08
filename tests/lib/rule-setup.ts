@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { assert, describe, it } from 'vitest';
 
-import plugin from '../../lib/index.js';
+import plugin from '../../lib/index.ts';
 
 const RULE_NAMES = Object.keys(plugin.rules) as Array<
   keyof typeof plugin.rules

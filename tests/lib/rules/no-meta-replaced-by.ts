@@ -6,7 +6,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-meta-replaced-by.js';
+import rule from '../../../lib/rules/no-meta-replaced-by.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

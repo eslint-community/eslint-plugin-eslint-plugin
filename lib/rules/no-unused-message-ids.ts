@@ -10,7 +10,7 @@ import {
   getReportInfo,
   getRuleInfo,
   isVariableFromParameter,
-} from '../utils.js';
+} from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

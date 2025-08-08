@@ -4,8 +4,8 @@
  */
 import type { Rule } from 'eslint';
 
-import { getKeyName, getTestInfo } from '../utils.js';
-import type { TestInfo } from '../types.js';
+import { getKeyName, getTestInfo } from '../utils.ts';
+import type { TestInfo } from '../types.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

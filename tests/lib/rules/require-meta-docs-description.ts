@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/require-meta-docs-description.js';
+import rule from '../../../lib/rules/require-meta-docs-description.ts';
 import { RuleTester } from 'eslint';
 import parser from '@typescript-eslint/parser';
 

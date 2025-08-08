@@ -6,7 +6,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/meta-property-ordering.js';
+import rule from '../../../lib/rules/meta-property-ordering.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

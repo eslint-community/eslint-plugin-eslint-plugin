@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/require-meta-fixable.js';
+import rule from '../../../lib/rules/require-meta-fixable.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

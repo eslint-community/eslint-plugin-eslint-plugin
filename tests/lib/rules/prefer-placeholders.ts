@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/prefer-placeholders.js';
+import rule from '../../../lib/rules/prefer-placeholders.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

@@ -5,12 +5,12 @@
 import type { Rule } from 'eslint';
 import type { Identifier, Node } from 'estree';
 
-import type { FunctionInfo } from '../types.js';
+import type { FunctionInfo } from '../types.ts';
 import {
   getContextIdentifiers,
   isAutoFixerFunction,
   isSuggestionFixerFunction,
-} from '../utils.js';
+} from '../utils.ts';
 
 const DEFAULT_FUNC_INFO: FunctionInfo = {
   upper: null,

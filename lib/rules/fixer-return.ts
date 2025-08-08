@@ -17,8 +17,8 @@ import {
   getContextIdentifiers,
   isAutoFixerFunction,
   isSuggestionFixerFunction,
-} from '../utils.js';
-import type { FunctionInfo } from '../types.js';
+} from '../utils.ts';
+import type { FunctionInfo } from '../types.ts';
 
 const DEFAULT_FUNC_INFO: FunctionInfo = {
   upper: null,

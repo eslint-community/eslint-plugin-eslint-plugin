@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/test-case-shorthand-strings.js';
+import rule from '../../../lib/rules/test-case-shorthand-strings.ts';
 import { RuleTester } from 'eslint';
 
 /**

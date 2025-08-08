@@ -6,7 +6,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/prefer-object-rule.js';
+import rule from '../../../lib/rules/prefer-object-rule.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

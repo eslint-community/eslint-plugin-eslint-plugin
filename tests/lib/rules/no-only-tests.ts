@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-only-tests.js';
+import rule from '../../../lib/rules/no-only-tests.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

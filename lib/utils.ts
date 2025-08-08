@@ -31,7 +31,7 @@ import type {
   RuleInfo,
   TestInfo,
   ViolationAndSuppressionData,
-} from './types.js';
+} from './types.ts';
 
 const functionTypes = new Set([
   'FunctionExpression',

@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-deprecated-report-api.js';
+import rule from '../../../lib/rules/no-deprecated-report-api.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

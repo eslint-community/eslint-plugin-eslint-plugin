@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-unused-placeholders.js';
+import rule from '../../../lib/rules/no-unused-placeholders.ts';
 import { RuleTester } from 'eslint';
 
 /**

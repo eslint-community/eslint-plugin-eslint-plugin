@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/require-meta-has-suggestions.js';
+import rule from '../../../lib/rules/require-meta-has-suggestions.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 
-import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.js';
+import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.ts';
 
 const VALID_TYPES = new Set(['problem', 'suggestion', 'layout']);
 

@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/prefer-message-ids.js';
+import rule from '../../../lib/rules/prefer-message-ids.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------
