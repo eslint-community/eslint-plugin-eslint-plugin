@@ -8,7 +8,7 @@ import {
   getKeyName,
   getRuleInfo,
   isUndefinedIdentifier,
-} from '../utils.js';
+} from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

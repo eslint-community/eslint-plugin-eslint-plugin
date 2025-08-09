@@ -11,7 +11,7 @@ import {
   getContextIdentifiers,
   getKeyName,
   getRuleInfo,
-} from '../utils.js';
+} from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

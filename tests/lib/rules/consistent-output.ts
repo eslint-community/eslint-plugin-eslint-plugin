@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/consistent-output.js';
+import rule from '../../../lib/rules/consistent-output.ts';
 import { RuleTester } from 'eslint';
 
 const ERROR = { messageId: 'missingOutput', type: 'ObjectExpression' };

@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-identical-tests.js';
+import rule from '../../../lib/rules/no-identical-tests.ts';
 import { RuleTester } from 'eslint';
 
 const ERROR_OBJECT_TEST = { messageId: 'identical', type: 'ObjectExpression' };

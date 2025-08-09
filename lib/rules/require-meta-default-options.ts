@@ -6,7 +6,7 @@ import {
   getMetaSchemaNode,
   getMetaSchemaNodeProperty,
   getRuleInfo,
-} from '../utils.js';
+} from '../utils.ts';
 
 const rule: Rule.RuleModule = {
   meta: {

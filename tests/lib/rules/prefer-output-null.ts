@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/prefer-output-null.js';
+import rule from '../../../lib/rules/prefer-output-null.ts';
 import { RuleTester } from 'eslint';
 
 const ERROR = { messageId: 'useOutputNull', type: 'Property' };

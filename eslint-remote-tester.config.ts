@@ -1,8 +1,7 @@
 import tsparser from '@typescript-eslint/parser';
 import type { Config } from 'eslint-remote-tester';
 
-// @ts-expect-error - eslint-plugin is not typed yet
-import eslintPlugin from './lib/index.js';
+import eslintPlugin from './lib/index.ts';
 
 export default {
   /** Repositories to scan */

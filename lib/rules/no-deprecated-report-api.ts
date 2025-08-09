@@ -5,7 +5,7 @@
 import type { Rule } from 'eslint';
 import type { Node } from 'estree';
 
-import { getContextIdentifiers, getReportInfo } from '../utils.js';
+import { getContextIdentifiers, getReportInfo } from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

@@ -9,7 +9,7 @@ import {
   getMessagesNode,
   getReportInfo,
   getRuleInfo,
-} from '../utils.js';
+} from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition

@@ -13,6 +13,7 @@
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true,
+    "rewriteRelativeImportExtensions": true,
     "paths": {
       "eslint-plugin-eslint-plugin": ["./lib/index.ts"]
     },

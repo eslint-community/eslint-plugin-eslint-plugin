@@ -5,7 +5,7 @@
 import type { Rule } from 'eslint';
 import type { Identifier, MemberExpression } from 'estree';
 
-import { getContextIdentifiers } from '../utils.js';
+import { getContextIdentifiers } from '../utils.ts';
 
 const DEPRECATED_PASSTHROUGHS = {
   getSource: 'getText',

@@ -1,4 +1,4 @@
-import rule from '../../../lib/rules/require-meta-docs-recommended.js';
+import rule from '../../../lib/rules/require-meta-docs-recommended.ts';
 import { RuleTester } from 'eslint';
 import parser from '@typescript-eslint/parser';
 

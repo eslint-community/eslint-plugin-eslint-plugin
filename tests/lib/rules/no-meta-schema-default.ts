@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/no-meta-schema-default.js';
+import rule from '../../../lib/rules/no-meta-schema-default.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------

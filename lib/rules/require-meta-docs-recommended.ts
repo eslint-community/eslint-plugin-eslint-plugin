@@ -6,7 +6,7 @@ import {
   getMetaDocsProperty,
   getRuleInfo,
   isUndefinedIdentifier,
-} from '../utils.js';
+} from '../utils.ts';
 
 function insertRecommendedProperty(
   fixer: Rule.RuleFixer,

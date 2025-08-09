@@ -3,7 +3,7 @@
  */
 import type { Rule } from 'eslint';
 
-import { getKeyName, getRuleInfo } from '../utils.js';
+import { getKeyName, getRuleInfo } from '../utils.ts';
 
 const defaultOrder = [
   'type',
