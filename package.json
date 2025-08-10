@@ -12,6 +12,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsdown",
+    "e2e": "node ./e2e/runAllTests.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm-run-all --continue-on-error --aggregate-output --parallel lint:*",

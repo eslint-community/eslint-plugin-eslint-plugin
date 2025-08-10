@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+    name: Test / Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -67,3 +67,46 @@ jobs:
           node-version: 'lts/*'
       - run: npm install
       - run: npm run typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      - run: npm install
+      - run: npm run build
+      - name: Upload build results
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_dist
+          path: dist
+  e2e:
+    name: E2E / Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - '24.0.0' # minimum supported v24
+          - 24
+          - '22.13.1' # minimum supported v22
+          - 22
+          - '20.19.0' #minimum supported v20
+          - 20
+        os:
+          - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Download build results
+        uses: actions/download-artifact@v4
+        with:
+          name: build_dist
+          path: dist
+      - run: npm install
+      - run: npm run e2e
