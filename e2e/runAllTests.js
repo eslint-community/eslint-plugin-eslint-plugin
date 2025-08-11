@@ -3,6 +3,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 
+/**
+ * Run All Tests: This script executes the lint command on all subfolders under `fixtures`, in order
+ * to validate the correctness of our plugin.  Each fixture installs the *built* package.  So this should
+ * only be run after a build has been done.
+ *
+ * For each directory under fixtures, the script runs `npm install` and `npm run lint`.
+ */
+
 const TEST_COMMAND = 'npm run lint';
 
 const getRoot = () => {
@@ -32,14 +40,14 @@ const executeAllE2eTests = async () => {
     try {
       execSync(TEST_COMMAND, {
         cwd: testDir,
-        stdio: ['ignore', 'ignore', 'pipe'],
+        stdio: 'inherit',
       });
-      console.log(`✅ Test passed\n`);
+      console.log(`✅ Test passed`);
     } catch (error) {
       console.log(`❌ Test failed`);
-      console.error(`${error}\n`);
       failedTests.push(dirName);
     }
+    console.log(`\n${'-'.repeat(50)}\n`);
   }
 
   if (failedTests.length) {
