@@ -22,6 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: npm install
       - run: npm test
 
@@ -33,6 +34,7 @@ jobs:
         with:
           node-version: 'lts/*'
           check-latest: true
+          cache: 'npm'
       - run: npm install
       - run: npm run lint
 
@@ -44,6 +46,7 @@ jobs:
         with:
           node-version: 'lts/*'
           check-latest: true
+          cache: 'npm'
       - run: npm install
       - run: npm run format:check
 
@@ -55,6 +58,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+          cache: 'npm'
       - run: npm install
       - run: npm run test:remote
 
@@ -65,6 +69,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+          cache: 'npm'
       - run: npm install
       - run: npm run typecheck
 
@@ -75,6 +80,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+          cache: 'npm'
       - run: npm install
       - run: npm run build
       - name: Upload build results
@@ -98,11 +104,13 @@ jobs:
           - 20
         os:
           - ubuntu-latest
+          - windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - name: Download build results
         uses: actions/download-artifact@v4
         with:
