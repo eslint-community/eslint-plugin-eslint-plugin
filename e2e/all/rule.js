@@ -1,5 +1,6 @@
 /** @type {import('eslint').Rule.RuleModule} */
 const rule = {
+  // eslint-disable-next-line eslint-plugin/require-meta-schema
   meta: {
     type: 'suggestion',
     docs: {
@@ -8,7 +9,6 @@ const rule = {
       url: 'https://test.org',
     },
     fixable: undefined, // or "code" or "whitespace"
-    schema: [],
     messages: {
       missingOutput: 'This is a test',
     },
