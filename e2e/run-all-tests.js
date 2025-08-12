@@ -33,13 +33,15 @@ const executeAllE2eTests = async () => {
   });
 
   // Get all directories in the e2e dir
-  const allFixtureFiles = await fs.readdir(fixturesDir, { withFileTypes: true });
+  const allFixtureFiles = await fs.readdir(fixturesDir, {
+    withFileTypes: true,
+  });
   const testDirs = allFixtureFiles
     .filter((dirEnt) => dirEnt.isDirectory())
     .map((dirEnt) => path.join(dirEnt.parentPath, dirEnt.name));
 
   if (testDirs.length > 0) {
-    console.log(`Running ${testDirs.length} end to end tests.`)
+    console.log(`Running ${testDirs.length} end to end tests.`);
     console.log(`\n${'-'.repeat(50)}\n`);
   } else {
     console.log('No end-to-end tests found...');
