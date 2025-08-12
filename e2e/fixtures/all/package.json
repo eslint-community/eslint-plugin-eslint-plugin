@@ -1,0 +1,13 @@
+{
+  "name": "@e2e/all",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint"
+  },
+  "main": "./index.js",
+  "devDependencies": {
+    "eslint": "^9.33.0",
+    "eslint-plugin-eslint-plugin": "file:../../.."
+  }
+}
