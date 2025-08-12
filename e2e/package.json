@@ -1,0 +1,4 @@
+{
+  "workspaces": ["fixtures/*"],
+  "type": "module"
+}

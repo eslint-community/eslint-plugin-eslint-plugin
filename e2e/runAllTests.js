@@ -21,22 +21,32 @@ const getRoot = () => {
 
 const executeAllE2eTests = async () => {
   const e2eDir = path.resolve(getRoot(), './e2e');
+  const fixturesDir = path.resolve(e2eDir, './fixtures');
   const failedTests = [];
 
+  // First install all dependencies in the fixtures workspace
+  // Run install and the test command
+  execSync('npm install', {
+    cwd: e2eDir,
+    stdio: ['ignore', 'ignore', 'pipe'],
+  });
+
   // Get all directories in the e2e dir
-  const testDirs = (await fs.readdir(e2eDir, { withFileTypes: true }))
+  const testDirs = (await fs.readdir(fixturesDir, { withFileTypes: true }))
     .filter((dirEnt) => dirEnt.isDirectory())
     .map((dirEnt) => path.join(dirEnt.parentPath, dirEnt.name));
+
+  if (testDirs.length) {
+    console.log(`Running ${testDirs.length} end to end tests.`)
+    console.log(`\n${'-'.repeat(50)}\n`);
+  } else {
+    console.log('No end-to-end tests found...');
+  }
 
   for (const testDir of testDirs) {
     const dirName = path.basename(testDir);
     console.log(`🧪 Executing test: ${dirName}`);
 
-    // Run install and the test command
-    execSync('npm install', {
-      cwd: testDir,
-      stdio: ['ignore', 'ignore', 'pipe'],
-    });
     try {
       execSync(TEST_COMMAND, {
         cwd: testDir,

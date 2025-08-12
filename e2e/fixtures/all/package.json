@@ -8,6 +8,6 @@
   "main": "./index.js",
   "devDependencies": {
     "eslint": "^9.33.0",
-    "eslint-plugin-eslint-plugin": "file:../.."
+    "eslint-plugin-eslint-plugin": "file:../../.."
   }
 }
