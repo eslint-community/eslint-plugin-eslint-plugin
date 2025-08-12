@@ -1,3 +1,4 @@
+/* eslint-disable no-console -- node script */
 import { execSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -15,7 +16,7 @@ const TEST_COMMAND = 'npm run lint';
 
 const getRoot = () => {
   return execSync('git rev-parse --show-toplevel', {
-    encoding: 'utf-8',
+    encoding: 'utf8',
   }).trim();
 };
 
@@ -32,11 +33,12 @@ const executeAllE2eTests = async () => {
   });
 
   // Get all directories in the e2e dir
-  const testDirs = (await fs.readdir(fixturesDir, { withFileTypes: true }))
+  const allFixtureFiles = await fs.readdir(fixturesDir, { withFileTypes: true });
+  const testDirs = allFixtureFiles
     .filter((dirEnt) => dirEnt.isDirectory())
     .map((dirEnt) => path.join(dirEnt.parentPath, dirEnt.name));
 
-  if (testDirs.length) {
+  if (testDirs.length > 0) {
     console.log(`Running ${testDirs.length} end to end tests.`)
     console.log(`\n${'-'.repeat(50)}\n`);
   } else {
@@ -53,14 +55,14 @@ const executeAllE2eTests = async () => {
         stdio: 'inherit',
       });
       console.log(`✅ Test passed`);
-    } catch (error) {
+    } catch {
       console.log(`❌ Test failed`);
       failedTests.push(dirName);
     }
     console.log(`\n${'-'.repeat(50)}\n`);
   }
 
-  if (failedTests.length) {
+  if (failedTests.length > 0) {
     console.log(
       `Testing complete. ${failedTests.length} of ${testDirs.length} tests failed!`,
     );
@@ -69,5 +71,6 @@ const executeAllE2eTests = async () => {
     console.log(`Testing complete.  All ${testDirs.length} tests passed!`);
   }
 };
+/* eslint-enable no-console -- node script */
 
 executeAllE2eTests();
