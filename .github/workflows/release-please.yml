@@ -37,9 +37,8 @@ jobs:
           registry-url: https://registry.npmjs.org
         if: ${{ steps.release.outputs.release_created }}
       - run: |
+          npm install -g npm@latest  # npm 11.5.1 or later is required so update to latest to be sure
           npm install --force
           npm run build
           npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}
