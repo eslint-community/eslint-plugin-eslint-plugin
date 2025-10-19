@@ -9,9 +9,12 @@ const RULE_NAMES = Object.keys(plugin.rules) as Array<
   keyof typeof plugin.rules
 >;
 
+// eslint-disable-next-line n/no-unsupported-features/node-builtins -- used in tests
+const dirname = import.meta.dirname;
+
 describe('rule setup is correct', () => {
   it('should have a list of exported rules and rules directory that match', () => {
-    const filePath = path.join(import.meta.dirname, '..', 'lib', 'rules');
+    const filePath = path.join(dirname, '..', 'lib', 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
@@ -37,7 +40,7 @@ describe('rule setup is correct', () => {
 
         it('should have the right contents', () => {
           const filePath = path.join(
-            import.meta.dirname,
+            dirname,
             '..',
             '..',
             'lib',
@@ -56,7 +59,7 @@ describe('rule setup is correct', () => {
   });
 
   it('should have tests for all rules', () => {
-    const filePath = path.join(import.meta.dirname, 'rules');
+    const filePath = path.join(dirname, 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(
@@ -68,13 +71,7 @@ describe('rule setup is correct', () => {
   });
 
   it('should have documentation for all rules', () => {
-    const filePath = path.join(
-      import.meta.dirname,
-      '..',
-      '..',
-      'docs',
-      'rules',
-    );
+    const filePath = path.join(dirname, '..', '..', 'docs', 'rules');
     const files = readdirSync(filePath);
 
     assert.deepStrictEqual(

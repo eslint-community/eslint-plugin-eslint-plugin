@@ -217,7 +217,7 @@ describe('utils', () => {
             meta: { type: 'ObjectExpression' },
             isNewStyle: true,
           },
-        'export default createESLintRule<>({ create() {}, meta: {} });': {
+        'export default createESLintRule<{}>({ create() {}, meta: {} });': {
           create: { type: 'FunctionExpression' },
           meta: { type: 'ObjectExpression' },
           isNewStyle: true,
