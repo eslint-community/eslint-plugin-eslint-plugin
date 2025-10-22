@@ -165,6 +165,7 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       options: [{ catchNoFixerButFixableProperty: false }],
+      name: 'fixable code (catchNoFixerButFixableProperty: false)',
     },
     {
       code: `
@@ -174,6 +175,7 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       options: [{ catchNoFixerButFixableProperty: false }],
+      name: 'fixable whitespace (catchNoFixerButFixableProperty: false)',
     },
     // catchNoFixerButFixableProperty = true
     {
@@ -188,6 +190,7 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
+      name: 'fixable code (catchNoFixerButFixableProperty: true)',
     },
     // Spread in meta.
     `
@@ -211,6 +214,7 @@ ruleTester.run('require-meta-fixable', rule, {
       };
     `,
       options: [{ catchNoFixerButFixableProperty: true }],
+      name: 'spread in report (catchNoFixerButFixableProperty: true)',
     },
     // No rule present.
     `const foo = { fix: [{}]}; context.report({node,message,fix});`,
@@ -320,6 +324,7 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
       errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+      name: 'fixable code (catchNoFixerButFixableProperty: true)',
     },
     {
       code: `
@@ -330,6 +335,7 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
       errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+      name: 'fixable whitespace (catchNoFixerButFixableProperty: true)',
     },
     {
       code: `
@@ -340,6 +346,7 @@ ruleTester.run('require-meta-fixable', rule, {
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
       errors: [{ messageId: 'missing', type: 'Literal' }],
+      name: 'fixable null (catchNoFixerButFixableProperty: true)',
     },
   ],
 });
