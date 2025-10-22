@@ -30,6 +30,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
+      name: 'with no languageOptions (options: foo)',
     },
     {
       // ESM
@@ -42,6 +43,7 @@ ruleTester.run('report-message-format', rule, {
       `,
       options: ['foo'],
       languageOptions: { sourceType: 'module' },
+      name: 'ESM (options: foo)',
     },
     {
       // With message as variable.
@@ -54,6 +56,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
+      name: 'with message as variable (options: foo)',
     },
     {
       // With message as variable but cannot statically determine its type.
@@ -66,6 +69,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
+      name: 'with message as variable but cannot statically determine its type (options: foo)',
     },
     {
       code: `
@@ -76,6 +80,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['f'],
+      name: 'with no languageOptions (options: f)',
     },
     {
       code: `
@@ -86,6 +91,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
+      name: 'with message as variable but variable is not defined in scope (options: foo)',
     },
     {
       code: `
@@ -96,6 +102,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['^foo$'],
+      name: 'no match with regex (options: ^foo$)',
     },
     {
       code: `
@@ -106,6 +113,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['^foo$'],
+      name: 'object param with regex (options: ^foo$)',
     },
     {
       // Suggestion function
@@ -117,6 +125,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['^foo$'],
+      name: 'suggestion function (options: ^foo$)',
     },
     {
       // Suggestion message
@@ -128,6 +137,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['^foo$'],
+      name: 'suggestion message (options: ^foo$)',
     },
     {
       // Suggestion message with ternary expression
@@ -139,6 +149,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['^foo$'],
+      name: 'suggestion message with ternary (options: ^foo$)',
     },
     {
       code: `
@@ -149,6 +160,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['bar'],
+      name: 'substring (options: bar)',
     },
     {
       code: `
@@ -159,6 +171,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['bar'],
+      name: 'substring with backticks (options: bar)',
     },
     {
       code: `
@@ -169,6 +182,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['bar'],
+      name: 'empty report (options: bar)',
     },
     {
       code: `
@@ -179,6 +193,7 @@ ruleTester.run('report-message-format', rule, {
         };
       `,
       options: ['foo'],
+      name: 'empty report (options: foo)',
     },
     {
       code: `
@@ -193,6 +208,7 @@ ruleTester.run('report-message-format', rule, {
         }
       `,
       options: ['foo'],
+      name: 'multiple meta.messages (options: foo)',
     },
     'module.exports = {};', // No rule.
   ],

@@ -110,6 +110,7 @@ ruleTester.run('no-property-in-node', rule, {
           additionalNodeTypeFiles: [/not-found/],
         },
       ],
+      name: 'additionalNodeTypeFiles with no matches',
     },
   ],
   invalid: [
@@ -204,6 +205,7 @@ ruleTester.run('no-property-in-node', rule, {
           messageId: 'in',
         },
       ],
+      name: 'additionalNodeTypeFiles with matches',
     },
   ],
 });
