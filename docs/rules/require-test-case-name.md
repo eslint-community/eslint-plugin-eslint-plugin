@@ -1,4 +1,4 @@
-# Require test cases to have a `name` property under certain conditions (`eslint-plugin/test-case-name-property`)
+# Require test cases to have a `name` property under certain conditions (`eslint-plugin/require-test-case-name`)
 
 <!-- end auto-generated rule header -->
 

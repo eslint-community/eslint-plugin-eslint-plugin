@@ -1,6 +1,6 @@
 import { RuleTester } from 'eslint';
 
-import rule from '../../../lib/rules/test-case-name-property.ts';
+import rule from '../../../lib/rules/require-test-case-name.ts';
 
 /**
  * Returns the code for some valid test cases
