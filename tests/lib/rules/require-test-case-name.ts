@@ -55,6 +55,12 @@ ruleTester.run('test-case-name-property', rule, {
     getTestCases([
       '{ code: "foo", name: "my test", options: ["bar"], settings: { setting1: "bar" } }',
     ]),
+    getTestCases(['foo']),
+    getTestCases(['{ code: foo }']),
+    getTestCases(['foo()']),
+    getTestCases(['{ code: foo() }']),
+    // eslint-disable-next-line no-template-curly-in-string -- testing edge cases
+    getTestCases(['`foo;${bar}`']),
     getTestCases([], ['{ code: "foo", errors: ["some error"] }']),
     getTestCases(
       [],
