@@ -55,10 +55,12 @@ ruleTester.run('test-case-shorthand-strings', rule, {
     {
       code: getTestCases(['"foo"']),
       options: ['as-needed'],
+      name: 'single string (options: as-needed)',
     },
     {
       code: getTestCases(['"foo"', '"bar"']),
       options: ['as-needed'],
+      name: 'multiple strings (options: as-needed)',
     },
     {
       code: getTestCases([
@@ -67,6 +69,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
         '{ code: "foo", options: ["bar"] }',
       ]),
       options: ['as-needed'],
+      name: 'mixed strings and object with options (options: as-needed)',
     },
     {
       code: getTestCases([
@@ -75,38 +78,46 @@ ruleTester.run('test-case-shorthand-strings', rule, {
         '{ code: "foo", parserOptions: ["bar"] }',
       ]),
       options: ['as-needed'],
+      name: 'mixed strings and object with parserOptions (options: as-needed)',
     },
     {
       code: getTestCases(['`foo`']),
       options: ['as-needed'],
+      name: 'template string (options: as-needed)',
     },
     {
       code: getTestCases(['tag`foo`']),
       options: ['as-needed'],
+      name: 'tagged template string (options: as-needed)',
     },
 
     // never
     {
       code: getTestCases(['{ code: "foo" }', '{ code: "bar" }']),
       options: ['never'],
+      name: 'objects (options: never)',
     },
     {
       code: getTestCases(['notAString', '{ code: "bar" }']),
       options: ['never'],
+      name: 'variable and object (options: never)',
     },
     {
       code: getTestCases(['notAString()', '{ code: "bar" }']),
       options: ['never'],
+      name: 'function call and object (options: never)',
     },
 
     // consistent
     {
       code: getTestCases(['"foo"', '"bar"']),
       options: ['consistent'],
+      name: 'multiple strings (options: consistent)',
     },
     {
       code: getTestCases(['{ code: "foo" }', '{ code: "bar" }']),
       options: ['consistent'],
+      name: 'multiple objects (options: consistent)',
     },
     {
       code: getTestCases([
@@ -114,16 +125,19 @@ ruleTester.run('test-case-shorthand-strings', rule, {
         '{ code: "bar", options: ["foo"] }',
       ]),
       options: ['consistent'],
+      name: 'multiple objects with options (options: consistent)',
     },
     {
       code: getTestCases(['"foo"', "'bar'", '`baz`']),
       options: ['consistent'],
+      name: 'multiple types of strings (options: consistent)',
     },
 
     // consistent-as-needed
     {
       code: getTestCases(['"foo"', '"bar"']),
       options: ['consistent-as-needed'],
+      name: 'multiple strings (options: consistent-as-needed)',
     },
     {
       code: getTestCases([
@@ -131,10 +145,12 @@ ruleTester.run('test-case-shorthand-strings', rule, {
         '{ code: "bar", options: ["foo"] }',
       ]),
       options: ['consistent-as-needed'],
+      name: 'multiple objects (options: consistent-as-needed)',
     },
     {
       code: getTestCases(['"foo"', "'bar'", '`baz`']),
       options: ['consistent-as-needed'],
+      name: 'multiple types of strings (options: consistent-as-needed)',
     },
     `
     new NotRuleTester().run('foo', bar, {
@@ -177,24 +193,28 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       output: getTestCases(['{code: "foo"}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR],
+      name: 'string (options: never)',
     },
     {
       code: getTestCases(['foo', '"bar"']),
       output: getTestCases(['foo', '{code: "bar"}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR],
+      name: 'multiple strings (options: never)',
     },
     {
       code: getTestCases(['`foo`']),
       output: getTestCases(['{code: `foo`}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR],
+      name: 'template string (options: never)',
     },
     {
       code: getTestCases(['"foo"']) + getTestCases(['"foo"']),
       output: getTestCases(['{code: "foo"}']) + getTestCases(['{code: "foo"}']),
       options: ['never'],
       errors: [UNEXPECTED_SHORTHAND_ERROR, UNEXPECTED_SHORTHAND_ERROR],
+      name: 'multiple ruletester calls with strings (options: never)',
     },
 
     // consistent
@@ -215,6 +235,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       output: getTestCases(['"foo"', '"bar"']),
       options: ['consistent-as-needed'],
       errors: [EXPECTED_SHORTHAND_ERROR, EXPECTED_SHORTHAND_ERROR],
+      name: 'multiple objects (options: consistent-as-needed)',
     },
     {
       code: getTestCases([
@@ -229,6 +250,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       ]),
       options: ['consistent-as-needed'],
       errors: [UNEXPECTED_SHORTHAND_ERROR, UNEXPECTED_SHORTHAND_ERROR],
+      name: 'multiple strings and object (options: consistent-as-needed)',
     },
     {
       code: getTestCases([
@@ -243,6 +265,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       ]),
       options: ['consistent-as-needed'],
       errors: [UNEXPECTED_SHORTHAND_ERROR, UNEXPECTED_SHORTHAND_ERROR],
+      name: 'multiple strings and object in between (options: consistent-as-needed)',
     },
   ],
 });
