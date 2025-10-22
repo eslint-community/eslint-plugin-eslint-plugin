@@ -62,6 +62,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       options: [{ allowNonBoolean: true }],
+      name: 'undefined recommended (allowNonBoolean: true)',
     },
     {
       code: `
@@ -71,6 +72,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       options: [{ allowNonBoolean: true }],
+      name: 'string recommended (allowNonBoolean: true)',
     },
     {
       code: `
@@ -82,6 +84,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         };
       `,
       options: [{ allowNonBoolean: true }],
+      name: 'multiple spreads with string recommended (allowNonBoolean: true)',
     },
   ],
 
@@ -262,6 +265,7 @@ ruleTester.run('require-meta-docs-recommended', rule, {
       errors: [
         { messageId: 'missing', type: 'FunctionExpression', suggestions: [] },
       ],
+      name: 'missing recommended (allowNonBoolean: true)',
     },
   ],
 });

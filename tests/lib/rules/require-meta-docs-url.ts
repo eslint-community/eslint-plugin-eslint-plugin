@@ -54,6 +54,7 @@ tester.run('require-meta-docs-url', rule, {
           pattern: 'path/to/{{name}}.md',
         },
       ],
+      name: "no filename (pattern: 'path/to/{{name}}.md')",
     },
     {
       filename: 'test-rule',
@@ -68,6 +69,7 @@ tester.run('require-meta-docs-url', rule, {
           pattern: 'path/to/{{name}}.md',
         },
       ],
+      name: "matching path (pattern: 'path/to/{{name}}.md')",
     },
     {
       // CJS file extension
@@ -79,6 +81,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       options: [{ pattern: 'path/to/{{name}}.md' }],
+      name: "matching path with cjs extension (pattern: 'path/to/{{name}}.md')",
     },
     {
       // ESM
@@ -95,6 +98,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       languageOptions: { sourceType: 'module' },
+      name: "ESM (pattern: 'path/to/{{name}}.md')",
     },
     {
       // TypeScript
@@ -107,6 +111,7 @@ tester.run('require-meta-docs-url', rule, {
       `,
       options: [{ pattern: 'path/to/{{name}}.md' }],
       languageOptions: { sourceType: 'module' },
+      name: "TypeScript (pattern: 'path/to/{{name}}.md')",
     },
     {
       // `url` in variable.
@@ -123,6 +128,7 @@ tester.run('require-meta-docs-url', rule, {
           pattern: 'path/to/{{name}}.md',
         },
       ],
+      name: "url in variable (pattern: 'path/to/{{name}}.md')",
     },
     {
       // Can't determine `url` value statically.
@@ -138,6 +144,7 @@ tester.run('require-meta-docs-url', rule, {
           pattern: 'path/to/{{name}}.md',
         },
       ],
+      name: "undefined variable reference (pattern: 'path/to/{{name}}.md')",
     },
     {
       // Can't determine `url` value statically.
@@ -153,6 +160,7 @@ tester.run('require-meta-docs-url', rule, {
           pattern: 'path/to/{{name}}.md',
         },
       ],
+      name: "undefined function (pattern: 'path/to/{{name}}.md')",
     },
     {
       // Spread.
@@ -166,6 +174,7 @@ tester.run('require-meta-docs-url', rule, {
         }
       `,
       options: [{ pattern: 'path/to/{{name}}.md' }],
+      name: "spread (pattern: 'path/to/{{name}}.md')",
     },
   ],
 
@@ -372,6 +381,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      name: "missing meta (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -387,6 +397,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
+      name: "meta as variable (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -402,6 +413,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'Literal' }],
+      name: "meta set to number (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -417,6 +429,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "empty meta (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -434,6 +447,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing docs with other prop having no trailing comma (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -451,6 +465,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing docs (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -468,6 +483,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
+      name: "docs as variable (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -485,6 +501,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "docs as empty object (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -504,6 +521,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing url with other prop as string (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -523,6 +541,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing url with other prop as string with trailing comma (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -542,6 +561,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      name: "url as number (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       code: `
@@ -561,6 +581,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "spread url variable (pattern: 'plugin-name/{{ name }}.md')",
     },
 
     // -------------------------------------------------------------------------
@@ -578,6 +599,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      name: "missing meta with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -594,6 +616,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
+      name: "meta as variable with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -610,6 +633,7 @@ tester.run('require-meta-docs-url', rule, {
         },
       ],
       errors: [{ messageId: 'missing', type: 'Literal' }],
+      name: "meta set to number with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -635,6 +659,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "empty meta with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // URL missing, spreads present.
@@ -658,6 +683,7 @@ url: "plugin-name/test.md" } };
       `,
       options: [{ pattern: 'plugin-name/{{ name }}.md' }],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing url inside spreads (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // URL wrong inside spreads.
@@ -680,6 +706,7 @@ url: "plugin-name/test.md" } };
       `,
       options: [{ pattern: 'plugin-name/{{ name }}.md' }],
       errors: [{ messageId: 'mismatch', type: 'Literal' }],
+      name: "url wrong inside spreads (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // CJS file extension
@@ -706,6 +733,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "empty meta with filename and cjs extension (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // ESM
@@ -733,6 +761,7 @@ url: "plugin-name/test.md"
       ],
       languageOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "empty meta with filename and esm (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // TypeScript
@@ -756,6 +785,7 @@ url: "plugin-name/test.md"
       options: [{ pattern: 'plugin-name/{{ name }}.md' }],
       languageOptions: { sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "empty meta with filename and TypeScript (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -784,6 +814,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing docs with other prop having no trailing comma > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -812,6 +843,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing docs > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -830,6 +862,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'Identifier' }],
+      name: "docs as variable > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -857,6 +890,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "docs as empty object > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -887,6 +921,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing url with other prop as string > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -917,6 +952,7 @@ url: "plugin-name/test.md",
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "missing url with other prop as string with trailing comma > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -951,6 +987,7 @@ url: "plugin-name/test.md",
           type: 'Literal',
         },
       ],
+      name: "url as number > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // `url` in variable, can't autofix it.
@@ -976,6 +1013,7 @@ url: "plugin-name/test.md",
           type: 'Identifier',
         },
       ],
+      name: "url in variable > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // `url` is `null`.
@@ -1007,6 +1045,7 @@ url: "plugin-name/test.md",
           type: 'Literal',
         },
       ],
+      name: "url is null > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // `url` is `undefined`.
@@ -1038,6 +1077,7 @@ url: "plugin-name/test.md",
           type: 'Identifier',
         },
       ],
+      name: "url is undefined > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       filename: 'test.js',
@@ -1068,6 +1108,7 @@ url: "plugin-name/test.md"
         },
       ],
       errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      name: "spread url variable > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // Function rule in variable.
@@ -1081,6 +1122,7 @@ url: "plugin-name/test.md"
           type: 'FunctionExpression',
         },
       ],
+      name: "function rule in variable > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
     {
       // Object rule in variable.
@@ -1098,6 +1140,7 @@ url: "plugin-name/test.md"
           type: 'ObjectExpression',
         },
       ],
+      name: "object rule in variable > with filename (pattern: 'plugin-name/{{ name }}.md')",
     },
   ],
 });
