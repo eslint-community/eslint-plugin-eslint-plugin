@@ -17,7 +17,7 @@ This rule has one option.
 #### `require: 'always' | 'objects' | 'objects-with-config'`
 
 - `always`: all test cases should have a `name` property (this means that no shorthand string test cases are allowed as a side effect)
-- `objects`: requires that an `name` property is present in all `object`-based test cases.
+- `objects`: requires that a `name` property is present in all `object`-based test cases.
 - `objects-with-config` (default): requires that test cases that have `options` or `settings` defined, should also have a `name` property.
 
 Examples of **incorrect** code for this rule:
@@ -60,4 +60,4 @@ const testCase4 = {
 
 ## When Not to Use It
 
-If aren't concerned with the nature of the test logs or don't want to require `name` on test cases.
+If you aren't concerned with the nature of the test logs or don't want to require `name` on test cases.

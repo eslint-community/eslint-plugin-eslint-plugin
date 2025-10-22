@@ -21,7 +21,7 @@ const violationMessages = {
   always: 'nameRequiredAlways',
   objects: 'nameRequiredObjects',
   'objects-with-config': 'nameRequiredObjectsWithConfig',
-} as const;
+} satisfies Record<Options['require'], string>;
 
 type Options = {
   require: 'always' | 'objects' | 'objects-with-config';
