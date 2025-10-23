@@ -25,6 +25,7 @@
     "test": "vitest run --coverage",
     "test:remote": "eslint-remote-tester",
     "typecheck": "tsc",
+    "prepare": "husky install",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
@@ -62,7 +63,7 @@
     "@types/estraverse": "^5.1.7",
     "@types/estree": "^1.0.8",
     "@types/lodash": "^4.17.18",
-    "@types/node": "^20.19.0",
+    "@types/node": "^20.19.23",
     "@typescript-eslint/parser": "^8.39.0",
     "@typescript-eslint/utils": "^8.39.0",
     "@vitest/coverage-istanbul": "^3.2.4",
@@ -82,7 +83,7 @@
     "markdownlint-cli": "^0.43.0",
     "npm-package-json-lint": "^8.0.0",
     "npm-run-all2": "^7.0.1",
-    "prettier": "^3.6.2",
+    "prettier": "3.6.2",
     "release-it": "^17.2.0",
     "tsdown": "^0.13.3",
     "typescript": "^5.9.2",
@@ -95,21 +96,8 @@
   "engines": {
     "node": "^20.19.0 || ^22.13.1 || >=24.0.0"
   },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release v${version}"
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "conventionalcommits",
-        "infile": "CHANGELOG.md"
-      }
-    },
-    "github": {
-      "release": true
-    },
-    "npm": {
-      "skipChecks": true
-    }
+  "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix",
+    "*.{js,ts,md}": "prettier --write"
   }
 }
