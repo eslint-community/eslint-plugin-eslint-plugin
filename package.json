@@ -21,11 +21,10 @@
     "lint:js": "eslint --cache --ignore-pattern \"**/*.md\" --flag unstable_native_nodejs_ts_config",
     "lint:js-docs": "eslint --no-inline-config \"**/*.md\" --flag unstable_native_nodejs_ts_config",
     "lint:package-json": "npmPkgJsonLint .",
-    "release": "release-it",
+    "prepare": "husky install",
     "test": "vitest run --coverage",
     "test:remote": "eslint-remote-tester",
     "typecheck": "tsc",
-    "prepare": "husky install",
     "update:eslint-docs": "eslint-doc-generator"
   },
   "files": [
