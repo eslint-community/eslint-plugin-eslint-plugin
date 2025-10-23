@@ -11,6 +11,13 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.1.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.0.0...v7.1.0) (2025-10-23)
+
+
+### Features
+
+* add new rule `require-test-case-name` ([#553](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/553)) ([ceb07dc](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/ceb07dc562c0e6a5a5c5117f34716979619049c1))
+
 ## [6.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v6.4.0...v6.5.0) (2025-06-18)
 
 ### Features
