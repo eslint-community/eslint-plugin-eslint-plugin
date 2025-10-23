@@ -140,11 +140,13 @@ ruleTester.run('require-meta-schema', rule, {
         };
       `,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
+      name: 'no schema (requireSchemaPropertyWhenOptionless: false)',
     },
     {
       // requireSchemaPropertyWhenOptionless = false, no `meta`.
       code: 'module.exports = { create(context) {} };',
       options: [{ requireSchemaPropertyWhenOptionless: false }],
+      name: 'no meta (requireSchemaPropertyWhenOptionless: false)',
     },
     // Spread.
     `
@@ -244,6 +246,7 @@ schema: []
           ],
         },
       ],
+      name: 'no schema (requireSchemaPropertyWhenOptionless: true)',
     },
     {
       // ESM
@@ -323,6 +326,7 @@ schema: [] },
       output: null,
       options: [{ requireSchemaPropertyWhenOptionless: false }],
       errors: [{ messageId: 'wrongType', type: 'Literal', suggestions: [] }],
+      name: 'schema is null (requireSchemaPropertyWhenOptionless: false)',
     },
     {
       code: `
@@ -406,6 +410,7 @@ schema: [] },
       errors: [
         { messageId: 'foundOptionsUsage', type: 'Property', suggestions: [] },
       ],
+      name: 'empty schema (requireSchemaPropertyWhenOptionless: false)',
     },
     {
       // No schema, but using rule options, requireSchemaPropertyWhenOptionless = false.
@@ -424,6 +429,7 @@ schema: [] },
           suggestions: [],
         },
       ],
+      name: 'no schema with rule options (requireSchemaPropertyWhenOptionless: false)',
     },
     {
       // No schema, but using rule options, should have no suggestions.

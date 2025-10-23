@@ -67,6 +67,7 @@ ruleTester.run('consistent-output', rule, {
         });
       `,
       options: ['always'],
+      name: 'test case with code, output, and errors (options: always)',
     },
     `
     new NotRuleTester().run('foo', bar, {
@@ -118,6 +119,7 @@ ruleTester.run('consistent-output', rule, {
       `,
       options: ['always'],
       errors: [ERROR],
+      name: 'invalid test case missing output (options: always)',
     },
   ],
 });

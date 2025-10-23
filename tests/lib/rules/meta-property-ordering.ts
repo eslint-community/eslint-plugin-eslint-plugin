@@ -65,6 +65,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           create() {},
         };`,
       options: [['schema', 'docs']],
+      name: 'custom order (options: [schema, docs])',
     },
     `
     module.exports = {
@@ -179,6 +180,7 @@ ruleTester.run('test-case-property-ordering', rule, {
           data: { order: ['type', 'docs', 'fixable'].join(', ') },
         },
       ],
+      name: 'custom order with extra prop (options: [type, docs, fixable])',
     },
   ],
 });

@@ -91,6 +91,7 @@ ruleTester.run('require-meta-docs-description', rule, {
           };
         `,
       options: [{ pattern: '^myPrefix' }],
+      name: "custom pattern (pattern: '^myPrefix')",
     },
     {
       code: `
@@ -100,6 +101,7 @@ ruleTester.run('require-meta-docs-description', rule, {
           };
         `,
       options: [{ pattern: '.+' }], // any description allowed
+      name: "custom pattern (pattern: '.+')",
     },
     // `meta` in variable, `description` present.
     `
@@ -290,6 +292,7 @@ ruleTester.run('require-meta-docs-description', rule, {
           type: 'Literal',
         },
       ],
+      name: "custom pattern (pattern: '^myPrefix')",
     },
   ],
 });

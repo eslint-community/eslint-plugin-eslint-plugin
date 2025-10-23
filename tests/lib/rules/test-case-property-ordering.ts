@@ -57,6 +57,7 @@ ruleTester.run('test-case-property-ordering', rule, {
         });
       `,
       options: [['code', 'errors', 'options', 'output', 'parserOptions']],
+      name: 'custom order (options: code, errors, options, output, parserOptions)',
     },
     `
     new NotRuleTester().run('foo', bar, {
@@ -159,6 +160,7 @@ ruleTester.run('test-case-property-ordering', rule, {
             'The properties of a test case should be placed in a consistent order: [code, options, output].',
         },
       ],
+      name: 'custom order (options: code, errors, options, output, parserOptions)',
     },
     {
       code: `

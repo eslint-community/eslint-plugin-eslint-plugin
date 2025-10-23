@@ -36,6 +36,7 @@ import requireMetaHasSuggestions from './rules/require-meta-has-suggestions.ts';
 import requireMetaSchemaDescription from './rules/require-meta-schema-description.ts';
 import requireMetaSchema from './rules/require-meta-schema.ts';
 import requireMetaType from './rules/require-meta-type.ts';
+import requireTestCaseName from './rules/require-test-case-name.ts';
 import testCasePropertyOrdering from './rules/test-case-property-ordering.ts';
 import testCaseShorthandStrings from './rules/test-case-shorthand-strings.ts';
 
@@ -115,6 +116,7 @@ const allRules = {
   'require-meta-schema-description': requireMetaSchemaDescription,
   'require-meta-schema': requireMetaSchema,
   'require-meta-type': requireMetaType,
+  'require-test-case-name': requireTestCaseName,
   'test-case-property-ordering': testCasePropertyOrdering,
   'test-case-shorthand-strings': testCaseShorthandStrings,
 } satisfies Record<string, Rule.RuleModule>;
