@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-eslint-plugin",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "description": "An ESLint plugin for linting ESLint plugins",
   "author": "Teddy Katz",
   "main": "./dist/index.js",
