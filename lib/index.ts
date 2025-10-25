@@ -39,7 +39,7 @@ import requireMetaType from './rules/require-meta-type.ts';
 import requireTestCaseName from './rules/require-test-case-name.ts';
 import testCasePropertyOrdering from './rules/test-case-property-ordering.ts';
 import testCaseShorthandStrings from './rules/test-case-shorthand-strings.ts';
-
+import uniqueTestCaseNames from './rules/unique-test-case-names.ts';
 const require = createRequire(import.meta.url);
 
 const packageMetadata = require('../package.json') as {
@@ -119,6 +119,7 @@ const allRules = {
   'require-test-case-name': requireTestCaseName,
   'test-case-property-ordering': testCasePropertyOrdering,
   'test-case-shorthand-strings': testCaseShorthandStrings,
+  'unique-test-case-names': uniqueTestCaseNames,
 } satisfies Record<string, Rule.RuleModule>;
 
 const plugin = {
