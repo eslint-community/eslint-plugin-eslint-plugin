@@ -11,6 +11,13 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.1.0...v7.2.0) (2025-10-25)
+
+
+### Features
+
+* add rule unique-test-case-names ([#561](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/561)) ([292a371](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/292a371bac72abd93eefa28fb8fa3a1ba881a4a0))
+
 ## [7.1.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.0.0...v7.1.0) (2025-10-23)
 
 
