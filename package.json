@@ -97,7 +97,6 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,ts,md}": "prettier --write",
-    "./lib/rules/*": "eslint-doc-generator"
+    "*.{js,ts,md}": "prettier --write"
   }
 }
