@@ -84,7 +84,7 @@
     "npm-run-all2": "^7.0.1",
     "prettier": "3.6.2",
     "release-it": "^17.2.0",
-    "tsdown": "^0.13.3",
+    "tsdown": "^0.15.0",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
     "vitest": "^3.2.4"
