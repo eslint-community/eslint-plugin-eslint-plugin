@@ -6,6 +6,7 @@ import type {
   Expression,
   FunctionDeclaration,
   FunctionExpression,
+  Literal,
   MaybeNamedClassDeclaration,
   MaybeNamedFunctionDeclaration,
   Node,
@@ -81,3 +82,5 @@ export type MetaDocsProperty = {
   metaNode: Node | undefined;
   metaPropertyNode: Property | undefined;
 };
+
+export type StringLiteral = Literal & { value: string };

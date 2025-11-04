@@ -29,6 +29,7 @@ import type {
   MetaDocsProperty,
   PartialRuleInfo,
   RuleInfo,
+  StringLiteral,
   TestInfo,
   ViolationAndSuppressionData,
 } from './types.ts';
@@ -1113,6 +1114,10 @@ export function findPossibleVariableValues(
  */
 export function isUndefinedIdentifier(node: Node): boolean {
   return node.type === 'Identifier' && node.name === 'undefined';
+}
+
+export function isStringLiteral(node: Node): node is StringLiteral {
+  return node.type === 'Literal' && typeof node.value === 'string';
 }
 
 /**
