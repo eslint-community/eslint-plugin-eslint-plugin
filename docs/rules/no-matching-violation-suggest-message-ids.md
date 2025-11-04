@@ -65,5 +65,5 @@ module.exports = {
 - [ESLint rule docs: Providing Suggestions](https://eslint.org/docs/latest/extend/custom-rules#providing-suggestions)
 - [ESLint rule docs: Suggestion `messageId`s](https://eslint.org/docs/latest/extend/custom-rules#suggestion-messageids)
 - [no-missing-message-ids](./no-missing-message-ids.md) rule
-- [no-unused-message-ids](./no-unused-message-ids.md.md) rule
+- [no-unused-message-ids](./no-unused-message-ids.md) rule
 - [prefer-message-ids](./prefer-message-ids.md) rule
