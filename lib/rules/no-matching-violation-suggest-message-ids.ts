@@ -36,13 +36,12 @@ const rule: Rule.RuleModule = {
       return {};
     }
 
-    let contextIdentifiers: Set<Node>;
+    const contextIdentifiers: Set<Node> = getContextIdentifiers(
+      scopeManager,
+      sourceCode.ast,
+    );
 
     return {
-      Program(ast) {
-        contextIdentifiers = getContextIdentifiers(scopeManager, ast);
-      },
-
       'CallExpression:has(>MemberExpression[property.name="report"])'(
         _node: Rule.Node,
       ) {
