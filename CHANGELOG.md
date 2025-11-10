@@ -11,6 +11,13 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.3.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.2.0...v7.3.0) (2025-11-10)
+
+
+### Features
+
+* add new rule `no-matching-violation-suggest-message-ids` ([#567](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/567)) ([57cbe73](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/57cbe73a6616a1f64a9341e72f16568eac0fa228))
+
 ## [7.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.1.0...v7.2.0) (2025-10-25)
 
 
