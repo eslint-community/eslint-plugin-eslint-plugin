@@ -12,6 +12,7 @@ import metaPropertyOrdering from './rules/meta-property-ordering.ts';
 import noDeprecatedContextMethods from './rules/no-deprecated-context-methods.ts';
 import noDeprecatedReportApi from './rules/no-deprecated-report-api.ts';
 import noIdenticalTests from './rules/no-identical-tests.ts';
+import noMatchingViolationSuggestMessageIds from './rules/no-matching-violation-suggest-message-ids.ts';
 import noMetaReplacedBy from './rules/no-meta-replaced-by.ts';
 import noMetaSchemaDefault from './rules/no-meta-schema-default.ts';
 import noMissingMessageIds from './rules/no-missing-message-ids.ts';
@@ -92,6 +93,8 @@ const allRules = {
   'no-deprecated-context-methods': noDeprecatedContextMethods,
   'no-deprecated-report-api': noDeprecatedReportApi,
   'no-identical-tests': noIdenticalTests,
+  'no-matching-violation-suggest-message-ids':
+    noMatchingViolationSuggestMessageIds,
   'no-meta-replaced-by': noMetaReplacedBy,
   'no-meta-schema-default': noMetaSchemaDefault,
   'no-missing-message-ids': noMissingMessageIds,
