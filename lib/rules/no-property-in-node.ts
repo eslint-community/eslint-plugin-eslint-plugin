@@ -1,4 +1,5 @@
 import type { Rule } from 'eslint';
+import type { BinaryExpression } from 'estree';
 import type { Type } from 'typescript';
 
 const defaultTypedNodeSourceFileTesters = [
@@ -90,7 +91,7 @@ const rule: Rule.RuleModule = {
     ];
 
     return {
-      'BinaryExpression[operator=in]'(node) {
+      'BinaryExpression[operator=in]'(node: BinaryExpression) {
         // TODO: Switch this to ESLintUtils.getParserServices with typescript-eslint@>=6
         // https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/269
         const services = context.sourceCode.parserServices;
