@@ -13,22 +13,6 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
-        with:
-          release-type: node
-          package-name: 'eslint-plugin-eslint-plugin'
-          pull-request-title-pattern: 'chore: release${component} ${version}'
-          changelog-types: >
-            [
-              { "type": "feat", "section": "Features", "hidden": false },
-              { "type": "fix", "section": "Bug Fixes", "hidden": false },
-              { "type": "docs", "section": "Documentation", "hidden": false },
-              { "type": "build", "section": "Build Related", "hidden": false },
-              { "type": "chore", "section": "Chores", "hidden": false },
-              { "type": "perf", "section": "Chores", "hidden": false },
-              { "type": "ci", "section": "Chores", "hidden": false },
-              { "type": "refactor", "section": "Chores", "hidden": false },
-              { "type": "test", "section": "Chores", "hidden": false }
-            ]
       - uses: actions/checkout@v5
         if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v6
@@ -37,8 +21,7 @@ jobs:
           registry-url: https://registry.npmjs.org
         if: ${{ steps.release.outputs.release_created }}
       - run: |
-          npm install -g npm@latest  # npm 11.5.1 or later is required so update to latest to be sure
           npm install --force
           npm run build
-          npm publish --provenance
+          npm publish
         if: ${{ steps.release.outputs.release_created }}
