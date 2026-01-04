@@ -827,7 +827,10 @@ describe('utils', () => {
         if (typeof caseInfo === 'object' && caseInfo !== null) {
           // Object-style test case used when we need to specify additional information for this test case.
           assert.strictEqual(
-            utils.getKeyName(caseInfo.getNode(ast), scopeManager.globalScope),
+            utils.getKeyName(
+              caseInfo.getNode(ast),
+              scopeManager.globalScope ?? undefined,
+            ),
             caseInfo.result,
           );
 
@@ -846,7 +849,7 @@ describe('utils', () => {
           assert.strictEqual(
             utils.getKeyName(
               expression.properties[0],
-              scopeManager.globalScope,
+              scopeManager.globalScope ?? undefined,
             ),
             caseInfo,
           );
