@@ -3,7 +3,7 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 import type { Rule } from 'eslint';
-import type { Identifier, Node } from 'estree';
+import type { CallExpression, Identifier, Node } from 'estree';
 
 import type { FunctionInfo } from '../types.ts';
 import {
@@ -70,17 +70,18 @@ const rule: Rule.RuleModule = {
       },
 
       // Checks the replaceTextRange arguments.
-      'CallExpression[arguments.length=2]'(node) {
+      'CallExpression[arguments.length=2]'(node: CallExpression) {
         if (
           funcInfo.shouldCheck &&
           node.callee.type === 'MemberExpression' &&
+          node.callee.property.type === 'Identifier' &&
           node.callee.property.name === 'replaceTextRange'
         ) {
           const arg = node.arguments[0];
           const isIdenticalNodeRange =
             arg.type === 'ArrayExpression' &&
-            arg.elements[0].type === 'MemberExpression' &&
-            arg.elements[1].type === 'MemberExpression' &&
+            arg.elements[0]?.type === 'MemberExpression' &&
+            arg.elements[1]?.type === 'MemberExpression' &&
             sourceCode.getText(arg.elements[0].object) ===
               sourceCode.getText(arg.elements[1].object);
           if (isIdenticalNodeRange) {
