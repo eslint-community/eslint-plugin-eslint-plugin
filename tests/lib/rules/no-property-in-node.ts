@@ -5,8 +5,6 @@ import rule from '../../../lib/rules/no-property-in-node.ts';
 import parser from '@typescript-eslint/parser';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
-// eslint-disable-next-line no-console -- TEMPORARY: Debug logging
-console.log('Fixtures directory:', path.join(dirname, '../fixtures'));
 const ruleTester = new RuleTester({
   languageOptions: {
     parser,

@@ -40,8 +40,6 @@ function isAstNodeType(
     )
     .some((declaration) => {
       const fileName = declaration.getSourceFile().fileName;
-      // eslint-disable-next-line no-console -- TEMPORARY: Debug logging
-      console.log('AST node type declaration source file:', fileName);
       return (
         fileName &&
         typedNodeSourceFileTesters.some((tester) => tester.test(fileName))

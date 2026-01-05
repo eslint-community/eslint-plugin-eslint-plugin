@@ -62,8 +62,8 @@
     "@types/estree": "^1.0.8",
     "@types/lodash": "^4.17.18",
     "@types/node": "^20.19.23",
-    "@typescript-eslint/parser": "^8.51.0",
-    "@typescript-eslint/utils": "^8.51.0",
+    "@typescript-eslint/parser": "8.47.0",
+    "@typescript-eslint/utils": "8.47.0",
     "@vitest/coverage-istanbul": "^3.2.4",
     "eslint": "^9.39.1",
     "eslint-config-not-an-aardvark": "^2.1.0",
@@ -85,7 +85,7 @@
     "prettier": "3.6.2",
     "tsdown": "^0.13.3",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.51.0",
+    "typescript-eslint": "8.47.0",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
