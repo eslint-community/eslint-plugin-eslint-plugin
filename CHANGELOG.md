@@ -11,6 +11,37 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.3.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.2.0...v7.3.0) (2026-01-06)
+
+
+### Features
+
+* add new rule `no-matching-violation-suggest-message-ids` ([#567](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/567)) ([57cbe73](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/57cbe73a6616a1f64a9341e72f16568eac0fa228))
+
+
+### Bug Fixes
+
+* address ci failures ([#578](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/578)) ([f985ba0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f985ba0b8b1bda06c5061f4ac5a492217a225939))
+
+
+### Chores
+
+* complete release-please update ([#574](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/574)) ([61e59ca](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/61e59caba122ab0a2105058757a80ccc7e7b7363))
+* **dev-deps:** remove `release-it` dependencies ([#577](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/577)) ([bab5d46](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/bab5d46b4d5aa2e107362f08891a5d723219ecae))
+* fix lint-staged ([0d86ffd](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/0d86ffdfc635e0d9a4697bbc52e9a31d4fd32367))
+* husky config ([463c518](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/463c51893a48902ca7a7441e327682ac1f0da507))
+* update actions/checkout action to v6 ([#583](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/583)) ([b2ca06f](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b2ca06f18a0a52b7398a9f05ae9d5d6393baf11f))
+* update commitlint monorepo to v20 ([ab7f511](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/ab7f511b41edd8540039db6469e6d8f1f7f37e7b))
+* update commitlint monorepo to v20 (major) ([#584](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/584)) ([ab7f511](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/ab7f511b41edd8540039db6469e6d8f1f7f37e7b))
+* update dependency @types/node to v24 ([#585](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/585)) ([ddf75c9](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/ddf75c99ac463af0c85a0cd355be37389650bf07))
+* update dependency npm-package-json-lint to v9 ([#587](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/587)) ([6dd666f](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6dd666f3210a6f47a47748986b4254f0d2e959d2))
+* update dependency npm-run-all2 to v8 ([#588](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/588)) ([5801554](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/5801554ed896a6afeb0916657b22169805ef00ca))
+* update eslint ([#566](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/566)) ([13d0ad4](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/13d0ad4b01a3c83ac21fcc7647ddb168a7793741))
+* update github artifact actions ([48a303d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/48a303d4c0bc4cf25b11045c641550c60d990b8d))
+* update github artifact actions (major) ([#589](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/589)) ([48a303d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/48a303d4c0bc4cf25b11045c641550c60d990b8d))
+* update vitest monorepo to v4 ([b783d30](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b783d30734b176f434c532058e61b3eaa863c39f))
+* update vitest monorepo to v4 (major) ([#590](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/590)) ([b783d30](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b783d30734b176f434c532058e61b3eaa863c39f))
+
 ## [7.2.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.1.0...v7.2.0) (2025-10-25)
 
 
