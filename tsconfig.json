@@ -15,8 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "rewriteRelativeImportExtensions": true,
     "paths": {
-      "eslint-plugin-eslint-plugin": ["./lib/index.ts"],
-      "eslint-scope": ["./types/eslint-scope.d.ts"]
+      "eslint-plugin-eslint-plugin": ["./lib/index.ts"]
     },
     "types": ["espree", "esrecurse", "estree", "lodash", "node"]
   },
