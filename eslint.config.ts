@@ -37,7 +37,7 @@ export default defineConfig([
     files: ['**/*.{js,ts}'],
     languageOptions: { parser: tseslint.parser, sourceType: 'module' },
     plugins: { js, n, 'eslint-plugin': eslintPlugin },
-    extends: [prettier, "js/recommended", "n/recommended", unicorn.configs.recommended, eslintComments.recommended],
+    extends: [prettier, "js/recommended", tseslint.configs.recommended, "n/recommended", unicorn.configs.recommended, eslintComments.recommended],
     rules: {
       'n/no-missing-import': 'off',
 

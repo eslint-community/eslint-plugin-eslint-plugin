@@ -38,7 +38,7 @@ const rule: Rule.RuleModule = {
       }
       return JSON.stringify([
         test.type,
-        ...test.properties.map((p) => sourceCode.getText(p)).sort(),
+        ...test.properties.map((p) => sourceCode.getText(p)).toSorted(),
       ]);
     }
 
