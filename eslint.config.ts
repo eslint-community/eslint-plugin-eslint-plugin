@@ -4,11 +4,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FlatCompat } from '@eslint/eslintrc';
 import prettier from 'eslint-config-prettier/flat';
-import markdown from 'eslint-plugin-markdown';
+import markdown from '@eslint/markdown';
 import n from 'eslint-plugin-n';
 import tseslint from 'typescript-eslint';
 import unicorn from 'eslint-plugin-unicorn';
-import eslintComments from '@eslint-community/eslint-plugin-eslint-comments/configs'
+import eslintComments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import eslintPlugin from './lib/index.ts';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -28,16 +28,21 @@ export default defineConfig([
       'e2e/fixtures',
     ],
   },
-  ...compat.extends(
-    'not-an-aardvark/node',
-  ),
+  ...compat.extends('not-an-aardvark/node'),
 
   // base config
   {
     files: ['**/*.{js,ts}'],
     languageOptions: { parser: tseslint.parser, sourceType: 'module' },
     plugins: { js, n, 'eslint-plugin': eslintPlugin },
-    extends: [prettier, "js/recommended", tseslint.configs.recommended, "n/recommended", unicorn.configs.recommended, eslintComments.recommended],
+    extends: [
+      prettier,
+      'js/recommended',
+      tseslint.configs.recommended,
+      'n/recommended',
+      unicorn.configs.recommended,
+      eslintComments.recommended,
+    ],
     rules: {
       'n/no-missing-import': 'off',
 
@@ -83,11 +88,11 @@ export default defineConfig([
     plugins: { markdown },
     linterOptions: { noInlineConfig: true },
     rules: {
+      strict: 'off',
       'no-undef': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
-
-      strict: 'off',
+      '@typescript-eslint/no-require-imports': 'off',
 
       '@eslint-community/eslint-comments/require-description': 'off',
 
