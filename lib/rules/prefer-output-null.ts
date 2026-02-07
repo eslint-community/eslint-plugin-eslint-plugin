@@ -16,7 +16,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'disallow invalid RuleTester test cases where the `output` matches the `code`',
+        'Disallow invalid RuleTester test cases where the `output` matches the `code`',
       category: 'Tests',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-output-null.md',
