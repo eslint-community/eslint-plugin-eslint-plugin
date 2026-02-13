@@ -1,4 +1,6 @@
-# Require rules to implement a `meta.docs.recommended` property (`eslint-plugin/require-meta-docs-recommended`)
+# eslint-plugin/require-meta-docs-recommended
+
+📝 Require rules to implement a `meta.docs.recommended` property.
 
 💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
 

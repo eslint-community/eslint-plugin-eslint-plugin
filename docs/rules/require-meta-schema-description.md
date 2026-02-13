@@ -1,4 +1,6 @@
-# Require rules `meta.schema` properties to include descriptions (`eslint-plugin/require-meta-schema-description`)
+# eslint-plugin/require-meta-schema-description
+
+📝 Require rules `meta.schema` properties to include descriptions.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

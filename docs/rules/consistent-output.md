@@ -1,4 +1,6 @@
-# Enforce consistent use of `output` assertions in rule tests (`eslint-plugin/consistent-output`)
+# eslint-plugin/consistent-output
+
+📝 Enforce consistent use of `output` assertions in rule tests.
 
 <!-- end auto-generated rule header -->
 

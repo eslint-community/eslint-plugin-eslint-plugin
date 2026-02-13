@@ -1,4 +1,6 @@
-# Require using placeholders for dynamic report messages (`eslint-plugin/prefer-placeholders`)
+# eslint-plugin/prefer-placeholders
+
+📝 Require using placeholders for dynamic report messages.
 
 <!-- end auto-generated rule header -->
 

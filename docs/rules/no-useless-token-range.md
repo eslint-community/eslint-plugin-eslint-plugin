@@ -1,4 +1,6 @@
-# Disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()` (`eslint-plugin/no-useless-token-range`)
+# eslint-plugin/no-useless-token-range
+
+📝 Disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()`.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

@@ -1,4 +1,6 @@
-# Disallow unused `messageId`s in `meta.messages` (`eslint-plugin/no-unused-message-ids`)
+# eslint-plugin/no-unused-message-ids
+
+📝 Disallow unused `messageId`s in `meta.messages`.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

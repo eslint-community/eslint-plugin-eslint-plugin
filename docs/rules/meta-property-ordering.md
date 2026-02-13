@@ -1,4 +1,6 @@
-# Enforce the order of meta properties (`eslint-plugin/meta-property-ordering`)
+# eslint-plugin/meta-property-ordering
+
+📝 Enforce the order of meta properties.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

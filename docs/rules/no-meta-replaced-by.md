@@ -1,4 +1,6 @@
-# Disallow using the `meta.replacedBy` rule property (`eslint-plugin/no-meta-replaced-by`)
+# eslint-plugin/no-meta-replaced-by
+
+📝 Disallow using the `meta.replacedBy` rule property.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

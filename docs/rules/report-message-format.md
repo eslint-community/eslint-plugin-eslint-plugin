@@ -1,4 +1,6 @@
-# Enforce a consistent format for rule report messages (`eslint-plugin/report-message-format`)
+# eslint-plugin/report-message-format
+
+📝 Enforce a consistent format for rule report messages.
 
 <!-- end auto-generated rule header -->
 

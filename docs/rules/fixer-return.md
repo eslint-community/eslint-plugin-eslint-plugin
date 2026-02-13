@@ -1,4 +1,6 @@
-# Require fixer functions to return a fix (`eslint-plugin/fixer-return`)
+# eslint-plugin/fixer-return
+
+📝 Require fixer functions to return a fix.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

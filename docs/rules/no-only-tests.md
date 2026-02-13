@@ -1,4 +1,6 @@
-# Disallow the test case property `only` (`eslint-plugin/no-only-tests`)
+# eslint-plugin/no-only-tests
+
+📝 Disallow the test case property `only`.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

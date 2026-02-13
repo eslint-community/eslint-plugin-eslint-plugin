@@ -1,4 +1,6 @@
-# Disallow function-style rules (`eslint-plugin/prefer-object-rule`)
+# eslint-plugin/prefer-object-rule
+
+📝 Disallow function-style rules.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
