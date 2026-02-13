@@ -86,7 +86,7 @@ const rule: Rule.RuleModule = {
 
         const knownProps = props
           .filter((prop) => orderMap.has(getKeyName(prop)))
-          .sort(
+          .toSorted(
             (a, b) =>
               orderMap.get(getKeyName(a))! - orderMap.get(getKeyName(b))!,
           );
