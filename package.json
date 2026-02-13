@@ -68,7 +68,7 @@
     "eslint": "^9.39.1",
     "eslint-config-not-an-aardvark": "^2.1.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-doc-generator": "^2.2.2",
+    "eslint-doc-generator": "^3.0.0",
     "eslint-plugin-n": "^17.21.0",
     "eslint-plugin-unicorn": "^62.0.0",
     "eslint-remote-tester": "^4.0.3",
