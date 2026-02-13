@@ -1,4 +1,6 @@
-# Require the properties of a test case to be placed in a consistent order (`eslint-plugin/test-case-property-ordering`)
+# eslint-plugin/test-case-property-ordering
+
+📝 Require the properties of a test case to be placed in a consistent order.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

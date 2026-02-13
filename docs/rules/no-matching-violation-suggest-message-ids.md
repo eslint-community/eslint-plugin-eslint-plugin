@@ -1,4 +1,6 @@
-# Require suggestions to have different `messageId` than their parent report (`eslint-plugin/no-matching-violation-suggest-message-ids`)
+# eslint-plugin/no-matching-violation-suggest-message-ids
+
+📝 Require suggestions to have different `messageId` than their parent report.
 
 <!-- end auto-generated rule header -->
 

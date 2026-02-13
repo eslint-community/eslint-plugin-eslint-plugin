@@ -1,4 +1,6 @@
-# Require rules to implement a `meta.docs.url` property (`eslint-plugin/require-meta-docs-url`)
+# eslint-plugin/require-meta-docs-url
+
+📝 Require rules to implement a `meta.docs.url` property.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

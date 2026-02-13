@@ -1,4 +1,6 @@
-# Enforce that all test cases with names have unique names (`eslint-plugin/unique-test-case-names`)
+# eslint-plugin/unique-test-case-names
+
+📝 Enforce that all test cases with names have unique names.
 
 <!-- end auto-generated rule header -->
 

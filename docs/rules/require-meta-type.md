@@ -1,4 +1,6 @@
-# Require rules to implement a `meta.type` property (`eslint-plugin/require-meta-type`)
+# eslint-plugin/require-meta-type
+
+📝 Require rules to implement a `meta.type` property.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

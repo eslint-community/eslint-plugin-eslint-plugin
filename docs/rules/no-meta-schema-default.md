@@ -1,4 +1,6 @@
-# Disallow rules `meta.schema` properties to include defaults (`eslint-plugin/no-meta-schema-default`)
+# eslint-plugin/no-meta-schema-default
+
+📝 Disallow rules `meta.schema` properties to include defaults.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

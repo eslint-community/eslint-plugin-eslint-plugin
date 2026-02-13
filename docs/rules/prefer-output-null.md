@@ -1,4 +1,6 @@
-# Disallow invalid RuleTester test cases where the `output` matches the `code` (`eslint-plugin/prefer-output-null`)
+# eslint-plugin/prefer-output-null
+
+📝 Disallow invalid RuleTester test cases where the `output` matches the `code`.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

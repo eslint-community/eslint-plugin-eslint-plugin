@@ -1,4 +1,6 @@
-# Disallow the version of `context.report()` with multiple arguments (`eslint-plugin/no-deprecated-report-api`)
+# eslint-plugin/no-deprecated-report-api
+
+📝 Disallow the version of `context.report()` with multiple arguments.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

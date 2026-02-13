@@ -1,4 +1,6 @@
-# Disallow missing placeholders in rule report messages (`eslint-plugin/no-missing-placeholders`)
+# eslint-plugin/no-missing-placeholders
+
+📝 Disallow missing placeholders in rule report messages.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

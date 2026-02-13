@@ -1,4 +1,6 @@
-# Require rules to implement a `meta.schema` property (`eslint-plugin/require-meta-schema`)
+# eslint-plugin/require-meta-schema
+
+📝 Require rules to implement a `meta.schema` property.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 

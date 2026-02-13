@@ -1,4 +1,6 @@
-# Disallow usage of deprecated methods on rule context objects (`eslint-plugin/no-deprecated-context-methods`)
+# eslint-plugin/no-deprecated-context-methods
+
+📝 Disallow usage of deprecated methods on rule context objects.
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
