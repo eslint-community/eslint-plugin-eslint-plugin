@@ -32,7 +32,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'require test cases to have a `name` property under certain conditions',
+        'Require test cases to have a `name` property under certain conditions',
       category: 'Tests',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-test-case-name.md',

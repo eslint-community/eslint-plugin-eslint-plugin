@@ -14,7 +14,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'disallow identical tests',
+      description: 'Disallow identical tests',
       category: 'Tests',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-identical-tests.md',
