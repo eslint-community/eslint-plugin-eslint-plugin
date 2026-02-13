@@ -81,8 +81,8 @@ const rule: Rule.RuleModule = {
       }
       return {};
     }
-
-    if (metaDefaultOptions.value.type !== 'ArrayExpression') {
+    let metaDefaultOptionsValue = metaDefaultOptions.value.type === 'TSAsExpression' ? metaDefaultOptions.value.expression : metaDefaultOptions.value;
+    if (metaDefaultOptionsValue.type !== 'ArrayExpression') {
       context.report({
         node: metaDefaultOptions.value,
         messageId: 'defaultOptionsMustBeArray',
@@ -96,9 +96,9 @@ const rule: Rule.RuleModule = {
         .filter((property) => property.type === 'Property')
         // @ts-expect-error -- Property 'name' does not exist on type 'ArrayExpression'.ts(2339)
         .find((property) => property.key.name === 'type')?.value.value ===
-        'array';
+      'array';
 
-    if (metaDefaultOptions.value.elements.length === 0 && !isArrayRootSchema) {
+    if (metaDefaultOptionsValue.elements.length === 0 && !isArrayRootSchema) {
       context.report({
         node: metaDefaultOptions.value,
         messageId: 'defaultOptionsMustNotBeEmpty',
