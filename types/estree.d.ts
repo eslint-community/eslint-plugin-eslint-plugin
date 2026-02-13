@@ -18,6 +18,11 @@ declare module 'estree' {
     expression: Expression | Identifier;
   }
 
+  interface TSSatisfiesExpression extends BaseExpression {
+    type: 'TSSatisfiesExpression';
+    expression: Expression | Identifier;
+  }
+
   interface TSExportAssignment extends BaseNode {
     type: 'TSExportAssignment';
     expression: Expression;
@@ -25,10 +30,12 @@ declare module 'estree' {
 
   interface ExpressionMap {
     TSAsExpression: TSAsExpression;
+    TSSatisfiesExpression: TSSatisfiesExpression;
   }
 
   interface NodeMap {
     TSAsExpression: TSAsExpression;
+    TSSatisfiesExpression: TSSatisfiesExpression;
     TSExportAssignment: TSExportAssignment;
   }
 }

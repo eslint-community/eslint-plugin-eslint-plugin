@@ -82,7 +82,8 @@ const rule: Rule.RuleModule = {
       return {};
     }
     const metaDefaultOptionsValue =
-      metaDefaultOptions.value.type === 'TSAsExpression'
+      metaDefaultOptions.value.type === 'TSAsExpression' ||
+      metaDefaultOptions.value.type === 'TSSatisfiesExpression'
         ? metaDefaultOptions.value.expression
         : metaDefaultOptions.value;
     if (metaDefaultOptionsValue.type !== 'ArrayExpression') {
