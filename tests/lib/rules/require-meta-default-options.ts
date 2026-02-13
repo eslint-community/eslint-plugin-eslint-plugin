@@ -161,6 +161,23 @@ ruleTesterTypeScript.run('require-meta-default-options (TypeScript)', rule, {
         create(context) {}
       });
     `,
+    `export default createESLintRule<Options, MessageIds>({
+        meta: { schema: [{}], defaultOptions: [{}] },
+        create(context) {}
+      });
+    `,
+
+    `export default createESLintRule<Options, MessageIds>({
+          meta: { schema: [{}], defaultOptions: [{}] as any},
+          create(context) {}
+        });
+      `,
+
+    `export default createESLintRule<Options, MessageIds>({
+          meta: { schema: [{}], defaultOptions: [{}] satisfies Options},
+          create(context) {}
+        });
+      `,
   ],
   invalid: [
     {

@@ -81,8 +81,12 @@ const rule: Rule.RuleModule = {
       }
       return {};
     }
-
-    if (metaDefaultOptions.value.type !== 'ArrayExpression') {
+    const metaDefaultOptionsValue =
+      metaDefaultOptions.value.type === 'TSAsExpression' ||
+      metaDefaultOptions.value.type === 'TSSatisfiesExpression'
+        ? metaDefaultOptions.value.expression
+        : metaDefaultOptions.value;
+    if (metaDefaultOptionsValue.type !== 'ArrayExpression') {
       context.report({
         node: metaDefaultOptions.value,
         messageId: 'defaultOptionsMustBeArray',
@@ -98,7 +102,7 @@ const rule: Rule.RuleModule = {
         .find((property) => property.key.name === 'type')?.value.value ===
         'array';
 
-    if (metaDefaultOptions.value.elements.length === 0 && !isArrayRootSchema) {
+    if (metaDefaultOptionsValue.elements.length === 0 && !isArrayRootSchema) {
       context.report({
         node: metaDefaultOptions.value,
         messageId: 'defaultOptionsMustNotBeEmpty',
