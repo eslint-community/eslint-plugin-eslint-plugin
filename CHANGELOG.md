@@ -11,6 +11,22 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.3.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.0...v7.3.1) (2026-02-13)
+
+
+### Bug Fixes
+
+* update defaultOptions validation logic and add new test cases ([#598](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/598)) ([a885520](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/a885520af2dcc00640e2e10d2e4c8ab2f3c226ca))
+
+
+### Chores
+
+* pin googleapis/release-please-action action to 16a9c90 ([#571](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/571)) ([b392f90](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/b392f902b3e89c28126d29bf11bd651759d86c53))
+* replace `types/eslint-scope.d.ts` with `@types/eslint-scope` ([#595](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/595)) ([cb532f3](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/cb532f33ca12f9107630fb54dc4d9657a44fcadb))
+* update documentation headers and package eslint-doc-generator to v3.0.2 ([#599](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/599)) ([c110872](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/c110872ef2d70c99bcf0afbb80ce618b328edeb8))
+* update eslint ([#593](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/593)) ([0df6b6e](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/0df6b6e0011e93f2538237f0ee65bf859734f0b0))
+* update eslint-plugin-eslint-comments to v4.6.0 and eslint-plugin-unicorn to v62.0.0 ([#596](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/596)) ([fd13218](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/fd13218e2f800449e9114749d1bb11436752ce84))
+
 ## [7.3.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.2.0...v7.3.0) (2026-01-06)
 
 
