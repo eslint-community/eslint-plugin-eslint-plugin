@@ -11,7 +11,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'disallow the test case property `only`',
+      description: 'Disallow the test case property `only`',
       category: 'Tests',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-only-tests.md',

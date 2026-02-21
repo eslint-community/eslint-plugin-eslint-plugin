@@ -27,7 +27,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'require using `replaceText()` instead of `replaceTextRange()`',
+        'Require using `replaceText()` instead of `replaceTextRange()`',
       category: 'Rules',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-replace-text.md',

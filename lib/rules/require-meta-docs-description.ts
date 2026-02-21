@@ -3,14 +3,14 @@ import type { Rule } from 'eslint';
 
 import { getMetaDocsProperty, getRuleInfo } from '../utils.ts';
 
-const DEFAULT_PATTERN = new RegExp('^(enforce|require|disallow)');
+const DEFAULT_PATTERN = new RegExp('^(Enforce|Require|Disallow)');
 
 const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
       description:
-        'require rules to implement a `meta.docs.description` property with the correct format',
+        'Require rules to implement a `meta.docs.description` property with the correct format',
       category: 'Rules',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-docs-description.md',
@@ -24,13 +24,13 @@ const rule: Rule.RuleModule = {
             type: 'string',
             description:
               "A regular expression that the description must match. Use `'.+'` to allow anything.",
-            default: '^(enforce|require|disallow)',
+            default: '^(Enforce|Require|Disallow)',
           },
         },
         additionalProperties: false,
       },
     ],
-    defaultOptions: [{ pattern: '^(enforce|require|disallow)' }],
+    defaultOptions: [{ pattern: '^(Enforce|Require|Disallow)' }],
     messages: {
       extraWhitespace:
         '`meta.docs.description` must not have leading nor trailing whitespace.',
