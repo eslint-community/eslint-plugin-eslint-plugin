@@ -109,7 +109,7 @@ export default [
 | [require-test-case-name](docs/rules/require-test-case-name.md)           | require test cases to have a `name` property under certain conditions        |     |     |     |     |
 | [test-case-property-ordering](docs/rules/test-case-property-ordering.md) | require the properties of a test case to be placed in a consistent order     |     | 🔧  |     |     |
 | [test-case-shorthand-strings](docs/rules/test-case-shorthand-strings.md) | enforce consistent usage of shorthand strings for test cases with no options |     | 🔧  |     |     |
-| [unique-test-case-names](docs/rules/unique-test-case-names.md)           | enforce that all test cases with names have unique names                     |     |     |     |     |
+| [unique-test-case-names](docs/rules/unique-test-case-names.md)           | enforce that all test cases with names have unique names                     | ✅  |     |     |     |
 
 <!-- end auto-generated rules list -->
 
