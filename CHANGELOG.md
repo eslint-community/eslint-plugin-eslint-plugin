@@ -11,6 +11,19 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.3.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.1...v7.3.2) (2026-03-03)
+
+
+### Bug Fixes
+
+* downgrade the minimum supported Node.js 22 version from `22.13.1` to `22.13.0` ([#605](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/605)) ([a370702](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/a370702769acd21ef5b0e12f8df1cf47faf51386))
+
+
+### Chores
+
+* update dependency @eslint/eslintrc to ^3.3.4 ([#603](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/603)) ([bd1ce10](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/bd1ce105781112493e6d2c1dade22c911b42f621))
+* update eslint ([#600](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/600)) ([c025f84](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/c025f841638e37a1b107605c63a9e7ea23cb948b))
+
 ## [7.3.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.0...v7.3.1) (2026-02-13)
 
 
