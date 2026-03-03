@@ -96,7 +96,7 @@ jobs:
           - 25
           - '24.0.0' # minimum supported v24
           - 24
-          - '22.13.1' # minimum supported v22
+          - '22.13.0' # minimum supported v22
           - 22
           - '20.19.0' #minimum supported v20
           - 20
