@@ -20,7 +20,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'require rules to implement a `meta.fixable` property',
+      description: 'Require rules to implement a `meta.fixable` property',
       category: 'Rules',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-fixable.md',
