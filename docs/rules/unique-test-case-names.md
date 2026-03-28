@@ -2,6 +2,8 @@
 
 📝 Enforce that all test cases with names have unique names.
 
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
+
 <!-- end auto-generated rule header -->
 
 This rule enforces that any test cases that have names defined, have unique names within their `valid` and `invalid` arrays.
