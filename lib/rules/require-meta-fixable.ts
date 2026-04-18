@@ -40,8 +40,7 @@ const rule: Rule.RuleModule = {
     ],
     defaultOptions: [{ catchNoFixerButFixableProperty: false }],
     messages: {
-      invalid:
-        '`meta.fixable` must be either `code`, `whitespace`, or `undefined`.',
+      invalid: '`meta.fixable` must be `code`, `whitespace`, or `undefined`.',
       missing:
         '`meta.fixable` must be either `code` or `whitespace` for fixable rules.',
       noFixerButFixableValue:
