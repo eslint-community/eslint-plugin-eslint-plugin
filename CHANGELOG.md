@@ -11,6 +11,27 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.3.3](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.2...v7.3.3) (2026-04-30)
+
+
+### Bug Fixes
+
+* update error message for invalid `meta.fixable` property ([#615](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/615)) ([5ee5dea](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/5ee5deaf2405970c792b9e132dcfaf2526ce67cd))
+
+
+### Chores
+
+* enable no-meta-schema-default for rule schemas ([#611](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/611)) ([d511a9f](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/d511a9f102bcca97914774ed925355e7debbb356))
+* update dependency markdownlint-cli to ^0.48.0 ([#513](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/513)) ([55365f2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/55365f2a1940d5ae8a72c306db1034f422a43256))
+* update dependency prettier to v3.8.2 ([#613](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/613)) ([33efd06](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/33efd060fc2cdc79a205042bca52e9987c3fecbf))
+* update dependency prettier to v3.8.3 ([#617](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/617)) ([1aa9e47](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/1aa9e471dd30e47a75483b555ed59292b5fac680))
+* update eslint ([#606](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/606)) ([4f1f326](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/4f1f3261a9f03133cbb26e135b99c64df89ed23e))
+* update eslint-doc-generator to v3.3.2 ([#610](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/610)) ([e632023](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/e63202379e1e0d9c41ea6757af9b8249b20a19a4))
+* update googleapis/release-please-action digest to 5c625bf ([#612](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/612)) ([7d98966](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/7d98966b1a0954ec541b5f0538008b1789a7385d))
+* update prettier to v3.8.1 ([#609](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/609)) ([102a7b2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/102a7b2342968ef855bfe212fa225b2acbe98eba))
+* update typescript-eslint monorepo to v8.58.1 ([#581](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/581)) ([ad5469d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/ad5469d01440cc9106a1e23362cda91c2c68b1d9))
+* update typescript-eslint monorepo to v8.59.0 ([#616](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/616)) ([5860b7c](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/5860b7c9b31d56808d3358561dba51cd879b717b))
+
 ## [7.3.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.1...v7.3.2) (2026-03-03)
 
 
