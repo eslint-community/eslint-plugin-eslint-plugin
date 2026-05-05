@@ -2,6 +2,8 @@
 
 📝 Require suggestions to have different `messageId` than their parent report.
 
+💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
+
 <!-- end auto-generated rule header -->
 
 When providing fix suggestions to a reported problem, it's important to have an actionable `messageId` for each suggestion rather than reusing the same `messageId` as the main report.
