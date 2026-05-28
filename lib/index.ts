@@ -27,7 +27,7 @@ import preferObjectRule from './rules/prefer-object-rule.ts';
 import preferOutputNull from './rules/prefer-output-null.ts';
 import preferPlaceholders from './rules/prefer-placeholders.ts';
 import preferReplaceText from './rules/prefer-replace-text.ts';
-import requireErrorPositions from './rules/require-error-positions.ts';
+import consistentTestErrors from './rules/consistent-test-errors.ts';
 import reportMessageFormat from './rules/report-message-format.ts';
 import requireMetaDefaultOptions from './rules/require-meta-default-options.ts';
 import requireMetaDocsDescription from './rules/require-meta-docs-description.ts';
@@ -89,6 +89,7 @@ const createConfig = (configName: string): Linter.Config => ({
 // import all rules in lib/rules
 const allRules = {
   'consistent-output': consistentOutput,
+  'consistent-test-errors': consistentTestErrors,
   'fixer-return': fixerReturn,
   'meta-property-ordering': metaPropertyOrdering,
   'no-deprecated-context-methods': noDeprecatedContextMethods,
@@ -111,7 +112,6 @@ const allRules = {
   'prefer-placeholders': preferPlaceholders,
   'prefer-replace-text': preferReplaceText,
   'report-message-format': reportMessageFormat,
-  'require-error-positions': requireErrorPositions,
   'require-meta-default-options': requireMetaDefaultOptions,
   'require-meta-docs-description': requireMetaDocsDescription,
   'require-meta-docs-recommended': requireMetaDocsRecommended,

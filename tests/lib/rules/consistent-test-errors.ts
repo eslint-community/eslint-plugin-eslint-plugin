@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/require-error-positions.ts';
+import rule from '../../../lib/rules/consistent-test-errors.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------
