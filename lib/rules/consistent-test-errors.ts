@@ -42,6 +42,8 @@ const rule: Rule.RuleModule = {
       'line',
     ] as const;
 
+    const requireLocation = context.options[0]?.requireLocation;
+
     function verifyErrorLocations(error: ObjectExpression) {
       const existingLocationProperties = new Set<string>();
       const properties = error.properties.filter(
@@ -110,7 +112,9 @@ const rule: Rule.RuleModule = {
                   (element) => !!element && element.type === 'ObjectExpression',
                 )
                 .forEach((element) => {
-                  verifyErrorLocations(element);
+                  if (requireLocation) {
+                    verifyErrorLocations(element);
+                  }
                 });
             });
         });
