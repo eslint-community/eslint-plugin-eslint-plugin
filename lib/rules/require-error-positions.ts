@@ -7,9 +7,10 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'require specifying the locations for reported errors',
-      category: 'Rules',
-      recommended: false,
+      description:
+        'requires the position of errors to be explicitly stated for all expected errors',
+      category: 'Tests',
+      recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-error-positions.md',
     },
     fixable: undefined,
@@ -27,9 +28,9 @@ const rule: Rule.RuleModule = {
       'endLine',
       'line',
     ] as const;
-    const existingLocationProperties = new Set<string>();
 
     function verifyErrorLocations(error: ObjectExpression) {
+      const existingLocationProperties = new Set<string>();
       const properties = error.properties.filter(
         (property) => property.type === 'Property',
       );
