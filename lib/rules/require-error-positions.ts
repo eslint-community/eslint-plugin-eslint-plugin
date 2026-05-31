@@ -8,26 +8,13 @@ const rule: Rule.RuleModule = {
     type: 'problem',
     docs: {
       description:
-        'enforces consistent definition of all expected errors in rule tests',
+        'requires the position of errors to be explicitly stated for all expected errors',
       category: 'Tests',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/consistent-test-errors.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-error-positions.md',
     },
     fixable: undefined,
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          requireLocation: {
-            type: 'boolean',
-            description:
-              'Whether to enforce stating the position of errors to be explicitly stated',
-          },
-        },
-        additionalProperties: false,
-      },
-    ],
-    defaultOptions: [{ requireLocation: true }],
+    schema: [],
     messages: {
       locationsMissing:
         'The full location of the error must be specified using the properties `column`, `endColumn`, `endLine`, and `line`',
@@ -41,8 +28,6 @@ const rule: Rule.RuleModule = {
       'endLine',
       'line',
     ] as const;
-
-    const requireLocation = context.options[0]?.requireLocation;
 
     function verifyErrorLocations(error: ObjectExpression) {
       const existingLocationProperties = new Set<string>();
@@ -112,9 +97,7 @@ const rule: Rule.RuleModule = {
                   (element) => !!element && element.type === 'ObjectExpression',
                 )
                 .forEach((element) => {
-                  if (requireLocation) {
-                    verifyErrorLocations(element);
-                  }
+                  verifyErrorLocations(element);
                 });
             });
         });

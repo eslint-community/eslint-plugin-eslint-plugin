@@ -75,7 +75,7 @@ export default defineConfig([
         },
       ],
       // TODO reactivate when it is approved
-      'eslint-plugin/consistent-test-errors': 'off',
+      'eslint-plugin/require-error-positions': 'off',
     },
   },
   {

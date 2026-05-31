@@ -100,17 +100,17 @@ export default [
 
 ### Tests
 
-| Name                                                                     | Description                                                                  | 💼  | 🔧  | 💡  | 💭  |
-| :----------------------------------------------------------------------- | :--------------------------------------------------------------------------- | :-- | :-- | :-- | :-- |
-| [consistent-output](docs/rules/consistent-output.md)                     | enforce consistent use of `output` assertions in rule tests                  |     |     |     |     |
-| [consistent-test-errors](docs/rules/consistent-test-errors.md)           | enforces consistent definition of all expected errors in rule tests          | ✅  |     |     |     |
-| [no-identical-tests](docs/rules/no-identical-tests.md)                   | disallow identical tests                                                     | ✅  | 🔧  |     |     |
-| [no-only-tests](docs/rules/no-only-tests.md)                             | disallow the test case property `only`                                       | ✅  |     | 💡  |     |
-| [prefer-output-null](docs/rules/prefer-output-null.md)                   | disallow invalid RuleTester test cases where the `output` matches the `code` | ✅  | 🔧  |     |     |
-| [require-test-case-name](docs/rules/require-test-case-name.md)           | require test cases to have a `name` property under certain conditions        |     |     |     |     |
-| [test-case-property-ordering](docs/rules/test-case-property-ordering.md) | require the properties of a test case to be placed in a consistent order     |     | 🔧  |     |     |
-| [test-case-shorthand-strings](docs/rules/test-case-shorthand-strings.md) | enforce consistent usage of shorthand strings for test cases with no options |     | 🔧  |     |     |
-| [unique-test-case-names](docs/rules/unique-test-case-names.md)           | enforce that all test cases with names have unique names                     |     |     |     |     |
+| Name                                                                     | Description                                                                     | 💼  | 🔧  | 💡  | 💭  |
+| :----------------------------------------------------------------------- | :------------------------------------------------------------------------------ | :-- | :-- | :-- | :-- |
+| [consistent-output](docs/rules/consistent-output.md)                     | enforce consistent use of `output` assertions in rule tests                     |     |     |     |     |
+| [no-identical-tests](docs/rules/no-identical-tests.md)                   | disallow identical tests                                                        | ✅  | 🔧  |     |     |
+| [no-only-tests](docs/rules/no-only-tests.md)                             | disallow the test case property `only`                                          | ✅  |     | 💡  |     |
+| [prefer-output-null](docs/rules/prefer-output-null.md)                   | disallow invalid RuleTester test cases where the `output` matches the `code`    | ✅  | 🔧  |     |     |
+| [require-error-positions](docs/rules/require-error-positions.md)         | requires the position of errors to be explicitly stated for all expected errors | ✅  |     |     |     |
+| [require-test-case-name](docs/rules/require-test-case-name.md)           | require test cases to have a `name` property under certain conditions           |     |     |     |     |
+| [test-case-property-ordering](docs/rules/test-case-property-ordering.md) | require the properties of a test case to be placed in a consistent order        |     | 🔧  |     |     |
+| [test-case-shorthand-strings](docs/rules/test-case-shorthand-strings.md) | enforce consistent usage of shorthand strings for test cases with no options    |     | 🔧  |     |     |
+| [unique-test-case-names](docs/rules/unique-test-case-names.md)           | enforce that all test cases with names have unique names                        |     |     |     |     |
 
 <!-- end auto-generated rules list -->
 
