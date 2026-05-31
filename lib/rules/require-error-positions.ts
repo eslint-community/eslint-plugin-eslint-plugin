@@ -5,12 +5,12 @@ import { getTestInfo } from '../utils.ts';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: 'problem',
+    type: 'suggestion',
     docs: {
       description:
         'requires the position of errors to be explicitly stated for all expected errors',
       category: 'Tests',
-      recommended: true,
+      recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-error-positions.md',
     },
     fixable: undefined,
@@ -22,12 +22,12 @@ const rule: Rule.RuleModule = {
   },
 
   create(context) {
-    const locationProperties: readonly string[] = [
+    const locationProperties = new Set([
       'column',
       'endColumn',
       'endLine',
       'line',
-    ] as const;
+    ]);
 
     function verifyErrorLocations(error: ObjectExpression) {
       const existingLocationProperties = new Set<string>();
@@ -40,7 +40,7 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        if (locationProperties.includes(property.key.name)) {
+        if (locationProperties.has(property.key.name)) {
           existingLocationProperties.add(property.key.name);
         }
       });
