@@ -12,7 +12,7 @@ const rule: Rule.RuleModule = {
         'requires the position of errors to be explicitly stated for all expected errors',
       category: 'Tests',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-error-positions.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-test-error-positions.md',
     },
     fixable: undefined,
     schema: [],

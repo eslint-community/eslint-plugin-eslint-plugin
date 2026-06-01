@@ -28,7 +28,6 @@ import preferOutputNull from './rules/prefer-output-null.ts';
 import preferPlaceholders from './rules/prefer-placeholders.ts';
 import preferReplaceText from './rules/prefer-replace-text.ts';
 import reportMessageFormat from './rules/report-message-format.ts';
-import requireErrorPositions from './rules/require-error-positions.ts';
 import requireMetaDefaultOptions from './rules/require-meta-default-options.ts';
 import requireMetaDocsDescription from './rules/require-meta-docs-description.ts';
 import requireMetaDocsRecommended from './rules/require-meta-docs-recommended.ts';
@@ -39,6 +38,7 @@ import requireMetaSchemaDescription from './rules/require-meta-schema-descriptio
 import requireMetaSchema from './rules/require-meta-schema.ts';
 import requireMetaType from './rules/require-meta-type.ts';
 import requireTestCaseName from './rules/require-test-case-name.ts';
+import requireTestErrorPositions from './rules/require-test-error-positions.ts';
 import testCasePropertyOrdering from './rules/test-case-property-ordering.ts';
 import testCaseShorthandStrings from './rules/test-case-shorthand-strings.ts';
 import uniqueTestCaseNames from './rules/unique-test-case-names.ts';
@@ -111,7 +111,6 @@ const allRules = {
   'prefer-placeholders': preferPlaceholders,
   'prefer-replace-text': preferReplaceText,
   'report-message-format': reportMessageFormat,
-  'require-error-positions': requireErrorPositions,
   'require-meta-default-options': requireMetaDefaultOptions,
   'require-meta-docs-description': requireMetaDocsDescription,
   'require-meta-docs-recommended': requireMetaDocsRecommended,
@@ -122,6 +121,7 @@ const allRules = {
   'require-meta-schema': requireMetaSchema,
   'require-meta-type': requireMetaType,
   'require-test-case-name': requireTestCaseName,
+  'require-test-error-positions': requireTestErrorPositions,
   'test-case-property-ordering': testCasePropertyOrdering,
   'test-case-shorthand-strings': testCaseShorthandStrings,
   'unique-test-case-names': uniqueTestCaseNames,

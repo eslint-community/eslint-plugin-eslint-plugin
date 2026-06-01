@@ -1,4 +1,4 @@
-# eslint-plugin/require-error-positions
+# eslint-plugin/require-test-error-positions
 
 📝 Requires the position of errors to be explicitly stated for all expected errors.
 

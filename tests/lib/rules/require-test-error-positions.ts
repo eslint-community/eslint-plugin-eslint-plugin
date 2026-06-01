@@ -2,7 +2,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import rule from '../../../lib/rules/require-error-positions.ts';
+import rule from '../../../lib/rules/require-test-error-positions.ts';
 import { RuleTester } from 'eslint';
 
 // ------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ const ruleTester = new RuleTester({
   languageOptions: { sourceType: 'commonjs' },
 });
 
-ruleTester.run('require-error-positions', rule, {
+ruleTester.run('require-test-error-positions', rule, {
   valid: [
     `
 new RuleTester().run('foo', bar, {
