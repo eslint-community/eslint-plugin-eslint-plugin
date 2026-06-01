@@ -11,6 +11,19 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.4.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.3...v7.4.0) (2026-06-01)
+
+
+### Features
+
+* add new rule `require-test-error-positions` ([#620](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/620)) ([7d5b809](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/7d5b809d3ea70c8d482875fdfb2fcb073ca1d22b))
+
+
+### Chores
+
+* update dependency eslint-doc-generator to v3.6.0 ([#619](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/619)) ([7242dd2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/7242dd275f9a94fe211cceb4ee05f82fd79f3678))
+* update typescript-eslint monorepo to v8.59.4 ([#618](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/618)) ([7151090](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/71510900814344061123e87592b89cc320fca04f))
+
 ## [7.3.3](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.2...v7.3.3) (2026-04-30)
 
 
