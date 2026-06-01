@@ -38,6 +38,7 @@ import requireMetaSchemaDescription from './rules/require-meta-schema-descriptio
 import requireMetaSchema from './rules/require-meta-schema.ts';
 import requireMetaType from './rules/require-meta-type.ts';
 import requireTestCaseName from './rules/require-test-case-name.ts';
+import requireTestErrorPositions from './rules/require-test-error-positions.ts';
 import testCasePropertyOrdering from './rules/test-case-property-ordering.ts';
 import testCaseShorthandStrings from './rules/test-case-shorthand-strings.ts';
 import uniqueTestCaseNames from './rules/unique-test-case-names.ts';
@@ -120,6 +121,7 @@ const allRules = {
   'require-meta-schema': requireMetaSchema,
   'require-meta-type': requireMetaType,
   'require-test-case-name': requireTestCaseName,
+  'require-test-error-positions': requireTestErrorPositions,
   'test-case-property-ordering': testCasePropertyOrdering,
   'test-case-shorthand-strings': testCaseShorthandStrings,
   'unique-test-case-names': uniqueTestCaseNames,

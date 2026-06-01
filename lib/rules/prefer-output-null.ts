@@ -4,9 +4,8 @@
  */
 
 import type { Rule } from 'eslint';
-import type { Property } from 'estree';
 
-import { getTestInfo } from '../utils.ts';
+import { getTestInfo, getTestInfoProperty } from '../utils.ts';
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -38,28 +37,8 @@ const rule: Rule.RuleModule = {
           testRun.invalid
             .filter((test) => !!test)
             .forEach((test) => {
-              /**
-               * Get a test case's given key name node.
-               * @param the keyname to find.
-               * @returns found node; if not found, return null;
-               */
-              function getTestInfoProperty(key: string): Property | null {
-                if (test.type === 'ObjectExpression') {
-                  return (
-                    test.properties
-                      .filter((item) => item.type === 'Property')
-                      .find(
-                        (item) =>
-                          item.key.type === 'Identifier' &&
-                          item.key.name === key,
-                      ) ?? null
-                  );
-                }
-                return null;
-              }
-
-              const code = getTestInfoProperty('code');
-              const output = getTestInfoProperty('output');
+              const code = getTestInfoProperty(test, 'code');
+              const output = getTestInfoProperty(test, 'output');
 
               if (
                 output &&
