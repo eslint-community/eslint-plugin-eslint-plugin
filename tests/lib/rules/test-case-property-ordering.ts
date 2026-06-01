@@ -91,6 +91,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, options].',
+          column: 46,
+          endColumn: 59,
+          endLine: 4,
+          line: 4,
         },
       ],
     },
@@ -113,6 +117,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, options, env].',
+          column: 35,
+          endColumn: 46,
+          endLine: 4,
+          line: 4,
         },
       ],
     },
@@ -135,6 +143,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, options, env].',
+          column: 48,
+          endColumn: 61,
+          endLine: 4,
+          line: 4,
         },
       ],
     },
@@ -158,6 +170,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, options, output].',
+          column: 43,
+          endColumn: 59,
+          endLine: 4,
+          line: 4,
         },
       ],
       name: 'custom order (options: code, errors, options, output, parserOptions)',
@@ -181,6 +197,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].',
+          column: 1,
+          endColumn: 18,
+          endLine: 8,
+          line: 8,
         },
       ],
     },
@@ -211,6 +231,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, parserOptions, errors].',
+          column: 1,
+          endColumn: 18,
+          endLine: 11,
+          line: 11,
         },
       ],
     },
@@ -233,6 +257,10 @@ ruleTester.run('test-case-property-ordering', rule, {
         {
           message:
             'The properties of a test case should be placed in a consistent order: [code, output, languageOptions, errors].',
+          column: 1,
+          endColumn: 20,
+          endLine: 8,
+          line: 8,
         },
       ],
     },

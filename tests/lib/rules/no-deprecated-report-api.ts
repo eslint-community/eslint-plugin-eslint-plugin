@@ -97,7 +97,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -114,7 +123,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -131,7 +149,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -142,7 +169,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -159,7 +195,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -176,7 +221,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       // With message string in variable.
@@ -196,7 +250,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       // With message in variable but no autofix since we can't statically determine its type.
@@ -209,7 +272,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       code: `
@@ -220,7 +292,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 24,
+          endColumn: 30,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -233,7 +314,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, message: \`blah\`, data: theData, fix: theFix});
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 25,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -246,7 +336,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, loc: 5, message: foo, data: bar});
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 25,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       // Location in variable as number.
@@ -262,7 +361,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, loc: LOC, message: foo, data: bar});
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 25,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       // Location in variable as object.
@@ -278,7 +386,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
           context.report({node: theNode, loc: LOC, message: foo, data: bar});
         };
       `,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 25,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       // Location in variable but no autofix since we can't statically determine its type.
@@ -289,7 +406,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 25,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -300,7 +426,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -311,7 +446,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 21,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       // `create` in variable.
@@ -320,7 +464,16 @@ ruleTester.run('no-deprecated-report-api', rule, {
         module.exports = { create };
       `,
       output: null,
-      errors: [{ messageId: 'useNewAPI', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'useNewAPI',
+          type: 'Identifier',
+          column: 44,
+          endColumn: 50,
+          endLine: 2,
+          line: 2,
+        },
+      ],
     },
   ],
 });

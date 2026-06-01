@@ -131,13 +131,31 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       // No `meta`. Violation on `create`.
       code: 'module.exports = { create(context) {} };',
       output: null,
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          column: 26,
+          endColumn: 38,
+          endLine: 1,
+          line: 1,
+        },
+      ],
     },
     {
       // `meta` in variable, `description` mismatch.
@@ -149,7 +167,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'mismatch', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'mismatch',
+          type: 'Literal',
+          column: 45,
+          endColumn: 50,
+          endLine: 2,
+          line: 2,
+        },
+      ],
     },
     {
       // ESM
@@ -161,7 +188,16 @@ ruleTester.run('require-meta-docs-description', rule, {
       `,
       output: null,
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -171,7 +207,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          column: 19,
+          endColumn: 27,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -181,7 +226,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'ArrayExpression' }],
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'ArrayExpression',
+          column: 40,
+          endColumn: 42,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -191,7 +245,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'Literal',
+          column: 40,
+          endColumn: 42,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -201,7 +264,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'Literal',
+          column: 40,
+          endColumn: 44,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -211,7 +283,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'Identifier',
+          column: 40,
+          endColumn: 49,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -222,7 +303,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'Identifier',
+          column: 40,
+          endColumn: 51,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -233,7 +323,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'wrongType', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'Identifier',
+          column: 40,
+          endColumn: 51,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -243,7 +342,16 @@ ruleTester.run('require-meta-docs-description', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'extraWhitespace', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'extraWhitespace',
+          type: 'Literal',
+          column: 40,
+          endColumn: 85,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -258,6 +366,10 @@ ruleTester.run('require-meta-docs-description', rule, {
           message:
             '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.',
           type: 'Literal',
+          column: 40,
+          endColumn: 60,
+          endLine: 3,
+          line: 3,
         },
       ],
     },
@@ -274,6 +386,10 @@ ruleTester.run('require-meta-docs-description', rule, {
           message:
             '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.',
           type: 'BinaryExpression',
+          column: 40,
+          endColumn: 59,
+          endLine: 3,
+          line: 3,
         },
       ],
     },
@@ -290,6 +406,10 @@ ruleTester.run('require-meta-docs-description', rule, {
         {
           message: '`meta.docs.description` must match the regexp /^myPrefix/.',
           type: 'Literal',
+          column: 40,
+          endColumn: 60,
+          endLine: 3,
+          line: 3,
         },
       ],
       name: "custom pattern (pattern: '^myPrefix')",
@@ -321,7 +441,16 @@ ruleTesterTypeScript.run('require-meta-docs-description (TypeScript)', rule, {
         });
       `,
       output: null,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
   ],
 });

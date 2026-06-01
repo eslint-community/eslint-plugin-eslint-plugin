@@ -115,7 +115,14 @@ ruleTester.run('no-useless-token-range', rule, {
         module.exports = { create };
       `,
       errors: [
-        { message: "Use 'foo.range[0]' instead.", type: 'CallExpression' },
+        {
+          message: "Use 'foo.range[0]' instead.",
+          type: 'CallExpression',
+          column: 11,
+          endColumn: 40,
+          endLine: 4,
+          line: 4,
+        },
       ],
     },
   ],

@@ -233,7 +233,16 @@ ruleTester.run('no-identical-tests', rule, {
         }
       `,
       languageOptions: { ecmaVersion: 2015 },
-      errors: [{ messageId: 'identical', type: 'TemplateLiteral' }],
+      errors: [
+        {
+          messageId: 'identical',
+          type: 'TemplateLiteral',
+          column: 15,
+          endColumn: 28,
+          endLine: 8,
+          line: 8,
+        },
+      ],
     },
   ],
 });

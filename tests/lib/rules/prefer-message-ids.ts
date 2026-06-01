@@ -135,7 +135,16 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 36,
+          endColumn: 50,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       // Suggestion
@@ -147,7 +156,16 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 47,
+          endColumn: 57,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       // ESM
@@ -160,7 +178,16 @@ ruleTester.run('prefer-message-ids', rule, {
         };
       `,
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 36,
+          endColumn: 50,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       // With message in variable.
@@ -176,7 +203,16 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 15,
+          endColumn: 31,
+          endLine: 8,
+          line: 8,
+        },
+      ],
     },
     {
       // With constructed message.
@@ -191,7 +227,16 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'foundMessage', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 15,
+          endColumn: 40,
+          endLine: 7,
+          line: 7,
+        },
+      ],
     },
 
     {
@@ -202,7 +247,16 @@ ruleTester.run('prefer-message-ids', rule, {
           create(context) { }
         };
       `,
-      errors: [{ messageId: 'messagesMissing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'messagesMissing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 39,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       // `meta.messages` empty
@@ -215,7 +269,16 @@ ruleTester.run('prefer-message-ids', rule, {
           create(context) { }
         };
       `,
-      errors: [{ messageId: 'messagesMissing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'messagesMissing',
+          type: 'ObjectExpression',
+          column: 23,
+          endColumn: 25,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       // `meta.messages` empty (in variable)
@@ -229,7 +292,16 @@ ruleTester.run('prefer-message-ids', rule, {
           create(context) { }
         };
       `,
-      errors: [{ messageId: 'messagesMissing', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'messagesMissing',
+          type: 'Identifier',
+          column: 13,
+          endColumn: 21,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
     {
       // `meta.messages` missing and using `message`
@@ -244,8 +316,22 @@ ruleTester.run('prefer-message-ids', rule, {
         };
       `,
       errors: [
-        { messageId: 'messagesMissing', type: 'ObjectExpression' },
-        { messageId: 'foundMessage', type: 'Property' },
+        {
+          messageId: 'messagesMissing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 12,
+          endLine: 5,
+          line: 3,
+        },
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 36,
+          endColumn: 50,
+          endLine: 7,
+          line: 7,
+        },
       ],
     },
     {
@@ -257,7 +343,16 @@ ruleTester.run('prefer-message-ids', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'messagesMissing', type: 'FunctionExpression' }],
+      errors: [
+        {
+          messageId: 'messagesMissing',
+          type: 'FunctionExpression',
+          column: 17,
+          endColumn: 12,
+          endLine: 5,
+          line: 3,
+        },
+      ],
     },
     {
       // `meta` / `create` in variables, `messages` missing, using `message`.
@@ -267,8 +362,22 @@ ruleTester.run('prefer-message-ids', rule, {
         module.exports = { meta, create };
       `,
       errors: [
-        { messageId: 'messagesMissing', type: 'ObjectExpression' },
-        { messageId: 'foundMessage', type: 'Property' },
+        {
+          messageId: 'messagesMissing',
+          type: 'ObjectExpression',
+          column: 22,
+          endColumn: 24,
+          endLine: 2,
+          line: 2,
+        },
+        {
+          messageId: 'foundMessage',
+          type: 'Property',
+          column: 68,
+          endColumn: 82,
+          endLine: 3,
+          line: 3,
+        },
       ],
     },
   ],

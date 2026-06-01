@@ -94,7 +94,15 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 2,
+          column: 26,
+          endColumn: 10,
+          endLine: 4,
+        },
+      ],
     },
     {
       code: `
@@ -107,7 +115,15 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 2,
+          column: 26,
+          endColumn: 10,
+          endLine: 4,
+        },
+      ],
     },
     {
       code: `
@@ -120,13 +136,29 @@ ruleTester.run('prefer-object-rule', rule, {
           return { Program() { context.report() } };
         }};
       `,
-      errors: [{ messageId: 'preferObject', line: 2, column: 26 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 2,
+          column: 26,
+          endColumn: 10,
+          endLine: 4,
+        },
+      ],
     },
     {
       code: 'const rule = (context) => { return {}; }; module.exports = rule;',
       output:
         'const rule = {create: (context) => { return {}; }}; module.exports = rule;',
-      errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 14,
+          endColumn: 41,
+          endLine: 1,
+        },
+      ],
     },
 
     // ESM
@@ -142,26 +174,58 @@ ruleTester.run('prefer-object-rule', rule, {
         }};
       `,
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'preferObject', line: 2, column: 24 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 2,
+          column: 24,
+          endColumn: 10,
+          endLine: 4,
+        },
+      ],
     },
     {
       code: 'export default function create(context) { return {}; };',
       output: 'export default {create(context) { return {}; }};',
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 16,
+          endColumn: 55,
+          endLine: 1,
+        },
+      ],
     },
     {
       code: 'export default (context) => { return {}; };',
       output: 'export default {create: (context) => { return {}; }};',
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'preferObject', line: 1, column: 16 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 16,
+          endColumn: 43,
+          endLine: 1,
+        },
+      ],
     },
     {
       code: 'const rule = (context) => { return {}; }; export default rule;',
       output:
         'const rule = {create: (context) => { return {}; }}; export default rule;',
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'preferObject', line: 1, column: 14 }],
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 14,
+          endColumn: 41,
+          endLine: 1,
+        },
+      ],
     },
   ],
 });
