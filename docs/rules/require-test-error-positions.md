@@ -13,7 +13,7 @@ This rule reports any expected error in an invalid test case that does not expli
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint eslint-plugin/require-error-positions: error */
+/* eslint eslint-plugin/require-test-error-positions: error */
 
 new RuleTester().run('foo', bar, {
   valid: [],
@@ -22,7 +22,7 @@ new RuleTester().run('foo', bar, {
 ```
 
 ```js
-/* eslint eslint-plugin/require-error-positions: error */
+/* eslint eslint-plugin/require-test-error-positions: error */
 
 const errorPositions = { line: 1, column: 2 };
 
@@ -35,7 +35,7 @@ new RuleTester().run('foo', bar, {
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint eslint-plugin/require-error-positions: error */
+/* eslint eslint-plugin/require-test-error-positions: error */
 
 new RuleTester().run('foo', bar, {
   valid: [],
@@ -51,7 +51,7 @@ new RuleTester().run('foo', bar, {
 ```
 
 ```js
-/* eslint eslint-plugin/require-error-positions: error */
+/* eslint eslint-plugin/require-test-error-positions: error */
 
 const errorPositions = { line: 1, column: 2, endColumn: 3, endLine: 4 };
 
