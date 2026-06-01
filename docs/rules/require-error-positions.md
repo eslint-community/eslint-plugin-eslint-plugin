@@ -24,7 +24,7 @@ new RuleTester().run('foo', bar, {
 ```js
 /* eslint eslint-plugin/require-error-positions: error */
 
-const errorPositions = { line: 1, column: 2, endColumn: 3, endLine: 4 };
+const errorPositions = { line: 1, column: 2 };
 
 new RuleTester().run('foo', bar, {
   valid: [],
@@ -47,5 +47,16 @@ new RuleTester().run('foo', bar, {
       ],
     },
   ],
+});
+```
+
+```js
+/* eslint eslint-plugin/require-error-positions: error */
+
+const errorPositions = { line: 1, column: 2, endColumn: 3, endLine: 4 };
+
+new RuleTester().run('foo', bar, {
+  valid: [],
+  invalid: [{ code: 'foo', errors: [{ messageId: 'bar', ...errorPositions }] }],
 });
 ```

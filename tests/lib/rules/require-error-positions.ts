@@ -257,7 +257,7 @@ new RuleTester().run('foo', bar, {
     },
     {
       code: `
-const positions = {};
+const positions = { line: 1, column: 2 };
 
 new RuleTester().run('foo', bar, {
   valid: [],
