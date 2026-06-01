@@ -1,7 +1,7 @@
 import type { Rule } from 'eslint';
-import type { ObjectExpression, Property } from 'estree';
+import type { ObjectExpression } from 'estree';
 
-import { getTestInfo } from '../utils.ts';
+import { getKeyName, getTestInfo, getTestInfoProperty } from '../utils.ts';
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -36,12 +36,14 @@ const rule: Rule.RuleModule = {
       );
 
       properties.forEach((property) => {
-        if (property.key.type !== 'Identifier') {
+        const key = getKeyName(property);
+
+        if (key === null) {
           return;
         }
 
-        if (locationProperties.has(property.key.name)) {
-          existingLocationProperties.add(property.key.name);
+        if (locationProperties.has(key)) {
+          existingLocationProperties.add(key);
         }
       });
 
@@ -59,27 +61,7 @@ const rule: Rule.RuleModule = {
           testRun.invalid
             .filter((test) => !!test)
             .forEach((test) => {
-              /**
-               * Get a test case's given key name node.
-               * @param key the keyname to find.
-               * @returns found node; if not found, return null;
-               */
-              function getTestInfoProperty(key: string): Property | null {
-                if (test.type === 'ObjectExpression') {
-                  return (
-                    test.properties
-                      .filter((item) => item.type === 'Property')
-                      .find(
-                        (item) =>
-                          item.key.type === 'Identifier' &&
-                          item.key.name === key,
-                      ) ?? null
-                  );
-                }
-                return null;
-              }
-
-              const errorsProperty = getTestInfoProperty('errors');
+              const errorsProperty = getTestInfoProperty(test, 'errors');
 
               if (errorsProperty === null) {
                 return;
@@ -94,9 +76,20 @@ const rule: Rule.RuleModule = {
 
               errors.elements
                 .filter(
-                  (element) => !!element && element.type === 'ObjectExpression',
+                  (element) =>
+                    !!element &&
+                    (element.type === 'ObjectExpression' ||
+                      element.type === 'Literal'),
                 )
                 .forEach((element) => {
+                  if (element.type === 'Literal') {
+                    context.report({
+                      node: element,
+                      messageId: 'locationsMissing',
+                    });
+                    return;
+                  }
+
                   verifyErrorLocations(element);
                 });
             });

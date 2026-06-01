@@ -494,7 +494,7 @@ export function getContextIdentifiers(
 
 /**
  * Gets the key name of a Property, if it can be determined statically.
- * @param node The `Property` node
+ * @param property The `Property` node
  * @param scope
  * @returns The key name, or `null` if the name cannot be determined statically.
  */
@@ -1078,6 +1078,31 @@ export function getMetaSchemaNodeProperty(
   }
 
   return value;
+}
+
+/**
+ * Get a test case's given key name node.
+ * @param test The test case from which to extract
+ * @param key the keyname to find.
+ * @returns found node; if not found, return null;
+ */
+export function getTestInfoProperty(
+  test: Expression | SpreadElement,
+  key: string,
+): Property | null {
+  if (test.type === 'ObjectExpression') {
+    return (
+      test.properties
+        .filter((item) => item.type === 'Property')
+        .find(
+          (item) =>
+            (item.key.type === 'Identifier' && item.key.name === key) ||
+            (item.key.type === 'Literal' && item.key.value === key),
+        ) ?? null
+    );
+  }
+
+  return null;
 }
 
 /**
