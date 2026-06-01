@@ -90,7 +90,16 @@ ruleTester.run('require-meta-default-options', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'unnecessaryDefaultOptions', type: 'Property' }],
+      errors: [
+        {
+          messageId: 'unnecessaryDefaultOptions',
+          type: 'Property',
+          column: 31,
+          endColumn: 50,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -106,7 +115,14 @@ ruleTester.run('require-meta-default-options', rule, {
         };
       `,
       errors: [
-        { messageId: 'missingDefaultOptions', type: 'ObjectExpression' },
+        {
+          messageId: 'missingDefaultOptions',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 33,
+          endLine: 3,
+          line: 3,
+        },
       ],
     },
     {
@@ -118,7 +134,14 @@ ruleTester.run('require-meta-default-options', rule, {
       `,
       output: null,
       errors: [
-        { messageId: 'defaultOptionsMustBeArray', type: 'ObjectExpression' },
+        {
+          messageId: 'defaultOptionsMustBeArray',
+          type: 'ObjectExpression',
+          column: 49,
+          endColumn: 51,
+          endLine: 3,
+          line: 3,
+        },
       ],
     },
     {
@@ -129,7 +152,16 @@ ruleTester.run('require-meta-default-options', rule, {
         };
       `,
       output: null,
-      errors: [{ messageId: 'defaultOptionsMustBeArray', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'defaultOptionsMustBeArray',
+          type: 'Identifier',
+          column: 49,
+          endColumn: 58,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -140,7 +172,14 @@ ruleTester.run('require-meta-default-options', rule, {
       `,
       output: null,
       errors: [
-        { messageId: 'defaultOptionsMustNotBeEmpty', type: 'ArrayExpression' },
+        {
+          messageId: 'defaultOptionsMustNotBeEmpty',
+          type: 'ArrayExpression',
+          column: 49,
+          endColumn: 51,
+          endLine: 3,
+          line: 3,
+        },
       ],
     },
   ],
@@ -194,7 +233,14 @@ ruleTesterTypeScript.run('require-meta-default-options (TypeScript)', rule, {
         });
       `,
       errors: [
-        { messageId: 'missingDefaultOptions', type: 'ObjectExpression' },
+        {
+          messageId: 'missingDefaultOptions',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 33,
+          endLine: 3,
+          line: 3,
+        },
       ],
     },
   ],

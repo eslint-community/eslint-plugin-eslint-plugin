@@ -228,7 +228,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          column: 17,
+          endColumn: 73,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       // `create` as variable.
@@ -236,7 +245,16 @@ ruleTester.run('require-meta-fixable', rule, {
         const create = function(context) { context.report({node, message, fix: foo}); }
         module.exports = { create };
       `,
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          column: 24,
+          endColumn: 88,
+          endLine: 2,
+          line: 2,
+        },
+      ],
     },
     {
       code: `
@@ -245,7 +263,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       // ESM
@@ -256,7 +283,16 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -265,7 +301,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report(node, loc, message, data, fix); }
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -274,7 +319,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message}); }
         };
       `,
-      errors: [{ messageId: 'invalid', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'invalid',
+          type: 'Literal',
+          column: 28,
+          endColumn: 37,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -283,7 +337,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'invalid', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'invalid',
+          type: 'Literal',
+          column: 28,
+          endColumn: 37,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -293,7 +356,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'invalid', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'invalid',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 26,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -302,7 +374,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'missing', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Literal',
+          column: 28,
+          endColumn: 32,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -311,7 +392,16 @@ ruleTester.run('require-meta-fixable', rule, {
           create(context) { context.report({node, message, fix: foo}); }
         };
       `,
-      errors: [{ messageId: 'missing', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Identifier',
+          column: 28,
+          endColumn: 37,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
 
     // catchNoFixerButFixableProperty = true
@@ -323,7 +413,16 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
-      errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'noFixerButFixableValue',
+          type: 'Literal',
+          column: 28,
+          endColumn: 34,
+          endLine: 3,
+          line: 3,
+        },
+      ],
       name: 'fixable code (catchNoFixerButFixableProperty: true)',
     },
     {
@@ -334,7 +433,16 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
-      errors: [{ messageId: 'noFixerButFixableValue', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'noFixerButFixableValue',
+          type: 'Literal',
+          column: 28,
+          endColumn: 40,
+          endLine: 3,
+          line: 3,
+        },
+      ],
       name: 'fixable whitespace (catchNoFixerButFixableProperty: true)',
     },
     {
@@ -345,7 +453,16 @@ ruleTester.run('require-meta-fixable', rule, {
         };
       `,
       options: [{ catchNoFixerButFixableProperty: true }],
-      errors: [{ messageId: 'missing', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Literal',
+          column: 28,
+          endColumn: 32,
+          endLine: 3,
+          line: 3,
+        },
+      ],
       name: 'fixable null (catchNoFixerButFixableProperty: true)',
     },
   ],

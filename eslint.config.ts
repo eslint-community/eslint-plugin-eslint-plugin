@@ -74,8 +74,6 @@ export default defineConfig([
             'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/{{name}}.md',
         },
       ],
-      // TODO reactivate when it is approved
-      'eslint-plugin/require-test-error-positions': 'off',
     },
   },
   {

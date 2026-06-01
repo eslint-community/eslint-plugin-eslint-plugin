@@ -93,17 +93,44 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       // No `meta`. Violation on `create`.
       code: 'module.exports = { create(context) {} };',
-      errors: [{ messageId: 'missing', type: 'FunctionExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          column: 26,
+          endColumn: 38,
+          endLine: 1,
+          line: 1,
+        },
+      ],
     },
     {
       // `meta` in variable, missing `type`.
       code: 'const meta = {}; module.exports = { meta, create(context) {} };',
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 14,
+          endColumn: 16,
+          endLine: 1,
+          line: 1,
+        },
+      ],
     },
     {
       // ESM
@@ -114,7 +141,16 @@ ruleTester.run('require-meta-type', rule, {
         };
       `,
       languageOptions: { sourceType: 'module' },
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -124,7 +160,16 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -134,7 +179,16 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -144,7 +198,16 @@ ruleTester.run('require-meta-type', rule, {
           create,
         };
       `,
-      errors: [{ messageId: 'missing', type: 'ObjectExpression' }],
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -153,7 +216,16 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'unexpected', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'unexpected',
+          type: 'Literal',
+          column: 25,
+          endColumn: 39,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -163,7 +235,16 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'unexpected', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'unexpected',
+          type: 'Identifier',
+          column: 19,
+          endColumn: 23,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       code: `
@@ -172,7 +253,16 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'unexpected', type: 'Literal' }],
+      errors: [
+        {
+          messageId: 'unexpected',
+          type: 'Literal',
+          column: 25,
+          endColumn: 29,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
     {
       code: `
@@ -181,7 +271,16 @@ ruleTester.run('require-meta-type', rule, {
           create(context) {}
         };
       `,
-      errors: [{ messageId: 'unexpected', type: 'Identifier' }],
+      errors: [
+        {
+          messageId: 'unexpected',
+          type: 'Identifier',
+          column: 25,
+          endColumn: 34,
+          endLine: 3,
+          line: 3,
+        },
+      ],
     },
   ],
 });

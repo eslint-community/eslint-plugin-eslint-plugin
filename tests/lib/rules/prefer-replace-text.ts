@@ -83,7 +83,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 24,
+          endColumn: 82,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
     {
       code: `
@@ -97,7 +106,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 24,
+          endColumn: 82,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
     {
       code: `
@@ -111,7 +129,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 34,
+          endColumn: 92,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
     {
       code: `
@@ -123,7 +150,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 29,
+          endColumn: 87,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
     {
       code: `
@@ -137,7 +173,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 24,
+          endColumn: 74,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
 
     {
@@ -157,7 +202,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 28,
+          endColumn: 86,
+          endLine: 8,
+          line: 8,
+        },
+      ],
     },
     {
       // `create` in variable.
@@ -171,7 +225,16 @@ ruleTester.run('prefer-placeholders', rule, {
         };
         module.exports = { create };
     `,
-      errors: [{ messageId: 'useReplaceText', type: 'CallExpression' }],
+      errors: [
+        {
+          messageId: 'useReplaceText',
+          type: 'CallExpression',
+          column: 22,
+          endColumn: 80,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
   ],
 });

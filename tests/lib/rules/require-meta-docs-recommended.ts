@@ -93,7 +93,15 @@ ruleTester.run('require-meta-docs-recommended', rule, {
       code: 'module.exports = { create(context) {} };',
       output: null,
       errors: [
-        { messageId: 'missing', type: 'FunctionExpression', suggestions: [] },
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          suggestions: [],
+          column: 26,
+          endColumn: 38,
+          endLine: 1,
+          line: 1,
+        },
       ],
     },
     {
@@ -109,6 +117,10 @@ ruleTester.run('require-meta-docs-recommended', rule, {
           messageId: 'missing',
           type: 'ObjectExpression',
           suggestions: [],
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
         },
       ],
     },
@@ -124,6 +136,10 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         {
           messageId: 'missing',
           type: 'Property',
+          column: 19,
+          endColumn: 27,
+          endLine: 3,
+          line: 3,
           suggestions: [
             {
               messageId: 'setRecommendedTrue',
@@ -159,6 +175,10 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         {
           messageId: 'incorrect',
           type: 'Identifier',
+          column: 40,
+          endColumn: 49,
+          endLine: 3,
+          line: 3,
           suggestions: [
             {
               messageId: 'setRecommendedTrue',
@@ -194,6 +214,10 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         {
           messageId: 'incorrect',
           type: 'Literal',
+          column: 40,
+          endColumn: 48,
+          endLine: 3,
+          line: 3,
           suggestions: [
             {
               messageId: 'setRecommendedTrue',
@@ -231,6 +255,10 @@ ruleTester.run('require-meta-docs-recommended', rule, {
         {
           messageId: 'missing',
           type: 'Property',
+          column: 29,
+          endColumn: 51,
+          endLine: 3,
+          line: 3,
           suggestions: [
             {
               messageId: 'setRecommendedTrue',
@@ -263,7 +291,15 @@ ruleTester.run('require-meta-docs-recommended', rule, {
       output: null,
       options: [{ allowNonBoolean: true }],
       errors: [
-        { messageId: 'missing', type: 'FunctionExpression', suggestions: [] },
+        {
+          messageId: 'missing',
+          type: 'FunctionExpression',
+          column: 26,
+          endColumn: 38,
+          endLine: 1,
+          line: 1,
+          suggestions: [],
+        },
       ],
       name: 'missing recommended (allowNonBoolean: true)',
     },
@@ -296,7 +332,15 @@ ruleTesterTypeScript.run('require-meta-docs-recommended (TypeScript)', rule, {
       `,
       output: null,
       errors: [
-        { messageId: 'missing', type: 'ObjectExpression', suggestions: [] },
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 19,
+          endLine: 3,
+          line: 3,
+          suggestions: [],
+        },
       ],
     },
   ],

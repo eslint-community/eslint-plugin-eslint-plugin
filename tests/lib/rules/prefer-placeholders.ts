@@ -129,7 +129,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+      errors: [
+        {
+          messageId: 'usePlaceholders',
+          type: 'TemplateLiteral',
+          column: 24,
+          endColumn: 40,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
     {
       // Suggestion
@@ -145,7 +154,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+      errors: [
+        {
+          messageId: 'usePlaceholders',
+          type: 'TemplateLiteral',
+          column: 25,
+          endColumn: 41,
+          endLine: 7,
+          line: 7,
+        },
+      ],
     },
     {
       // With message in variable.
@@ -160,7 +178,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+      errors: [
+        {
+          messageId: 'usePlaceholders',
+          type: 'TemplateLiteral',
+          column: 25,
+          endColumn: 41,
+          endLine: 2,
+          line: 2,
+        },
+      ],
     },
     {
       code: `
@@ -173,7 +200,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'usePlaceholders', type: 'BinaryExpression' }],
+      errors: [
+        {
+          messageId: 'usePlaceholders',
+          type: 'BinaryExpression',
+          column: 24,
+          endColumn: 40,
+          endLine: 6,
+          line: 6,
+        },
+      ],
     },
     {
       code: `
@@ -183,7 +219,16 @@ ruleTester.run('prefer-placeholders', rule, {
           }
         };
       `,
-      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+      errors: [
+        {
+          messageId: 'usePlaceholders',
+          type: 'TemplateLiteral',
+          column: 34,
+          endColumn: 50,
+          endLine: 4,
+          line: 4,
+        },
+      ],
     },
     {
       // `create` in variable.
@@ -196,7 +241,16 @@ ruleTester.run('prefer-placeholders', rule, {
         }
         module.exports = { create };
       `,
-      errors: [{ messageId: 'usePlaceholders', type: 'TemplateLiteral' }],
+      errors: [
+        {
+          messageId: 'usePlaceholders',
+          type: 'TemplateLiteral',
+          column: 22,
+          endColumn: 38,
+          endLine: 5,
+          line: 5,
+        },
+      ],
     },
   ],
 });

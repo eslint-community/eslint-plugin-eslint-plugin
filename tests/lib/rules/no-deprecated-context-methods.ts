@@ -65,6 +65,10 @@ ruleTester.run('no-deprecated-context-methods', rule, {
           message:
             'Use `context.getSourceCode().getText` instead of `context.getSource`.',
           type: 'MemberExpression',
+          column: 17,
+          endColumn: 34,
+          endLine: 6,
+          line: 6,
         },
       ],
     },
@@ -84,6 +88,10 @@ ruleTester.run('no-deprecated-context-methods', rule, {
           message:
             'Use `myRuleContext.getSourceCode().getFirstToken` instead of `myRuleContext.getFirstToken`.',
           type: 'MemberExpression',
+          column: 11,
+          endColumn: 38,
+          endLine: 3,
+          line: 3,
         },
       ],
     },
@@ -102,6 +110,10 @@ ruleTester.run('no-deprecated-context-methods', rule, {
           message:
             'Use `context.getSourceCode().getText` instead of `context.getSource`.',
           type: 'MemberExpression',
+          column: 68,
+          endColumn: 85,
+          endLine: 2,
+          line: 2,
         },
       ],
     },
