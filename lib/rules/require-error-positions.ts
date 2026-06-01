@@ -1,3 +1,4 @@
+import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 import type { ObjectExpression } from 'estree';
 
@@ -30,20 +31,34 @@ const rule: Rule.RuleModule = {
     ]);
 
     function verifyErrorLocations(error: ObjectExpression) {
+      const scope = context.sourceCode.getScope(error);
       const existingLocationProperties = new Set<string>();
-      const properties = error.properties.filter(
-        (property) => property.type === 'Property',
-      );
 
-      properties.forEach((property) => {
-        const key = getKeyName(property);
+      error.properties.forEach((property) => {
+        if (property.type === 'Property') {
+          const key = getKeyName(property);
 
-        if (key === null) {
-          return;
-        }
+          if (key === null) {
+            return;
+          }
 
-        if (locationProperties.has(key)) {
-          existingLocationProperties.add(key);
+          if (locationProperties.has(key)) {
+            existingLocationProperties.add(key);
+          }
+        } else {
+          const staticValue = getStaticValue(property.argument, scope);
+
+          if (
+            staticValue &&
+            typeof staticValue.value === 'object' &&
+            staticValue.value
+          ) {
+            for (const key of Object.keys(staticValue.value)) {
+              if (locationProperties.has(key)) {
+                existingLocationProperties.add(key);
+              }
+            }
+          }
         }
       });
 

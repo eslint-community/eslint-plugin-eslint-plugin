@@ -8,7 +8,7 @@ Requires all the [position properties](https://eslint.org/docs/latest/integrate/
 
 ## Rule Details
 
-The rule reports that doesn't have consistent test errors definition
+This rule reports any expected error in an invalid test case that does not explicitly specify all four position properties.
 
 Examples of **incorrect** code for this rule:
 
