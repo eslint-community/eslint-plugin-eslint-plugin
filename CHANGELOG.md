@@ -11,6 +11,15 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.4.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.4.0...v7.4.1) (2026-06-03)
+
+
+### Chores
+
+* enabled and fixed `require-test-error-positions` errors in project ([#624](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/624)) ([249bb44](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/249bb448defe9ad6aae8264da9ac19cf4052a949))
+* update dependency tsdown to ^0.21.10 ([#623](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/623)) ([4b20cf3](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/4b20cf30fa9b8121b63eac20f27dce71072c8e0f))
+* update typescript-eslint monorepo to v8.60.0 ([#626](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/626)) ([85d6ff4](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/85d6ff48d03ec65e900a667f2ebeeb743f94332d))
+
 ## [7.4.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.3.3...v7.4.0) (2026-06-01)
 
 
