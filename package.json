@@ -81,7 +81,7 @@
     "markdownlint-cli": "^0.48.0",
     "npm-package-json-lint": "^9.0.0",
     "npm-run-all2": "^8.0.0",
-    "prettier": "3.8.3",
+    "prettier": "3.8.4",
     "tsdown": "^0.21.10",
     "typescript": "^5.9.2",
     "typescript-eslint": "8.60.0",
