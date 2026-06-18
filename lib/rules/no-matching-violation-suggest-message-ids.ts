@@ -15,7 +15,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
-      recommended: false,
+      recommended: true,
       description:
         'require suggestions to have different `messageId` than their parent report',
       category: 'Rules',
