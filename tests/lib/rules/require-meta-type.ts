@@ -74,6 +74,14 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
+    // Unresolved spread may contain `type`.
+    `
+      const baseRule = require('./base-rule');
+      module.exports = {
+        meta: { ...baseRule.meta },
+        create(context) {}
+      };
+    `,
     'module.exports = {};', // No rule.
     // No `create` function.
     `

@@ -156,6 +156,14 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    // Unresolved spread may contain `schema`.
+    `
+      const baseRule = require('./base-rule');
+      module.exports = {
+        meta: { ...baseRule.meta },
+        create(context) {}
+      };
+    `,
     'module.exports = {};', // No rule.
   ],
 

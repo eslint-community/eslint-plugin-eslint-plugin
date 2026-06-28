@@ -1746,6 +1746,51 @@ describe('utils', () => {
       const result = utils.evaluateObjectProperties(ast.body[0], scopeManager);
       assert.deepEqual(result, []);
     });
+
+    it('detects unresolved object spreads', () => {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `
+        const extra = { a: 123 };
+        const known = { ...extra };
+        const unknownMember = { ...baseRule.meta };
+        const unknownCall = { ...getMeta() };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 1),
+          scopeManager,
+        ),
+        false,
+      );
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 2),
+          scopeManager,
+        ),
+        true,
+      );
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 3),
+          scopeManager,
+        ),
+        true,
+      );
+    });
   });
 
   describe('getMessagesNode', () => {

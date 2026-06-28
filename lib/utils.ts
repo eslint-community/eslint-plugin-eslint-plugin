@@ -950,6 +950,27 @@ export function evaluateObjectProperties(
   });
 }
 
+export function hasUnresolvedObjectSpread(
+  objectNode: Node | undefined,
+  scopeManager: Scope.ScopeManager,
+): boolean {
+  if (!objectNode || objectNode.type !== 'ObjectExpression') {
+    return false;
+  }
+
+  return objectNode.properties.some((property) => {
+    if (property.type !== 'SpreadElement') {
+      return false;
+    }
+    if (property.argument.type !== 'Identifier') {
+      return true;
+    }
+
+    const value = findVariableValue(property.argument, scopeManager);
+    return !value || value.type !== 'ObjectExpression';
+  });
+}
+
 export function getMetaDocsProperty(
   propertyName: string,
   ruleInfo: RuleInfo,

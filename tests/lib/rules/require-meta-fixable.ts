@@ -110,6 +110,16 @@ ruleTester.run('require-meta-fixable', rule, {
         }
       };
     `,
+    // Unresolved spread may contain `fixable`.
+    `
+      const baseRule = require('./base-rule');
+      module.exports = {
+        meta: { ...baseRule.meta },
+        create(context) {
+          context.report({ node, message, fix(fixer) { return fixer.remove(node); } });
+        }
+      };
+    `,
     // `fixable` uses variable but no static value available.
     `
       module.exports = {

@@ -4,10 +4,12 @@ import type { Node } from 'estree';
 
 import {
   collectReportViolationAndSuggestionData,
+  evaluateObjectProperties,
   getContextIdentifiers,
   getKeyName,
   getReportInfo,
   getRuleInfo,
+  hasUnresolvedObjectSpread,
 } from '../utils.ts';
 
 // ------------------------------------------------------------------------------
@@ -55,15 +57,21 @@ const rule: Rule.RuleModule = {
         );
 
         const metaNode = ruleInfo.meta;
+        const metaProperties = evaluateObjectProperties(
+          metaNode,
+          sourceCode.scopeManager,
+        );
         const messagesNode =
           metaNode &&
           metaNode.type === 'ObjectExpression' &&
-          metaNode.properties &&
-          metaNode.properties
+          metaProperties
             .filter((p) => p.type === 'Property')
             .find((p) => getKeyName(p) === 'messages');
 
         if (!messagesNode) {
+          if (hasUnresolvedObjectSpread(metaNode, sourceCode.scopeManager)) {
+            return;
+          }
           context.report({
             node: metaNode || ruleInfo.create,
             messageId: 'messagesMissing',
