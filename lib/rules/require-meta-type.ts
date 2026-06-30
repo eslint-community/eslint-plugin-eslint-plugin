@@ -5,7 +5,12 @@
 import { getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 
-import { evaluateObjectProperties, getKeyName, getRuleInfo } from '../utils.ts';
+import {
+  evaluateObjectProperties,
+  getKeyName,
+  getRuleInfo,
+  hasUnresolvedObjectSpread,
+} from '../utils.ts';
 
 const VALID_TYPES = new Set(['problem', 'suggestion', 'layout']);
 
@@ -44,11 +49,15 @@ const rule: Rule.RuleModule = {
         const { scopeManager } = sourceCode;
 
         const metaNode = ruleInfo.meta;
-        const typeNode = evaluateObjectProperties(metaNode, scopeManager)
+        const metaProperties = evaluateObjectProperties(metaNode, scopeManager);
+        const typeNode = metaProperties
           .filter((p) => p.type === 'Property')
           .find((p) => getKeyName(p) === 'type');
 
         if (!typeNode) {
+          if (hasUnresolvedObjectSpread(metaNode, scopeManager)) {
+            return;
+          }
           context.report({
             node: metaNode || ruleInfo.create,
             messageId: 'missing',

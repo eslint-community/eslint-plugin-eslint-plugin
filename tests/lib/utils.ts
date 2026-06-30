@@ -1706,6 +1706,104 @@ describe('utils', () => {
       ]);
     });
 
+    it('expands inline object spreads and follows nested resolvable spreads', () => {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `
+        const inner = { a: 123 };
+        const wrapper = { ...inner };
+        const obj = { ...{ b: 456 }, ...wrapper };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        getObjectExpression(ast, 2),
+        scopeManager,
+      );
+      // `...{ b: 456 }` (inline) expands to `b`, and `...wrapper` recurses
+      // through `{ ...inner }` to reach `a`.
+      assert.deepEqual(
+        result
+          .filter((property) => property.type === 'Property')
+          .map((property) => utils.getKeyName(property)),
+        ['b', 'a'],
+      );
+    });
+
+    it('deduplicates properties to the last value (matching runtime override semantics)', () => {
+      const getObjectExpression = (ast: Program): ObjectExpression =>
+        (ast.body[0] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `const obj = { type: 'first', ...{ type: 'second' }, c: 1 };`,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        getObjectExpression(ast),
+        scopeManager,
+      );
+
+      // The duplicate `type` collapses to a single entry carrying the overriding value,
+      // and unrelated keys are preserved in order.
+      assert.deepEqual(
+        result
+          .filter((property) => property.type === 'Property')
+          .map((property) => utils.getKeyName(property)),
+        ['type', 'c'],
+      );
+      const typeProperty = result.find(
+        (property) =>
+          property.type === 'Property' && utils.getKeyName(property) === 'type',
+      ) as Property;
+      assert.strictEqual((typeProperty.value as Literal).value, 'second');
+    });
+
+    it('allows a repeated resolved spread to win after an override', () => {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `
+        const extra = { type: 'problem' };
+        const obj = { ...extra, type: 'invalid', ...extra };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+      const result = utils.evaluateObjectProperties(
+        getObjectExpression(ast, 1),
+        scopeManager,
+      );
+
+      const typeProperty = result.find(
+        (property) =>
+          property.type === 'Property' && utils.getKeyName(property) === 'type',
+      ) as Property;
+      assert.strictEqual((typeProperty.value as Literal).value, 'problem');
+    });
+
     it('behaves correctly with non-variable spreads', () => {
       const getObjectExpression = (ast: Program): ObjectExpression =>
         (ast.body[1] as VariableDeclaration).declarations[0]
@@ -1745,6 +1843,152 @@ describe('utils', () => {
       const scopeManager = eslintScope.analyze(ast);
       const result = utils.evaluateObjectProperties(ast.body[0], scopeManager);
       assert.deepEqual(result, []);
+    });
+
+    it('detects unresolved object spreads', () => {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `
+        const extra = { a: 123 };
+        const known = { ...extra };
+        const unknownMember = { ...baseRule.meta };
+        const unknownCall = { ...getMeta() };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 1),
+          scopeManager,
+        ),
+        false,
+      );
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 2),
+          scopeManager,
+        ),
+        true,
+      );
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 3),
+          scopeManager,
+        ),
+        true,
+      );
+    });
+
+    it('follows resolved object spreads recursively', () => {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `
+        const extra = { a: 123 };
+        const resolvedIdentifier = { ...extra };
+        const inlineEmpty = { ...{} };
+        const inlineObject = { ...{ a: 1 } };
+        const nestedResolved = { ...resolvedIdentifier };
+        const inheritedMeta = { ...baseRule.meta };
+        const nestedUnresolved = { ...inheritedMeta };
+        const inlineHidesUnknown = { ...{ ...baseRule.meta } };
+        const cyclic = { ...cyclic };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+
+      // Spreads that resolve to known objects (directly, after following an
+      // identifier, or through a self-referential cycle) are not unresolved.
+      for (const index of [1, 2, 3, 4, 8]) {
+        assert.strictEqual(
+          utils.hasUnresolvedObjectSpread(
+            getObjectExpression(ast, index),
+            scopeManager,
+          ),
+          false,
+          `body[${index}] should be treated as resolved`,
+        );
+      }
+      // Spreads that hide an unknown value (directly or nested behind a
+      // resolved object) remain unresolved.
+      for (const index of [5, 6, 7]) {
+        assert.strictEqual(
+          utils.hasUnresolvedObjectSpread(
+            getObjectExpression(ast, index),
+            scopeManager,
+          ),
+          true,
+          `body[${index}] should be treated as unresolved`,
+        );
+      }
+    });
+
+    it('treats spreads of statically-known non-objects as resolved', () => {
+      const getObjectExpression = (
+        ast: Program,
+        bodyElement: number,
+      ): ObjectExpression =>
+        (ast.body[bodyElement] as VariableDeclaration).declarations[0]
+          .init as ObjectExpression;
+
+      const ast = espree.parse(
+        `
+        const num = 5;
+        const arr = [1, 2];
+        function fn() {}
+        const fromNumber = { ...num };
+        const fromArray = { ...arr };
+        const fromFunction = { ...fn };
+        const fromInlineArray = { ...[1, 2] };
+        const fromUnknownCall = { ...getMeta() };
+        `,
+        {
+          ecmaVersion: 9,
+          range: true,
+        },
+      ) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+
+      // A spread of a statically-known non-object cannot supply a named property, so it is
+      // resolved (not unknown) — a genuinely missing meta property must still be reported.
+      for (const index of [3, 4, 5, 6]) {
+        assert.strictEqual(
+          utils.hasUnresolvedObjectSpread(
+            getObjectExpression(ast, index),
+            scopeManager,
+          ),
+          false,
+          `body[${index}] should be treated as resolved`,
+        );
+      }
+      // A call expression's result is genuinely indeterminate.
+      assert.strictEqual(
+        utils.hasUnresolvedObjectSpread(
+          getObjectExpression(ast, 7),
+          scopeManager,
+        ),
+        true,
+      );
     });
   });
 

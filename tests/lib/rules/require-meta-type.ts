@@ -74,6 +74,45 @@ ruleTester.run('require-meta-type', rule, {
         create(context) {}
       };
     `,
+    // Unresolved spread may contain `type`.
+    `
+      const baseRule = require('./base-rule');
+      module.exports = {
+        meta: { ...baseRule.meta },
+        create(context) {}
+      };
+    `,
+    // `type` is provided through an inline object spread.
+    `
+      module.exports = {
+        meta: { ...{ type: 'problem' } },
+        create(context) {}
+      };
+    `,
+    // `type` may be inherited through a variable that itself spreads an unresolvable value.
+    `
+      const baseRule = require('./base-rule');
+      const inheritedMeta = { ...baseRule.meta };
+      module.exports = {
+        meta: { ...inheritedMeta },
+        create(context) {}
+      };
+    `,
+    // A later inline-spread value overrides an earlier direct property (last write wins).
+    `
+      module.exports = {
+        meta: { type: 'invalid', ...{ type: 'problem' } },
+        create(context) {}
+      };
+    `,
+    // A repeated resolved spread after an override supplies the effective value.
+    `
+      const extra = { type: 'problem' };
+      module.exports = {
+        meta: { ...extra, type: 'invalid', ...extra },
+        create(context) {}
+      };
+    `,
     'module.exports = {};', // No rule.
     // No `create` function.
     `
@@ -99,6 +138,65 @@ ruleTester.run('require-meta-type', rule, {
           type: 'ObjectExpression',
           column: 17,
           endColumn: 19,
+          endLine: 3,
+          line: 3,
+        },
+      ],
+    },
+    {
+      // Inline empty spread is statically known and cannot provide `type`.
+      code: `
+        module.exports = {
+          meta: { ...{} },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 26,
+          endLine: 3,
+          line: 3,
+        },
+      ],
+    },
+    {
+      // Spread of a statically-known non-object cannot provide `type`.
+      code: `
+        const num = 5;
+        module.exports = {
+          meta: { ...num },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'ObjectExpression',
+          column: 17,
+          endColumn: 27,
+          endLine: 4,
+          line: 4,
+        },
+      ],
+    },
+    {
+      // A later direct property overrides an earlier inline-spread value (last write wins),
+      // so the effective (invalid) `type` is what gets reported.
+      code: `
+        module.exports = {
+          meta: { ...{ type: 'problem' }, type: 'invalid' },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+          type: 'Literal',
+          column: 49,
+          endColumn: 58,
           endLine: 3,
           line: 3,
         },

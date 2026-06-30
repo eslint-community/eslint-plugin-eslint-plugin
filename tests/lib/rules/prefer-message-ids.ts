@@ -113,6 +113,27 @@ ruleTester.run('prefer-message-ids', rule, {
         }
       };
     `,
+    // `meta.messages` may come from a spread that cannot be resolved statically.
+    `
+      const baseRule = require('./base-rule');
+      module.exports = {
+        meta: { ...baseRule.meta },
+        create(context) {
+          context.report({ node, messageId: 'foo' });
+        }
+      };
+    `,
+    // `meta.messages` may be inherited through a variable that itself spreads an unresolvable value.
+    `
+      const baseRule = require('./base-rule');
+      const inheritedMeta = { ...baseRule.meta };
+      module.exports = {
+        meta: { ...inheritedMeta },
+        create(context) {
+          context.report({ node, messageId: 'foo' });
+        }
+      };
+    `,
     // `context.report` with no args.
     `
       module.exports = {

@@ -110,6 +110,27 @@ ruleTester.run('require-meta-fixable', rule, {
         }
       };
     `,
+    // Unresolved spread may contain `fixable`.
+    `
+      const baseRule = require('./base-rule');
+      module.exports = {
+        meta: { ...baseRule.meta },
+        create(context) {
+          context.report({ node, message, fix(fixer) { return fixer.remove(node); } });
+        }
+      };
+    `,
+    // `fixable` may be inherited through a variable that itself spreads an unresolvable value.
+    `
+      const baseRule = require('./base-rule');
+      const inheritedMeta = { ...baseRule.meta };
+      module.exports = {
+        meta: { ...inheritedMeta },
+        create(context) {
+          context.report({ node, message, fix(fixer) { return fixer.remove(node); } });
+        }
+      };
+    `,
     // `fixable` uses variable but no static value available.
     `
       module.exports = {

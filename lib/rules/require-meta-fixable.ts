@@ -11,6 +11,7 @@ import {
   getContextIdentifiers,
   getKeyName,
   getRuleInfo,
+  hasUnresolvedObjectSpread,
 } from '../utils.ts';
 
 // ------------------------------------------------------------------------------
@@ -83,9 +84,13 @@ const rule: Rule.RuleModule = {
       },
       'Program:exit'(ast) {
         const scope = sourceCode.getScope(ast);
+        const metaProperties = evaluateObjectProperties(
+          ruleInfo.meta,
+          scopeManager,
+        );
         const metaFixableProp =
           ruleInfo &&
-          evaluateObjectProperties(ruleInfo.meta, scopeManager)
+          metaProperties
             .filter((prop) => prop.type === 'Property')
             .find((prop) => getKeyName(prop) === 'fixable');
 
@@ -131,7 +136,11 @@ const rule: Rule.RuleModule = {
               messageId: 'noFixerButFixableValue',
             });
           }
-        } else if (!metaFixableProp && usesFixFunctions) {
+        } else if (
+          !metaFixableProp &&
+          usesFixFunctions &&
+          !hasUnresolvedObjectSpread(ruleInfo.meta, scopeManager)
+        ) {
           // Rule is fixable but is missing the `fixable` property.
           context.report({
             node: ruleInfo.meta || ruleInfo.create,

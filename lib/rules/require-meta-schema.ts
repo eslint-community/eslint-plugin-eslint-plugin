@@ -6,6 +6,7 @@ import {
   getMetaSchemaNode,
   getMetaSchemaNodeProperty,
   getRuleInfo,
+  hasUnresolvedObjectSpread,
   insertProperty,
   isUndefinedIdentifier,
 } from '../utils.ts';
@@ -68,6 +69,7 @@ const rule: Rule.RuleModule = {
 
     const schemaNode = getMetaSchemaNode(metaNode, scopeManager);
     const schemaProperty = getMetaSchemaNodeProperty(schemaNode, scopeManager);
+    const metaMayHaveSchema = hasUnresolvedObjectSpread(metaNode, scopeManager);
 
     return {
       Program(ast) {
@@ -96,7 +98,11 @@ const rule: Rule.RuleModule = {
       },
 
       'Program:exit'() {
-        if (!schemaNode && requireSchemaPropertyWhenOptionless) {
+        if (
+          !schemaNode &&
+          !metaMayHaveSchema &&
+          requireSchemaPropertyWhenOptionless
+        ) {
           context.report({
             node: metaNode || ruleInfo.create,
             messageId: 'missing',
@@ -125,7 +131,7 @@ const rule: Rule.RuleModule = {
       MemberExpression(node) {
         // Check if `context.options` was used when no options were defined in `meta.schema`.
         if (
-          (hasEmptySchema || !schemaNode) &&
+          (hasEmptySchema || (!schemaNode && !metaMayHaveSchema)) &&
           node.object.type === 'Identifier' &&
           contextIdentifiers.has(node.object) &&
           node.property.type === 'Identifier' &&
