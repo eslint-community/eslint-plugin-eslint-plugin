@@ -120,6 +120,17 @@ ruleTester.run('require-meta-fixable', rule, {
         }
       };
     `,
+    // `fixable` may be inherited through a variable that itself spreads an unresolvable value.
+    `
+      const baseRule = require('./base-rule');
+      const inheritedMeta = { ...baseRule.meta };
+      module.exports = {
+        meta: { ...inheritedMeta },
+        create(context) {
+          context.report({ node, message, fix(fixer) { return fixer.remove(node); } });
+        }
+      };
+    `,
     // `fixable` uses variable but no static value available.
     `
       module.exports = {

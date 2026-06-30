@@ -920,6 +920,57 @@ export function isSuggestionFixerFunction(
   );
 }
 
+// Spreads of these node types contribute no statically-known named property that could match a
+// rule-meta key (arrays and strings expose only numeric indices; primitives, functions, and
+// classes have no object-literal members to read). They are treated as resolved-but-empty — so a
+// genuinely missing meta key is still reported — rather than as an unknown (suppressed) spread.
+const SPREAD_TYPES_WITHOUT_NAMED_PROPERTIES = new Set([
+  'ArrayExpression',
+  'ArrowFunctionExpression',
+  'ClassExpression',
+  'FunctionDeclaration',
+  'FunctionExpression',
+  'Literal',
+  'TemplateLiteral',
+]);
+
+type SpreadResolution =
+  | { kind: 'object'; node: ObjectExpression }
+  | { kind: 'empty' }
+  | { kind: 'unknown' };
+
+/**
+ * Classify the value that a spread element spreads, resolving an identifier one hop.
+ * - `object`: spreads an object expression (inline `...{ a: 1 }` or a variable initialized
+ *   to one) whose properties can be inspected and recursed into.
+ * - `empty`: spreads a statically-known value that cannot contribute a named property
+ *   (e.g. `...{}`, `...5`, `...[1, 2]`, `...() => {}`).
+ * - `unknown`: spreads a value whose properties cannot be determined statically
+ *   (e.g. `...foo.bar`, `...getMeta()`, an unresolvable identifier).
+ * @param argument - the spread element's argument
+ * @param scopeManager
+ */
+function resolveSpreadObject(
+  argument: Expression,
+  scopeManager: Scope.ScopeManager,
+): SpreadResolution {
+  let node: Expression | FunctionDeclaration = argument;
+  if (node.type === 'Identifier') {
+    const value = findVariableValue(node, scopeManager);
+    if (!value) {
+      return { kind: 'unknown' };
+    }
+    node = value;
+  }
+  if (node.type === 'ObjectExpression') {
+    return { kind: 'object', node };
+  }
+  if (SPREAD_TYPES_WITHOUT_NAMED_PROPERTIES.has(node.type)) {
+    return { kind: 'empty' };
+  }
+  return { kind: 'unknown' };
+}
+
 /**
  * List all properties contained in an object.
  * Evaluates and includes any properties that may be behind spreads.
@@ -931,44 +982,136 @@ export function evaluateObjectProperties(
   objectNode: Node | undefined,
   scopeManager: Scope.ScopeManager,
 ): (Property | SpreadElement)[] {
-  if (!objectNode || objectNode.type !== 'ObjectExpression') {
+  const properties = evaluateObjectPropertiesWithVisited(
+    objectNode,
+    scopeManager,
+    new Set(),
+  );
+  return deduplicatePropertiesKeepingLast(properties);
+}
+
+function evaluateObjectPropertiesWithVisited(
+  objectNode: Node | undefined,
+  scopeManager: Scope.ScopeManager,
+  visited: Set<Node>,
+): (Property | SpreadElement)[] {
+  if (
+    !objectNode ||
+    objectNode.type !== 'ObjectExpression' ||
+    visited.has(objectNode)
+  ) {
     return [];
   }
+  visited.add(objectNode);
 
-  return objectNode.properties.flatMap((property) => {
+  const properties = objectNode.properties.flatMap((property) => {
     if (property.type === 'SpreadElement') {
-      const value = findVariableValue(
-        property.argument as Identifier,
-        scopeManager,
-      );
-      if (value && value.type === 'ObjectExpression') {
-        return value.properties;
-      }
-      return [];
+      const resolution = resolveSpreadObject(property.argument, scopeManager);
+      // Recurse so properties behind nested resolvable spreads are included too;
+      // `empty`/`unknown` spreads contribute no statically-known properties.
+      return resolution.kind === 'object'
+        ? evaluateObjectPropertiesWithVisited(
+            resolution.node,
+            scopeManager,
+            visited,
+          )
+        : [];
     }
     return [property];
   });
+  visited.delete(objectNode);
+  return properties;
 }
 
+/**
+ * Drop earlier duplicate-keyed properties so the returned list matches JavaScript's
+ * "last write wins" object semantics. Without this, a key supplied by both a spread and a
+ * direct property (e.g. `{ ...{ type: 'x' }, type: 'y' }`) would appear twice, and a `.find()`
+ * lookup would pick the first (source-order) value instead of the effective one.
+ * Properties whose key cannot be determined statically are kept as-is.
+ * @param properties
+ */
+function deduplicatePropertiesKeepingLast(
+  properties: (Property | SpreadElement)[],
+): (Property | SpreadElement)[] {
+  const lastIndexByKey = new Map<string, number>();
+  properties.forEach((property, index) => {
+    if (property.type === 'Property') {
+      const keyName = getKeyName(property);
+      if (keyName !== null) {
+        lastIndexByKey.set(keyName, index);
+      }
+    }
+  });
+
+  return properties.filter((property, index) => {
+    if (property.type !== 'Property') {
+      return true;
+    }
+    const keyName = getKeyName(property);
+    return keyName === null || lastIndexByKey.get(keyName) === index;
+  });
+}
+
+/**
+ * Determine whether an object contains a spread element whose properties cannot be resolved
+ * statically (and would therefore be silently dropped by `evaluateObjectProperties()`).
+ * Resolved spreads are followed recursively, so a spread that ultimately resolves to a
+ * statically-known value — an object such as `...{}` or a non-object such as `...[1, 2]` — is
+ * NOT considered unresolved, while a spread that hides an unknown value (e.g. `...baseRule.meta`,
+ * whether directly or nested) is.
+ * @param objectNode
+ * @param scopeManager
+ * @returns whether the object has a spread whose contents cannot be determined statically
+ */
 export function hasUnresolvedObjectSpread(
   objectNode: Node | undefined,
   scopeManager: Scope.ScopeManager,
 ): boolean {
+  return hasUnresolvedObjectSpreadWithVisited(
+    objectNode,
+    scopeManager,
+    new Set(),
+  );
+}
+
+function hasUnresolvedObjectSpreadWithVisited(
+  objectNode: Node | undefined,
+  scopeManager: Scope.ScopeManager,
+  visited: Set<Node>,
+): boolean {
   if (!objectNode || objectNode.type !== 'ObjectExpression') {
     return false;
   }
+  if (visited.has(objectNode)) {
+    // Already inspected (cyclic reference); it introduces no new unresolved spread.
+    return false;
+  }
+  visited.add(objectNode);
 
-  return objectNode.properties.some((property) => {
+  const hasUnresolvedSpread = objectNode.properties.some((property) => {
     if (property.type !== 'SpreadElement') {
       return false;
     }
-    if (property.argument.type !== 'Identifier') {
+    const resolution = resolveSpreadObject(property.argument, scopeManager);
+    if (resolution.kind === 'unknown') {
+      // The spread's properties cannot be determined statically (e.g. `...baseRule.meta`).
       return true;
     }
-
-    const value = findVariableValue(property.argument, scopeManager);
-    return !value || value.type !== 'ObjectExpression';
+    if (resolution.kind === 'empty') {
+      // The spread is statically known to contribute no named property (e.g. `...{}`, `...[1]`).
+      return false;
+    }
+    // The spread resolves to an object; recurse in case that object itself spreads an
+    // unresolved value that `evaluateObjectProperties()` would later drop.
+    return hasUnresolvedObjectSpreadWithVisited(
+      resolution.node,
+      scopeManager,
+      visited,
+    );
   });
+  visited.delete(objectNode);
+  return hasUnresolvedSpread;
 }
 
 export function getMetaDocsProperty(

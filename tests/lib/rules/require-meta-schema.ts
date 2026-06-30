@@ -164,6 +164,15 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    // `schema` may be inherited through a variable that itself spreads an unresolvable value.
+    `
+      const baseRule = require('./base-rule');
+      const inheritedMeta = { ...baseRule.meta };
+      module.exports = {
+        meta: { ...inheritedMeta },
+        create(context) {}
+      };
+    `,
     'module.exports = {};', // No rule.
   ],
 
