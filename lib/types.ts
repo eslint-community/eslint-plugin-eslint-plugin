@@ -28,10 +28,7 @@ export interface FunctionInfo {
 
 export interface PartialRuleInfo {
   create?:
-    | Node
-    | MaybeNamedFunctionDeclaration
-    | MaybeNamedClassDeclaration
-    | null;
+    Node | MaybeNamedFunctionDeclaration | MaybeNamedClassDeclaration | null;
   isNewStyle?: boolean;
   meta?: Expression | Pattern | FunctionDeclaration;
 }
