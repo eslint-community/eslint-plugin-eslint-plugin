@@ -971,6 +971,61 @@ function resolveSpreadObject(
   return { kind: 'unknown' };
 }
 
+function objectValueMayComeFromExternalModule(
+  value: Expression,
+  scopeManager: Scope.ScopeManager,
+  visited = new Set<Node>(),
+): boolean {
+  if (visited.has(value)) {
+    return false;
+  }
+  visited.add(value);
+
+  if (value.type === 'Identifier') {
+    const variable = findVariable(
+      scopeManager.acquire(value) || scopeManager.globalScope!,
+      value,
+    );
+    if (
+      variable?.defs.some((definition) => definition.type === 'ImportBinding')
+    ) {
+      return true;
+    }
+    const resolvedValue = findVariableValue(value, scopeManager);
+    return resolvedValue?.type === 'FunctionDeclaration'
+      ? false
+      : Boolean(
+          resolvedValue &&
+          objectValueMayComeFromExternalModule(
+            resolvedValue,
+            scopeManager,
+            visited,
+          ),
+        );
+  }
+
+  if (
+    value.type === 'CallExpression' &&
+    value.callee.type === 'Identifier' &&
+    value.callee.name === 'require'
+  ) {
+    return true;
+  }
+
+  return (
+    value.type === 'ObjectExpression' &&
+    value.properties.some(
+      (property) =>
+        property.type === 'SpreadElement' &&
+        objectValueMayComeFromExternalModule(
+          property.argument,
+          scopeManager,
+          visited,
+        ),
+    )
+  );
+}
+
 /**
  * List all properties contained in an object.
  * Evaluates and includes any properties that may be behind spreads.
@@ -1125,14 +1180,33 @@ export function getMetaDocsProperty(
     .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === 'docs');
 
+  const docsResolution = docsNode
+    ? resolveSpreadObject(docsNode.value as Expression, scopeManager)
+    : undefined;
+  const docsObjectNode =
+    docsResolution?.kind === 'object' ? docsResolution.node : undefined;
+
   const metaPropertyNode = evaluateObjectProperties(
-    docsNode?.value,
+    docsObjectNode,
     scopeManager,
   )
     .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === propertyName);
 
-  return { docsNode, metaNode, metaPropertyNode };
+  const docsPropertyMayExist = Boolean(
+    docsNode &&
+    objectValueMayComeFromExternalModule(
+      docsNode.value as Expression,
+      scopeManager,
+    ),
+  );
+
+  return {
+    docsNode,
+    docsPropertyMayExist,
+    metaNode,
+    metaPropertyNode,
+  };
 }
 
 /**

@@ -89,6 +89,7 @@ const rule: Rule.RuleModule = {
         const { scopeManager } = sourceCode;
 
         const {
+          docsPropertyMayExist,
           docsNode,
           metaNode,
           metaPropertyNode: urlPropNode,
@@ -99,6 +100,10 @@ const rule: Rule.RuleModule = {
           : undefined;
         if (urlPropNode && !staticValue) {
           // Ignore non-static values since we can't determine what they look like.
+          return;
+        }
+
+        if (!urlPropNode && docsPropertyMayExist) {
           return;
         }
 

@@ -11,6 +11,30 @@ ruleTester.run('require-meta-docs-recommended', rule, {
     'foo()',
     'module.exports = {};',
     `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs },
+        create(context) {}
+      };
+    `,
+    `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs: { ...docs } },
+        create(context) {}
+      };
+    `,
+    {
+      code: `
+        import docs from './rule.docs.js';
+        export default {
+          meta: { docs },
+          create(context) {}
+        };
+      `,
+      languageOptions: { sourceType: 'module' },
+    },
+    `
       module.exports = {
         meta: { docs: { recommended: true } },
         create(context) {}

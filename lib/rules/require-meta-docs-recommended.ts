@@ -74,12 +74,16 @@ const rule: Rule.RuleModule = {
 
     const { scopeManager } = sourceCode;
     const {
+      docsPropertyMayExist,
       docsNode,
       metaNode,
       metaPropertyNode: descriptionNode,
     } = getMetaDocsProperty('recommended', ruleInfo, scopeManager);
 
     if (!descriptionNode) {
+      if (docsPropertyMayExist) {
+        return {};
+      }
       const docNodeValue = docsNode?.value;
       const suggestions: Rule.SuggestionReportDescriptor[] =
         docNodeValue?.type === 'ObjectExpression'

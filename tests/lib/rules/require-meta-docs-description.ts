@@ -18,6 +18,30 @@ ruleTester.run('require-meta-docs-description', rule, {
     'foo()', // No rule.
     'module.exports = {};', // No rule.
     `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs },
+        create(context) {}
+      };
+    `,
+    `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs: { ...docs } },
+        create(context) {}
+      };
+    `,
+    {
+      code: `
+        import docs from './rule.docs.js';
+        export default {
+          meta: { docs },
+          create(context) {}
+        };
+      `,
+      languageOptions: { sourceType: 'module' },
+    },
+    `
       module.exports = {
         meta: { docs: { description: 'disallow unused variables' } },
         create(context) {}

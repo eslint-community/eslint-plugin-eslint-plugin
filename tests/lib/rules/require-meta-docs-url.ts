@@ -26,6 +26,30 @@ tester.run('require-meta-docs-url', rule, {
     'foo()', // No rule.
     'module.exports = {};', // No rule.
     `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs },
+        create() {}
+      };
+    `,
+    `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs: { ...docs } },
+        create() {}
+      };
+    `,
+    {
+      code: `
+        import docs from './rule.docs.js';
+        export default {
+          meta: { docs },
+          create() {}
+        };
+      `,
+      languageOptions: { sourceType: 'module' },
+    },
+    `
       module.exports.meta = {docs: {url: ""}}
       module.exports.create = function() {}
     `,
