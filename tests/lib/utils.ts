@@ -685,6 +685,112 @@ describe('utils', () => {
     });
   });
 
+  describe('getMetaDocsProperty', () => {
+    function getDescriptionProperty(code: string) {
+      const ast = espree.parse(code, {
+        ecmaVersion: 2022,
+        range: true,
+        sourceType: 'script',
+      }) as unknown as Program;
+      const scopeManager = eslintScope.analyze(ast);
+      const ruleInfo = utils.getRuleInfo({ ast, scopeManager });
+      assert(ruleInfo);
+      return utils.getMetaDocsProperty('description', ruleInfo, scopeManager);
+    }
+
+    const cases = [
+      {
+        name: "a require'd docs identifier",
+        code: `
+          const docs = require('./rule.docs.js');
+          module.exports = { meta: { docs }, create() {} };
+        `,
+        docsMayHaveUnknownProperties: true,
+        hasMetaProperty: false,
+      },
+      {
+        name: 'a member expression',
+        code: `
+          const baseRule = require('./base-rule.js');
+          module.exports = {
+            meta: { docs: baseRule.meta.docs },
+            create() {}
+          };
+        `,
+        docsMayHaveUnknownProperties: true,
+        hasMetaProperty: false,
+      },
+      {
+        name: 'an object spreading an unknown value',
+        code: `
+          const baseRule = require('./base-rule.js');
+          module.exports = {
+            meta: { docs: { ...baseRule.meta.docs } },
+            create() {}
+          };
+        `,
+        docsMayHaveUnknownProperties: true,
+        hasMetaProperty: false,
+      },
+      {
+        name: 'a call expression',
+        code: 'module.exports = { meta: { docs: getDocs() }, create() {} };',
+        docsMayHaveUnknownProperties: true,
+        hasMetaProperty: false,
+      },
+      {
+        name: 'an inline object with the property',
+        code: `
+          module.exports = {
+            meta: { docs: { description: 'disallow foo' } },
+            create() {}
+          };
+        `,
+        docsMayHaveUnknownProperties: false,
+        hasMetaProperty: true,
+      },
+      {
+        name: 'a local object with the property',
+        code: `
+          const docs = { description: 'disallow foo' };
+          module.exports = { meta: { docs }, create() {} };
+        `,
+        docsMayHaveUnknownProperties: false,
+        hasMetaProperty: true,
+      },
+      {
+        name: 'an empty inline object',
+        code: 'module.exports = { meta: { docs: {} }, create() {} };',
+        docsMayHaveUnknownProperties: false,
+        hasMetaProperty: false,
+      },
+      {
+        name: 'an empty local object',
+        code: `
+          const docs = {};
+          module.exports = { meta: { docs }, create() {} };
+        `,
+        docsMayHaveUnknownProperties: false,
+        hasMetaProperty: false,
+      },
+    ];
+
+    for (const testCase of cases) {
+      it(testCase.name, () => {
+        const result = getDescriptionProperty(testCase.code);
+        assert.strictEqual(
+          result.docsMayHaveUnknownProperties,
+          testCase.docsMayHaveUnknownProperties,
+        );
+        if (testCase.hasMetaProperty) {
+          assert.ok(result.metaPropertyNode);
+        } else {
+          assert.strictEqual(result.metaPropertyNode, undefined);
+        }
+      });
+    }
+  });
+
   describe('getContextIdentifiers', () => {
     type ContextIdentifierMapFn = (ast: Program) => Identifier[];
     const CASES: Record<string, ContextIdentifierMapFn> = {

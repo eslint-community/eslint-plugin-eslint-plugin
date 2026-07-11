@@ -52,14 +52,14 @@ const rule: Rule.RuleModule = {
         const { scopeManager } = sourceCode;
 
         const {
-          docsPropertyMayExist,
+          docsMayHaveUnknownProperties,
           docsNode,
           metaNode,
           metaPropertyNode: descriptionNode,
         } = getMetaDocsProperty('description', ruleInfo, scopeManager);
 
         if (!descriptionNode) {
-          if (docsPropertyMayExist) {
+          if (docsMayHaveUnknownProperties) {
             return;
           }
           context.report({

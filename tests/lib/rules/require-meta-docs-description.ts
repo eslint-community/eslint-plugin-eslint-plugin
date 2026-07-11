@@ -42,6 +42,33 @@ ruleTester.run('require-meta-docs-description', rule, {
       languageOptions: { sourceType: 'module' },
     },
     `
+      const baseRule = require('./base-rule.js');
+      module.exports = {
+        meta: { docs: baseRule.meta.docs },
+        create(context) {}
+      };
+    `,
+    `
+      const baseRule = require('./base-rule.js');
+      module.exports = {
+        meta: { docs: { ...baseRule.meta.docs } },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { docs: getDocs() },
+        create(context) {}
+      };
+    `,
+    `
+      const docs = { description: 'disallow foo' };
+      module.exports = {
+        meta: { docs },
+        create(context) {}
+      };
+    `,
+    `
       module.exports = {
         meta: { docs: { description: 'disallow unused variables' } },
         create(context) {}
@@ -239,6 +266,26 @@ ruleTester.run('require-meta-docs-description', rule, {
           endColumn: 27,
           endLine: 3,
           line: 3,
+        },
+      ],
+    },
+    {
+      code: `
+        const docs = {};
+        module.exports = {
+          meta: { docs },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          column: 19,
+          endColumn: 23,
+          endLine: 4,
+          line: 4,
         },
       ],
     },

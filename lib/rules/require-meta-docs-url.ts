@@ -89,7 +89,7 @@ const rule: Rule.RuleModule = {
         const { scopeManager } = sourceCode;
 
         const {
-          docsPropertyMayExist,
+          docsMayHaveUnknownProperties,
           docsNode,
           metaNode,
           metaPropertyNode: urlPropNode,
@@ -103,7 +103,7 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        if (!urlPropNode && docsPropertyMayExist) {
+        if (!urlPropNode && docsMayHaveUnknownProperties) {
           return;
         }
 
