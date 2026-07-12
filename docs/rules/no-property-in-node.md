@@ -18,7 +18,9 @@ Examples of **incorrect** code for this rule:
 ```js
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
-  meta: {/* ... */},
+  meta: {
+    /* ... */
+  },
   create(context) {
     return {
       'ClassDeclaration, FunctionDeclaration'(node) {
@@ -36,7 +38,9 @@ Examples of **correct** code for this rule:
 ```js
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
-  meta: {/* ... */},
+  meta: {
+    /* ... */
+  },
   create(context) {
     return {
       'ClassDeclaration, FunctionDeclaration'(node) {

@@ -46,7 +46,11 @@ module.exports = {
 
 module.exports = {
   meta: {
-    schema: [{/* ... */}],
+    schema: [
+      {
+        /* ... */
+      },
+    ],
     defaultOptions: {}, // defaultOptions should be an array
   },
   create(context) {
@@ -56,7 +60,11 @@ module.exports = {
 
 module.exports = {
   meta: {
-    schema: [{/* ... */}],
+    schema: [
+      {
+        /* ... */
+      },
+    ],
     defaultOptions: [], // defaultOptions should not be empty
   },
   create(context) {

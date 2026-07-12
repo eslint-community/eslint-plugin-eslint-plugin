@@ -34,7 +34,9 @@ ruleTester.run('my-rule', myRule, {
     {
       code: 'const invalid = 42;',
       only: true,
-      errors: [/* ... */],
+      errors: [
+        /* ... */
+      ],
     },
   ],
 });
@@ -53,7 +55,9 @@ ruleTester.run('my-rule', myRule, {
   invalid: [
     {
       code: 'const invalid = 42;',
-      errors: [/* ... */],
+      errors: [
+        /* ... */
+      ],
     },
   ],
 });

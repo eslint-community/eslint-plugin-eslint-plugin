@@ -36,7 +36,9 @@ Examples of **correct** code for this rule:
 /* eslint eslint-plugin/prefer-object-rule: error */
 
 module.exports = {
-  meta: {/* ... */},
+  meta: {
+    /* ... */
+  },
   create(context) {
     return {
       Program() {
