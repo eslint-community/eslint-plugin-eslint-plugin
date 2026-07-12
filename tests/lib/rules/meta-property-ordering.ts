@@ -206,5 +206,171 @@ ruleTester.run('test-case-property-ordering', rule, {
       ],
       name: 'custom order with extra prop (options: [type, docs, fixable])',
     },
+    {
+      // Issue #295: trailing comments should move with their property.
+      code: `
+        module.exports = {
+          meta: {
+            messages,
+            schema: [], // no options
+          },
+          create() {},
+        };`,
+      output: `
+        module.exports = {
+          meta: {
+            schema: [], // no options
+            messages,
+          },
+          create() {},
+        };`,
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['schema', 'messages'].join(', ') },
+          column: 13,
+          endColumn: 23,
+          endLine: 5,
+          line: 5,
+        },
+      ],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: {
+            messages, // message ids
+            schema: [], // no options
+          },
+          create() {},
+        };`,
+      output: `
+        module.exports = {
+          meta: {
+            schema: [], // no options
+            messages, // message ids
+          },
+          create() {},
+        };`,
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['schema', 'messages'].join(', ') },
+          column: 13,
+          endColumn: 23,
+          endLine: 5,
+          line: 5,
+        },
+      ],
+    },
+    {
+      // Last property with no trailing comma + trailing comment.
+      code: `
+        module.exports = {
+          meta: {
+            messages,
+            schema: [] // no options
+          },
+          create() {},
+        };`,
+      output: `
+        module.exports = {
+          meta: {
+            schema: [], // no options
+            messages
+          },
+          create() {},
+        };`,
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['schema', 'messages'].join(', ') },
+          column: 13,
+          endColumn: 23,
+          endLine: 5,
+          line: 5,
+        },
+      ],
+    },
+    {
+      // Block comments also travel with their property.
+      code: `
+        module.exports = {
+          meta: {
+            messages,
+            schema: [] /* no options */,
+          },
+          create() {},
+        };`,
+      output: `
+        module.exports = {
+          meta: {
+            schema: [] /* no options */,
+            messages,
+          },
+          create() {},
+        };`,
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['schema', 'messages'].join(', ') },
+          column: 13,
+          endColumn: 23,
+          endLine: 5,
+          line: 5,
+        },
+      ],
+    },
+    {
+      // Own-line comments stay in place.
+      code: `
+        module.exports = {
+          meta: {
+            messages,
+            // keep this comment here
+            schema: [],
+          },
+          create() {},
+        };`,
+      output: `
+        module.exports = {
+          meta: {
+            schema: [],
+            // keep this comment here
+            messages,
+          },
+          create() {},
+        };`,
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['schema', 'messages'].join(', ') },
+          column: 13,
+          endColumn: 23,
+          endLine: 6,
+          line: 6,
+        },
+      ],
+    },
+    {
+      // Single-line object with line comments is reported but not autofixed.
+      code: `
+        module.exports = {
+          meta: { messages, schema: [] // no options
+          },
+          create() {},
+        };`,
+      output: null,
+      errors: [
+        {
+          messageId: 'inconsistentOrder',
+          data: { order: ['schema', 'messages'].join(', ') },
+          column: 29,
+          endColumn: 39,
+          endLine: 3,
+          line: 3,
+        },
+      ],
+    },
   ],
 });

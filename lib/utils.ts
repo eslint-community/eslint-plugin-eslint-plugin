@@ -798,6 +798,145 @@ export function getSourceCodeIdentifiers(
   );
 }
 
+type ObjectProperty = ObjectExpression['properties'][number];
+
+type PropertyTrailingInfo = {
+  property: ObjectProperty;
+  commaToken: ReturnType<SourceCode['getTokenAfter']>;
+  hasComma: boolean;
+  trailingComments: ReturnType<SourceCode['getCommentsAfter']>;
+  /** Source between property end and last pre-comma same-line comment (if any). */
+  beforeCommaCommentText: string;
+  /** Source between comma end and last post-comma same-line comment (if any). */
+  afterCommaCommentText: string;
+};
+
+/**
+ * Compute trailing same-line comment info for an object property.
+ * Only comments after the property (or its trailing comma) on the property's
+ * end line are considered; leading / own-line comments stay put.
+ */
+function getPropertyTrailingInfo(
+  property: ObjectProperty,
+  sourceCode: SourceCode,
+): PropertyTrailingInfo {
+  const commaToken = sourceCode.getTokenAfter(property);
+  const hasComma = commaToken?.value === ',';
+  const propertyEndLine = property.loc!.end.line;
+  const isSameLineTrailing = (
+    comment: ReturnType<SourceCode['getCommentsAfter']>[number],
+  ) => comment.loc!.start.line === propertyEndLine;
+
+  // Comments between the property and its comma (e.g. `prop /* c */,`).
+  const commentsBeforeComma = hasComma
+    ? sourceCode.getCommentsAfter(property).filter(isSameLineTrailing)
+    : [];
+  // Comments after the comma (e.g. `prop, // c`) or after the property when
+  // there is no comma (e.g. last `prop // c`).
+  const commentsAfterAnchor = sourceCode
+    .getCommentsAfter(hasComma ? commaToken! : property)
+    .filter(isSameLineTrailing);
+
+  const trailingComments = [...commentsBeforeComma, ...commentsAfterAnchor];
+
+  const beforeCommaCommentText =
+    commentsBeforeComma.length > 0
+      ? sourceCode.text.slice(
+          property.range![1],
+          commentsBeforeComma.at(-1)!.range![1],
+        )
+      : '';
+  const afterCommaCommentText =
+    commentsAfterAnchor.length > 0
+      ? sourceCode.text.slice(
+          (hasComma ? commaToken! : property).range![1],
+          commentsAfterAnchor.at(-1)!.range![1],
+        )
+      : '';
+
+  return {
+    property,
+    commaToken,
+    hasComma: Boolean(hasComma),
+    trailingComments,
+    beforeCommaCommentText,
+    afterCommaCommentText,
+  };
+}
+
+/**
+ * Build autofix edits that reorder object properties while moving trailing
+ * same-line comments with their property.
+ *
+ * Returns `null` when a line-comment move would comment-out later code on the
+ * same line (e.g. a single-line object), so the caller can still report
+ * without offering a fix.
+ * @param fixer The fixer.
+ * @param sourceCode The source code.
+ * @param slotProperties Properties in their current (slot) order.
+ * @param expectedProperties Properties in the desired order (same length).
+ */
+export function createPropertyReorderFixes(
+  fixer: Rule.RuleFixer,
+  sourceCode: SourceCode,
+  slotProperties: ObjectProperty[],
+  expectedProperties: ObjectProperty[],
+): Rule.Fix[] | null {
+  const slotInfos = slotProperties.map((property) =>
+    getPropertyTrailingInfo(property, sourceCode),
+  );
+  const expectedInfos = expectedProperties.map((property) =>
+    getPropertyTrailingInfo(property, sourceCode),
+  );
+
+  const fixes: Rule.Fix[] = [];
+
+  for (const [i, slot] of slotInfos.entries()) {
+    const expected = expectedInfos[i]!;
+    const includeComma =
+      slot.hasComma &&
+      (slot.trailingComments.length > 0 ||
+        expected.trailingComments.length > 0);
+
+    let rangeEnd = slot.property.range![1];
+    if (includeComma && slot.commaToken) {
+      rangeEnd = Math.max(rangeEnd, slot.commaToken.range![1]);
+    }
+    if (slot.trailingComments.length > 0) {
+      rangeEnd = Math.max(rangeEnd, slot.trailingComments.at(-1)!.range![1]);
+    }
+
+    if (expected.trailingComments.some((comment) => comment.type === 'Line')) {
+      const tokenAfter = sourceCode.getTokenAfter(
+        slot.trailingComments.at(-1) ??
+          (includeComma && slot.commaToken ? slot.commaToken : slot.property),
+      );
+      if (
+        tokenAfter &&
+        tokenAfter.loc!.start.line === sourceCode.getLocFromIndex(rangeEnd).line
+      ) {
+        return null;
+      }
+    }
+
+    // Assemble: property text + pre-comma comments + optional comma + post-comma comments.
+    // When the source had no comma, afterCommaCommentText is the trailing comment
+    // text directly after the property (and beforeCommaCommentText is empty).
+    let replacement = sourceCode.getText(expected.property);
+    replacement += expected.beforeCommaCommentText;
+    if (includeComma) {
+      replacement += ',';
+    }
+    replacement += expected.afterCommaCommentText;
+
+    fixes.push(
+      fixer.replaceTextRange([slot.property.range![0], rangeEnd], replacement),
+    );
+  }
+
+  return fixes;
+}
+
 /**
  * Insert a given property into a given object literal.
  * @param fixer The fixer.
