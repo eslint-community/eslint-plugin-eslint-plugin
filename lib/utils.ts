@@ -955,6 +955,9 @@ function resolveSpreadObject(
   scopeManager: Scope.ScopeManager,
 ): SpreadResolution {
   let node: Expression | FunctionDeclaration = argument;
+  if (node.type === 'Identifier' && isUndefinedIdentifier(node)) {
+    return { kind: 'empty' };
+  }
   if (node.type === 'Identifier') {
     const value = findVariableValue(node, scopeManager);
     if (!value) {
@@ -1125,14 +1128,31 @@ export function getMetaDocsProperty(
     .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === 'docs');
 
+  const docsResolution = docsNode
+    ? resolveSpreadObject(docsNode.value as Expression, scopeManager)
+    : undefined;
+  const docsObjectNode =
+    docsResolution?.kind === 'object' ? docsResolution.node : undefined;
+
   const metaPropertyNode = evaluateObjectProperties(
-    docsNode?.value,
+    docsObjectNode,
     scopeManager,
   )
     .filter((node) => node.type === 'Property')
     .find((p) => getKeyName(p) === propertyName);
 
-  return { docsNode, metaNode, metaPropertyNode };
+  const docsMayHaveUnknownProperties = Boolean(
+    docsNode &&
+    (docsResolution?.kind === 'unknown' ||
+      hasUnresolvedObjectSpread(docsObjectNode, scopeManager)),
+  );
+
+  return {
+    docsNode,
+    docsMayHaveUnknownProperties,
+    metaNode,
+    metaPropertyNode,
+  };
 }
 
 /**

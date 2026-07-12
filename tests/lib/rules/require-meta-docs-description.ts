@@ -18,6 +18,57 @@ ruleTester.run('require-meta-docs-description', rule, {
     'foo()', // No rule.
     'module.exports = {};', // No rule.
     `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs },
+        create(context) {}
+      };
+    `,
+    `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs: { ...docs } },
+        create(context) {}
+      };
+    `,
+    {
+      code: `
+        import docs from './rule.docs.js';
+        export default {
+          meta: { docs },
+          create(context) {}
+        };
+      `,
+      languageOptions: { sourceType: 'module' },
+    },
+    `
+      const baseRule = require('./base-rule.js');
+      module.exports = {
+        meta: { docs: baseRule.meta.docs },
+        create(context) {}
+      };
+    `,
+    `
+      const baseRule = require('./base-rule.js');
+      module.exports = {
+        meta: { docs: { ...baseRule.meta.docs } },
+        create(context) {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { docs: getDocs() },
+        create(context) {}
+      };
+    `,
+    `
+      const docs = { description: 'disallow foo' };
+      module.exports = {
+        meta: { docs },
+        create(context) {}
+      };
+    `,
+    `
       module.exports = {
         meta: { docs: { description: 'disallow unused variables' } },
         create(context) {}
@@ -215,6 +266,45 @@ ruleTester.run('require-meta-docs-description', rule, {
           endColumn: 27,
           endLine: 3,
           line: 3,
+        },
+      ],
+    },
+    {
+      code: `
+        module.exports = {
+          meta: { docs: undefined },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          column: 19,
+          endColumn: 34,
+          endLine: 3,
+          line: 3,
+        },
+      ],
+    },
+    {
+      code: `
+        const docs = {};
+        module.exports = {
+          meta: { docs },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          column: 19,
+          endColumn: 23,
+          endLine: 4,
+          line: 4,
         },
       ],
     },

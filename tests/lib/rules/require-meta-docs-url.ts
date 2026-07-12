@@ -26,6 +26,50 @@ tester.run('require-meta-docs-url', rule, {
     'foo()', // No rule.
     'module.exports = {};', // No rule.
     `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs },
+        create() {}
+      };
+    `,
+    `
+      const docs = require('./rule.docs.js');
+      module.exports = {
+        meta: { docs: { ...docs } },
+        create() {}
+      };
+    `,
+    {
+      code: `
+        import docs from './rule.docs.js';
+        export default {
+          meta: { docs },
+          create() {}
+        };
+      `,
+      languageOptions: { sourceType: 'module' },
+    },
+    `
+      const baseRule = require('./base-rule.js');
+      module.exports = {
+        meta: { docs: baseRule.meta.docs },
+        create() {}
+      };
+    `,
+    `
+      const baseRule = require('./base-rule.js');
+      module.exports = {
+        meta: { docs: { ...baseRule.meta.docs } },
+        create() {}
+      };
+    `,
+    `
+      module.exports = {
+        meta: { docs: getDocs() },
+        create() {}
+      };
+    `,
+    `
       module.exports.meta = {docs: {url: ""}}
       module.exports.create = function() {}
     `,
@@ -311,6 +355,7 @@ tester.run('require-meta-docs-url', rule, {
     },
     {
       code: `
+        const docs = {};
         module.exports = {
           meta: {
             docs
@@ -325,8 +370,8 @@ tester.run('require-meta-docs-url', rule, {
           type: 'Identifier',
           column: 13,
           endColumn: 17,
-          endLine: 4,
-          line: 4,
+          endLine: 5,
+          line: 5,
         },
       ],
     },
@@ -489,6 +534,7 @@ tester.run('require-meta-docs-url', rule, {
     },
     {
       code: `
+        const url = {};
         module.exports = {
           meta: {
             docs: {
@@ -505,8 +551,8 @@ tester.run('require-meta-docs-url', rule, {
           type: 'ObjectExpression',
           column: 19,
           endColumn: 14,
-          endLine: 6,
-          line: 4,
+          endLine: 7,
+          line: 5,
         },
       ],
     },
@@ -667,6 +713,7 @@ tester.run('require-meta-docs-url', rule, {
     },
     {
       code: `
+        const docs = {};
         module.exports = {
           meta: {
             docs
@@ -686,8 +733,8 @@ tester.run('require-meta-docs-url', rule, {
           type: 'Identifier',
           column: 13,
           endColumn: 17,
-          endLine: 4,
-          line: 4,
+          endLine: 5,
+          line: 5,
         },
       ],
       name: "docs as variable (pattern: 'plugin-name/{{ name }}.md')",
@@ -808,6 +855,7 @@ tester.run('require-meta-docs-url', rule, {
     },
     {
       code: `
+        const url = {};
         module.exports = {
           meta: {
             docs: {
@@ -829,8 +877,8 @@ tester.run('require-meta-docs-url', rule, {
           type: 'ObjectExpression',
           column: 19,
           endColumn: 14,
-          endLine: 6,
-          line: 4,
+          endLine: 7,
+          line: 5,
         },
       ],
       name: "spread url variable (pattern: 'plugin-name/{{ name }}.md')",
@@ -1199,6 +1247,7 @@ url: "plugin-name/test.md"
     {
       filename: 'test.js',
       code: `
+        const docs = {};
         module.exports = {
           meta: {
             docs
@@ -1218,8 +1267,8 @@ url: "plugin-name/test.md"
           type: 'Identifier',
           column: 13,
           endColumn: 17,
-          endLine: 4,
-          line: 4,
+          endLine: 5,
+          line: 5,
         },
       ],
       name: "docs as variable > with filename (pattern: 'plugin-name/{{ name }}.md')",
@@ -1485,6 +1534,7 @@ url: "plugin-name/test.md",
     {
       filename: 'test.js',
       code: `
+        const url = {};
         module.exports = {
           meta: {
             docs: {
@@ -1495,6 +1545,7 @@ url: "plugin-name/test.md",
         }
       `,
       output: `
+        const url = {};
         module.exports = {
           meta: {
             docs: {
@@ -1516,8 +1567,8 @@ url: "plugin-name/test.md"
           type: 'ObjectExpression',
           column: 19,
           endColumn: 14,
-          endLine: 6,
-          line: 4,
+          endLine: 7,
+          line: 5,
         },
       ],
       name: "spread url variable > with filename (pattern: 'plugin-name/{{ name }}.md')",

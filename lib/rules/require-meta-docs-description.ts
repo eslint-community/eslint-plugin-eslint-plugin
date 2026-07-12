@@ -52,12 +52,16 @@ const rule: Rule.RuleModule = {
         const { scopeManager } = sourceCode;
 
         const {
+          docsMayHaveUnknownProperties,
           docsNode,
           metaNode,
           metaPropertyNode: descriptionNode,
         } = getMetaDocsProperty('description', ruleInfo, scopeManager);
 
         if (!descriptionNode) {
+          if (docsMayHaveUnknownProperties) {
+            return;
+          }
           context.report({
             node: docsNode || metaNode || ruleInfo.create,
             messageId: 'missing',

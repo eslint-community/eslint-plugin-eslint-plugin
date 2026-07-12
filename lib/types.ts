@@ -75,6 +75,7 @@ export type ViolationAndSuppressionData = {
 };
 
 export type MetaDocsProperty = {
+  docsMayHaveUnknownProperties: boolean;
   docsNode: Property | undefined;
   metaNode: Node | undefined;
   metaPropertyNode: Property | undefined;
