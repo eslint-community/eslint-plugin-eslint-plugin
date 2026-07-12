@@ -271,6 +271,25 @@ ruleTester.run('require-meta-docs-description', rule, {
     },
     {
       code: `
+        module.exports = {
+          meta: { docs: undefined },
+          create(context) {}
+        };
+      `,
+      output: null,
+      errors: [
+        {
+          messageId: 'missing',
+          type: 'Property',
+          column: 19,
+          endColumn: 34,
+          endLine: 3,
+          line: 3,
+        },
+      ],
+    },
+    {
+      code: `
         const docs = {};
         module.exports = {
           meta: { docs },

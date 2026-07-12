@@ -739,6 +739,12 @@ describe('utils', () => {
         hasMetaProperty: false,
       },
       {
+        name: 'an explicit undefined value',
+        code: 'module.exports = { meta: { docs: undefined }, create() {} };',
+        docsMayHaveUnknownProperties: false,
+        hasMetaProperty: false,
+      },
+      {
         name: 'an inline object with the property',
         code: `
           module.exports = {

@@ -955,6 +955,9 @@ function resolveSpreadObject(
   scopeManager: Scope.ScopeManager,
 ): SpreadResolution {
   let node: Expression | FunctionDeclaration = argument;
+  if (node.type === 'Identifier' && isUndefinedIdentifier(node)) {
+    return { kind: 'empty' };
+  }
   if (node.type === 'Identifier') {
     const value = findVariableValue(node, scopeManager);
     if (!value) {
