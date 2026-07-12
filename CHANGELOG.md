@@ -11,6 +11,19 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.4.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.4.1...v7.4.2) (2026-07-12)
+
+
+### Bug Fixes
+
+* Avoid false positives for external meta docs in `require-meta-*` rules ([#639](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/639)) ([f6c4948](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f6c4948d381610e5e6282caace96aa32173bc3f3))
+
+
+### Chores
+
+* update dependency prettier to v3.9.1 ([#634](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/634)) ([e353ea1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/e353ea114e3dd6e66fdb2eddf4ed9973f3730dea))
+* update dependency prettier to v3.9.4 ([#636](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/636)) ([92e07da](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/92e07dad0b46f09d3192f70fc60a09a2abc4844f))
+
 ## [7.4.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.4.0...v7.4.1) (2026-06-30)
 
 
