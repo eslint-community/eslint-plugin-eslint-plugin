@@ -66,7 +66,7 @@ export default defineConfig([
     plugins: { 'eslint-plugin': eslintPlugin },
     extends: ['eslint-plugin/all'],
     rules: {
-      // `require-meta-languages` targets `meta.languages` (added in ESLint v10.2.0).
+      // TODO: `require-meta-languages` targets `meta.languages` (added in ESLint v10.2.0).
       // This plugin still supports ESLint 9, where `meta.languages` isn't in the rule
       // metadata types, so we don't enable this rule on our own rules yet. Re-enable
       // once the plugin's minimum ESLint version is >= 10.2.
