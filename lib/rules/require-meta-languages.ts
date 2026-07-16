@@ -12,6 +12,11 @@ import {
   hasUnresolvedObjectSpread,
 } from '../utils.ts';
 
+const isValidLanguageIdentifier = (value: string): boolean =>
+  value === '*' ||
+  (value.includes('/') &&
+    value.split('/').every((segment) => segment.length > 0));
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
@@ -29,7 +34,10 @@ const rule: Rule.RuleModule = {
     messages: {
       missing: '`meta.languages` is required.',
       empty: '`meta.languages` should not be empty.',
-      invalid: '`meta.languages` should be an array of strings.',
+      invalid: '`meta.languages` should be an array.',
+      invalidLanguage:
+        "`meta.languages` entries should be `'*'` or `'namespace/language'`.",
+      duplicate: '`meta.languages` should not contain duplicate entries.',
     },
   },
 
@@ -62,6 +70,45 @@ const rule: Rule.RuleModule = {
           return;
         }
 
+        if (languagesNode.value.type === 'ArrayExpression') {
+          if (languagesNode.value.elements.length === 0) {
+            context.report({
+              node: languagesNode.value,
+              messageId: 'empty',
+            });
+            return;
+          }
+
+          const seen = new Set<string>();
+          for (const element of languagesNode.value.elements) {
+            if (element === null || element.type === 'SpreadElement') {
+              continue;
+            }
+
+            const staticValue = getStaticValue(element, scope);
+            if (!staticValue) {
+              // Ignore non-static values since we can't determine what they look like.
+              continue;
+            }
+
+            const value = staticValue.value;
+            if (
+              typeof value !== 'string' ||
+              !isValidLanguageIdentifier(value)
+            ) {
+              context.report({ node: element, messageId: 'invalidLanguage' });
+              continue;
+            }
+
+            if (seen.has(value)) {
+              context.report({ node: element, messageId: 'duplicate' });
+              continue;
+            }
+            seen.add(value);
+          }
+          return;
+        }
+
         const staticValue = getStaticValue(languagesNode.value, scope);
         if (!staticValue) {
           // Ignore non-static values since we can't determine what they look like.
@@ -69,16 +116,37 @@ const rule: Rule.RuleModule = {
         }
 
         const value = staticValue.value;
-        if (
-          !Array.isArray(value) ||
-          value.some((element) => typeof element !== 'string')
-        ) {
+        if (!Array.isArray(value)) {
           context.report({ node: languagesNode.value, messageId: 'invalid' });
           return;
         }
 
         if (value.length === 0) {
           context.report({ node: languagesNode.value, messageId: 'empty' });
+          return;
+        }
+
+        const seen = new Set<string>();
+        for (const element of value) {
+          if (
+            typeof element !== 'string' ||
+            !isValidLanguageIdentifier(element)
+          ) {
+            context.report({
+              node: languagesNode.value,
+              messageId: 'invalidLanguage',
+            });
+            return;
+          }
+
+          if (seen.has(element)) {
+            context.report({
+              node: languagesNode.value,
+              messageId: 'duplicate',
+            });
+            return;
+          }
+          seen.add(element);
         }
       },
     };

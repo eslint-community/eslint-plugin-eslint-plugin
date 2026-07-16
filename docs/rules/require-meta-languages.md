@@ -12,7 +12,7 @@ Dynamically computed values and unresolved spreads in `meta` are skipped, matchi
 
 ## Rule Details
 
-This rule requires ESLint rules to have a non-empty `meta.languages` array containing only strings.
+This rule requires ESLint rules to have a non-empty `meta.languages` array whose entries are valid language identifiers: either the `'*'` wildcard or a `'namespace/language'` form (such as `'js/js'`, `'json/json'`, or `'markdown/*'`), with no duplicates.
 
 Examples of **incorrect** code for this rule:
 
@@ -21,6 +21,20 @@ Examples of **incorrect** code for this rule:
 
 module.exports = {
   meta: {},
+  create(context) {
+    /* ... */
+  },
+};
+
+module.exports = {
+  meta: { languages: ['javascript'] },
+  create(context) {
+    /* ... */
+  },
+};
+
+module.exports = {
+  meta: { languages: ['js/js', 'js/js'] },
   create(context) {
     /* ... */
   },
@@ -34,6 +48,13 @@ Examples of **correct** code for this rule:
 
 module.exports = {
   meta: { languages: ['js/js'] },
+  create(context) {
+    /* ... */
+  },
+};
+
+module.exports = {
+  meta: { languages: ['markdown/*'] },
   create(context) {
     /* ... */
   },

@@ -20,6 +20,9 @@ const ruleTester = new RuleTester({
 ruleTester.run('require-meta-languages', rule, {
   valid: [
     "module.exports = { meta: { languages: ['js/js'] }, create(context) {} };",
+    "module.exports = { meta: { languages: ['*'] }, create(context) {} };",
+    "module.exports = { meta: { languages: ['markdown/*'] }, create(context) {} };",
+    "module.exports = { meta: { languages: ['@eslint/json/json'] }, create(context) {} };",
     {
       // ESM
       code: `
@@ -58,7 +61,7 @@ ruleTester.run('require-meta-languages', rule, {
     `
         const create = {};
         module.exports = {
-          meta: { languages: ['js/js'] },
+          meta: {},
           create,
         };
       `,
@@ -160,10 +163,122 @@ ruleTester.run('require-meta-languages', rule, {
       code: "module.exports = { meta: { languages: ['js/js', 123] }, create(context) {} };",
       errors: [
         {
-          messageId: 'invalid',
-          type: 'ArrayExpression',
-          column: 39,
-          endColumn: 53,
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 49,
+          endColumn: 52,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: [''] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 42,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['javascript'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 52,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['js'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 44,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['js/'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 45,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['/js'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 45,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['js//js'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 48,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['js/js', 'js/js'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'duplicate',
+          type: 'Literal',
+          column: 49,
+          endColumn: 56,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+    },
+    {
+      code: "module.exports = { meta: { languages: ['js', 'javascript'] }, create(context) {} };",
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 40,
+          endColumn: 44,
+          endLine: 1,
+          line: 1,
+        },
+        {
+          messageId: 'invalidLanguage',
+          type: 'Literal',
+          column: 46,
+          endColumn: 58,
           endLine: 1,
           line: 1,
         },
@@ -180,6 +295,44 @@ ruleTester.run('require-meta-languages', rule, {
       errors: [
         {
           messageId: 'invalid',
+          type: 'Identifier',
+          column: 30,
+          endColumn: 35,
+          endLine: 4,
+          line: 4,
+        },
+      ],
+    },
+    {
+      code: `
+        const langs = ['js'];
+        module.exports = {
+          meta: { languages: langs },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'invalidLanguage',
+          type: 'Identifier',
+          column: 30,
+          endColumn: 35,
+          endLine: 4,
+          line: 4,
+        },
+      ],
+    },
+    {
+      code: `
+        const langs = ['js/js', 'js/js'];
+        module.exports = {
+          meta: { languages: langs },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'duplicate',
           type: 'Identifier',
           column: 30,
           endColumn: 35,
