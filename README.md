@@ -94,6 +94,7 @@ export default [
 | [require-meta-docs-url](docs/rules/require-meta-docs-url.md)                                         | require rules to implement a `meta.docs.url` property                                      |     | 🔧  |     |     |
 | [require-meta-fixable](docs/rules/require-meta-fixable.md)                                           | require rules to implement a `meta.fixable` property                                       | ✅  |     |     |     |
 | [require-meta-has-suggestions](docs/rules/require-meta-has-suggestions.md)                           | require suggestable rules to implement a `meta.hasSuggestions` property                    | ✅  | 🔧  |     |     |
+| [require-meta-languages](docs/rules/require-meta-languages.md)                                       | require rules to implement a `meta.languages` property                                     |     |     |     |     |
 | [require-meta-schema](docs/rules/require-meta-schema.md)                                             | require rules to implement a `meta.schema` property                                        | ✅  |     | 💡  |     |
 | [require-meta-schema-description](docs/rules/require-meta-schema-description.md)                     | require rules `meta.schema` properties to include descriptions                             | ✅  |     |     |     |
 | [require-meta-type](docs/rules/require-meta-type.md)                                                 | require rules to implement a `meta.type` property                                          | ✅  |     |     |     |

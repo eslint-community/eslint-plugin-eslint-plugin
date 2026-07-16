@@ -1,6 +1,6 @@
 /** @type {import('eslint').Rule.RuleModule} */
 const rule = {
-  // eslint-disable-next-line eslint-plugin/require-meta-schema
+  // eslint-disable-next-line eslint-plugin/require-meta-schema, eslint-plugin/require-meta-languages
   meta: {
     type: 'suggestion',
     docs: {

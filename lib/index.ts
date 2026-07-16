@@ -34,6 +34,7 @@ import requireMetaDocsRecommended from './rules/require-meta-docs-recommended.ts
 import requireMetaDocsUrl from './rules/require-meta-docs-url.ts';
 import requireMetaFixable from './rules/require-meta-fixable.ts';
 import requireMetaHasSuggestions from './rules/require-meta-has-suggestions.ts';
+import requireMetaLanguages from './rules/require-meta-languages.ts';
 import requireMetaSchemaDescription from './rules/require-meta-schema-description.ts';
 import requireMetaSchema from './rules/require-meta-schema.ts';
 import requireMetaType from './rules/require-meta-type.ts';
@@ -117,6 +118,7 @@ const allRules = {
   'require-meta-docs-url': requireMetaDocsUrl,
   'require-meta-fixable': requireMetaFixable,
   'require-meta-has-suggestions': requireMetaHasSuggestions,
+  'require-meta-languages': requireMetaLanguages,
   'require-meta-schema-description': requireMetaSchemaDescription,
   'require-meta-schema': requireMetaSchema,
   'require-meta-type': requireMetaType,
