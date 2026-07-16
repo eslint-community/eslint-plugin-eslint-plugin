@@ -11,6 +11,13 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.4.2...v7.5.0) (2026-07-16)
+
+
+### Features
+
+* add new rule `require-meta-languages` ([#643](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/643)) ([9a202d5](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/9a202d59ac1fb120b1ba4574ea1e544ff81279af))
+
 ## [7.4.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.4.1...v7.4.2) (2026-07-12)
 
 
