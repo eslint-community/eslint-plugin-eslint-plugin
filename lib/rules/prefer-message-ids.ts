@@ -43,6 +43,7 @@ const rule: Rule.RuleModule = {
     }
 
     let contextIdentifiers: Set<Node>;
+    let hasReportCall = false;
 
     // ----------------------------------------------------------------------
     // Public
@@ -50,12 +51,17 @@ const rule: Rule.RuleModule = {
 
     return {
       Program(ast) {
-        const scope = sourceCode.getScope(ast);
         contextIdentifiers = getContextIdentifiers(
           sourceCode.scopeManager,
           ast,
         );
+      },
+      'Program:exit'(ast) {
+        if (!hasReportCall) {
+          return;
+        }
 
+        const scope = sourceCode.getScope(ast);
         const metaNode = ruleInfo.meta;
         const metaProperties = evaluateObjectProperties(
           metaNode,
@@ -103,6 +109,8 @@ const rule: Rule.RuleModule = {
           node.callee.property.type === 'Identifier' &&
           node.callee.property.name === 'report'
         ) {
+          hasReportCall = true;
+
           const reportInfo = getReportInfo(node, context);
           if (!reportInfo) {
             return;
