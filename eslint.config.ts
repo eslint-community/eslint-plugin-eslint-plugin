@@ -82,6 +82,16 @@ export default defineConfig([
     },
   },
   {
+    files: ['lib/rules/meta-property-ordering.ts'],
+    rules: {
+      // TODO: switch elements->items after #641 lands (kept out of this PR to avoid colliding with the open autofix work)
+      'eslint-plugin/no-incomplete-schema': [
+        'error',
+        { checks: { arrayItems: false } },
+      ],
+    },
+  },
+  {
     files: ['**/*.md'],
     plugins: { markdown },
     processor: 'markdown/markdown',

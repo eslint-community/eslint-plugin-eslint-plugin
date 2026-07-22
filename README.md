@@ -74,6 +74,7 @@ export default [
 | [meta-property-ordering](docs/rules/meta-property-ordering.md)                                       | enforce the order of meta properties                                                       |     | 🔧  |     |     |
 | [no-deprecated-context-methods](docs/rules/no-deprecated-context-methods.md)                         | disallow usage of deprecated methods on rule context objects                               | ✅  | 🔧  |     |     |
 | [no-deprecated-report-api](docs/rules/no-deprecated-report-api.md)                                   | disallow the version of `context.report()` with multiple arguments                         | ✅  | 🔧  |     |     |
+| [no-incomplete-schema](docs/rules/no-incomplete-schema.md)                                           | disallow incomplete rule options schemas                                                   |     |     |     |     |
 | [no-matching-violation-suggest-message-ids](docs/rules/no-matching-violation-suggest-message-ids.md) | require suggestions to have different `messageId` than their parent report                 |     |     |     |     |
 | [no-meta-replaced-by](docs/rules/no-meta-replaced-by.md)                                             | disallow using the `meta.replacedBy` rule property                                         | ✅  |     |     |     |
 | [no-meta-schema-default](docs/rules/no-meta-schema-default.md)                                       | disallow rules `meta.schema` properties to include defaults                                | ✅  |     |     |     |

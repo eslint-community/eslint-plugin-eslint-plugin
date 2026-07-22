@@ -90,7 +90,8 @@ const rule: Rule.RuleModule = {
         }
 
         if (
-          schemaProperty.type === 'Literal' ||
+          (schemaProperty.type === 'Literal' &&
+            schemaProperty.value !== false) ||
           isUndefinedIdentifier(schemaProperty)
         ) {
           context.report({ node: schemaProperty, messageId: 'wrongType' });
