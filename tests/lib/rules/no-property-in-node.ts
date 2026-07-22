@@ -105,7 +105,7 @@ ruleTester.run('no-property-in-node', rule, {
       `,
       options: [
         {
-          additionalNodeTypeFiles: [/not-found/],
+          additionalNodeTypeFiles: [/not-found/.source],
         },
       ],
       name: 'additionalNodeTypeFiles with no matches',
@@ -191,7 +191,7 @@ ruleTester.run('no-property-in-node', rule, {
       `,
       options: [
         {
-          additionalNodeTypeFiles: [/lib[/\\]fixtures[/\\]estree\.ts/],
+          additionalNodeTypeFiles: [/lib[/\\]fixtures[/\\]estree\.ts/.source],
         },
       ],
       errors: [

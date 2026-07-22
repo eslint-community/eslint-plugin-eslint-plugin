@@ -32,6 +32,19 @@ ruleTester.run('require-meta-schema', rule, {
         create(context) {}
       };
     `,
+    `
+      module.exports = {
+        meta: { schema: false },
+        create(context) {}
+      };
+    `,
+    `
+      const schema = false;
+      module.exports = {
+        meta: { schema },
+        create(context) {}
+      };
+    `,
     // Schema with options and using `context.options`.
     `
       module.exports = {
@@ -454,6 +467,22 @@ schema: [] },
           line: 3,
         },
       ],
+    },
+    {
+      code: 'module.exports = { meta: { schema: true }, create(context) {} };',
+      output: null,
+      errors: [
+        {
+          messageId: 'wrongType',
+          type: 'Literal',
+          suggestions: [],
+          column: 36,
+          endColumn: 40,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'schema is true',
     },
     {
       code: `
