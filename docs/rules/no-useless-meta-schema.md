@@ -57,3 +57,7 @@ export default [
   },
 ];
 ```
+
+## Related Rules
+
+- [no-incomplete-meta-schema](./no-incomplete-meta-schema.md) — the opinionated counterpart. It enforces opt-in completeness policies for schemas that are valid but underspecified, and it will remain opt-in. This rule is limited to objective defects and is intended to become part of the `recommended` config in a future major release.

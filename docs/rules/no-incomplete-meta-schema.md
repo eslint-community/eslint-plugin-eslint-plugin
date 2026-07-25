@@ -67,8 +67,7 @@ module.exports = {
 
 ## Options
 
-All four checks are enabled when this opt-in rule is enabled. Each check can
-be disabled independently:
+Each check can be disabled independently:
 
 ### `checks`
 
@@ -84,3 +83,7 @@ export default [
   },
 ];
 ```
+
+## Related Rules
+
+- [no-useless-meta-schema](./no-useless-meta-schema.md) — the safe counterpart. It reports only objective defects (schemas or keywords that ESLint's validator ignores or that accept everything) and is intended to become part of the `recommended` config in a future major release. This rule is deliberately opinionated completeness policy and will remain opt-in.

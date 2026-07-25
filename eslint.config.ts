@@ -82,21 +82,6 @@ export default defineConfig([
     },
   },
   {
-    // TODO: drop this block once the follow-up PR for #649 switches `elements` -> `items`
-    // in both of these `order` option schemas (left to the issue reporter; #641 also has
-    // open autofix work in meta-property-ordering).
-    files: [
-      'lib/rules/meta-property-ordering.ts',
-      'lib/rules/test-case-property-ordering.ts',
-    ],
-    rules: {
-      'eslint-plugin/no-incomplete-meta-schema': [
-        'error',
-        { checks: { explicitItems: false } },
-      ],
-    },
-  },
-  {
     files: ['**/*.md'],
     plugins: { markdown },
     processor: 'markdown/markdown',
