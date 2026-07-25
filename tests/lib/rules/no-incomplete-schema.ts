@@ -57,6 +57,14 @@ ruleTester.run('no-incomplete-schema', rule, {
       name: 'tuple bounded by equivalent maxItems cap',
     },
     {
+      code: "module.exports={meta:{schema:[{type:'array',items:[{type:'string'}],additionalItems:{type:'number'}}]},create(context){}};",
+      name: 'tuple bounded by schema-valued additionalItems',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',items:false}]},create(context){}};",
+      name: 'items false rejects every item',
+    },
+    {
       code: "module.exports={meta:{schema:[{type:'array',items:{$ref:'#/definitions/value'},definitions:{value:{enum:['always','never']}}}]},create(context){}};",
       name: 'array item type supplied by a ref',
     },
@@ -73,10 +81,6 @@ ruleTester.run('no-incomplete-schema', rule, {
       name: 'array item type supplied by not constraint',
     },
     {
-      code: "module.exports={meta:{schema:[{type:'array',prefixItems:[{type:'string'}]}]},create(context){}};",
-      name: 'array item constraint supplied by prefixItems',
-    },
-    {
       code: "module.exports={meta:{schema:[{type:'array',allOf:[{items:{type:'string'}}]}]},create(context){}};",
       name: 'array item constraint supplied by allOf',
     },
@@ -91,6 +95,18 @@ ruleTester.run('no-incomplete-schema', rule, {
     {
       code: "module.exports={meta:{schema:{type:'array',oneOf:[{items:[{const:'always'},{type:'object',properties:{enforceForIfStatements:{type:'boolean'}},additionalProperties:false}],minItems:0,maxItems:2},{items:[{const:'never'}],minItems:1,maxItems:1}]}},create(context){}};",
       name: 'core logical assignment composed capped tuples',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',items:{type:'string'},prefixItems:[{type:'object'}]}]},create(context){}};",
+      name: 'ignored prefixItems subschemas are not traversed',
+    },
+    {
+      code: "module.exports={meta:{schema:[{not:{type:'array'}}]},create(context){}};",
+      name: 'negative schemas are not checked as positive constraints',
+    },
+    {
+      code: "module.exports={meta:{schema:[{if:{type:'string'},then:{type:'array'}}]},create(context){}};",
+      name: 'conditional branches are not checked as positive constraints',
     },
     {
       code: "module.exports={meta:{schema:[{type:'array',items:{type:'string',not:{pattern:':exit$'}}}]},create(context){}};",
@@ -132,8 +148,15 @@ ruleTester.run('no-incomplete-schema', rule, {
     },
     {
       code: "module.exports={meta:{schema:{type:'array'}},create(context){}};",
-      options: [{ checks: { rootBareArraySchema: false } }],
-      name: 'rootBareArraySchema can be disabled',
+      options: [
+        {
+          checks: {
+            arrayItems: false,
+            rootBareArraySchema: false,
+          },
+        },
+      ],
+      name: 'rootBareArraySchema and the independent arrayItems check can be disabled',
     },
     {
       code: "module.exports={meta:{schema:{type:'object',additionalProperties:false}},create(context){}};",
@@ -268,6 +291,271 @@ ruleTester.run('no-incomplete-schema', rule, {
         },
       ],
       name: 'arrayItems reports the ignored elements keyword',
+    },
+    {
+      code: "module.exports={meta:{schema:{type:'object',properties:{nested:{type:'array'}},additionalProperties:false}},create(context){}};",
+      options: [{ checks: { rootWrongOptionsType: false } }],
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 64,
+          endColumn: 78,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'disabled root checks preserve nested traversal',
+    },
+    {
+      code: "module.exports={meta:{schema:{type:'array'}},create(context){}};",
+      options: [{ checks: { rootBareArraySchema: false } }],
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 30,
+          endColumn: 44,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'disabled root checks preserve checks on the root schema itself',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',prefixItems:[{type:'string'}]}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 75,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'ignored prefixItems does not constrain array items',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',items:true}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 56,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'items true does not constrain array items',
+    },
+    {
+      code: "const option={type:'object',properties:{value:{type:'string'}}};module.exports={meta:{schema:[option]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingAdditionalProperties',
+          type: 'ObjectExpression',
+          column: 14,
+          endColumn: 64,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'statically resolved positional schemas are traversed',
+    },
+    {
+      code: 'module.exports={meta:{schema:[{}]},create(context){}};',
+      errors: [
+        {
+          messageId: 'emptySchema',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 33,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'empty positional schemas are reported',
+    },
+    {
+      code: "module.exports={meta:{schema:[{title:'description only'}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ineffectiveRootSchema',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 57,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'annotation-only positional schemas are reported',
+    },
+    {
+      code: "module.exports={meta:{schema:{type:['array']}},create(context){}};",
+      errors: [
+        {
+          messageId: 'bareArraySchema',
+          type: 'ObjectExpression',
+          column: 30,
+          endColumn: 46,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'single-element array type reports bareArraySchema',
+    },
+    {
+      code: "module.exports={meta:{schema:[{},{type:'array',items:true},{type:'object',properties:{nested:{type:'array'}}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'emptySchema',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 33,
+          endLine: 1,
+          line: 1,
+        },
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 34,
+          endColumn: 59,
+          endLine: 1,
+          line: 1,
+        },
+        {
+          messageId: 'missingAdditionalProperties',
+          type: 'ObjectExpression',
+          column: 60,
+          endColumn: 110,
+          endLine: 1,
+          line: 1,
+        },
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 94,
+          endColumn: 108,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'multiple defects in one schema are reported together',
+    },
+    {
+      code: "module.exports={meta:{schema:{type:'object',items:[{}],additionalProperties:false}},create(context){}};",
+      options: [{ checks: { rootWrongOptionsType: false } }],
+      errors: [
+        {
+          messageId: 'emptySchema',
+          type: 'ObjectExpression',
+          column: 52,
+          endColumn: 54,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'disabled root traversal reaches no-op tuple elements',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',allOf:[{prefixItems:[{type:'string'}]}]}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 85,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'allOf branches containing only ignored keywords do not constrain items',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',anyOf:[{items:{type:'string'}},{items:true}]}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 90,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'anyOf with an items true branch does not constrain every branch',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',properties:{value:{type:'object',not:{type:'array'}}},additionalProperties:false}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingAdditionalProperties',
+          type: 'ObjectExpression',
+          column: 64,
+          endColumn: 98,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'positive parents remain checked while nested not schemas are skipped',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',additionalProperties:{type:'array'}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 67,
+          endColumn: 81,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'positive additionalProperties schemas remain checked',
+    },
+    {
+      code: "const option={title:'description only'};module.exports={meta:{schema:[option]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ineffectiveRootSchema',
+          type: 'ObjectExpression',
+          column: 14,
+          endColumn: 40,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'statically resolved no-op positional schemas are reported',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',$dynamicRef:'#value'}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 66,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'ignored dynamicRef does not constrain array items',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',$recursiveRef:'#'}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'missingItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 63,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'ignored recursiveRef does not constrain array items',
     },
     {
       code: "module.exports={meta:{schema:[{type:'array',items:{pattern:'^x'}}]},create(context){}};",

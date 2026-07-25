@@ -21,6 +21,17 @@ shapes that can be identified without guessing about a rule's option semantics.
 | `arrayItems`                         | An explicit array schema with no recognized item constraint.                                |
 | `arrayItemType`                      | An array item schema with neither `type` nor a recognized type-constraining alternative.    |
 
+### Dialect basis
+
+ESLint 9.39.5 configures ajv@6 with the draft-04 meta-schema and
+`schemaId: "auto"`, while ajv@6 enforces the draft-07 runtime keyword set,
+including `const`, `contains`, `if`/`then`/`else`, `propertyNames`, and
+`additionalItems`. It ignores `prefixItems`, `unevaluatedItems`,
+`unevaluatedProperties`, `$dynamicRef`, `$recursiveRef`, `minContains`,
+`maxContains`, `dependentSchemas`, `dependentRequired`, and `contentSchema`,
+so this rule neither credits those keywords as constraints nor descends into
+their subschemas.
+
 For example, the following schemas are incomplete:
 
 ```js
@@ -99,5 +110,6 @@ export default [
 The policy-oriented `schemaType`, `knownKeywords`,
 `objectAdditionalPropertiesFalse`, `arrayMinItems`, `arrayMaxItems`,
 `stringMinLength`, `stringMaxLength`, `objectProperties`, and
-`arrayUniqueItems` checks are excluded because valid schemas produced false
+`arrayUniqueItems` checks were considered during the initial design but not
+shipped. They are not configurable checks because valid schemas produced false
 positives for those policies.

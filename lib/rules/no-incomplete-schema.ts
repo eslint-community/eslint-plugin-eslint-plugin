@@ -2,7 +2,7 @@
  * @fileoverview Disallow incomplete rule options schemas.
  * @author morgan-coded
  */
-import { getStaticValue } from '@eslint-community/eslint-utils';
+import { findVariable, getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule, Scope } from 'eslint';
 import type { Node, ObjectExpression, Property } from 'estree';
 
@@ -27,6 +27,10 @@ const defaultChecks = {
 };
 
 type Checks = typeof defaultChecks;
+type ChildSchema = {
+  checkPositionalNoop: boolean;
+  schema: ObjectExpression;
+};
 type ObjectProperties = Map<string, Property>;
 
 const annotations = new Set([
@@ -43,14 +47,29 @@ const annotations = new Set([
   'writeOnly',
 ]);
 
+// ESLint 9.39.5's node_modules/eslint/lib/shared/ajv.js constructs ajv@6
+// with the draft-04 meta-schema and schemaId: "auto". Its runtime keyword
+// behavior is draft-07, so these newer-draft keywords are known but ignored:
+// they must neither receive constraint credit nor be traversed.
+const ignoredByAjv6Keywords = new Set([
+  '$dynamicRef',
+  '$recursiveRef',
+  'contentSchema',
+  'dependentRequired',
+  'dependentSchemas',
+  'maxContains',
+  'minContains',
+  'prefixItems',
+  'unevaluatedItems',
+  'unevaluatedProperties',
+]);
+
 const knownKeywords = new Set([
   ...annotations,
   '$anchor',
   '$defs',
   '$dynamicAnchor',
-  '$dynamicRef',
   '$recursiveAnchor',
-  '$recursiveRef',
   '$ref',
   '$vocabulary',
   'additionalItems',
@@ -61,11 +80,8 @@ const knownKeywords = new Set([
   'contains',
   'contentEncoding',
   'contentMediaType',
-  'contentSchema',
   'definitions',
   'dependencies',
-  'dependentRequired',
-  'dependentSchemas',
   'disallow',
   'divisibleBy',
   'else',
@@ -76,12 +92,10 @@ const knownKeywords = new Set([
   'format',
   'if',
   'items',
-  'maxContains',
   'maximum',
   'maxItems',
   'maxLength',
   'maxProperties',
-  'minContains',
   'minimum',
   'minItems',
   'minLength',
@@ -91,21 +105,16 @@ const knownKeywords = new Set([
   'oneOf',
   'pattern',
   'patternProperties',
-  'prefixItems',
   'properties',
   'propertyNames',
   'required',
   'then',
   'type',
-  'unevaluatedItems',
-  'unevaluatedProperties',
   'uniqueItems',
 ]);
 
 const typeAlternativeKeywords = new Set([
   '$ref',
-  '$dynamicRef',
-  '$recursiveRef',
   'allOf',
   'anyOf',
   'const',
@@ -116,8 +125,6 @@ const typeAlternativeKeywords = new Set([
 ]);
 
 const arrayApplicableKeywords = new Set([
-  '$dynamicRef',
-  '$recursiveRef',
   '$ref',
   'allOf',
   'anyOf',
@@ -127,16 +134,12 @@ const arrayApplicableKeywords = new Set([
   'enum',
   'if',
   'items',
-  'maxContains',
   'maxItems',
-  'minContains',
   'minItems',
   'not',
   'oneOf',
-  'prefixItems',
   'then',
   'type',
-  'unevaluatedItems',
   'uniqueItems',
 ]);
 
@@ -144,21 +147,13 @@ const directSchemaKeywords = [
   'additionalItems',
   'additionalProperties',
   'contains',
-  'contentSchema',
-  'else',
-  'if',
-  'not',
   'propertyNames',
-  'then',
-  'unevaluatedItems',
-  'unevaluatedProperties',
 ];
 
-const arraySchemaKeywords = ['allOf', 'anyOf', 'oneOf', 'prefixItems'];
+const arraySchemaKeywords = ['allOf', 'anyOf', 'oneOf'];
 const mapSchemaKeywords = [
   '$defs',
   'definitions',
-  'dependentSchemas',
   'patternProperties',
   'properties',
 ];
@@ -226,6 +221,30 @@ function isStaticallyInspectable(
   return getStaticValue(node, scope) !== null;
 }
 
+function resolveObjectExpression(
+  node: Node,
+  scopeManager: Scope.ScopeManager,
+  visited = new Set<Node>(),
+): ObjectExpression | null {
+  if (node.type === 'ObjectExpression') {
+    return node;
+  }
+  if (node.type !== 'Identifier' || visited.has(node)) {
+    return null;
+  }
+  visited.add(node);
+
+  const variable = findVariable(
+    scopeManager.acquire(node) || scopeManager.globalScope!,
+    node,
+  );
+  const definition = variable?.defs[0]?.node;
+  if (definition?.type !== 'VariableDeclarator' || definition.init === null) {
+    return null;
+  }
+  return resolveObjectExpression(definition.init, scopeManager, visited);
+}
+
 function getPropertyStaticValue(
   property: Property | undefined,
   scope: Scope.Scope,
@@ -245,8 +264,21 @@ function hasType(
   );
 }
 
+function hasOnlyArrayType(
+  properties: ObjectProperties,
+  scope: Scope.Scope,
+): boolean {
+  const value = getPropertyStaticValue(properties.get('type'), scope);
+  return (
+    value === 'array' ||
+    (Array.isArray(value) && value.length === 1 && value[0] === 'array')
+  );
+}
+
 function hasUnknownKeyword(properties: ObjectProperties): boolean {
-  return [...properties.keys()].some((key) => !knownKeywords.has(key));
+  return [...properties.keys()].some(
+    (key) => !knownKeywords.has(key) && !ignoredByAjv6Keywords.has(key),
+  );
 }
 
 function hasTypeAlternative(properties: ObjectProperties): boolean {
@@ -265,17 +297,15 @@ function getArrayElements(property: Property | undefined): Node[] | null {
 
 function hasItemConstraint(
   properties: ObjectProperties,
+  scope: Scope.Scope,
   scopeManager: Scope.ScopeManager,
   seen = new Set<ObjectExpression>(),
 ): boolean {
-  if (properties.has('items') || properties.has('prefixItems')) {
+  const items = properties.get('items');
+  if (items && getStaticValue(items.value, scope)?.value !== true) {
     return true;
   }
-  if (
-    ['$ref', '$dynamicRef', '$recursiveRef', 'if', 'not'].some((key) =>
-      properties.has(key),
-    )
-  ) {
+  if (['$ref', 'if', 'not'].some((key) => properties.has(key))) {
     return true;
   }
 
@@ -290,7 +320,7 @@ function hasItemConstraint(
         return true;
       }
       const nextSeen = new Set(seen).add(branch);
-      return hasItemConstraint(branchProperties, scopeManager, nextSeen);
+      return hasItemConstraint(branchProperties, scope, scopeManager, nextSeen);
     })
   ) {
     return true;
@@ -310,7 +340,12 @@ function hasItemConstraint(
           return true;
         }
         const nextSeen = new Set(seen).add(branch);
-        return hasItemConstraint(branchProperties, scopeManager, nextSeen);
+        return hasItemConstraint(
+          branchProperties,
+          scope,
+          scopeManager,
+          nextSeen,
+        );
       })
     ) {
       return true;
@@ -322,11 +357,11 @@ function hasItemConstraint(
 function getChildSchemas(
   properties: ObjectProperties,
   scopeManager: Scope.ScopeManager,
-): ObjectExpression[] {
-  const children: ObjectExpression[] = [];
-  const addObject = (node: Node) => {
+): ChildSchema[] {
+  const children: ChildSchema[] = [];
+  const addObject = (node: Node, checkPositionalNoop = false) => {
     if (node.type === 'ObjectExpression') {
-      children.push(node);
+      children.push({ checkPositionalNoop, schema: node });
     }
   };
 
@@ -341,7 +376,7 @@ function getChildSchemas(
   if (items?.value.type === 'ArrayExpression') {
     for (const element of items.value.elements) {
       if (element && element.type !== 'SpreadElement') {
-        addObject(element);
+        addObject(element, true);
       }
     }
   } else if (items) {
@@ -528,6 +563,7 @@ const rule: Rule.RuleModule = {
         const visitSchema = (
           schema: ObjectExpression,
           seen: Set<ObjectExpression>,
+          checkPositionalNoop = false,
         ) => {
           if (seen.has(schema)) {
             return;
@@ -537,6 +573,22 @@ const rule: Rule.RuleModule = {
           const properties = getObjectProperties(schema, scopeManager);
           if (!properties) {
             return;
+          }
+
+          if (checkPositionalNoop) {
+            const keys = [...properties.keys()];
+            const assertionKeys = keys.filter((key) => !annotations.has(key));
+            if (keys.length === 0 && checks.rootEmptySchema) {
+              context.report({ node: schema, messageId: 'emptySchema' });
+              return;
+            }
+            if (assertionKeys.length === 0 && checks.rootObjectKeywordNoop) {
+              context.report({
+                node: schema,
+                messageId: 'ineffectiveRootSchema',
+              });
+              return;
+            }
           }
 
           if (
@@ -553,10 +605,17 @@ const rule: Rule.RuleModule = {
           if (hasType(properties, 'array', scope)) {
             const itemsProperty = properties.get('items');
             if (itemsProperty?.value.type === 'ArrayExpression') {
+              const additionalItemsProperty = properties.get('additionalItems');
               const additionalItems = getPropertyStaticValue(
-                properties.get('additionalItems'),
+                additionalItemsProperty,
                 scope,
               );
+              const hasAdditionalItemsSchema =
+                additionalItemsProperty !== undefined &&
+                resolveObjectExpression(
+                  additionalItemsProperty.value,
+                  scopeManager,
+                ) !== null;
               const maxItems = getPropertyStaticValue(
                 properties.get('maxItems'),
                 scope,
@@ -564,6 +623,7 @@ const rule: Rule.RuleModule = {
               if (
                 checks.tupleAdditionalItems &&
                 additionalItems !== false &&
+                !hasAdditionalItemsSchema &&
                 (!Number.isInteger(maxItems) ||
                   (maxItems as number) > itemsProperty.value.elements.length)
               ) {
@@ -576,7 +636,7 @@ const rule: Rule.RuleModule = {
 
             if (
               checks.arrayItems &&
-              !hasItemConstraint(properties, scopeManager)
+              !hasItemConstraint(properties, scope, scopeManager)
             ) {
               context.report({ node: schema, messageId: 'missingItems' });
             }
@@ -610,7 +670,7 @@ const rule: Rule.RuleModule = {
           }
 
           for (const child of getChildSchemas(properties, scopeManager)) {
-            visitSchema(child, seen);
+            visitSchema(child.schema, seen, child.checkPositionalNoop);
           }
         };
 
@@ -635,8 +695,7 @@ const rule: Rule.RuleModule = {
             rootDefect = 'emptySchema';
             rootCheck = 'rootEmptySchema';
           } else if (
-            getPropertyStaticValue(rootProperties.get('type'), scope) ===
-              'array' &&
+            hasOnlyArrayType(rootProperties, scope) &&
             assertionKeys.length === 1 &&
             assertionKeys[0] === 'type'
           ) {
@@ -656,10 +715,8 @@ const rule: Rule.RuleModule = {
             rootCheck = 'rootObjectKeywordNoop';
           }
 
-          if (rootDefect && rootCheck) {
-            if (checks[rootCheck]) {
-              context.report({ node: schemaValue, messageId: rootDefect });
-            }
+          if (rootDefect && rootCheck && checks[rootCheck]) {
+            context.report({ node: schemaValue, messageId: rootDefect });
             return;
           }
           visitSchema(schemaValue, seen);
@@ -667,8 +724,14 @@ const rule: Rule.RuleModule = {
         }
 
         for (const element of schemaValue.elements) {
-          if (element?.type === 'ObjectExpression') {
-            visitSchema(element, seen);
+          if (element && element.type !== 'SpreadElement') {
+            const resolvedElement = resolveObjectExpression(
+              element,
+              scopeManager,
+            );
+            if (resolvedElement) {
+              visitSchema(resolvedElement, seen, true);
+            }
           }
         }
       },
