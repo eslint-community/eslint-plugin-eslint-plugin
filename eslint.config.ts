@@ -90,9 +90,9 @@ export default defineConfig([
       'lib/rules/test-case-property-ordering.ts',
     ],
     rules: {
-      'eslint-plugin/no-incomplete-schema': [
+      'eslint-plugin/no-incomplete-meta-schema': [
         'error',
-        { checks: { arrayItems: false } },
+        { checks: { explicitItems: false } },
       ],
     },
   },
