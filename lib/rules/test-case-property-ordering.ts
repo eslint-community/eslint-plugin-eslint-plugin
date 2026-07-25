@@ -40,7 +40,7 @@ const rule: Rule.RuleModule = {
       {
         type: 'array',
         description: 'What order to enforce for test case properties.',
-        items: { type: 'string' },
+        elements: { type: 'string' },
       },
     ],
     defaultOptions: [defaultOrder],
