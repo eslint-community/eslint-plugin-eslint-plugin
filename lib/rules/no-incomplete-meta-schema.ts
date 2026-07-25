@@ -17,9 +17,9 @@ import {
   getChildSchemas,
   getObjectProperties,
   getPropertyStaticValue,
+  hasInertKeywordUse,
   hasOnlyArrayType,
   hasType,
-  ignoredByAjv6Keywords,
   isStaticallyInspectable,
   resolveObjectExpression,
   type ObjectProperties,
@@ -72,11 +72,7 @@ function hasUselessKeyword(
   properties: ObjectProperties,
   scope: Scope.Scope,
 ): boolean {
-  return (
-    properties.has('$ref') ||
-    [...ignoredByAjv6Keywords].some((key) => properties.has(key)) ||
-    getPropertyStaticValue(properties.get('required'), scope) === true
-  );
+  return properties.has('$ref') || hasInertKeywordUse(properties, scope);
 }
 
 function isUselessObjectFormRoot(
@@ -103,7 +99,7 @@ function hasItemConstraint(
   if (items && getPropertyStaticValue(items, scope) !== true) {
     return true;
   }
-  if (['$ref', 'if', 'not'].some((key) => properties.has(key))) {
+  if (properties.has('$ref')) {
     return true;
   }
 
@@ -354,7 +350,11 @@ const rule: Rule.RuleModule = {
             }
           }
 
-          for (const child of getChildSchemas(properties, scopeManager)) {
+          for (const child of getChildSchemas(
+            properties,
+            scopeManager,
+            'policy',
+          )) {
             visitSchema(child.schema);
           }
         };

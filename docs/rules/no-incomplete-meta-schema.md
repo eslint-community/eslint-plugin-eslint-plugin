@@ -64,6 +64,9 @@ module.exports = {
 
 `items: {}` is an explicit opt-in to unconstrained items.
 `additionalItems: true` is an explicit opt-in to an open tuple.
+Bare `if` and `not` schemas do not state an item policy by themselves.
+Conditional and negative child schemas remain outside this policy rule's
+positive-schema traversal.
 
 ## Options
 

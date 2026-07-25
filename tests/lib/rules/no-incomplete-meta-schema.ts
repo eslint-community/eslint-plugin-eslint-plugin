@@ -57,6 +57,18 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
       name: 'an ignored keyword is left to the correctness rule without completeness noise',
     },
     {
+      code: "module.exports={meta:{schema:[{type:'array',elements:{type:'string'}}]},create(context){}};",
+      name: 'ignored elements is left to the correctness rule without completeness noise',
+    },
+    {
+      code: "module.exports={meta:{schema:[{extends:[{type:'array'}]}]},create(context){}};",
+      name: 'array-form inert extends is left to the correctness rule',
+    },
+    {
+      code: "module.exports={meta:{schema:[{extends:{type:'array'}}]},create(context){}};",
+      name: 'scalar-form inert extends is left to the correctness rule',
+    },
+    {
       code: "module.exports={meta:{schema:[{$ref:'#/definitions/missing',type:'array'}]},create(context){}};",
       name: 'an unresolved ref and its ignored siblings are left to the correctness rule',
     },
@@ -165,15 +177,11 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
       name: 'a multi-type object-form root can include arrays',
     },
     {
-      code: "module.exports={meta:{schema:[{type:'array',if:{const:true}}]},create(context){}};",
-      name: 'if provides a recognized item-constraint alternative',
-    },
-    {
       code: "module.exports={meta:{schema:[{type:'array',allOf:[{items:{type:'string'}}]}]},create(context){}};",
       name: 'allOf can supply an item constraint',
     },
     {
-      code: "module.exports={meta:{schema:[{type:'array',oneOf:[{items:false},{not:{}}]}]},create(context){}};",
+      code: "module.exports={meta:{schema:[{type:'array',oneOf:[{items:false},{items:{}}]}]},create(context){}};",
       name: 'every oneOf branch can supply an item constraint',
     },
   ],
@@ -207,18 +215,32 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
       name: 'boundedTuples reports an open tuple',
     },
     {
-      code: "module.exports={meta:{schema:[{type:'array',elements:{type:'string'}}]},create(context){}};",
+      code: "module.exports={meta:{schema:[{type:'array',if:{minItems:1}}]},create(context){}};",
       errors: [
         {
           messageId: 'explicitItems',
           type: 'ObjectExpression',
           column: 31,
-          endColumn: 70,
+          endColumn: 61,
           endLine: 1,
           line: 1,
         },
       ],
-      name: 'explicitItems reports the ignored elements keyword',
+      name: 'a bare if does not provide an item policy',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'array',not:{maxItems:0}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'explicitItems',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 62,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a bare not does not provide an item policy',
     },
     {
       code: "module.exports={meta:{schema:[{type:'array',items:true}]},create(context){}};",
@@ -317,32 +339,6 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
         },
       ],
       name: 'positive additionalProperties schemas remain checked',
-    },
-    {
-      code: "module.exports={meta:{schema:[{extends:[{type:'array'}]}]},create(context){}};",
-      errors: [
-        {
-          messageId: 'explicitItems',
-          column: 41,
-          endColumn: 55,
-          endLine: 1,
-          line: 1,
-        },
-      ],
-      name: 'array-form extends schemas are traversed',
-    },
-    {
-      code: "module.exports={meta:{schema:[{extends:{type:'array'}}]},create(context){}};",
-      errors: [
-        {
-          messageId: 'explicitItems',
-          column: 40,
-          endColumn: 54,
-          endLine: 1,
-          line: 1,
-        },
-      ],
-      name: 'scalar-form extends schemas are traversed',
     },
     {
       code: "module.exports={meta:{schema:[{dependencies:{value:{type:'array'},names:['other']}}]},create(context){}};",

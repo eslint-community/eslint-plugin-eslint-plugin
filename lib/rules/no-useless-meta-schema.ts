@@ -3,7 +3,7 @@
  * @author morgan-coded
  */
 import type { Rule, Scope } from 'eslint';
-import type { Node, ObjectExpression } from 'estree';
+import type { ArrayExpression, Node, ObjectExpression } from 'estree';
 
 import {
   getMetaSchemaNode,
@@ -13,13 +13,15 @@ import {
 } from '../utils.ts';
 import {
   annotations,
+  classifyMetaSchemaKeyword,
   getChildSchemas,
   getObjectProperties,
   getPropertyStaticValue,
+  hasInertKeywordUse,
   hasOnlyArrayType,
   hasType,
-  ignoredByAjv6Keywords,
   isStaticallyInspectable,
+  resolveArrayExpression,
   resolveObjectExpression,
   type ObjectProperties,
 } from './meta-schema-utils.ts';
@@ -38,56 +40,6 @@ const defaultChecks = {
 };
 
 type Checks = typeof defaultChecks;
-
-const knownKeywords = new Set([
-  ...annotations,
-  ...ignoredByAjv6Keywords,
-  '$anchor',
-  '$defs',
-  '$dynamicAnchor',
-  '$recursiveAnchor',
-  '$ref',
-  '$vocabulary',
-  'additionalItems',
-  'additionalProperties',
-  'allOf',
-  'anyOf',
-  'const',
-  'contains',
-  'contentEncoding',
-  'contentMediaType',
-  'definitions',
-  'dependencies',
-  'disallow',
-  'divisibleBy',
-  'else',
-  'enum',
-  'exclusiveMaximum',
-  'exclusiveMinimum',
-  'extends',
-  'format',
-  'if',
-  'items',
-  'maximum',
-  'maxItems',
-  'maxLength',
-  'maxProperties',
-  'minimum',
-  'minItems',
-  'minLength',
-  'minProperties',
-  'multipleOf',
-  'not',
-  'oneOf',
-  'pattern',
-  'patternProperties',
-  'properties',
-  'propertyNames',
-  'required',
-  'then',
-  'type',
-  'uniqueItems',
-]);
 
 const arrayApplicableKeywords = new Set([
   '$ref',
@@ -109,7 +61,9 @@ const arrayApplicableKeywords = new Set([
 ]);
 
 function hasUnknownKeyword(properties: ObjectProperties): boolean {
-  return [...properties.keys()].some((key) => !knownKeywords.has(key));
+  return [...properties.keys()].some(
+    (key) => classifyMetaSchemaKeyword(key) === 'unknown',
+  );
 }
 
 const refContainerKeywords = new Set([...annotations, '$defs', 'definitions']);
@@ -152,7 +106,6 @@ const typeKeywordGroups = [
   },
   {
     keywords: new Set([
-      'divisibleBy',
       'exclusiveMaximum',
       'exclusiveMinimum',
       'maximum',
@@ -167,10 +120,7 @@ function hasIgnoredKeyword(
   properties: ObjectProperties,
   scope: Scope.Scope,
 ): boolean {
-  return (
-    [...ignoredByAjv6Keywords].some((key) => properties.has(key)) ||
-    getPropertyStaticValue(properties.get('required'), scope) === true
-  );
+  return hasInertKeywordUse(properties, scope);
 }
 
 function hasIgnoredRefSibling(properties: ObjectProperties): boolean {
@@ -182,28 +132,113 @@ function hasIgnoredRefSibling(properties: ObjectProperties): boolean {
   );
 }
 
+type ReferenceRoot = ArrayExpression | ObjectExpression;
+type ReferenceScope = {
+  baseUri: string | null;
+  resourceRoot: ReferenceRoot;
+};
+type VirtualArraySchemaRoot = {
+  schema: ArrayExpression;
+};
+
+function getDocumentUri(uri: string): string | null {
+  try {
+    const url = new URL(uri);
+    url.hash = '';
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
+function getReferenceScope(
+  schema: ObjectExpression,
+  properties: ObjectProperties,
+  parent: ReferenceScope,
+  scope: Scope.Scope,
+): ReferenceScope {
+  const identifier =
+    getPropertyStaticValue(properties.get('$id'), scope) ??
+    getPropertyStaticValue(properties.get('id'), scope);
+  if (typeof identifier !== 'string') {
+    return parent;
+  }
+
+  try {
+    const baseUri = parent.baseUri
+      ? new URL(identifier, parent.baseUri).href
+      : new URL(identifier).href;
+    return { baseUri, resourceRoot: schema };
+  } catch {
+    return parent;
+  }
+}
+
+function getReferenceFragment(
+  reference: string,
+  referenceScope: ReferenceScope,
+): string | null {
+  if (reference.startsWith('#')) {
+    return reference;
+  }
+  if (referenceScope.baseUri === null) {
+    return null;
+  }
+
+  try {
+    const resolved = new URL(reference, referenceScope.baseUri);
+    const targetDocument = getDocumentUri(resolved.href);
+    const currentDocument = getDocumentUri(referenceScope.baseUri);
+    if (
+      targetDocument === null ||
+      currentDocument === null ||
+      targetDocument !== currentDocument
+    ) {
+      return null;
+    }
+    return resolved.hash || '#';
+  } catch {
+    return null;
+  }
+}
+
 function resolveLocalReference(
   reference: string,
-  root: ObjectExpression,
+  referenceScope: ReferenceScope,
   scopeManager: Scope.ScopeManager,
 ): boolean {
-  if (reference === '#') {
+  const fragment = getReferenceFragment(reference, referenceScope);
+  if (fragment === '#') {
     return true;
   }
-  if (!reference.startsWith('#/')) {
+  if (!fragment?.startsWith('#/')) {
     return false;
   }
 
   let pointer: string;
   try {
-    pointer = decodeURIComponent(reference.slice(2));
+    pointer = decodeURIComponent(fragment.slice(2));
   } catch {
     return false;
   }
 
-  let current: Node = root;
-  for (const rawSegment of pointer.split('/')) {
+  let current: Node | VirtualArraySchemaRoot =
+    referenceScope.resourceRoot.type === 'ArrayExpression'
+      ? { schema: referenceScope.resourceRoot }
+      : referenceScope.resourceRoot;
+  const segments = pointer.split('/');
+  for (const [index, rawSegment] of segments.entries()) {
     const segment = rawSegment.replaceAll('~1', '/').replaceAll('~0', '~');
+    if ('schema' in current) {
+      if (segment === 'items') {
+        current = current.schema;
+        continue;
+      }
+      return (
+        index === segments.length - 1 &&
+        ['maxItems', 'minItems', 'type'].includes(segment)
+      );
+    }
     const resolvedObject = resolveObjectExpression(current, scopeManager);
     if (resolvedObject) {
       const properties = getObjectProperties(resolvedObject, scopeManager);
@@ -214,9 +249,10 @@ function resolveLocalReference(
       current = property.value;
       continue;
     }
-    if (current.type === 'ArrayExpression' && /^\d+$/u.test(segment)) {
+    const resolvedArray = resolveArrayExpression(current, scopeManager);
+    if (resolvedArray && /^\d+$/u.test(segment)) {
       const element: Node | null | undefined =
-        current.elements[Number(segment)];
+        resolvedArray.elements[Number(segment)];
       if (!element) {
         return false;
       }
@@ -230,14 +266,14 @@ function resolveLocalReference(
 
 function hasUnresolvedRef(
   properties: ObjectProperties,
-  root: ObjectExpression,
+  referenceScope: ReferenceScope,
   scope: Scope.Scope,
   scopeManager: Scope.ScopeManager,
 ): boolean {
   const reference = getPropertyStaticValue(properties.get('$ref'), scope);
   return (
     typeof reference === 'string' &&
-    !resolveLocalReference(reference, root, scopeManager)
+    !resolveLocalReference(reference, referenceScope, scopeManager)
   );
 }
 
@@ -494,7 +530,7 @@ const rule: Rule.RuleModule = {
         const seen = new Set<ObjectExpression>();
         const visitSchema = (
           schema: ObjectExpression,
-          referenceRoot: ObjectExpression,
+          parentReferenceScope: ReferenceScope,
         ) => {
           if (seen.has(schema)) {
             return;
@@ -502,6 +538,12 @@ const rule: Rule.RuleModule = {
           seen.add(schema);
 
           const properties = getObjectProperties(schema, scopeManager)!;
+          const referenceScope = getReferenceScope(
+            schema,
+            properties,
+            parentReferenceScope,
+            scope,
+          );
 
           if (checks.ignoredKeywords && hasIgnoredKeyword(properties, scope)) {
             context.report({ node: schema, messageId: 'ignoredKeywords' });
@@ -511,7 +553,7 @@ const rule: Rule.RuleModule = {
           }
           if (
             checks.unresolvedRefs &&
-            hasUnresolvedRef(properties, referenceRoot, scope, scopeManager)
+            hasUnresolvedRef(properties, referenceScope, scope, scopeManager)
           ) {
             context.report({ node: schema, messageId: 'unresolvedRefs' });
           }
@@ -543,8 +585,12 @@ const rule: Rule.RuleModule = {
             context.report({ node: schema, messageId: 'impossibleBounds' });
           }
 
-          for (const child of getChildSchemas(properties, scopeManager)) {
-            visitSchema(child.schema, referenceRoot);
+          for (const child of getChildSchemas(
+            properties,
+            scopeManager,
+            'correctness',
+          )) {
+            visitSchema(child.schema, referenceScope);
           }
         };
 
@@ -592,17 +638,24 @@ const rule: Rule.RuleModule = {
             context.report({ node: schemaValue, messageId: rootDefect });
             return;
           }
-          visitSchema(schemaValue, schemaValue);
+          visitSchema(schemaValue, {
+            baseUri: null,
+            resourceRoot: schemaValue,
+          });
           return;
         }
 
+        const referenceScope: ReferenceScope = {
+          baseUri: null,
+          resourceRoot: schemaValue,
+        };
         for (const element of schemaValue.elements) {
           const resolvedElement = resolveObjectExpression(
             element!,
             scopeManager,
           );
           if (resolvedElement) {
-            visitSchema(resolvedElement, resolvedElement);
+            visitSchema(resolvedElement, referenceScope);
           }
         }
       },

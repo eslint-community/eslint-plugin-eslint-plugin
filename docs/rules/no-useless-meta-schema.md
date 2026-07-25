@@ -29,8 +29,16 @@ ESLint 9.39.5 configures ajv@6 with the draft-04 meta-schema and
 `schemaId: "auto"`, while ajv@6 enforces the draft-07 runtime keyword set. It
 silently ignores later-draft keywords such as `prefixItems`,
 `unevaluatedItems`, `dependentSchemas`, and `$dynamicRef`. It also ignores
-draft-03 `required: true`, unresolved references, and constraint siblings
-beside `$ref`.
+JTD/OpenAPI keywords such as `elements` and `discriminator`, draft-03
+`extends`, `disallow`, and `divisibleBy`, draft-03 `required: true`, and an
+empty `allOf`. Correctness checks recurse through live conditional and negative
+schemas, but do not descend into these inert keywords.
+
+For `$ref` checks, object-form schemas use their schema object as the resolution
+root. Array-form schemas use the wrapper object that ESLint synthesizes around
+the positional schema array. An `id` or `$id` establishes a resource base for
+matching absolute self-references; references to other documents remain
+unresolved under ESLint's `missingRefs: 'ignore'` configuration.
 
 `schema: false` remains the explicit validation opt-out established by
 [ESLint RFC 85](https://github.com/eslint/rfcs/tree/main/designs/2021-schema-object-rules#opt-out).

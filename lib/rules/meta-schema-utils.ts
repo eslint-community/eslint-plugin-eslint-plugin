@@ -1,6 +1,6 @@
 import { findVariable, getStaticValue } from '@eslint-community/eslint-utils';
 import type { Scope } from 'eslint';
-import type { Node, ObjectExpression, Property } from 'estree';
+import type { ArrayExpression, Node, ObjectExpression, Property } from 'estree';
 
 import {
   evaluateObjectProperties,
@@ -12,6 +12,7 @@ export type ChildSchema = {
   checkPositionalNoop: boolean;
   schema: ObjectExpression;
 };
+export type ChildSchemaTraversalPolicy = 'correctness' | 'policy';
 export type ObjectProperties = Map<string, Property>;
 
 export const annotations = new Set([
@@ -30,19 +31,108 @@ export const annotations = new Set([
 
 // ESLint 9.39.5's node_modules/eslint/lib/shared/ajv.js constructs ajv@6
 // with the draft-04 meta-schema and schemaId: "auto". Its runtime keyword
-// behavior is draft-07, so these newer-draft keywords are known but ignored.
-export const ignoredByAjv6Keywords = new Set([
-  '$dynamicRef',
-  '$recursiveRef',
-  'contentSchema',
-  'dependentRequired',
-  'dependentSchemas',
-  'maxContains',
-  'minContains',
-  'prefixItems',
-  'unevaluatedItems',
-  'unevaluatedProperties',
-]);
+// behavior is draft-07. This list is the single partition source: a key
+// cannot appear in both known classes, and every absent key is unknown.
+export type KeywordClassification = 'effective' | 'inert' | 'unknown';
+type KnownKeywordClassification = Exclude<KeywordClassification, 'unknown'>;
+
+const keywordClassificationEntries = [
+  ['$anchor', 'effective'],
+  ['$comment', 'effective'],
+  ['$defs', 'effective'],
+  ['$dynamicAnchor', 'effective'],
+  ['$dynamicRef', 'inert'],
+  ['$id', 'effective'],
+  ['$recursiveAnchor', 'effective'],
+  ['$recursiveRef', 'inert'],
+  ['$ref', 'effective'],
+  ['$schema', 'effective'],
+  ['$vocabulary', 'effective'],
+  ['additionalItems', 'effective'],
+  ['additionalProperties', 'effective'],
+  ['allOf', 'effective'],
+  ['anyOf', 'effective'],
+  ['const', 'effective'],
+  ['contains', 'effective'],
+  ['contentEncoding', 'effective'],
+  ['contentMediaType', 'effective'],
+  ['contentSchema', 'inert'],
+  ['default', 'effective'],
+  ['definitions', 'effective'],
+  ['dependencies', 'effective'],
+  ['dependentRequired', 'inert'],
+  ['dependentSchemas', 'inert'],
+  ['deprecated', 'effective'],
+  ['description', 'effective'],
+  ['disallow', 'inert'],
+  ['discriminator', 'inert'],
+  ['divisibleBy', 'inert'],
+  ['elements', 'inert'],
+  ['else', 'effective'],
+  ['enum', 'effective'],
+  ['examples', 'effective'],
+  ['exclusiveMaximum', 'effective'],
+  ['exclusiveMinimum', 'effective'],
+  ['extends', 'inert'],
+  ['format', 'effective'],
+  ['id', 'effective'],
+  ['if', 'effective'],
+  ['items', 'effective'],
+  ['maximum', 'effective'],
+  ['maxContains', 'inert'],
+  ['maxItems', 'effective'],
+  ['maxLength', 'effective'],
+  ['maxProperties', 'effective'],
+  ['minimum', 'effective'],
+  ['minContains', 'inert'],
+  ['minItems', 'effective'],
+  ['minLength', 'effective'],
+  ['minProperties', 'effective'],
+  ['multipleOf', 'effective'],
+  ['not', 'effective'],
+  ['oneOf', 'effective'],
+  ['optionalProperties', 'inert'],
+  ['pattern', 'effective'],
+  ['patternProperties', 'effective'],
+  ['prefixItems', 'inert'],
+  ['properties', 'effective'],
+  ['propertyNames', 'effective'],
+  ['readOnly', 'effective'],
+  ['required', 'effective'],
+  ['then', 'effective'],
+  ['title', 'effective'],
+  ['type', 'effective'],
+  ['unevaluatedItems', 'inert'],
+  ['unevaluatedProperties', 'inert'],
+  ['uniqueItems', 'effective'],
+  ['values', 'inert'],
+  ['writeOnly', 'effective'],
+] as const satisfies readonly (readonly [string, KnownKeywordClassification])[];
+
+const keywordClassifications = new Map<string, KnownKeywordClassification>(
+  keywordClassificationEntries,
+);
+if (keywordClassifications.size !== keywordClassificationEntries.length) {
+  throw new Error('Meta-schema keyword classifications must be unique.');
+}
+
+export const effectiveKeywords = new Set(
+  keywordClassificationEntries
+    .filter(([, classification]) => classification === 'effective')
+    .map(([keyword]) => keyword),
+);
+
+export const inertKeywords = new Set(
+  keywordClassificationEntries
+    .filter(([, classification]) => classification === 'inert')
+    .map(([keyword]) => keyword),
+);
+
+export function classifyMetaSchemaKeyword(
+  keyword: string,
+): KeywordClassification {
+  return keywordClassifications.get(keyword) ?? 'unknown';
+}
 
 export function getObjectProperties(
   node: ObjectExpression,
@@ -100,15 +190,15 @@ export function isStaticallyInspectable(
   return getStaticValue(node, scope) !== null;
 }
 
-export function resolveObjectExpression(
+function resolveExpression(
   node: Node,
   scopeManager: Scope.ScopeManager,
-  visited = new Set<Node>(),
-): ObjectExpression | null {
-  if (node.type === 'ObjectExpression') {
+  visited: Set<Node>,
+): Node | null {
+  if (node.type !== 'Identifier') {
     return node;
   }
-  if (node.type !== 'Identifier' || visited.has(node)) {
+  if (visited.has(node)) {
     return null;
   }
   visited.add(node);
@@ -121,7 +211,23 @@ export function resolveObjectExpression(
   if (definition?.type !== 'VariableDeclarator' || definition.init === null) {
     return null;
   }
-  return resolveObjectExpression(definition.init, scopeManager, visited);
+  return resolveExpression(definition.init, scopeManager, visited);
+}
+
+export function resolveObjectExpression(
+  node: Node,
+  scopeManager: Scope.ScopeManager,
+): ObjectExpression | null {
+  const resolved = resolveExpression(node, scopeManager, new Set());
+  return resolved?.type === 'ObjectExpression' ? resolved : null;
+}
+
+export function resolveArrayExpression(
+  node: Node,
+  scopeManager: Scope.ScopeManager,
+): ArrayExpression | null {
+  const resolved = resolveExpression(node, scopeManager, new Set());
+  return resolved?.type === 'ArrayExpression' ? resolved : null;
 }
 
 export function getPropertyStaticValue(
@@ -129,6 +235,18 @@ export function getPropertyStaticValue(
   scope: Scope.Scope,
 ): unknown {
   return property ? getStaticValue(property.value, scope)?.value : undefined;
+}
+
+export function hasInertKeywordUse(
+  properties: ObjectProperties,
+  scope: Scope.Scope,
+): boolean {
+  const allOf = getPropertyStaticValue(properties.get('allOf'), scope);
+  return (
+    [...inertKeywords].some((keyword) => properties.has(keyword)) ||
+    getPropertyStaticValue(properties.get('required'), scope) === true ||
+    (Array.isArray(allOf) && allOf.length === 0)
+  );
 }
 
 export function hasType(
@@ -169,6 +287,7 @@ export function getArrayElements(
 export function getChildSchemas(
   properties: ObjectProperties,
   scopeManager: Scope.ScopeManager,
+  policy: ChildSchemaTraversalPolicy,
 ): ChildSchema[] {
   const children: ChildSchema[] = [];
   const addObject = (node: Node, checkPositionalNoop = false) => {
@@ -190,26 +309,36 @@ export function getChildSchemas(
     }
   }
 
+  if (policy === 'correctness') {
+    for (const keyword of ['else', 'if', 'not', 'then']) {
+      const property = properties.get(keyword);
+      if (property) {
+        addObject(property.value);
+      }
+    }
+  }
+
   const items = properties.get('items');
-  if (items?.value.type === 'ArrayExpression') {
-    for (const element of items.value.elements) {
+  const itemSchemas = items
+    ? resolveArrayExpression(items.value, scopeManager)
+    : null;
+  if (itemSchemas) {
+    for (const element of itemSchemas.elements) {
       addObject(element!, true);
     }
   } else if (items) {
     addObject(items.value);
   }
 
-  const extendsProperty = properties.get('extends');
-  if (extendsProperty?.value.type === 'ArrayExpression') {
-    for (const element of extendsProperty.value.elements) {
-      addObject(element!);
-    }
-  } else if (extendsProperty) {
-    addObject(extendsProperty.value);
-  }
-
   for (const keyword of ['allOf', 'anyOf', 'oneOf']) {
-    for (const element of getArrayElements(properties.get(keyword)) ?? []) {
+    const property = properties.get(keyword);
+    const schemas = property
+      ? resolveArrayExpression(property.value, scopeManager)
+      : null;
+    for (const element of schemas?.elements ?? []) {
+      if (!element || element.type === 'SpreadElement') {
+        continue;
+      }
       addObject(element);
     }
   }
@@ -221,21 +350,34 @@ export function getChildSchemas(
     'properties',
   ]) {
     const property = properties.get(keyword);
-    if (property?.value.type !== 'ObjectExpression') {
+    if (!property) {
       continue;
     }
-    const mapProperties = getObjectProperties(property.value, scopeManager)!;
+    const map = resolveObjectExpression(property.value, scopeManager);
+    if (!map) {
+      continue;
+    }
+    const mapProperties = getObjectProperties(map, scopeManager);
+    if (!mapProperties) {
+      continue;
+    }
     for (const child of mapProperties.values()) {
       addObject(child.value);
     }
   }
 
   const dependencies = properties.get('dependencies');
-  if (dependencies?.value.type === 'ObjectExpression') {
-    const dependencyProperties = getObjectProperties(
+  if (dependencies) {
+    const dependencyMap = resolveObjectExpression(
       dependencies.value,
       scopeManager,
-    )!;
+    );
+    const dependencyProperties = dependencyMap
+      ? getObjectProperties(dependencyMap, scopeManager)
+      : null;
+    if (!dependencyProperties) {
+      return children;
+    }
     for (const child of dependencyProperties.values()) {
       if (child.value.type !== 'ArrayExpression') {
         addObject(child.value);

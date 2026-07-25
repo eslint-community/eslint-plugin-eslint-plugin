@@ -18,11 +18,18 @@ const ignoredKeywordCases = [
   'contentSchema:{}',
   "dependentRequired:{value:['other']}",
   'dependentSchemas:{value:{}}',
+  "disallow:'string'",
+  "discriminator:'kind'",
+  'divisibleBy:2',
+  'elements:{}',
+  'extends:{}',
   'maxContains:1',
   'minContains:1',
+  'optionalProperties:{}',
   'prefixItems:[]',
   'unevaluatedItems:false',
   'unevaluatedProperties:false',
+  'values:{}',
 ].map((contents) => {
   const schema = `{${contents}}`;
   return {
@@ -76,8 +83,36 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'object-form options array with an effective item schema',
     },
     {
-      code: "module.exports={meta:{schema:[{$ref:'#/definitions/x',definitions:{x:{type:'string'}}}]},create(context){}};",
-      name: 'a local ref resolves through its definitions container',
+      code: "module.exports={meta:{schema:[{definitions:{v:{type:'string'}},type:'array',items:{$ref:'#/items/0/definitions/v'}}]},create(context){}};",
+      name: 'an array-form ref resolves through the synthesized wrapper root',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://ex/s.json',type:'array',definitions:{v:{type:'string'}},items:{$ref:'http://ex/s.json#/definitions/v'}}},create(context){}};",
+      name: 'an object-form absolute self reference resolves under id',
+    },
+    {
+      code: "module.exports={meta:{schema:[{id:'http://ex/s.json',definitions:{v:{type:'string'}},$ref:'http://ex/s.json#/definitions/v'}]},create(context){}};",
+      name: 'an array-form element id establishes an absolute reference resource',
+    },
+    {
+      code: "module.exports={meta:{schema:{$id:'http://ex/s.json',type:'array',definitions:{v:{type:'string'}},items:{$ref:'http://ex/s.json#/definitions/v'}}},create(context){}};",
+      name: 'an object-form absolute self reference resolves under $id',
+    },
+    {
+      code: "module.exports={meta:{schema:[{$id:'http://ex/s.json',definitions:{v:{type:'string'}},$ref:'http://ex/s.json#/definitions/v'}]},create(context){}};",
+      name: 'an array-form element $id establishes an absolute reference resource',
+    },
+    {
+      code: "module.exports={meta:{schema:[{$ref:'#/items/0'}]},create(context){}};",
+      name: 'an element-root self reference is resolved without recursing the rule',
+    },
+    {
+      code: "module.exports={meta:{schema:[{$defs:{a:{$ref:'#/items/0/$defs/b'},b:{type:'string'}},type:'array',items:{$ref:'#/items/0/$defs/a'}}]},create(context){}};",
+      name: 'deep $defs references resolve through the synthesized wrapper root',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',properties:{extends:{type:'string'}}}]},create(context){}};",
+      name: 'a property option named extends is not treated as a schema keyword',
     },
     {
       code: "module.exports={meta:{schema:[{type:'array',minItems:1,maxItems:1}]},create(context){}};",
@@ -132,8 +167,8 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'a self reference resolves',
     },
     {
-      code: "module.exports={meta:{schema:[{$ref:'#/definitions/list/0',definitions:{list:[{type:'string'}]}}]},create(context){}};",
-      name: 'a local reference resolves through an array index',
+      code: "module.exports={meta:{schema:[{$ref:'#/items/0/definitions/list/0',definitions:{list:[{type:'string'}]}}]},create(context){}};",
+      name: 'a wrapper-rooted local reference resolves through an array index',
     },
     {
       code: "module.exports={meta:{schema:{type:['array','string'],items:{type:'string'}}},create(context){}};",
@@ -142,6 +177,216 @@ ruleTester.run('no-useless-meta-schema', rule, {
   ],
   invalid: [
     ...ignoredKeywordCases,
+    {
+      code: "module.exports={meta:{schema:[{definitions:{v:{type:'string'}},$ref:'#/definitions/v'}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 87,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'an element-rooted fragment does not resolve from an array-form schema',
+    },
+    {
+      code: "module.exports={meta:{schema:[{definitions:{v:{type:'string'}},$ref:'#/definitions/v'},{type:'array',items:{$ref:'#/items/0/definitions/v'}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 87,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'element-rooted and wrapper-rooted refs in one array report only the unresolved element-rooted ref',
+    },
+    {
+      code: "module.exports={meta:{schema:[{not:{$ref:'#/missing'}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 36,
+          endColumn: 54,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a ref under not uses the wrapper resource and correctness traversal',
+    },
+    {
+      code: "module.exports={meta:{schema:[{not:{prefixItems:[{type:'string'}]}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 36,
+          endColumn: 67,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'not containing prefixItems degrades to not empty and rejects every configured value except the empty options array',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',if:{prefixItems:[{type:'string'}]},then:{required:['a']}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 49,
+          endColumn: 80,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'ignored keywords inside if are checked for correctness',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',if:{required:['a']},then:{unevaluatedProperties:false}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 71,
+          endColumn: 100,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'ignored keywords inside then are checked for correctness',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',if:{required:['a']},else:{$ref:'#/nope'}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 71,
+          endColumn: 86,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'unresolved references inside else are checked for correctness',
+    },
+    {
+      code: "const properties={value:{prefixItems:[]}};module.exports={meta:{schema:[{type:'object',properties}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 25,
+          endColumn: 41,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a statically resolved properties container is traversed',
+    },
+    {
+      code: "const items=[{prefixItems:[]}];module.exports={meta:{schema:[{type:'array',items}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 14,
+          endColumn: 30,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a statically resolved tuple items container is traversed',
+    },
+    {
+      code: 'const allOf=[{prefixItems:[]}];module.exports={meta:{schema:[{allOf}]},create(context){}};',
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 14,
+          endColumn: 30,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a statically resolved allOf container is traversed',
+    },
+    {
+      code: 'const properties={value:{prefixItems:[]}};module.exports={meta:{schema:[{if:{properties}}]},create(context){}};',
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 25,
+          endColumn: 41,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a hoisted properties container inside if combines conditional and container traversal',
+    },
+    {
+      code: "const properties={value:{elements:{type:'string'}}};module.exports={meta:{schema:[{if:{required:['x']},then:{properties}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 25,
+          endColumn: 51,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'an inert JTD keyword in a hoisted container under then combines all three traversal fixes',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',properties:{value:{prefixItems:[]}}}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 64,
+          endColumn: 80,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'an inline properties container remains traversed',
+    },
+    {
+      code: "module.exports={meta:{schema:[{type:'object',properties:{f:{type:'array',elements:{type:'string'}}},additionalProperties:false}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 60,
+          endColumn: 99,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'the no-property-in-node elements shape reports as an ignored keyword',
+    },
+    {
+      code: 'module.exports={meta:{schema:[{allOf:[]}]},create(context){}};',
+      errors: [
+        {
+          messageId: 'ignoredKeywords',
+          type: 'ObjectExpression',
+          column: 31,
+          endColumn: 41,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'an empty allOf is an inert keyword use',
+    },
     {
       code: 'module.exports={meta:{schema:{}},create(context){}};',
       errors: [
@@ -199,6 +444,20 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'nonConstrainingRoot reports array-irrelevant root keywords',
     },
     {
+      code: 'module.exports={meta:{schema:{dependencies:{value:{}}}},create(context){}};',
+      errors: [
+        {
+          messageId: 'nonConstrainingRoot',
+          type: 'ObjectExpression',
+          column: 30,
+          endColumn: 55,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'dependencies remains an effective array-irrelevant keyword',
+    },
+    {
       code: 'module.exports={meta:{schema:[{required:true}]},create(context){}};',
       errors: [
         {
@@ -213,13 +472,13 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'ignoredKeywords reports draft-03 required true',
     },
     {
-      code: "module.exports={meta:{schema:[{$ref:'#/definitions/x',type:'string',definitions:{x:{type:'string'}}}]},create(context){}};",
+      code: "module.exports={meta:{schema:[{$ref:'#/items/0/definitions/x',type:'string',definitions:{x:{type:'string'}}}]},create(context){}};",
       errors: [
         {
           messageId: 'ignoredRefSiblings',
           type: 'ObjectExpression',
           column: 31,
-          endColumn: 101,
+          endColumn: 109,
           endLine: 1,
           line: 1,
         },
@@ -360,12 +619,12 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'an external reference is unresolved by the local resolver',
     },
     {
-      code: "module.exports={meta:{schema:[{$ref:'#/definitions/list/nope',definitions:{list:[{type:'string'}]}}]},create(context){}};",
+      code: "module.exports={meta:{schema:[{$ref:'#/items/0/definitions/list/nope',definitions:{list:[{type:'string'}]}}]},create(context){}};",
       errors: [
         {
           messageId: 'unresolvedRefs',
           column: 31,
-          endColumn: 100,
+          endColumn: 108,
           endLine: 1,
           line: 1,
         },
@@ -373,12 +632,12 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'a nonnumeric array pointer segment is unresolved',
     },
     {
-      code: "module.exports={meta:{schema:[{$ref:'#/definitions/list/1',definitions:{list:[{type:'string'}]}}]},create(context){}};",
+      code: "module.exports={meta:{schema:[{$ref:'#/items/0/definitions/list/1',definitions:{list:[{type:'string'}]}}]},create(context){}};",
       errors: [
         {
           messageId: 'unresolvedRefs',
           column: 31,
-          endColumn: 97,
+          endColumn: 105,
           endLine: 1,
           line: 1,
         },
