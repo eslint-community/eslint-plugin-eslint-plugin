@@ -4,9 +4,8 @@
 
 <!-- end auto-generated rule header -->
 
-ESLint validates rule options with a configured Ajv 6 instance. Some schema
-forms accept every options array, use ignored keywords, or contain constraints
-that cannot take effect. This rule reports those objective defects.
+Some schema forms accept every options array, use ignored keywords, or contain
+constraints that cannot take effect. This rule reports those objective defects.
 This rule is intended to become part of the `recommended` config.
 
 ## Rule Details
