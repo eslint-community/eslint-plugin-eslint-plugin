@@ -6,7 +6,7 @@ import { Linter, RuleTester } from 'eslint';
 import { expect, it } from 'vitest';
 
 import incompleteRule from '../../../lib/rules/no-incomplete-meta-schema.ts';
-import rule from '../../../lib/rules/no-useless-meta-schema.ts';
+import rule from '../../../lib/rules/no-incorrect-meta-schema.ts';
 
 const ruleTester = new RuleTester({
   languageOptions: { sourceType: 'commonjs' },
@@ -48,7 +48,7 @@ const ignoredKeywordCases = [
   };
 });
 
-ruleTester.run('no-useless-meta-schema', rule, {
+ruleTester.run('no-incorrect-meta-schema', rule, {
   valid: [
     {
       code: 'module.exports={meta:{schema:false},create(context){}};',
@@ -830,13 +830,13 @@ it('does not duplicate an ignored keyword with completeness noise', () => {
           'eslint-plugin': {
             rules: {
               'no-incomplete-meta-schema': incompleteRule,
-              'no-useless-meta-schema': rule,
+              'no-incorrect-meta-schema': rule,
             },
           },
         },
         rules: {
           'eslint-plugin/no-incomplete-meta-schema': 'error',
-          'eslint-plugin/no-useless-meta-schema': 'error',
+          'eslint-plugin/no-incorrect-meta-schema': 'error',
         },
       },
     ],
@@ -857,13 +857,13 @@ it('leaves an explicit wrong root type to the correctness rule', () => {
           'eslint-plugin': {
             rules: {
               'no-incomplete-meta-schema': incompleteRule,
-              'no-useless-meta-schema': rule,
+              'no-incorrect-meta-schema': rule,
             },
           },
         },
         rules: {
           'eslint-plugin/no-incomplete-meta-schema': 'error',
-          'eslint-plugin/no-useless-meta-schema': 'error',
+          'eslint-plugin/no-incorrect-meta-schema': 'error',
         },
       },
     ],
@@ -889,13 +889,13 @@ it('does not duplicate useless root defects with completeness noise', () => {
             'eslint-plugin': {
               rules: {
                 'no-incomplete-meta-schema': incompleteRule,
-                'no-useless-meta-schema': rule,
+                'no-incorrect-meta-schema': rule,
               },
             },
           },
           rules: {
             'eslint-plugin/no-incomplete-meta-schema': 'error',
-            'eslint-plugin/no-useless-meta-schema': 'error',
+            'eslint-plugin/no-incorrect-meta-schema': 'error',
           },
         },
       ],

@@ -95,4 +95,4 @@ export default [
 
 ## Related Rules
 
-- [no-useless-meta-schema](./no-useless-meta-schema.md) — the safe counterpart. It reports only objective defects.
+- [no-incorrect-meta-schema](./no-incorrect-meta-schema.md) — the safe counterpart. It reports only objective defects.

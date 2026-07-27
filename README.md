@@ -75,6 +75,7 @@ export default [
 | [no-deprecated-context-methods](docs/rules/no-deprecated-context-methods.md)                         | disallow usage of deprecated methods on rule context objects                               | ✅  | 🔧  |     |     |
 | [no-deprecated-report-api](docs/rules/no-deprecated-report-api.md)                                   | disallow the version of `context.report()` with multiple arguments                         | ✅  | 🔧  |     |     |
 | [no-incomplete-meta-schema](docs/rules/no-incomplete-meta-schema.md)                                 | require explicit policy choices in rule options schemas                                    |     |     |     |     |
+| [no-incorrect-meta-schema](docs/rules/no-incorrect-meta-schema.md)                                   | disallow rule options schema constructs that ESLint ignores                                |     |     |     |     |
 | [no-matching-violation-suggest-message-ids](docs/rules/no-matching-violation-suggest-message-ids.md) | require suggestions to have different `messageId` than their parent report                 |     |     |     |     |
 | [no-meta-replaced-by](docs/rules/no-meta-replaced-by.md)                                             | disallow using the `meta.replacedBy` rule property                                         | ✅  |     |     |     |
 | [no-meta-schema-default](docs/rules/no-meta-schema-default.md)                                       | disallow rules `meta.schema` properties to include defaults                                | ✅  |     |     |     |
@@ -83,7 +84,6 @@ export default [
 | [no-property-in-node](docs/rules/no-property-in-node.md)                                             | disallow using `in` to narrow node types instead of looking at properties                  |     |     |     | 💭  |
 | [no-unused-message-ids](docs/rules/no-unused-message-ids.md)                                         | disallow unused `messageId`s in `meta.messages`                                            | ✅  |     |     |     |
 | [no-unused-placeholders](docs/rules/no-unused-placeholders.md)                                       | disallow unused placeholders in rule report messages                                       | ✅  |     |     |     |
-| [no-useless-meta-schema](docs/rules/no-useless-meta-schema.md)                                       | disallow rule options schema constructs that ESLint ignores                                |     |     |     |     |
 | [no-useless-token-range](docs/rules/no-useless-token-range.md)                                       | disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()` | ✅  | 🔧  |     |     |
 | [prefer-message-ids](docs/rules/prefer-message-ids.md)                                               | require using `messageId` instead of `message` or `desc` to report rule violations         | ✅  |     |     |     |
 | [prefer-object-rule](docs/rules/prefer-object-rule.md)                                               | disallow function-style rules                                                              | ✅  | 🔧  |     |     |

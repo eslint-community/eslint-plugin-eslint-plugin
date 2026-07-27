@@ -576,7 +576,7 @@ const rule: Rule.RuleModule = {
         'disallow rule options schema constructs that ESLint ignores',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-useless-meta-schema.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-incorrect-meta-schema.md',
     },
     schema: [
       {

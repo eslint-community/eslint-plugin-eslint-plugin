@@ -13,6 +13,7 @@ import noDeprecatedContextMethods from './rules/no-deprecated-context-methods.ts
 import noDeprecatedReportApi from './rules/no-deprecated-report-api.ts';
 import noIdenticalTests from './rules/no-identical-tests.ts';
 import noIncompleteMetaSchema from './rules/no-incomplete-meta-schema.ts';
+import noIncorrectMetaSchema from './rules/no-incorrect-meta-schema.ts';
 import noMatchingViolationSuggestMessageIds from './rules/no-matching-violation-suggest-message-ids.ts';
 import noMetaReplacedBy from './rules/no-meta-replaced-by.ts';
 import noMetaSchemaDefault from './rules/no-meta-schema-default.ts';
@@ -22,7 +23,6 @@ import noOnlyTests from './rules/no-only-tests.ts';
 import noPropertyInNode from './rules/no-property-in-node.ts';
 import noUnusedMessageIds from './rules/no-unused-message-ids.ts';
 import noUnusedPlaceholders from './rules/no-unused-placeholders.ts';
-import noUselessMetaSchema from './rules/no-useless-meta-schema.ts';
 import noUselessTokenRange from './rules/no-useless-token-range.ts';
 import preferMessageIds from './rules/prefer-message-ids.ts';
 import preferObjectRule from './rules/prefer-object-rule.ts';
@@ -98,6 +98,7 @@ const allRules = {
   'no-deprecated-report-api': noDeprecatedReportApi,
   'no-identical-tests': noIdenticalTests,
   'no-incomplete-meta-schema': noIncompleteMetaSchema,
+  'no-incorrect-meta-schema': noIncorrectMetaSchema,
   'no-matching-violation-suggest-message-ids':
     noMatchingViolationSuggestMessageIds,
   'no-meta-replaced-by': noMetaReplacedBy,
@@ -108,7 +109,6 @@ const allRules = {
   'no-property-in-node': noPropertyInNode,
   'no-unused-message-ids': noUnusedMessageIds,
   'no-unused-placeholders': noUnusedPlaceholders,
-  'no-useless-meta-schema': noUselessMetaSchema,
   'no-useless-token-range': noUselessTokenRange,
   'prefer-message-ids': preferMessageIds,
   'prefer-object-rule': preferObjectRule,

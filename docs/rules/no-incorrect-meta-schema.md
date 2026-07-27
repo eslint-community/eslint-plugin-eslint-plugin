@@ -1,4 +1,4 @@
-# eslint-plugin/no-useless-meta-schema
+# eslint-plugin/no-incorrect-meta-schema
 
 📝 Disallow rule options schema constructs that ESLint ignores.
 
@@ -51,7 +51,7 @@ disabled independently:
 export default [
   {
     rules: {
-      'eslint-plugin/no-useless-meta-schema': [
+      'eslint-plugin/no-incorrect-meta-schema': [
         'error',
         { checks: { ignoredKeywords: false } },
       ],
