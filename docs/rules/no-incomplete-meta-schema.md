@@ -4,9 +4,9 @@
 
 <!-- end auto-generated rule header -->
 
-Rule option schemas can be valid while leaving important authoring policies
-implicit. This opt-in rule reports four places where a schema author may want
-to state that policy explicitly.
+Rule option schemas can be valid while leaving important authoring choices
+implicit. This opinionated rule is intended to remain opt-in and reports places
+where schema authors may want to state those choices explicitly.
 
 ## Rule Details
 
@@ -62,11 +62,17 @@ module.exports = {
 };
 ```
 
-`items: {}` is an explicit opt-in to unconstrained items.
-`additionalItems: true` is an explicit opt-in to an open tuple.
-Bare `if` and `not` schemas do not state an item policy by themselves.
-Conditional and negative child schemas remain outside this policy rule's
-positive-schema traversal.
+### Intentional open policies
+
+This rule requires policies to be explicit; it does not require them to be
+restrictive:
+
+- Use `items: {}` to explicitly allow any array item.
+- For tuple schemas, use `additionalItems: true` to explicitly allow items
+  beyond the declared tuple positions.
+
+Completeness checks are not applied inside `if`, `then`, `else`, or `not`,
+because adding constraints there could change the schema's meaning.
 
 ## Options
 
@@ -89,4 +95,4 @@ export default [
 
 ## Related Rules
 
-- [no-useless-meta-schema](./no-useless-meta-schema.md) — the safe counterpart. It reports only objective defects (schemas or keywords that ESLint's validator ignores or that accept everything) and is intended to become part of the `recommended` config in a future major release. This rule is deliberately opinionated completeness policy and will remain opt-in.
+- [no-useless-meta-schema](./no-useless-meta-schema.md) — the safe counterpart. It reports only objective defects.

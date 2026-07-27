@@ -7,6 +7,7 @@
 ESLint validates rule options with a configured Ajv 6 instance. Some schema
 forms accept every options array, use ignored keywords, or contain constraints
 that cannot take effect. This rule reports those objective defects.
+This rule is intended to become part of the `recommended` config.
 
 ## Rule Details
 
@@ -23,33 +24,27 @@ that cannot take effect. This rule reports those objective defects.
 | `incompatibleTypeKeywords` | A keyword that cannot apply to any explicitly declared schema type. | The keyword cannot constrain a value of the declared type.                     |
 | `impossibleBounds`         | Contradictory minimum and maximum bounds.                           | No value can satisfy the schema.                                               |
 
-### Dialect basis
+### Validator compatibility
 
-ESLint 9.39.5 configures ajv@6 with the draft-04 meta-schema and
-`schemaId: "auto"`, while ajv@6 enforces the draft-07 runtime keyword set. It
-silently ignores later-draft keywords such as `prefixItems`,
-`unevaluatedItems`, `dependentSchemas`, and `$dynamicRef`. It also ignores
-JTD/OpenAPI keywords such as `elements` and `discriminator`, draft-03
-`extends`, `disallow`, and `divisibleBy`, draft-03 `required: true`, and an
-empty `allOf`. Correctness checks recurse through live conditional and negative
-schemas, but do not descend into these inert keywords.
+This rule follows the schema keywords that ESLint actually enforces. ESLint
+uses Ajv 6, which silently ignores some keywords from newer JSON Schema drafts
+or other schema dialects. Examples include `prefixItems`,
+`unevaluatedProperties`, `elements`, and `discriminator`.
 
-For `$ref` checks, object-form schemas use their schema object as the resolution
-root. Array-form schemas use the wrapper object that ESLint synthesizes around
-the positional schema array. An `id` or `$id` establishes a resource base for
-matching absolute self-references; references to other documents remain
-unresolved under ESLint's `missingRefs: 'ignore'` configuration.
+The `ignoredKeywords` check reports only known ineffective constructs; it does
+not reject arbitrary unknown keywords. It also reports known no-op forms such
+as `allOf: []`.
 
-`schema: false` remains the explicit validation opt-out established by
-[ESLint RFC 85](https://github.com/eslint/rfcs/tree/main/designs/2021-schema-object-rules#opt-out).
-In contrast, `schema: []` accepts no options, while `schema: [{}]` carries
-array-shorthand cardinality semantics and is not classified as useless.
+### Root schema forms
+
+Use `schema: false` to explicitly disable option validation. Use `schema: []`
+for a rule that accepts no options. `schema: [{}]` is different: it permits one
+unconstrained option, so this rule does not report it.
 
 ## Options
 
-All checks are enabled by default when this rule is enabled. The rule remains
-unrecommended in the current minor release. Each check can be disabled
-independently:
+All checks are enabled by default when this rule is enabled. Each check can be
+disabled independently:
 
 ### `checks`
 
@@ -68,4 +63,4 @@ export default [
 
 ## Related Rules
 
-- [no-incomplete-meta-schema](./no-incomplete-meta-schema.md) — the opinionated counterpart. It enforces opt-in completeness policies for schemas that are valid but underspecified, and it will remain opt-in. This rule is limited to objective defects and is intended to become part of the `recommended` config in a future major release.
+- [no-incomplete-meta-schema](./no-incomplete-meta-schema.md) — the opinionated counterpart.
