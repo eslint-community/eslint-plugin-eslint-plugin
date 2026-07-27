@@ -21,6 +21,7 @@ import {
   hasOnlyArrayType,
   hasType,
   isStaticallyInspectable,
+  resolveArrayExpression,
   resolveObjectExpression,
   type ObjectProperties,
 } from './meta-schema-utils.ts';
@@ -284,7 +285,10 @@ const rule: Rule.RuleModule = {
             (isObjectFormRoot && !properties.has('type'));
           if (!skipLocalPolicy && isArraySchema) {
             const itemsProperty = properties.get('items');
-            if (itemsProperty?.value.type === 'ArrayExpression') {
+            const tupleItems = itemsProperty
+              ? resolveArrayExpression(itemsProperty.value, scopeManager)
+              : null;
+            if (tupleItems) {
               const additionalItemsProperty = properties.get('additionalItems');
               const additionalItems = getPropertyStaticValue(
                 additionalItemsProperty,
@@ -306,7 +310,7 @@ const rule: Rule.RuleModule = {
                 additionalItems !== true &&
                 !hasAdditionalItemsSchema &&
                 (!Number.isInteger(maxItems) ||
-                  (maxItems as number) > itemsProperty.value.elements.length)
+                  (maxItems as number) > tupleItems.elements.length)
               ) {
                 context.report({ node: schema, messageId: 'boundedTuples' });
               }
@@ -321,8 +325,8 @@ const rule: Rule.RuleModule = {
 
             if (checks.typedItems) {
               const items = itemsProperty
-                ? itemsProperty.value.type === 'ArrayExpression'
-                  ? itemsProperty.value.elements
+                ? tupleItems
+                  ? tupleItems.elements
                       .filter(
                         (element): element is NonNullable<typeof element> =>
                           element !== null && element.type !== 'SpreadElement',

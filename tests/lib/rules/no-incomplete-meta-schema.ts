@@ -204,6 +204,14 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
       code: "const branch=getBranch();module.exports={meta:{schema:[{type:'array',allOf:[branch]}]},create(context){}};",
       name: 'an unresolvable hoisted branch keeps the existing fail-open behavior',
     },
+    {
+      code: "const tuple=[{type:'string'}];module.exports={meta:{schema:[{type:'array',items:tuple,additionalItems:false}]},create(context){}};",
+      name: 'a hoisted tuple array with typed items and a bound is compliant',
+    },
+    {
+      code: "const tuple=getTuple();module.exports={meta:{schema:[{type:'array',items:tuple}]},create(context){}};",
+      name: 'an unresolvable hoisted items value keeps the existing fail-open behavior',
+    },
   ],
   invalid: [
     {
@@ -233,6 +241,28 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
         },
       ],
       name: 'boundedTuples reports an open tuple',
+    },
+    {
+      code: "const tuple=[{pattern:'x'}];module.exports={meta:{schema:[{type:'array',items:tuple}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'typedItems',
+          type: 'ObjectExpression',
+          column: 14,
+          endColumn: 27,
+          endLine: 1,
+          line: 1,
+        },
+        {
+          messageId: 'boundedTuples',
+          type: 'ObjectExpression',
+          column: 59,
+          endColumn: 85,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a hoisted tuple array is resolved for the tuple checks',
     },
     {
       code: "module.exports={meta:{schema:[{type:'array',if:{minItems:1}}]},create(context){}};",
