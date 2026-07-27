@@ -66,7 +66,7 @@ const rule: Rule.RuleModule = {
           additionalNodeTypeFiles: {
             description:
               'Any additional regular expressions to consider source files defining AST Node types.',
-            elements: { type: 'string' },
+            items: { type: 'string' },
             type: 'array',
           },
         },
