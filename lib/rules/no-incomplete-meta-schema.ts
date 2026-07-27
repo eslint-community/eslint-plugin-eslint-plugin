@@ -103,36 +103,44 @@ function hasItemConstraint(
     return true;
   }
 
-  const allOf = getArrayElements(properties.get('allOf'));
+  const allOf = getArrayElements(properties.get('allOf'), scopeManager);
   if (
     allOf?.some((branch) => {
-      if (branch.type !== 'ObjectExpression') {
+      const resolvedBranch = resolveObjectExpression(branch, scopeManager);
+      if (!resolvedBranch) {
         return false;
       }
-      return hasItemConstraint(
-        getObjectProperties(branch, scopeManager)!,
-        scope,
+      const branchProperties = getObjectProperties(
+        resolvedBranch,
         scopeManager,
       );
+      if (!branchProperties) {
+        return false;
+      }
+      return hasItemConstraint(branchProperties, scope, scopeManager);
     })
   ) {
     return true;
   }
 
   for (const keyword of ['anyOf', 'oneOf']) {
-    const branches = getArrayElements(properties.get(keyword));
+    const branches = getArrayElements(properties.get(keyword), scopeManager);
     if (
       branches &&
       branches.length > 0 &&
       branches.every((branch) => {
-        if (branch.type !== 'ObjectExpression') {
+        const resolvedBranch = resolveObjectExpression(branch, scopeManager);
+        if (!resolvedBranch) {
           return false;
         }
-        return hasItemConstraint(
-          getObjectProperties(branch, scopeManager)!,
-          scope,
+        const branchProperties = getObjectProperties(
+          resolvedBranch,
           scopeManager,
         );
+        if (!branchProperties) {
+          return false;
+        }
+        return hasItemConstraint(branchProperties, scope, scopeManager);
       })
     ) {
       return true;

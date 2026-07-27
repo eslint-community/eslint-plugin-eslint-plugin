@@ -184,6 +184,26 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
       code: "module.exports={meta:{schema:[{type:'array',oneOf:[{items:false},{items:{}}]}]},create(context){}};",
       name: 'every oneOf branch can supply an item constraint',
     },
+    {
+      code: "const branch={items:{}};module.exports={meta:{schema:[{type:'array',allOf:[branch]}]},create(context){}};",
+      name: 'a hoisted allOf branch can supply an item constraint',
+    },
+    {
+      code: "const branches=[{items:{}}];module.exports={meta:{schema:[{type:'array',allOf:branches}]},create(context){}};",
+      name: 'a hoisted allOf array can supply an item constraint',
+    },
+    {
+      code: "const branches=[{items:false},{items:{}}];module.exports={meta:{schema:[{type:'array',anyOf:branches}]},create(context){}};",
+      name: 'every branch in a hoisted anyOf array can supply an item constraint',
+    },
+    {
+      code: "const first={items:false};const second={items:{}};module.exports={meta:{schema:[{type:'array',oneOf:[first,second]}]},create(context){}};",
+      name: 'hoisted oneOf branches can supply item constraints',
+    },
+    {
+      code: "const branch=getBranch();module.exports={meta:{schema:[{type:'array',allOf:[branch]}]},create(context){}};",
+      name: 'an unresolvable hoisted branch keeps the existing fail-open behavior',
+    },
   ],
   invalid: [
     {
@@ -404,6 +424,20 @@ ruleTester.run('no-incomplete-meta-schema', rule, {
         },
       ],
       name: 'a shared child schema is visited once',
+    },
+    {
+      code: "const branch={type:'string'};module.exports={meta:{schema:[{type:'array',allOf:[branch]}]},create(context){}};",
+      errors: [
+        {
+          messageId: 'explicitItems',
+          type: 'ObjectExpression',
+          column: 60,
+          endColumn: 89,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a hoisted allOf branch without an item constraint still reports',
     },
   ],
 });

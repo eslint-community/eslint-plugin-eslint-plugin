@@ -274,11 +274,16 @@ export function hasOnlyArrayType(
 
 export function getArrayElements(
   property: Property | undefined,
+  scopeManager: Scope.ScopeManager,
 ): Node[] | null {
-  if (!property || property.value.type !== 'ArrayExpression') {
+  if (!property) {
     return null;
   }
-  return property.value.elements.filter(
+  const array = resolveArrayExpression(property.value, scopeManager);
+  if (!array) {
+    return null;
+  }
+  return array.elements.filter(
     (element): element is NonNullable<typeof element> =>
       element !== null && element.type !== 'SpreadElement',
   );
