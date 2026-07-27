@@ -11,6 +11,18 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.6.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.5.0...v7.6.0) (2026-07-27)
+
+
+### Features
+
+* add new rules `no-incomplete-meta-schema` and `no-incorrect-meta-schema` ([#648](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/648)) ([78df8d0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/78df8d03d648f44e5f224a84e96ff34b76482cc2))
+
+
+### Bug Fixes
+
+* string array schema validation for `meta-property-ordering` and `test-case-property-ordering` rules ([#650](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/650)) ([7977e5f](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/7977e5ff5d91f480337cb58c778db64c59115df4))
+
 ## [7.5.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.4.2...v7.5.0) (2026-07-16)
 
 
