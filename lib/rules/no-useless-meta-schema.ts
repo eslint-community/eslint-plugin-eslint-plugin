@@ -137,18 +137,59 @@ type ReferenceScope = {
   baseUri: string | null;
   resourceRoot: ReferenceRoot;
 };
+type ReferenceIndex = Map<string, ObjectExpression>;
 type VirtualArraySchemaRoot = {
   schema: ArrayExpression;
 };
 
-function getDocumentUri(uri: string): string | null {
+const referenceResolutionBase = 'resolve://eslint-schema/';
+
+function normalizeReferenceId(uri: string): string {
+  return uri.replace(/#\/?$/u, '');
+}
+
+function resolveReferenceUri(
+  reference: string,
+  baseUri: string | null,
+): string | null {
   try {
-    const url = new URL(uri);
-    url.hash = '';
-    return url.href;
+    const base = baseUri
+      ? new URL(baseUri, referenceResolutionBase)
+      : new URL(referenceResolutionBase);
+    const resolved = new URL(reference, base);
+    if (
+      resolved.protocol === 'resolve:' &&
+      resolved.hostname === 'eslint-schema'
+    ) {
+      const path = resolved.pathname === '/' ? '' : resolved.pathname.slice(1);
+      return `${path}${resolved.search}${resolved.hash}`;
+    }
+    return resolved.href;
   } catch {
     return null;
   }
+}
+
+function getDocumentUri(uri: string): string {
+  const hashIndex = uri.indexOf('#');
+  return hashIndex === -1 ? uri : uri.slice(0, hashIndex);
+}
+
+function getUriFragment(uri: string): string {
+  const hashIndex = uri.indexOf('#');
+  return hashIndex === -1 ? '' : uri.slice(hashIndex);
+}
+
+function getSchemaIdentifier(
+  properties: ObjectProperties,
+  scope: Scope.Scope,
+): string | null {
+  const dollarId = getPropertyStaticValue(properties.get('$id'), scope);
+  const id = getPropertyStaticValue(properties.get('id'), scope);
+  if (typeof dollarId === 'string' && dollarId) {
+    return dollarId;
+  }
+  return typeof id === 'string' && id ? id : null;
 }
 
 function getReferenceScope(
@@ -157,57 +198,163 @@ function getReferenceScope(
   parent: ReferenceScope,
   scope: Scope.Scope,
 ): ReferenceScope {
-  const identifier =
-    getPropertyStaticValue(properties.get('$id'), scope) ??
-    getPropertyStaticValue(properties.get('id'), scope);
-  if (typeof identifier !== 'string') {
+  const identifier = getSchemaIdentifier(properties, scope);
+  if (identifier === null) {
     return parent;
   }
 
-  try {
-    const baseUri = parent.baseUri
-      ? new URL(identifier, parent.baseUri).href
-      : new URL(identifier).href;
-    return { baseUri, resourceRoot: schema };
-  } catch {
+  const resolved = resolveReferenceUri(identifier, parent.baseUri);
+  if (resolved === null) {
     return parent;
   }
+  const fragment = getUriFragment(resolved);
+  return {
+    baseUri: normalizeReferenceId(resolved),
+    resourceRoot:
+      fragment === '' || fragment === '#' || fragment === '#/'
+        ? schema
+        : parent.resourceRoot,
+  };
 }
 
-function getReferenceFragment(
-  reference: string,
-  referenceScope: ReferenceScope,
-): string | null {
-  if (reference.startsWith('#')) {
-    return reference;
-  }
-  if (referenceScope.baseUri === null) {
-    return null;
-  }
+const idSingleSchemaKeywords = new Set([
+  'additionalItems',
+  'additionalProperties',
+  'contains',
+  'items',
+  'not',
+  'propertyNames',
+]);
+const idArraySchemaKeywords = new Set(['allOf', 'anyOf', 'items', 'oneOf']);
+const idMapSchemaKeywords = new Set([
+  'definitions',
+  'dependencies',
+  'patternProperties',
+  'properties',
+]);
+const idTraversalSkipKeywords = new Set([
+  'const',
+  'default',
+  'enum',
+  'exclusiveMaximum',
+  'exclusiveMinimum',
+  'format',
+  'maxItems',
+  'maxLength',
+  'maxProperties',
+  'maximum',
+  'minItems',
+  'minLength',
+  'minProperties',
+  'minimum',
+  'multipleOf',
+  'pattern',
+  'required',
+  'uniqueItems',
+]);
 
-  try {
-    const resolved = new URL(reference, referenceScope.baseUri);
-    const targetDocument = getDocumentUri(resolved.href);
-    const currentDocument = getDocumentUri(referenceScope.baseUri);
-    if (
-      targetDocument === null ||
-      currentDocument === null ||
-      targetDocument !== currentDocument
-    ) {
-      return null;
+function buildReferenceIndex(
+  root: ReferenceRoot,
+  initialScope: ReferenceScope,
+  scope: Scope.Scope,
+  scopeManager: Scope.ScopeManager,
+): ReferenceIndex {
+  const index: ReferenceIndex = new Map();
+  const visitedScopes = new Map<ObjectExpression, Set<string>>();
+
+  const visit = (schema: ObjectExpression, parent: ReferenceScope) => {
+    const properties = getObjectProperties(schema, scopeManager);
+    if (!properties) {
+      return;
     }
-    return resolved.hash || '#';
-  } catch {
-    return null;
+    const referenceScope = getReferenceScope(schema, properties, parent, scope);
+    const scopeKey = referenceScope.baseUri ?? '';
+    const schemaScopes = visitedScopes.get(schema) ?? new Set<string>();
+    if (schemaScopes.has(scopeKey)) {
+      return;
+    }
+    schemaScopes.add(scopeKey);
+    visitedScopes.set(schema, schemaScopes);
+
+    const identifier = getSchemaIdentifier(properties, scope);
+    if (identifier !== null) {
+      const resolved = resolveReferenceUri(identifier, parent.baseUri);
+      if (resolved !== null) {
+        const key = normalizeReferenceId(resolved);
+        if (!index.has(key)) {
+          index.set(key, schema);
+        }
+      }
+    }
+
+    for (const [keyword, property] of properties) {
+      const array = resolveArrayExpression(property.value, scopeManager);
+      if (array) {
+        if (idArraySchemaKeywords.has(keyword)) {
+          for (const element of array.elements) {
+            if (!element || element.type === 'SpreadElement') {
+              continue;
+            }
+            const child = resolveObjectExpression(element, scopeManager);
+            if (child) {
+              visit(child, referenceScope);
+            }
+          }
+        }
+        continue;
+      }
+
+      if (idMapSchemaKeywords.has(keyword)) {
+        const map = resolveObjectExpression(property.value, scopeManager);
+        const mapProperties = map
+          ? getObjectProperties(map, scopeManager)
+          : null;
+        for (const childProperty of mapProperties?.values() ?? []) {
+          const child = resolveObjectExpression(
+            childProperty.value,
+            scopeManager,
+          );
+          if (child) {
+            visit(child, referenceScope);
+          }
+        }
+        continue;
+      }
+
+      if (
+        idSingleSchemaKeywords.has(keyword) ||
+        !idTraversalSkipKeywords.has(keyword)
+      ) {
+        const child = resolveObjectExpression(property.value, scopeManager);
+        if (child) {
+          visit(child, referenceScope);
+        }
+      }
+    }
+  };
+
+  if (root.type === 'ObjectExpression') {
+    visit(root, initialScope);
+  } else {
+    for (const element of root.elements) {
+      if (!element || element.type === 'SpreadElement') {
+        continue;
+      }
+      const child = resolveObjectExpression(element, scopeManager);
+      if (child) {
+        visit(child, initialScope);
+      }
+    }
   }
+
+  return index;
 }
 
-function resolveLocalReference(
-  reference: string,
-  referenceScope: ReferenceScope,
+function resolveJsonPointer(
+  fragment: string,
+  resourceRoot: ReferenceRoot,
   scopeManager: Scope.ScopeManager,
 ): boolean {
-  const fragment = getReferenceFragment(reference, referenceScope);
   if (fragment === '#') {
     return true;
   }
@@ -223,9 +370,9 @@ function resolveLocalReference(
   }
 
   let current: Node | VirtualArraySchemaRoot =
-    referenceScope.resourceRoot.type === 'ArrayExpression'
-      ? { schema: referenceScope.resourceRoot }
-      : referenceScope.resourceRoot;
+    resourceRoot.type === 'ArrayExpression'
+      ? { schema: resourceRoot }
+      : resourceRoot;
   const segments = pointer.split('/');
   for (const [index, rawSegment] of segments.entries()) {
     const segment = rawSegment.replaceAll('~1', '/').replaceAll('~0', '~');
@@ -264,16 +411,50 @@ function resolveLocalReference(
   return true;
 }
 
+function resolveLocalReference(
+  reference: string,
+  referenceScope: ReferenceScope,
+  referenceIndex: ReferenceIndex,
+  scopeManager: Scope.ScopeManager,
+): boolean {
+  const resolved = resolveReferenceUri(reference, referenceScope.baseUri);
+  if (resolved === null) {
+    return false;
+  }
+  if (referenceIndex.has(normalizeReferenceId(resolved))) {
+    return true;
+  }
+
+  const fragment = getUriFragment(resolved) || '#';
+  const targetDocument = normalizeReferenceId(getDocumentUri(resolved));
+  const currentDocument = normalizeReferenceId(
+    getDocumentUri(referenceScope.baseUri ?? ''),
+  );
+  const resourceRoot =
+    targetDocument === currentDocument
+      ? referenceScope.resourceRoot
+      : referenceIndex.get(targetDocument);
+  return resourceRoot
+    ? resolveJsonPointer(fragment, resourceRoot, scopeManager)
+    : false;
+}
+
 function hasUnresolvedRef(
   properties: ObjectProperties,
   referenceScope: ReferenceScope,
+  referenceIndex: ReferenceIndex,
   scope: Scope.Scope,
   scopeManager: Scope.ScopeManager,
 ): boolean {
   const reference = getPropertyStaticValue(properties.get('$ref'), scope);
   return (
     typeof reference === 'string' &&
-    !resolveLocalReference(reference, referenceScope, scopeManager)
+    !resolveLocalReference(
+      reference,
+      referenceScope,
+      referenceIndex,
+      scopeManager,
+    )
   );
 }
 
@@ -527,6 +708,16 @@ const rule: Rule.RuleModule = {
           return;
         }
 
+        const initialReferenceScope: ReferenceScope = {
+          baseUri: null,
+          resourceRoot: schemaValue,
+        };
+        const referenceIndex = buildReferenceIndex(
+          schemaValue,
+          initialReferenceScope,
+          scope,
+          scopeManager,
+        );
         const seen = new Set<ObjectExpression>();
         const visitSchema = (
           schema: ObjectExpression,
@@ -553,7 +744,13 @@ const rule: Rule.RuleModule = {
           }
           if (
             checks.unresolvedRefs &&
-            hasUnresolvedRef(properties, referenceScope, scope, scopeManager)
+            hasUnresolvedRef(
+              properties,
+              referenceScope,
+              referenceIndex,
+              scope,
+              scopeManager,
+            )
           ) {
             context.report({ node: schema, messageId: 'unresolvedRefs' });
           }
@@ -638,24 +835,17 @@ const rule: Rule.RuleModule = {
             context.report({ node: schemaValue, messageId: rootDefect });
             return;
           }
-          visitSchema(schemaValue, {
-            baseUri: null,
-            resourceRoot: schemaValue,
-          });
+          visitSchema(schemaValue, initialReferenceScope);
           return;
         }
 
-        const referenceScope: ReferenceScope = {
-          baseUri: null,
-          resourceRoot: schemaValue,
-        };
         for (const element of schemaValue.elements) {
           const resolvedElement = resolveObjectExpression(
             element!,
             scopeManager,
           );
           if (resolvedElement) {
-            visitSchema(resolvedElement, referenceScope);
+            visitSchema(resolvedElement, initialReferenceScope);
           }
         }
       },

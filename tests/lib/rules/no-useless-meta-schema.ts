@@ -103,6 +103,59 @@ ruleTester.run('no-useless-meta-schema', rule, {
       name: 'an array-form element $id establishes an absolute reference resource',
     },
     {
+      code: "module.exports={meta:{schema:{id:'http://example.com/root.json',type:'array',definitions:{value:{id:'#value',type:'string'}},items:{$ref:'#value'}}},create(context){}};",
+      name: 'a named id fragment resolves from its document',
+    },
+    {
+      code: "module.exports={meta:{schema:{$id:'http://example.com/root-dollar.json',type:'array',definitions:{value:{$id:'#value',type:'string'}},items:{$ref:'#value'}}},create(context){}};",
+      name: 'a named $id fragment resolves from its document',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/root-embedded.json',type:'array',definitions:{item:{id:'item.json',type:'string'}},items:{$ref:'item.json'}}},create(context){}};",
+      name: 'an embedded id resource resolves from its parent document',
+    },
+    {
+      code: "module.exports={meta:{schema:{$id:'http://example.com/root-embedded-dollar.json',type:'array',definitions:{item:{$id:'item.json',type:'string'}},items:{$ref:'item.json'}}},create(context){}};",
+      name: 'an embedded $id resource resolves from its parent document',
+    },
+    {
+      code: "module.exports={meta:{schema:[{id:'#value',type:'string'},{$ref:'#value'}]},create(context){}};",
+      name: 'an array-form sibling resolves a named id from the synthesized wrapper index',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/root-pointer.json',type:'array',definitions:{item:{id:'item.json',definitions:{value:{type:'string'}}}},items:{$ref:'item.json#/definitions/value'}}},create(context){}};",
+      name: 'a JSON pointer resolves into an indexed embedded resource',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/root-inner-anchor.json',type:'array',definitions:{item:{id:'item.json',definitions:{value:{id:'#value',type:'string'}}}},items:{$ref:'item.json#value'}}},create(context){}};",
+      name: 'an anchor declared inside an embedded resource resolves',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/collision.json',type:'array',definitions:{pointerTarget:{type:'number'},anchorTarget:{id:'#/definitions/pointerTarget',type:'string'}},items:{$ref:'#/definitions/pointerTarget'}}},create(context){}};",
+      name: 'an indexed id wins when its URI collides with a pointer path',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/duplicate.json',type:'array',definitions:{first:{id:'#value',type:'string'},second:{id:'#value',type:'number'}},items:{$ref:'#value'}}},create(context){}};",
+      name: 'duplicate anchor declarations remain known to the resolver',
+    },
+    {
+      code: "module.exports={meta:{schema:[{id:'item.json',type:'string'},{$ref:'item.json'}]},create(context){}};",
+      name: 'a relative resource id on an array element root is indexed',
+    },
+    {
+      code: "module.exports={meta:{schema:[{definitions:{value:{id:'#value',type:'string'}}},{$ref:'#value'}]},create(context){}};",
+      name: 'an anchor nested inside one array element resolves from a sibling',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/inert-anchor.json',type:'array',elements:{id:'#value',type:'string'},items:{$ref:'#value'}}},create(context){}};",
+      options: [{ checks: { ignoredKeywords: false } }],
+      name: 'Ajv indexes an anchor under an object-valued inert keyword',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/same-name.json',type:'array',definitions:{value:{type:'number'},anchor:{id:'#value',type:'string'}},items:{$ref:'#value'}}},create(context){}};",
+      name: 'a named anchor resolves independently of a same-named definitions key',
+    },
+    {
       code: "module.exports={meta:{schema:[{$ref:'#/items/0'}]},create(context){}};",
       name: 'an element-root self reference is resolved without recursing the rule',
     },
@@ -498,6 +551,48 @@ ruleTester.run('no-useless-meta-schema', rule, {
         },
       ],
       name: 'unresolvedRefs reports a missing local target',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'http://example.com/root.json',type:'array',items:{$ref:'#nope'}}},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 84,
+          endColumn: 98,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'unresolvedRefs reports an unknown named anchor',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'',type:'array',items:{$ref:'#value'}}},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 56,
+          endColumn: 71,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'an empty id does not declare an unknown anchor',
+    },
+    {
+      code: "module.exports={meta:{schema:{id:'#',type:'array',items:{$ref:'#value'}}},create(context){}};",
+      errors: [
+        {
+          messageId: 'unresolvedRefs',
+          type: 'ObjectExpression',
+          column: 57,
+          endColumn: 72,
+          endLine: 1,
+          line: 1,
+        },
+      ],
+      name: 'a hash-only id does not declare an unknown anchor',
     },
     {
       code: "module.exports={meta:{schema:[{type:'array',items:{type:'string'},additionalItems:false}]},create(context){}};",
