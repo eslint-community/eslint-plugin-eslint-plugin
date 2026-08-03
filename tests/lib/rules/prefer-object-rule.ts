@@ -227,5 +227,91 @@ ruleTester.run('prefer-object-rule', rule, {
         },
       ],
     },
+
+    {
+      code: "module.exports = function (context) { return {}; };\nmodule.exports.schema = [{ type: 'object' }];\nmodule.exports.deprecated = true;",
+      output:
+        "module.exports = {meta: {schema: [{ type: 'object' }], deprecated: true}, create(context) { return {}; }};\n\n",
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = (context) => { return {}; };\nmodule.exports.schema = [];',
+      output:
+        'module.exports = {meta: {schema: []}, create: (context) => { return {}; }};\n',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 45,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nexports.deprecated = true;',
+      output:
+        'module.exports = {create(context) { return {}; }};\nexports.deprecated = true;',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+
+    {
+      code: "module.exports = function (context) { return {}; };\nmodule.exports.fixable = 'code';\nmodule.exports['schema'] = [];",
+      output:
+        "module.exports = {create(context) { return {}; }};\nmodule.exports.fixable = 'code';\nmodule.exports['schema'] = [];",
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\ndoSomething();',
+      output:
+        'module.exports = {create(context) { return {}; }};\ndoSomething();',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = [1];\nmodule.exports.meta = {};',
+      output:
+        'module.exports = {create(context) { return {}; }};\nmodule.exports.schema = [1];\nmodule.exports.meta = {};',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
   ],
 });

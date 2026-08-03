@@ -46,3 +46,26 @@ module.exports = {
   },
 };
 ```
+
+When autofixing, any `schema` or `deprecated` properties that the deprecated function-style format exposed directly on the exported function are ported over into the `meta` object.
+
+Before:
+
+```js
+module.exports = function create(context) {
+  return {/* ... */};
+};
+module.exports.schema = [{/* options */}];
+module.exports.deprecated = true;
+```
+
+After:
+
+```js
+module.exports = {
+  meta: { schema: [{/* options */}], deprecated: true },
+  create(context) {
+    return {/* ... */};
+  },
+};
+```
