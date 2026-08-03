@@ -8,17 +8,17 @@ import { getRuleInfo } from '../utils.ts';
 
 const META_PROPERTIES_TO_PORT = new Set(['schema', 'deprecated']);
 
-type PortableMetaAssignment = {
+type MetaAssignment = {
   key: string;
   valueNode: Expression;
 };
 
-type PortableMetaResult = {
-  properties: PortableMetaAssignment[];
+type CollectedMetaAssignments = {
+  properties: MetaAssignment[];
   statementsToRemove: Node[];
 };
 
-function getPortableMetaAssignments(program: Program): PortableMetaResult {
+function collectMetaAssignments(program: Program): CollectedMetaAssignments {
   const propertiesByKey = new Map<string, Expression>();
   const statementsToRemove: Node[] = [];
   let exportsVarOverridden = false;
@@ -84,7 +84,7 @@ function getPortableMetaAssignments(program: Program): PortableMetaResult {
 }
 
 function buildMetaPrefix(
-  properties: PortableMetaAssignment[],
+  properties: MetaAssignment[],
   sourceCode: SourceCode,
 ): string {
   if (properties.length === 0) {
@@ -131,7 +131,7 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        const { properties, statementsToRemove } = getPortableMetaAssignments(
+        const { properties, statementsToRemove } = collectMetaAssignments(
           sourceCode.ast,
         );
         const metaPrefix = buildMetaPrefix(properties, sourceCode);
