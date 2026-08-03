@@ -313,5 +313,33 @@ ruleTester.run('prefer-object-rule', rule, {
         },
       ],
     },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = [1];\nmodule.exports.schema = [2];',
+      output:
+        'module.exports = {meta: {schema: [2]}, create(context) { return {}; }};\n\n',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports.schema = [1];\nmodule.exports = function (context) { return {}; };',
+      output:
+        'module.exports.schema = [1];\nmodule.exports = {create(context) { return {}; }};',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 2,
+          column: 18,
+          endLine: 2,
+          endColumn: 51,
+        },
+      ],
+    },
   ],
 });

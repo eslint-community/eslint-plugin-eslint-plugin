@@ -11,13 +11,17 @@ const META_PROPERTIES_TO_PORT = new Set(['schema', 'deprecated']);
 type PortableMetaAssignment = {
   key: string;
   valueNode: Expression;
-  statement: Node;
 };
 
-function getPortableMetaAssignments(
-  program: Program,
-): PortableMetaAssignment[] {
-  const results: PortableMetaAssignment[] = [];
+type PortableMetaResult = {
+  properties: PortableMetaAssignment[];
+  statementsToRemove: Node[];
+};
+
+function getPortableMetaAssignments(program: Program): PortableMetaResult {
+  const propertiesByKey = new Map<string, Expression>();
+  const statementsToRemove: Node[] = [];
+  let exportsVarOverridden = false;
   let hasExistingMetaAssignment = false;
 
   for (const statement of program.body) {
@@ -32,9 +36,22 @@ function getPortableMetaAssignments(
       continue;
     }
     const leftExpression = expression.left;
+    if (leftExpression.type !== 'MemberExpression' || leftExpression.computed) {
+      continue;
+    }
+
     if (
-      leftExpression.type !== 'MemberExpression' ||
-      leftExpression.computed ||
+      leftExpression.object.type === 'Identifier' &&
+      leftExpression.object.name === 'module' &&
+      leftExpression.property.type === 'Identifier' &&
+      leftExpression.property.name === 'exports'
+    ) {
+      exportsVarOverridden = true;
+      continue;
+    }
+
+    if (
+      !exportsVarOverridden ||
       leftExpression.object.type !== 'MemberExpression' ||
       leftExpression.object.computed ||
       leftExpression.object.object.type !== 'Identifier' ||
@@ -50,27 +67,36 @@ function getPortableMetaAssignments(
     if (key === 'meta') {
       hasExistingMetaAssignment = true;
     } else if (META_PROPERTIES_TO_PORT.has(key)) {
-      results.push({ key, valueNode: expression.right, statement });
+      propertiesByKey.set(key, expression.right);
+      statementsToRemove.push(statement);
     }
   }
 
-  return hasExistingMetaAssignment ? [] : results;
+  if (hasExistingMetaAssignment) {
+    return { properties: [], statementsToRemove: [] };
+  }
+
+  const properties = [...propertiesByKey].map(([key, valueNode]) => ({
+    key,
+    valueNode,
+  }));
+  return { properties, statementsToRemove };
 }
 
 function buildMetaPrefix(
-  assignments: PortableMetaAssignment[],
+  properties: PortableMetaAssignment[],
   sourceCode: SourceCode,
 ): string {
-  if (assignments.length === 0) {
+  if (properties.length === 0) {
     return '';
   }
-  const properties = assignments
+  const text = properties
     .map(
-      (assignment) =>
-        `${assignment.key}: ${sourceCode.getText(assignment.valueNode)}`,
+      (property) =>
+        `${property.key}: ${sourceCode.getText(property.valueNode)}`,
     )
     .join(', ');
-  return `meta: {${properties}}, `;
+  return `meta: {${text}}, `;
 }
 
 // ------------------------------------------------------------------------------
@@ -105,8 +131,10 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        const metaAssignments = getPortableMetaAssignments(sourceCode.ast);
-        const metaPrefix = buildMetaPrefix(metaAssignments, sourceCode);
+        const { properties, statementsToRemove } = getPortableMetaAssignments(
+          sourceCode.ast,
+        );
+        const metaPrefix = buildMetaPrefix(properties, sourceCode);
 
         context.report({
           node: ruleInfo.create,
@@ -142,8 +170,8 @@ const rule: Rule.RuleModule = {
               yield fixer.insertTextAfter(ruleInfo.create, '}');
             }
 
-            for (const assignment of metaAssignments) {
-              yield fixer.remove(assignment.statement);
+            for (const statement of statementsToRemove) {
+              yield fixer.remove(statement);
             }
           },
         });
