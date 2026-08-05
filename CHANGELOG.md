@@ -11,6 +11,19 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.6.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.6.0...v7.6.1) (2026-08-05)
+
+
+### Bug Fixes
+
+* port `schema`/`deprecated` in prefer-object-rule ([#655](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/655)) ([2cbb849](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/2cbb8496bd2af0a9f3978a15084c281d88af24f6))
+
+
+### Chores
+
+* update dependency eslint-doc-generator to v3.7.0 ([#652](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/652)) ([033f01d](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/033f01dcefdcf96029f047b791b53d2ba357ccdf))
+* update dependency prettier to v3.9.6 ([#647](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/647)) ([2318d86](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/2318d8697443fa7ee9a0da95aa28f5f326386245))
+
 ## [7.6.0](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.5.0...v7.6.0) (2026-07-27)
 
 
