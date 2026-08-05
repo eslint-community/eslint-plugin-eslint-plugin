@@ -49,6 +49,8 @@ module.exports = {
 
 When autofixing, any `schema` or `deprecated` properties that the deprecated function-style format exposed directly on the exported function are ported over into the `meta` object.
 
+Static values (literals, or arrays/objects of literals) are inlined directly into `meta`:
+
 Before:
 
 ```js
@@ -68,4 +70,27 @@ module.exports = {
     return {/* ... */};
   },
 };
+```
+
+A value that can't be safely relocated — for example, one that references a variable or has side effects — is instead reassigned onto `meta` in place, so its evaluation order and any side effects are preserved:
+
+Before:
+
+```js
+module.exports = function create(context) {
+  return {/* ... */};
+};
+module.exports.schema = getSchema();
+```
+
+After:
+
+```js
+module.exports = {
+  meta: {},
+  create(context) {
+    return {/* ... */};
+  },
+};
+module.exports.meta.schema = getSchema();
 ```

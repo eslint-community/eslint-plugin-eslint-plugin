@@ -2,7 +2,7 @@
  * @author Brad Zacher <https://github.com/bradzacher>
  */
 import type { Rule, SourceCode } from 'eslint';
-import type { Expression, Node, Program } from 'estree';
+import type { AssignmentExpression, Expression, Node, Program } from 'estree';
 
 import { getRuleInfo } from '../utils.ts';
 
@@ -10,21 +10,97 @@ const META_PROPERTIES_TO_PORT = new Set(['schema', 'deprecated']);
 
 type MetaAssignment = {
   key: string;
+  statement: Node;
+  memberObject: Node;
   valueNode: Expression;
 };
 
-type CollectedMetaAssignments = {
-  properties: MetaAssignment[];
-  statementsToRemove: Node[];
+type MetaFix = {
+  inline: MetaAssignment[];
+  remove: Node[];
+  rewrite: MetaAssignment[];
 };
 
-function collectMetaAssignments(program: Program): CollectedMetaAssignments {
-  const propertiesByKey = new Map<string, Expression>();
-  const statementsToRemove: Node[] = [];
-  let exportsVarOverridden = false;
+// Only static values are safe to inline into `meta`. Non-static ones are rewritten in place.
+function isStaticExpression(node: Node): boolean {
+  switch (node.type) {
+    case 'Literal': {
+      return true;
+    }
+    case 'UnaryExpression': {
+      return (
+        (node.operator === '-' || node.operator === '+') &&
+        isStaticExpression(node.argument)
+      );
+    }
+    case 'ArrayExpression': {
+      return node.elements.every(
+        (element) => element !== null && isStaticExpression(element),
+      );
+    }
+    case 'ObjectExpression': {
+      return node.properties.every(
+        (property) =>
+          property.type === 'Property' &&
+          !property.computed &&
+          isStaticExpression(property.value),
+      );
+    }
+    default: {
+      return false;
+    }
+  }
+}
+
+function getModuleExportsAssignment(
+  statement: Node,
+): AssignmentExpression | undefined {
+  if (statement.type !== 'ExpressionStatement') {
+    return undefined;
+  }
+  const expression = statement.expression;
+  if (
+    expression.type !== 'AssignmentExpression' ||
+    expression.operator !== '='
+  ) {
+    return undefined;
+  }
+  const left = expression.left;
+  if (
+    left.type === 'MemberExpression' &&
+    !left.computed &&
+    left.object.type === 'Identifier' &&
+    left.object.name === 'module' &&
+    left.property.type === 'Identifier' &&
+    left.property.name === 'exports'
+  ) {
+    return expression;
+  }
+  return undefined;
+}
+
+function collectMetaAssignments(program: Program, createNode: Node): MetaFix {
+  const empty: MetaFix = { inline: [], remove: [], rewrite: [] };
+
+  const exportIndex = program.body.findIndex((statement) => {
+    const assignment = getModuleExportsAssignment(statement);
+    return assignment !== undefined && assignment.right === createNode;
+  });
+  if (exportIndex === -1) {
+    return empty;
+  }
+
+  const collectedByKey = new Map<string, MetaAssignment[]>();
   let hasExistingMetaAssignment = false;
 
-  for (const statement of program.body) {
+  for (let index = exportIndex + 1; index < program.body.length; index++) {
+    const statement = program.body[index];
+    // Stop at the next `module.exports =`. `getRuleInfo` resolves the last one,
+    // so this should not be reachable, but it keeps the scan bounded if that changes.
+    /* istanbul ignore if */
+    if (getModuleExportsAssignment(statement)) {
+      break;
+    }
     if (statement.type !== 'ExpressionStatement') {
       continue;
     }
@@ -35,68 +111,72 @@ function collectMetaAssignments(program: Program): CollectedMetaAssignments {
     ) {
       continue;
     }
-    const leftExpression = expression.left;
-    if (leftExpression.type !== 'MemberExpression' || leftExpression.computed) {
-      continue;
-    }
-
+    const left = expression.left;
     if (
-      leftExpression.object.type === 'Identifier' &&
-      leftExpression.object.name === 'module' &&
-      leftExpression.property.type === 'Identifier' &&
-      leftExpression.property.name === 'exports'
-    ) {
-      exportsVarOverridden = true;
-      continue;
-    }
-
-    if (
-      !exportsVarOverridden ||
-      leftExpression.object.type !== 'MemberExpression' ||
-      leftExpression.object.computed ||
-      leftExpression.object.object.type !== 'Identifier' ||
-      leftExpression.object.object.name !== 'module' ||
-      leftExpression.object.property.type !== 'Identifier' ||
-      leftExpression.object.property.name !== 'exports' ||
-      leftExpression.property.type !== 'Identifier'
+      left.type !== 'MemberExpression' ||
+      left.computed ||
+      left.object.type !== 'MemberExpression' ||
+      left.object.computed ||
+      left.object.object.type !== 'Identifier' ||
+      left.object.object.name !== 'module' ||
+      left.object.property.type !== 'Identifier' ||
+      left.object.property.name !== 'exports' ||
+      left.property.type !== 'Identifier'
     ) {
       continue;
     }
 
-    const key = leftExpression.property.name;
+    const key = left.property.name;
     if (key === 'meta') {
       hasExistingMetaAssignment = true;
     } else if (META_PROPERTIES_TO_PORT.has(key)) {
-      propertiesByKey.set(key, expression.right);
-      statementsToRemove.push(statement);
+      const entry: MetaAssignment = {
+        key,
+        statement,
+        memberObject: left.object,
+        valueNode: expression.right,
+      };
+      const existing = collectedByKey.get(key);
+      if (existing) {
+        existing.push(entry);
+      } else {
+        collectedByKey.set(key, [entry]);
+      }
     }
   }
 
   if (hasExistingMetaAssignment) {
-    return { properties: [], statementsToRemove: [] };
+    return empty;
   }
 
-  const properties = [...propertiesByKey].map(([key, valueNode]) => ({
-    key,
-    valueNode,
-  }));
-  return { properties, statementsToRemove };
+  const fix: MetaFix = { inline: [], remove: [], rewrite: [] };
+  for (const entries of collectedByKey.values()) {
+    if (entries.every((entry) => isStaticExpression(entry.valueNode))) {
+      fix.inline.push(entries.at(-1)!);
+      for (const entry of entries) {
+        fix.remove.push(entry.statement);
+      }
+    } else {
+      fix.rewrite.push(...entries);
+    }
+  }
+  return fix;
 }
 
-function buildMetaPrefix(
-  properties: MetaAssignment[],
-  sourceCode: SourceCode,
-): string {
-  if (properties.length === 0) {
-    return '';
+function buildMetaPrefix(fix: MetaFix, sourceCode: SourceCode): string {
+  if (fix.inline.length > 0) {
+    const text = fix.inline
+      .map(
+        (assignment) =>
+          `${assignment.key}: ${sourceCode.getText(assignment.valueNode)}`,
+      )
+      .join(', ');
+    return `meta: {${text}}, `;
   }
-  const text = properties
-    .map(
-      (property) =>
-        `${property.key}: ${sourceCode.getText(property.valueNode)}`,
-    )
-    .join(', ');
-  return `meta: {${text}}, `;
+  if (fix.rewrite.length > 0) {
+    return 'meta: {}, ';
+  }
+  return '';
 }
 
 // ------------------------------------------------------------------------------
@@ -131,10 +211,8 @@ const rule: Rule.RuleModule = {
           return;
         }
 
-        const { properties, statementsToRemove } = collectMetaAssignments(
-          sourceCode.ast,
-        );
-        const metaPrefix = buildMetaPrefix(properties, sourceCode);
+        const metaFix = collectMetaAssignments(sourceCode.ast, ruleInfo.create);
+        const metaPrefix = buildMetaPrefix(metaFix, sourceCode);
 
         context.report({
           node: ruleInfo.create,
@@ -170,8 +248,11 @@ const rule: Rule.RuleModule = {
               yield fixer.insertTextAfter(ruleInfo.create, '}');
             }
 
-            for (const statement of statementsToRemove) {
+            for (const statement of metaFix.remove) {
               yield fixer.remove(statement);
+            }
+            for (const assignment of metaFix.rewrite) {
+              yield fixer.insertTextAfter(assignment.memberObject, '.meta');
             }
           },
         });

@@ -341,5 +341,131 @@ ruleTester.run('prefer-object-rule', rule, {
         },
       ],
     },
+    {
+      code: "module.exports = function (context) { return {}; };\nconst schema = [{ type: 'object' }];\nmodule.exports.schema = schema;",
+      output:
+        "module.exports = {meta: {}, create(context) { return {}; }};\nconst schema = [{ type: 'object' }];\nmodule.exports.meta.schema = schema;",
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = (foo(), []);',
+      output:
+        'module.exports = {meta: {}, create(context) { return {}; }};\nmodule.exports.meta.schema = (foo(), []);',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = someVar;\nmodule.exports.schema = [1];',
+      output:
+        'module.exports = {meta: {}, create(context) { return {}; }};\nmodule.exports.meta.schema = someVar;\nmodule.exports.meta.schema = [1];',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = getSchema();\nmodule.exports.schema = [1];',
+      output:
+        'module.exports = {meta: {}, create(context) { return {}; }};\nmodule.exports.meta.schema = getSchema();\nmodule.exports.meta.schema = [1];',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = getSchema();\nmodule.exports.deprecated = true;',
+      output:
+        'module.exports = {meta: {deprecated: true}, create(context) { return {}; }};\nmodule.exports.meta.schema = getSchema();\n',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: "module.exports = function (context) { return {}; };\nmodule.exports.schema = [{ type: 'integer', minimum: -1, maximum: +1 }];",
+      output:
+        "module.exports = {meta: {schema: [{ type: 'integer', minimum: -1, maximum: +1 }]}, create(context) { return {}; }};\n",
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.schema = [1];\nmodule.exports = function (context) { return {}; };',
+      output:
+        'module.exports = function (context) { return {}; };\nmodule.exports.schema = [1];\nmodule.exports = {create(context) { return {}; }};',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 3,
+          column: 18,
+          endLine: 3,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'module.exports = function (context) { return {}; };\nmodule.exports.meta = {};\nmodule.exports = function (context) { return {}; };\nmodule.exports.schema = [1];',
+      output:
+        'module.exports = function (context) { return {}; };\nmodule.exports.meta = {};\nmodule.exports = {meta: {schema: [1]}, create(context) { return {}; }};\n',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 3,
+          column: 18,
+          endLine: 3,
+          endColumn: 51,
+        },
+      ],
+    },
+    {
+      code: 'const rule = (context) => { return {}; };\nmodule.exports = rule;\nmodule.exports.schema = [1];',
+      output:
+        'const rule = {create: (context) => { return {}; }};\nmodule.exports = rule;\nmodule.exports.schema = [1];',
+      errors: [
+        {
+          messageId: 'preferObject',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 41,
+        },
+      ],
+    },
   ],
 });
