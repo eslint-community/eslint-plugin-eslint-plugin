@@ -58,7 +58,7 @@ ruleTester.run('prefer-output-null', rule, {
       });
     `,
     `
-    new NotRuleTester().run('foo', bar, {
+    new NotRuleTesterInstance().run('foo', bar, {
       valid: [],
       invalid: [{ code: 'foo', output: 'foo' },]
     });`, // Not RuleTester.

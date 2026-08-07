@@ -60,7 +60,7 @@ ruleTester.run('test-case-property-ordering', rule, {
       name: 'custom order (options: code, errors, options, output, parserOptions)',
     },
     `
-    new NotRuleTester().run('foo', bar, {
+    new NotRuleTesterInstance().run('foo', bar, {
       valid: [{ code: "foo", options: ["baz"], output: "bar", }],
       invalid: []
     });`, // Not RuleTester.

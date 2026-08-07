@@ -70,7 +70,7 @@ ruleTester.run('consistent-output', rule, {
       name: 'test case with code, output, and errors (options: always)',
     },
     `
-    new NotRuleTester().run('foo', bar, {
+    new NotRuleTesterInstance().run('foo', bar, {
       valid: [],
       invalid: [{code: 'foo', output: 'baz', errors: ['bar']},{code: 'foo', errors: ['bar']}]
     });`, // Not RuleTester.

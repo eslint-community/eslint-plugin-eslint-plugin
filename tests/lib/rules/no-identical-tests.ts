@@ -68,7 +68,7 @@ ruleTester.run('no-identical-tests', rule, {
       });
     `,
     `
-    new NotRuleTester().run('foo', bar, {
+    new NotRuleTesterInstance().run('foo', bar, {
       valid: [],
       invalid: [{code: 'foo', output: 'baz', errors: ['bar']},{code: 'foo', output: 'baz', errors: ['bar']}]
     });`, // Not RuleTester.
