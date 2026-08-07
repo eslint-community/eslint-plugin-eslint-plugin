@@ -995,7 +995,7 @@ describe('utils', () => {
         '',
         'module.exports = context => { context.report(foo); return {}; };',
         'new (require("eslint").NotRuleTester).run(foo, bar, { valid: [] })',
-        'new NotRuleTester().run(foo, bar, { valid: [] })',
+        'new NotRuleTesterClass().run(foo, bar, { valid: [] })',
         'new RuleTester()',
         'const foo = new RuleTester; bar.run(foo, bar, { valid: [] })',
         'new RuleTester().run()',
@@ -1040,6 +1040,22 @@ describe('utils', () => {
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
           { valid: 0, invalid: 2 },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
+          { valid: 0, invalid: 2 },
+        'new ExtendedRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
+          { valid: 1, invalid: 2 },
+        'var foo = new ExtendedRuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
+          { valid: 1, invalid: 1 },
+        'var foo = new (require("eslint")).ExtendedRuleTester; foo.run(bar, baz, { valid: [], invalid: [] })':
+          { valid: 0, invalid: 0 },
+        'var foo = new bar.ExtendedRuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
+          { valid: 0, invalid: 2 },
+        'createExtendedRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
+          { valid: 1, invalid: 2 },
+        'var foo = createExtendedRuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
+          { valid: 1, invalid: 1 },
+        'var foo = (require("eslint")).createExtendedRuleTester(); foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
+          { valid: 0, invalid: 2 },
+        'var foo = bar.createExtendedRuleTester(); foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
           { valid: 0, invalid: 2 },
         [`
           var foo = new bar.RuleTester;

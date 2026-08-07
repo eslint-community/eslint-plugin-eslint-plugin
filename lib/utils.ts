@@ -67,11 +67,12 @@ function isNormalFunctionExpression(
  */
 function isRuleTesterConstruction(node: Expression | Super): boolean {
   return (
-    node.type === 'NewExpression' &&
-    ((node.callee.type === 'Identifier' && node.callee.name === 'RuleTester') ||
+    (node.type === 'NewExpression' || node.type === 'CallExpression') &&
+    ((node.callee.type === 'Identifier' &&
+      node.callee.name.endsWith('RuleTester')) ||
       (node.callee.type === 'MemberExpression' &&
         node.callee.property.type === 'Identifier' &&
-        node.callee.property.name === 'RuleTester'))
+        node.callee.property.name.endsWith('RuleTester')))
   );
 }
 
