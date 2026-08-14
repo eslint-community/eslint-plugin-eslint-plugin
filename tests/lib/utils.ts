@@ -990,6 +990,16 @@ describe('utils', () => {
   });
 
   describe('getTestInfo', () => {
+    const otherPluginsSettings: Record<string, unknown>[] = [
+      { 'other-plugin': {} },
+      { 'other-plugin': { ruleTesterConstructors: ['CustomRuleTester'] } },
+      { 'other-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+      { 'other-plugin': { ruleTesterConstructors: ['createRuleTester'] } },
+      { 'other-plugin': { ruleTesterConstructors: [/^createRuleTester/] } },
+      { 'other-plugin': { unrelatedRule: ['CustomRuleTester'] } },
+      { 'other-plugin': { unrelatedRule: true } },
+    ];
+
     describe('the file does not have valid tests', () => {
       [
         '',
@@ -1002,73 +1012,107 @@ describe('utils', () => {
         'new RuleTester().run(foo)',
         'new RuleTester().run(foo, bar)',
         'new RuleTester().run(foo, bar, notAnObject)',
+        'new CustomRuleTester().run()',
+        'new CustomRuleTester().run(foo)',
+        'new CustomRuleTester().run(foo, bar)',
+        'new CustomRuleTester().run(foo, bar, notAnObject)',
+        'createRuleTester().run()',
+        'createRuleTester().run(foo)',
+        'createRuleTester().run(foo, bar)',
+        'createRuleTester().run(foo, bar, notAnObject)',
+        'createRuleTesterWith().run()',
+        'createRuleTesterWith().run(foo)',
+        'createRuleTesterWith().run(foo, bar)',
+        'createRuleTesterWith().run(foo, bar, notAnObject)',
       ].forEach((noTestsCase) => {
-        it(`returns no tests for ${noTestsCase}`, () => {
-          const ast = espree.parse(noTestsCase, {
-            ecmaVersion: 8,
-            range: true,
-          }) as unknown as Program;
-          const scopeManager = eslintScope.analyze(ast, {
-            ignoreEval: true,
-            ecmaVersion: 6,
-            sourceType: 'script',
-            nodejsScope: true,
+        [
+          {},
+          { 'eslint-plugin': {} },
+          { 'eslint-plugin': { ruleTesterConstructors: ['CustomRuleTester'] } },
+          { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+          { 'eslint-plugin': { ruleTesterConstructors: ['createRuleTester'] } },
+          {
+            'eslint-plugin': { ruleTesterConstructors: [/^createRuleTester/] },
+          },
+          ...otherPluginsSettings,
+        ].forEach((settings: Record<string, unknown>) => {
+          it(`returns no tests for ${noTestsCase} and options ${JSON.stringify(settings)}`, () => {
+            const ast = espree.parse(noTestsCase, {
+              ecmaVersion: 8,
+              range: true,
+            }) as unknown as Program;
+            const scopeManager = eslintScope.analyze(ast, {
+              ignoreEval: true,
+              ecmaVersion: 6,
+              sourceType: 'script',
+              nodejsScope: true,
+            });
+            const context = {
+              settings,
+              sourceCode: {
+                getDeclaredVariables:
+                  scopeManager.getDeclaredVariables.bind(scopeManager),
+              },
+            } as unknown as Rule.RuleContext; // mock object
+            assert.deepEqual(
+              utils.getTestInfo(context, ast),
+              [],
+              'Expected no tests to be found',
+            );
           });
-          const context = {
-            sourceCode: {
-              getDeclaredVariables:
-                scopeManager.getDeclaredVariables.bind(scopeManager),
-            },
-          } as unknown as Rule.RuleContext; // mock object
-          assert.deepEqual(
-            utils.getTestInfo(context, ast),
-            [],
-            'Expected no tests to be found',
-          );
         });
       });
     });
 
     describe('the file has valid tests', () => {
-      const CASES: Record<string, { valid: number; invalid: number }> = {
+      const CASES: Record<
+        string,
+        { valid: number; invalid: number; settings: Record<string, unknown>[] }
+      > = {
         'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
-          { valid: 1, invalid: 2 },
+          {
+            valid: 1,
+            invalid: 2,
+            settings: [
+              {},
+              { 'eslint-plugin': {} },
+              { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+              ...otherPluginsSettings,
+            ],
+          },
+        'new CustomRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
+          {
+            valid: 1,
+            invalid: 2,
+            settings: [
+              {
+                'eslint-plugin': {
+                  ruleTesterConstructors: ['CustomRuleTester'],
+                },
+              },
+              { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+            ],
+          },
         'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
-          { valid: 1, invalid: 1 },
+          { valid: 1, invalid: 1, settings: [...otherPluginsSettings] },
         'var foo = new (require("eslint")).RuleTester; foo.run(bar, baz, { valid: [], invalid: [] })':
-          { valid: 0, invalid: 0 },
+          { valid: 0, invalid: 0, settings: [...otherPluginsSettings] },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
-          { valid: 0, invalid: 2 },
+          { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
-          { valid: 0, invalid: 2 },
-        'new ExtendedRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
-          { valid: 1, invalid: 2 },
-        'var foo = new ExtendedRuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
-          { valid: 1, invalid: 1 },
-        'var foo = new (require("eslint")).ExtendedRuleTester; foo.run(bar, baz, { valid: [], invalid: [] })':
-          { valid: 0, invalid: 0 },
-        'var foo = new bar.ExtendedRuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
-          { valid: 0, invalid: 2 },
-        'createExtendedRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
-          { valid: 1, invalid: 2 },
-        'var foo = createExtendedRuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
-          { valid: 1, invalid: 1 },
-        'var foo = (require("eslint")).createExtendedRuleTester(); foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
-          { valid: 0, invalid: 2 },
-        'var foo = bar.createExtendedRuleTester(); foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
-          { valid: 0, invalid: 2 },
+          { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
         [`
           var foo = new bar.RuleTester;
           describe('my tests', function () {
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
           });
-        `]: { valid: 0, invalid: 2 },
+        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
         [`
           var foo = new bar.RuleTester;
           describe('my tests', () => {
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
           });
-        `]: { valid: 0, invalid: 2 },
+        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
         [`
           var foo = new bar.RuleTester;
           describe('my tests', () => {
@@ -1080,69 +1124,80 @@ describe('utils', () => {
               });
             });
           });
-        `]: { valid: 0, invalid: 2 },
+        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
         [`
           var foo = new bar.RuleTester();
           describe('my tests', () =>
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] }));
-        `]: { valid: 0, invalid: 2 },
+        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
         [`
           var foo = new bar.RuleTester();
           if (eslintVersion >= 8)
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] });
-        `]: { valid: 0, invalid: 2 },
+        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
       };
 
       Object.keys(CASES).forEach((testSource) => {
-        it(testSource, () => {
-          const ast = espree.parse(testSource, {
-            ecmaVersion: 6,
-            range: true,
-          }) as unknown as Program;
-          const scopeManager = eslintScope.analyze(ast, {
-            ignoreEval: true,
-            ecmaVersion: 6,
-            sourceType: 'script',
-            nodejsScope: true,
+        CASES[testSource].settings.forEach((settings) => {
+          it(`${testSource} with options ${JSON.stringify(settings)}`, () => {
+            const ast = espree.parse(testSource, {
+              ecmaVersion: 6,
+              range: true,
+            }) as unknown as Program;
+            const scopeManager = eslintScope.analyze(ast, {
+              ignoreEval: true,
+              ecmaVersion: 6,
+              sourceType: 'script',
+              nodejsScope: true,
+            });
+            const context = {
+              settings,
+              sourceCode: {
+                getDeclaredVariables:
+                  scopeManager.getDeclaredVariables.bind(scopeManager),
+              },
+            } as unknown as Rule.RuleContext; // mock object
+            const testInfo = utils.getTestInfo(context, ast);
+
+            assert.strictEqual(
+              testInfo.length,
+              1,
+              'Expected to find one test run',
+            );
+
+            assert.strictEqual(
+              testInfo[0].valid.length,
+              CASES[testSource].valid,
+              `Expected ${CASES[testSource].valid} valid cases but got ${testInfo[0].valid.length}`,
+            );
+
+            assert.strictEqual(
+              testInfo[0].invalid.length,
+              CASES[testSource].invalid,
+              `Expected ${CASES[testSource].invalid} invalid cases but got ${testInfo[0].invalid.length}`,
+            );
           });
-          const context = {
-            sourceCode: {
-              getDeclaredVariables:
-                scopeManager.getDeclaredVariables.bind(scopeManager),
-            },
-          } as unknown as Rule.RuleContext; // mock object
-          const testInfo = utils.getTestInfo(context, ast);
-
-          assert.strictEqual(
-            testInfo.length,
-            1,
-            'Expected to find one test run',
-          );
-
-          assert.strictEqual(
-            testInfo[0].valid.length,
-            CASES[testSource].valid,
-            `Expected ${CASES[testSource].valid} valid cases but got ${testInfo[0].valid.length}`,
-          );
-
-          assert.strictEqual(
-            testInfo[0].invalid.length,
-            CASES[testSource].invalid,
-            `Expected ${CASES[testSource].invalid} invalid cases but got ${testInfo[0].invalid.length}`,
-          );
         });
       });
     });
 
     describe('the file has multiple test runs', () => {
-      const CASES: Record<string, { valid: number; invalid: number }[]> = {
+      const CASES: Record<
+        string,
+        {
+          runs: { valid: number; invalid: number }[];
+          settings?: Record<string, unknown>;
+        }
+      > = {
         [`
           new RuleTester().run(foo, bar, { valid: [foo], invalid: [] });
           new RuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
-        `]: [
-          { valid: 1, invalid: 0 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 1, invalid: 0 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           describe('one', function() {
@@ -1152,20 +1207,24 @@ describe('utils', () => {
           describe('two', () => {
             new RuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 1, invalid: 0 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 1, invalid: 0 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester;
           var bar = new RuleTester;
           foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
           bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester;
@@ -1175,19 +1234,23 @@ describe('utils', () => {
             foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
           foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
           bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
@@ -1199,10 +1262,12 @@ describe('utils', () => {
           describe('another set of tests', () => {
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
@@ -1216,10 +1281,12 @@ describe('utils', () => {
           describe('another set of tests', () => {
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
@@ -1233,10 +1300,12 @@ describe('utils', () => {
           describe('another set of tests', () => {
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
@@ -1252,10 +1321,12 @@ describe('utils', () => {
           describe('another set of tests', () => {
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
@@ -1271,10 +1342,12 @@ describe('utils', () => {
           describe('another set of tests', () => {
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
 
         [`
           var foo = new RuleTester, bar = new RuleTester;
@@ -1290,13 +1363,17 @@ describe('utils', () => {
           describe('another set of tests', () => {
             bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
           });
-        `]: [
-          { valid: 3, invalid: 1 },
-          { valid: 0, invalid: 2 },
-        ],
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+        },
       };
 
       Object.keys(CASES).forEach((testSource) => {
+        const runs = CASES[testSource].runs;
+        const settings = CASES[testSource].settings ?? {};
         it(testSource, () => {
           const ast = espree.parse(testSource, {
             ecmaVersion: 6,
@@ -1309,6 +1386,7 @@ describe('utils', () => {
             nodejsScope: true,
           });
           const context = {
+            settings,
             sourceCode: {
               getDeclaredVariables:
                 scopeManager.getDeclaredVariables.bind(scopeManager),
@@ -1318,11 +1396,11 @@ describe('utils', () => {
 
           assert.strictEqual(
             testInfo.length,
-            CASES[testSource].length,
-            `Expected to find ${CASES[testSource].length} test runs but got ${testInfo.length}`,
+            runs.length,
+            `Expected to find ${runs.length} test runs but got ${testInfo.length}`,
           );
 
-          CASES[testSource].forEach((testRun, index) => {
+          runs.forEach((testRun, index) => {
             assert.strictEqual(
               testRun.valid,
               testInfo[index].valid.length,
