@@ -161,3 +161,28 @@ export default [
   },
 ];
 ```
+
+## <a name='Settings'></a>Settings
+
+You may set the following settings in your `eslint.config.js`
+
+### <a name='ruleTesterConstructors'></a>`ruleTesterConstructors`
+
+The different names allowed for the constructors of the RuleTester. Can
+contain both `string` and `RegExp`. A string verifies a full match, while
+a `RegExp` uses [`RegExp.prototype.test()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test).
+
+This settings defaults to `['RuleTester']`.
+
+```js
+// eslint.config.js
+export default [
+  {
+    settings: {
+      'eslint-plugin': {
+        ruleTesterConstructors: [/RuleTester$/, /^createRuleTester/],
+      },
+    },
+  },
+];
+```

@@ -1,4 +1,4 @@
-import { getStaticValue, findVariable } from '@eslint-community/eslint-utils';
+import { findVariable, getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule, Scope, SourceCode } from 'eslint';
 import estraverse from 'estraverse';
 import type {
@@ -50,6 +50,183 @@ const isFunctionType = (
   !!node && functionTypes.has(node.type);
 
 /**
+ * Global settings for the eslint-plugin plugin.
+ *
+ * These settings can be configured in ESLint configuration under the
+ * 'eslint-plugin' key and apply to all eslint-plugin rules.
+ */
+export interface Settings {
+  /**
+   * The different names allowed for the constructors of the RuleTester. Can
+   * contain both `string` and `RegExp`. A string verifies a full match, while
+   * a `RegExp` uses {@link RegExp#test}.
+   */
+  ruleTesterConstructors: (string | RegExp)[];
+}
+
+const defaultSettings: Readonly<Settings> = {
+  ruleTesterConstructors: ['RuleTester'],
+} as const;
+
+/**
+ * Identifies settings keys that are not in the allowed list.
+ *
+ * @param object - Settings object to validate.
+ * @returns Array of invalid setting names.
+ */
+function getInvalidOptions(object: Record<string, unknown>): string[] {
+  const allowedOptions = new Set<keyof Settings>(['ruleTesterConstructors']);
+
+  return Object.keys(object).filter(
+    (key) => !allowedOptions.has(key as keyof Settings),
+  );
+}
+
+/**
+ * Extracts and validates eslint-plugin settings from ESLint configuration.
+ *
+ * Retrieves global eslint-plugin settings that apply to all rules. Validates
+ * that only allowed settings are provided and throws an error if invalid
+ * options are detected. This ensures configuration errors are caught early with
+ * clear error messages.
+ *
+ * The settings are accessed from the 'eslint-plugin' key in ESLint's shared
+ * configuration settings.
+ *
+ * Keep in mind that the settings are **not** validated. This is instead done by
+ * {@link #validateSettings}.
+ *
+ * @example
+ *
+ * ```ts
+ * // Valid usage:
+ * const settings = getSettings(context.settings);
+ * // Returns: { ruleTesterConstructors: ['RuleTester'] }
+ * ```
+ *
+ * @example
+ *
+ * ```ts
+ * // Invalid setting throws error:
+ * getSettings({
+ *   'eslint-plugin': {
+ *     ruleTesterConstructors: ['RuleTester', /^create\w*RuleTester/],
+ *     invalidOption: true, // This will throw
+ *   },
+ * });
+ * // Throws: Error: Invalid eslint-plugin setting(s): invalidOption
+ * ```
+ *
+ * @param settings - ESLint shared configuration settings object.
+ * @returns Validated eslint-plugin settings or empty object if none configured.
+ * @throws {Error} If invalid settings are provided.
+ */
+export function getSettings(
+  settings: Rule.RuleContext['settings'],
+): Partial<Settings> {
+  const raw = settings['eslint-plugin'];
+
+  if (raw === undefined) {
+    return {};
+  }
+
+  if (raw === null) {
+    throw new TypeError(
+      'Invalid eslint-plugin settings: expected an object but got null',
+    );
+  }
+
+  if (typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new TypeError(
+      `Invalid eslint-plugin settings: expected an object but got ${Array.isArray(raw) ? 'array' : typeof raw}`,
+    );
+  }
+  const eslintPluginSettings = raw as Record<string, unknown>;
+  const invalidOptions = getInvalidOptions(eslintPluginSettings);
+
+  if (invalidOptions.length > 0) {
+    throw new Error(
+      `Invalid eslint-plugin setting(s): ${invalidOptions.join(', ')}`,
+    );
+  }
+
+  return eslintPluginSettings as Partial<Settings>;
+}
+
+/**
+ * Verifies that the settings have valid parameters. To prevent clutter, all
+ * properties are checked in their own function.
+ *
+ * @example
+ *
+ * ```ts
+ * // Valid usage:
+ * const settings = getSettings(context.settings);
+ * validateSettings(settings);
+ * ```
+ *
+ * @example
+ *
+ * ```ts
+ * // Invalid usage:
+ * validateSettings({
+ *   ruleTesterConstructors: [true], // Invalid settings
+ * });
+ * ```
+ *
+ * @param settings The eslint-plugin shared settings object
+ * @throws {Error} If invalid settings are provided.
+ */
+export function validateSettings(
+  settings: Partial<Record<keyof Settings, unknown>>,
+): void {
+  if (Object.keys(settings).includes('ruleTesterConstructors')) {
+    validateRuleTesterConstructors(settings.ruleTesterConstructors);
+  }
+}
+
+/**
+ * Validates that the ruleTesterConstructors option is valid, i.e. it is an
+ * Array that has at least one element, and all the elements are either a
+ * `string` or a `RegExp`.
+ *
+ * @param setting The ruleTesterConstructors setting
+ * @throws {Error} If an invalid setting is provided.
+ */
+function validateRuleTesterConstructors(setting: unknown): void {
+  if (!Array.isArray(setting)) {
+    throw new TypeError('ruleTesterConstructors: The setting is not an array');
+  }
+
+  if (setting.length === 0) {
+    throw new Error(
+      'ruleTesterConstructors: The array must have at least one constructor',
+    );
+  }
+
+  for (const [i, constructor] of setting.entries()) {
+    if (typeof constructor === 'string' || constructor instanceof RegExp) {
+      continue;
+    }
+
+    throw new Error(
+      `ruleTesterConstructors: Element at index ${i} is neither a string nor a RegExp`,
+    );
+  }
+}
+
+/**
+ * Merges {@link #defaultSettings} with {@link #settings}, the latter taking
+ * precedence.
+ *
+ * @param settings The eslint-plugin shared settings object
+ * @returns The complete settings
+ */
+function completeOptions(settings: Partial<Settings>): Settings {
+  return { ...defaultSettings, ...settings };
+}
+
+/**
  * Determines whether a node is a 'normal' (i.e. non-async, non-generator) function expression.
  * @param node The node in question
  * @returns `true` if the node is a normal function expression
@@ -63,16 +240,48 @@ function isNormalFunctionExpression(
 /**
  * Determines whether a node is constructing a RuleTester instance
  * @param {ASTNode} node The node in question
+ * @param options The eslint-plugin options
  * @returns `true` if the node is probably constructing a RuleTester instance
  */
-function isRuleTesterConstruction(node: Expression | Super): boolean {
-  return (
-    node.type === 'NewExpression' &&
-    ((node.callee.type === 'Identifier' && node.callee.name === 'RuleTester') ||
-      (node.callee.type === 'MemberExpression' &&
-        node.callee.property.type === 'Identifier' &&
-        node.callee.property.name === 'RuleTester'))
-  );
+function isRuleTesterConstruction(
+  node: Expression | Super,
+  options: Settings,
+): boolean {
+  if (!(node.type === 'NewExpression' || node.type === 'CallExpression')) {
+    return false;
+  }
+
+  let identifier: Identifier | undefined;
+
+  if (node.callee.type === 'Identifier') {
+    identifier = node.callee;
+  } else if (
+    node.callee.type === 'MemberExpression' &&
+    !node.callee.computed &&
+    node.callee.property.type === 'Identifier'
+  ) {
+    identifier = node.callee.property;
+  }
+
+  if (identifier === undefined) {
+    return false;
+  }
+
+  for (const ruleTesterConstructor of options.ruleTesterConstructors) {
+    if (typeof ruleTesterConstructor === 'string') {
+      if (identifier.name === ruleTesterConstructor) {
+        return true;
+      }
+
+      continue;
+    }
+
+    if (ruleTesterConstructor.test(identifier.name)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 const interestingRuleKeys = ['create', 'meta'] as const;
@@ -560,12 +769,22 @@ function extractFunctionBody(
  * @param context The `context` variable for the source file itself
  * @param statements The statements to check
  * @param variableIdentifiers
+ * @param options
  */
 function checkStatementsForTestInfo(
   context: Rule.RuleContext,
   statements: (ModuleDeclaration | Statement | Directive | Expression)[],
   variableIdentifiers = new Set<Node>(),
+  options?: Settings,
 ): CallExpression[] {
+  let usedOptions = options;
+
+  if (usedOptions === undefined) {
+    const settings = getSettings(context.settings);
+    validateSettings(settings);
+    usedOptions = completeOptions(settings);
+  }
+
   const sourceCode = context.sourceCode;
   const runCalls = [];
 
@@ -583,11 +802,12 @@ function checkStatementsForTestInfo(
             context,
             extracted,
             variableIdentifiers,
+            usedOptions,
           ),
         );
 
         if (
-          isRuleTesterConstruction(declarator.init) &&
+          isRuleTesterConstruction(declarator.init, usedOptions) &&
           declarator.id.type === 'Identifier'
         ) {
           const vars = sourceCode.getDeclaredVariables(declarator);
@@ -606,6 +826,7 @@ function checkStatementsForTestInfo(
           context,
           statement.body.body,
           variableIdentifiers,
+          usedOptions,
         ),
       );
     }
@@ -617,7 +838,12 @@ function checkStatementsForTestInfo(
           : [statement.consequent];
 
       runCalls.push(
-        ...checkStatementsForTestInfo(context, body, variableIdentifiers),
+        ...checkStatementsForTestInfo(
+          context,
+          body,
+          variableIdentifiers,
+          usedOptions,
+        ),
       );
 
       continue;
@@ -636,13 +862,18 @@ function checkStatementsForTestInfo(
       const extracted = extractFunctionBody(arg);
 
       runCalls.push(
-        ...checkStatementsForTestInfo(context, extracted, variableIdentifiers),
+        ...checkStatementsForTestInfo(
+          context,
+          extracted,
+          variableIdentifiers,
+          usedOptions,
+        ),
       );
     }
 
     if (
       expression.callee.type === 'MemberExpression' &&
-      (isRuleTesterConstruction(expression.callee.object) ||
+      (isRuleTesterConstruction(expression.callee.object, usedOptions) ||
         variableIdentifiers.has(expression.callee.object)) &&
       expression.callee.property.type === 'Identifier' &&
       expression.callee.property.name === 'run'
