@@ -14,7 +14,7 @@ When reporting a rule violation, it's preferred to provide the violation message
 
 ## Rule Details
 
-This rule catches usages of the `message` property when reporting a rule violation.
+This rule catches usages of the `message` property when reporting a rule violation. `meta.messages` is only required when the rule reports violations (via `context.report()`).
 
 Examples of **incorrect** code for this rule:
 

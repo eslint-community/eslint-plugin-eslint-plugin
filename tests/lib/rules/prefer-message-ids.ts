@@ -143,6 +143,44 @@ ruleTester.run('prefer-message-ids', rule, {
         }
       };
     `,
+    // Rules that never report do not need `meta.messages`.
+    `
+      module.exports = {
+        meta: { description: 'foo' },
+        create(context) { }
+      };
+    `,
+    `
+      module.exports = {
+        meta: {
+          description: 'foo',
+          messages: {},
+        },
+        create(context) { }
+      };
+    `,
+    `
+      const messages = {};
+      module.exports = {
+        meta: {
+          description: 'foo',
+          messages,
+        },
+        create(context) { }
+      };
+    `,
+    // Issue #292: rules that only mark variables as used.
+    `
+      module.exports = {
+        create(context) {
+          return {
+            JSXIdentifier(node) {
+              context.markVariableAsUsed(node.name);
+            },
+          };
+        },
+      };
+    `,
     'module.exports = {};', // No rule.
   ],
 
@@ -261,33 +299,15 @@ ruleTester.run('prefer-message-ids', rule, {
     },
 
     {
-      // `meta.messages` missing
-      code: `
-        module.exports = {
-          meta: { description: 'foo' },
-          create(context) { }
-        };
-      `,
-      errors: [
-        {
-          messageId: 'messagesMissing',
-          type: 'ObjectExpression',
-          column: 17,
-          endColumn: 39,
-          endLine: 3,
-          line: 3,
-        },
-      ],
-    },
-    {
-      // `meta.messages` empty
+      // `meta.messages` empty but rule reports
       code: `
         module.exports = {
           meta: {
-            description: 'foo',
             messages: {},
           },
-          create(context) { }
+          create(context) {
+            context.report({ node, messageId: 'foo' });
+          }
         };
       `,
       errors: [
@@ -296,31 +316,8 @@ ruleTester.run('prefer-message-ids', rule, {
           type: 'ObjectExpression',
           column: 23,
           endColumn: 25,
-          endLine: 5,
-          line: 5,
-        },
-      ],
-    },
-    {
-      // `meta.messages` empty (in variable)
-      code: `
-        const messages = {};
-        module.exports = {
-          meta: {
-            description: 'foo',
-            messages,
-          },
-          create(context) { }
-        };
-      `,
-      errors: [
-        {
-          messageId: 'messagesMissing',
-          type: 'Identifier',
-          column: 13,
-          endColumn: 21,
-          endLine: 6,
-          line: 6,
+          endLine: 4,
+          line: 4,
         },
       ],
     },
