@@ -1,4 +1,4 @@
-import { getStaticValue, findVariable } from '@eslint-community/eslint-utils';
+import { findVariable, getStaticValue } from '@eslint-community/eslint-utils';
 import type { Rule, Scope, SourceCode } from 'eslint';
 import estraverse from 'estraverse';
 import type {
@@ -55,7 +55,7 @@ const isFunctionType = (
  * These settings can be configured in ESLint configuration under the
  * 'eslint-plugin' key and apply to all eslint-plugin rules.
  */
-interface Settings {
+export interface Settings {
   /**
    * The different names allowed for the constructors of the RuleTester. Can
    * contain both `string` and `RegExp`. A string verifies a full match, while
@@ -121,17 +121,27 @@ function getInvalidOptions(object: Record<string, unknown>): string[] {
  * @returns Validated eslint-plugin settings or empty object if none configured.
  * @throws {Error} If invalid settings are provided.
  */
-function getSettings(
+export function getSettings(
   settings: Rule.RuleContext['settings'],
 ): Partial<Settings> {
-  if (!settings['eslint-plugin']) {
+  const raw = settings['eslint-plugin'];
+
+  if (raw === undefined) {
     return {};
   }
 
-  const eslintPluginSettings = settings['eslint-plugin'] as Record<
-    string,
-    unknown
-  >;
+  if (raw === null) {
+    throw new TypeError(
+      'Invalid eslint-plugin settings: expected an object but got null',
+    );
+  }
+
+  if (typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new TypeError(
+      `Invalid eslint-plugin settings: expected an object but got ${Array.isArray(raw) ? 'array' : typeof raw}`,
+    );
+  }
+  const eslintPluginSettings = raw as Record<string, unknown>;
   const invalidOptions = getInvalidOptions(eslintPluginSettings);
 
   if (invalidOptions.length > 0) {
@@ -140,7 +150,7 @@ function getSettings(
     );
   }
 
-  return settings['eslint-plugin'];
+  return eslintPluginSettings as Partial<Settings>;
 }
 
 /**
@@ -167,7 +177,7 @@ function getSettings(
  * @param settings The eslint-plugin shared settings object
  * @throws {Error} If invalid settings are provided.
  */
-function validateSettings(
+export function validateSettings(
   settings: Partial<Record<keyof Settings, unknown>>,
 ): void {
   if (Object.keys(settings).includes('ruleTesterConstructors')) {
@@ -247,6 +257,7 @@ function isRuleTesterConstruction(
     identifier = node.callee;
   } else if (
     node.callee.type === 'MemberExpression' &&
+    !node.callee.computed &&
     node.callee.property.type === 'Identifier'
   ) {
     identifier = node.callee.property;

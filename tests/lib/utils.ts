@@ -5,7 +5,7 @@ import * as eslintScope from 'eslint-scope';
 import * as espree from 'espree';
 import * as estraverse from 'estraverse';
 import lodash from 'lodash';
-import { assert, describe, it } from 'vitest';
+import { assert, describe, expect, it } from 'vitest';
 
 import * as utils from '../../lib/utils.ts';
 import type {
@@ -45,6 +45,234 @@ type MockRuleInfo = {
 };
 
 describe('utils', () => {
+  describe('getSettings', () => {
+    function generateSettings(
+      eslintSettings: Record<string, unknown>[],
+      otherSettings: Record<string, unknown>[],
+    ): Record<string, unknown>[] {
+      return eslintSettings.flatMap((eslintSetting) =>
+        otherSettings.map((otherSetting) => ({
+          ...eslintSetting,
+          ...otherSetting,
+        })),
+      );
+    }
+
+    const OTHER_PLUGIN_SETTINGS: Record<string, unknown>[] = [
+      {},
+      { 'other-plugin': {} },
+      { 'other-plugin': { ruleTesterConstructors: ['CustomRuleTester'] } },
+      { 'other-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+      { 'other-plugin': { ruleTesterConstructors: ['createRuleTester'] } },
+      { 'other-plugin': { ruleTesterConstructors: [/^createRuleTester/] } },
+      { 'other-plugin': { unrelatedRule: ['CustomRuleTester'] } },
+      { 'other-plugin': { unrelatedRule: [/^createRuleTester/] } },
+      { 'other-plugin': { unrelatedRule: true } },
+    ];
+    describe('valid settings', () => {
+      const ESLINT_PLUGIN_SETTINGS: Record<string, unknown>[] = [
+        {},
+        { 'eslint-plugin': {} },
+        { 'eslint-plugin': { ruleTesterConstructors: ['CustomRuleTester'] } },
+        { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+        { 'eslint-plugin': { ruleTesterConstructors: ['createRuleTester'] } },
+        {
+          'eslint-plugin': { ruleTesterConstructors: [/^createRuleTester/] },
+        },
+      ];
+
+      const CASES = generateSettings(
+        ESLINT_PLUGIN_SETTINGS,
+        OTHER_PLUGIN_SETTINGS,
+      );
+
+      CASES.forEach((settings) => {
+        it(
+          JSON.stringify(settings, (_key, value) =>
+            value instanceof RegExp ? value.toString() : value,
+          ),
+          () => {
+            expect(utils.getSettings(settings)).toEqual(
+              settings['eslint-plugin'] ?? {},
+            );
+          },
+        );
+      });
+    });
+
+    describe('invalid settings', () => {
+      describe('eslint-plugin is null', () => {
+        const CASES = generateSettings(
+          [{ 'eslint-plugin': null }],
+          OTHER_PLUGIN_SETTINGS,
+        );
+
+        CASES.forEach((settings) => {
+          it(
+            JSON.stringify(settings, (_key, value) =>
+              value instanceof RegExp ? value.toString() : value,
+            ),
+            () => {
+              expect(() => utils.getSettings(settings)).toThrow(
+                'Invalid eslint-plugin settings: expected an object but got null',
+              );
+            },
+          );
+        });
+      });
+
+      describe('eslint-plugin is wrong type', () => {
+        const ESLINT_PLUGIN_SETTINGS: Record<string, unknown>[] = [
+          { 'eslint-plugin': [] },
+          { 'eslint-plugin': 1 },
+          { 'eslint-plugin': true },
+          { 'eslint-plugin': 'foo' },
+        ];
+        const CASES = generateSettings(
+          ESLINT_PLUGIN_SETTINGS,
+          OTHER_PLUGIN_SETTINGS,
+        );
+
+        CASES.forEach((settings) => {
+          it(
+            JSON.stringify(settings, (_key, value) =>
+              value instanceof RegExp ? value.toString() : value,
+            ),
+            () => {
+              const raw = settings['eslint-plugin'];
+              expect(() => utils.getSettings(settings)).toThrow(
+                `Invalid eslint-plugin settings: expected an object but got ${Array.isArray(raw) ? 'array' : typeof raw}`,
+              );
+            },
+          );
+        });
+      });
+
+      describe('invalid keys', () => {
+        const ESLINT_PLUGIN_SETTINGS: Record<string, unknown>[] = [
+          { 'eslint-plugin': { invalidKey1: true, invalidKey2: 'foo' } },
+          {
+            'eslint-plugin': {
+              invalidKey1: true,
+              invalidKey2: 'foo',
+              ruleTesterConstructors: ['CustomRuleTester'],
+            },
+          },
+          {
+            'eslint-plugin': {
+              invalidKey1: true,
+              invalidKey2: 'foo',
+              ruleTesterConstructors: [/RuleTester$/],
+            },
+          },
+          {
+            'eslint-plugin': {
+              invalidKey1: true,
+              invalidKey2: 'foo',
+              ruleTesterConstructors: ['createRuleTester'],
+            },
+          },
+          {
+            'eslint-plugin': {
+              invalidKey1: true,
+              invalidKey2: 'foo',
+              ruleTesterConstructors: [/^createRuleTester/],
+            },
+          },
+        ];
+        const CASES = generateSettings(
+          ESLINT_PLUGIN_SETTINGS,
+          OTHER_PLUGIN_SETTINGS,
+        );
+
+        CASES.forEach((settings) => {
+          it(
+            JSON.stringify(settings, (_key, value) =>
+              value instanceof RegExp ? value.toString() : value,
+            ),
+            () => {
+              expect(() => utils.getSettings(settings)).toThrow(
+                'Invalid eslint-plugin setting(s): invalidKey1, invalidKey2',
+              );
+            },
+          );
+        });
+      });
+    });
+  });
+
+  describe('validateSettings', () => {
+    describe('valid settings', () => {
+      const CASES: Partial<Record<keyof utils.Settings, unknown>>[] = [
+        {},
+        { ruleTesterConstructors: ['CustomRuleTester'] },
+        { ruleTesterConstructors: [/RuleTester$/] },
+        { ruleTesterConstructors: ['createRuleTester'] },
+        { ruleTesterConstructors: [/^createRuleTester/] },
+      ];
+
+      CASES.forEach((settings) => {
+        it(
+          JSON.stringify(settings, (_key, value) =>
+            value instanceof RegExp ? value.toString() : value,
+          ),
+          () => {
+            expect(() => utils.validateSettings(settings)).not.toThrow();
+          },
+        );
+      });
+    });
+
+    describe('invalid settings', () => {
+      describe('ruleTesterConstructors', () => {
+        describe('type of option', () => {
+          const CASES: Partial<Record<keyof utils.Settings, unknown>>[] = [
+            { ruleTesterConstructors: undefined },
+            { ruleTesterConstructors: null },
+            { ruleTesterConstructors: 1 },
+            { ruleTesterConstructors: true },
+            { ruleTesterConstructors: 'foo' },
+            { ruleTesterConstructors: {} },
+          ];
+
+          CASES.forEach((settings) => {
+            it(JSON.stringify(settings), () => {
+              expect(() => utils.validateSettings(settings)).toThrow(
+                'ruleTesterConstructors: The setting is not an array',
+              );
+            });
+          });
+        });
+
+        describe('type in array', () => {
+          const CASES: Partial<Record<keyof utils.Settings, unknown>>[] = [
+            { ruleTesterConstructors: [null] },
+            { ruleTesterConstructors: [1] },
+            { ruleTesterConstructors: [true] },
+            { ruleTesterConstructors: [undefined] },
+            { ruleTesterConstructors: [{}] },
+          ];
+
+          CASES.forEach((settings) => {
+            it(JSON.stringify(settings), () => {
+              expect(() => utils.validateSettings(settings)).toThrow(
+                'ruleTesterConstructors: Element at index 0 is neither a string nor a RegExp',
+              );
+            });
+          });
+        });
+
+        it('should reject empty array', () => {
+          expect(() =>
+            utils.validateSettings({ ruleTesterConstructors: [] }),
+          ).toThrow(
+            'ruleTesterConstructors: The array must have at least one constructor',
+          );
+        });
+      });
+    });
+  });
+
   describe('getRuleInfo', () => {
     describe('the file does not have a valid rule (CJS)', () => {
       [
@@ -1036,7 +1264,7 @@ describe('utils', () => {
           },
           ...otherPluginsSettings,
         ].forEach((settings: Record<string, unknown>) => {
-          it(`returns no tests for ${noTestsCase} and options ${JSON.stringify(settings)}`, () => {
+          it(`returns no tests for ${noTestsCase} and options ${JSON.stringify(settings, (_key, value) => (value instanceof RegExp ? value.toString() : value))}`, () => {
             const ast = espree.parse(noTestsCase, {
               ecmaVersion: 8,
               range: true,
@@ -1064,55 +1292,49 @@ describe('utils', () => {
       });
     });
 
+    const settingsDefault: Record<string, unknown>[] = [
+      { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+      ...otherPluginsSettings,
+    ];
+    const settingsCustomNew: Record<string, unknown>[] = [
+      { 'eslint-plugin': { ruleTesterConstructors: ['CustomRuleTester'] } },
+      { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
+    ];
+    const settingsCustomCall: Record<string, unknown>[] = [
+      {
+        'eslint-plugin': {
+          ruleTesterConstructors: ['createRuleTesterWithOptions'],
+        },
+      },
+      { 'eslint-plugin': { ruleTesterConstructors: [/^createRuleTester/] } },
+    ];
     describe('the file has valid tests', () => {
       const CASES: Record<
         string,
         { valid: number; invalid: number; settings: Record<string, unknown>[] }
       > = {
         'new RuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
-          {
-            valid: 1,
-            invalid: 2,
-            settings: [
-              {},
-              { 'eslint-plugin': {} },
-              { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
-              ...otherPluginsSettings,
-            ],
-          },
-        'new CustomRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
-          {
-            valid: 1,
-            invalid: 2,
-            settings: [
-              {
-                'eslint-plugin': {
-                  ruleTesterConstructors: ['CustomRuleTester'],
-                },
-              },
-              { 'eslint-plugin': { ruleTesterConstructors: [/RuleTester$/] } },
-            ],
-          },
+          { valid: 1, invalid: 2, settings: settingsDefault },
         'var foo = new RuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
-          { valid: 1, invalid: 1, settings: [...otherPluginsSettings] },
+          { valid: 1, invalid: 1, settings: settingsDefault },
         'var foo = new (require("eslint")).RuleTester; foo.run(bar, baz, { valid: [], invalid: [] })':
-          { valid: 0, invalid: 0, settings: [...otherPluginsSettings] },
+          { valid: 0, invalid: 0, settings: settingsDefault },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
-          { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+          { valid: 0, invalid: 2, settings: settingsDefault },
         'var foo = new bar.RuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
-          { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+          { valid: 0, invalid: 2, settings: settingsDefault },
         [`
           var foo = new bar.RuleTester;
           describe('my tests', function () {
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
           });
-        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+        `]: { valid: 0, invalid: 2, settings: settingsDefault },
         [`
           var foo = new bar.RuleTester;
           describe('my tests', () => {
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
           });
-        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+        `]: { valid: 0, invalid: 2, settings: settingsDefault },
         [`
           var foo = new bar.RuleTester;
           describe('my tests', () => {
@@ -1124,22 +1346,112 @@ describe('utils', () => {
               });
             });
           });
-        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+        `]: { valid: 0, invalid: 2, settings: settingsDefault },
         [`
           var foo = new bar.RuleTester();
           describe('my tests', () =>
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] }));
-        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+        `]: { valid: 0, invalid: 2, settings: settingsDefault },
         [`
           var foo = new bar.RuleTester();
           if (eslintVersion >= 8)
             foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] });
-        `]: { valid: 0, invalid: 2, settings: [...otherPluginsSettings] },
+        `]: { valid: 0, invalid: 2, settings: settingsDefault },
+
+        'new CustomRuleTester().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
+          { valid: 1, invalid: 2, settings: settingsCustomNew },
+        'var foo = new CustomRuleTester(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
+          { valid: 1, invalid: 1, settings: settingsCustomNew },
+        'var foo = new (require("eslint")).CustomRuleTester; foo.run(bar, baz, { valid: [], invalid: [] })':
+          { valid: 0, invalid: 0, settings: settingsCustomNew },
+        'var foo = new bar.CustomRuleTester; foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
+          { valid: 0, invalid: 2, settings: settingsCustomNew },
+        'var foo = new bar.CustomRuleTester; foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
+          { valid: 0, invalid: 2, settings: settingsCustomNew },
+        [`
+          var foo = new bar.CustomRuleTester;
+          describe('my tests', function () {
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomNew },
+        [`
+          var foo = new bar.CustomRuleTester;
+          describe('my tests', () => {
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomNew },
+        [`
+          var foo = new bar.CustomRuleTester;
+          describe('my tests', () => {
+            describe('my tests', () => {
+              describe('my tests', () => {
+                describe('my tests', () => {
+                  foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+                });
+              });
+            });
+          });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomNew },
+        [`
+          var foo = new bar.CustomRuleTester();
+          describe('my tests', () =>
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] }));
+        `]: { valid: 0, invalid: 2, settings: settingsCustomNew },
+        [`
+          var foo = new bar.CustomRuleTester();
+          if (eslintVersion >= 8)
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomNew },
+
+        'createRuleTesterWithOptions().run(bar, baz, { valid: [foo], invalid: [bar, baz] })':
+          { valid: 1, invalid: 2, settings: settingsCustomCall },
+        'var foo = createRuleTesterWithOptions(); foo.run(bar, baz, { valid: [foo], invalid: [bar] })':
+          { valid: 1, invalid: 1, settings: settingsCustomCall },
+        'var foo = (require("eslint")).createRuleTesterWithOptions(); foo.run(bar, baz, { valid: [], invalid: [] })':
+          { valid: 0, invalid: 0, settings: settingsCustomCall },
+        'var foo = bar.createRuleTesterWithOptions(); foo.run(bar, baz, { valid: [], invalid: [bar, baz] })':
+          { valid: 0, invalid: 2, settings: settingsCustomCall },
+        'var foo = bar.createRuleTesterWithOptions(); foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })':
+          { valid: 0, invalid: 2, settings: settingsCustomCall },
+        [`
+          var foo = bar.createRuleTesterWithOptions();
+          describe('my tests', function () {
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomCall },
+        [`
+          var foo = bar.createRuleTesterWithOptions();
+          describe('my tests', () => {
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+          });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomCall },
+        [`
+          var foo = bar.createRuleTesterWithOptions();
+          describe('my tests', () => {
+            describe('my tests', () => {
+              describe('my tests', () => {
+                describe('my tests', () => {
+                  foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] })
+                });
+              });
+            });
+          });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomCall },
+        [`
+          var foo = bar.createRuleTesterWithOptions();
+          describe('my tests', () =>
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] }));
+        `]: { valid: 0, invalid: 2, settings: settingsCustomCall },
+        [`
+          var foo = bar.createRuleTesterWithOptions();
+          if (eslintVersion >= 8)
+            foo.run(bar, baz, { valid: [,], invalid: [bar, , baz] });
+        `]: { valid: 0, invalid: 2, settings: settingsCustomCall },
       };
 
       Object.keys(CASES).forEach((testSource) => {
         CASES[testSource].settings.forEach((settings) => {
-          it(`${testSource} with options ${JSON.stringify(settings)}`, () => {
+          it(`${testSource} with options ${JSON.stringify(settings, (_key, value) => (value instanceof RegExp ? value.toString() : value))}`, () => {
             const ast = espree.parse(testSource, {
               ecmaVersion: 6,
               range: true,
@@ -1186,7 +1498,7 @@ describe('utils', () => {
         string,
         {
           runs: { valid: number; invalid: number }[];
-          settings?: Record<string, unknown>;
+          settings: Record<string, unknown>[];
         }
       > = {
         [`
@@ -1197,6 +1509,7 @@ describe('utils', () => {
             { valid: 1, invalid: 0 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1212,6 +1525,7 @@ describe('utils', () => {
             { valid: 1, invalid: 0 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1224,6 +1538,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1239,6 +1554,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1250,6 +1566,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1267,6 +1584,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1286,6 +1604,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1305,6 +1624,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1326,6 +1646,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1347,6 +1668,7 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
         },
 
         [`
@@ -1368,53 +1690,441 @@ describe('utils', () => {
             { valid: 3, invalid: 1 },
             { valid: 0, invalid: 2 },
           ],
+          settings: settingsDefault,
+        },
+
+        // Custom constructor
+        [`
+          new CustomRuleTester().run(foo, bar, { valid: [foo], invalid: [] });
+          new CustomRuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: {
+          runs: [
+            { valid: 1, invalid: 0 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          describe('one', function() {
+            new CustomRuleTester().run(foo, bar, { valid: [foo], invalid: [] });
+          });
+
+          describe('two', () => {
+            new CustomRuleTester().run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 1, invalid: 0 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester;
+          var bar = new CustomRuleTester;
+          foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester;
+
+          describe('some tests', () => {
+            var bar = new CustomRuleTester;
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+          foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+
+          describe('one set of tests', () => {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          });
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+
+          if (eslintVersion >= 8) {
+            describe('one set of tests', () => {
+              foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            });
+          }
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+
+          describe('one set of tests', () => {
+            if (eslintVersion >= 8) {
+              foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            }
+          });
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+
+          function testUtilsAgainst(value) {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+
+          const testUtilsAgainst = function(value) {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        [`
+          var foo = new CustomRuleTester, bar = new CustomRuleTester;
+
+          const testUtilsAgainst = (value) => {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomNew,
+        },
+
+        // calls
+        [`
+          createRuleTesterWithOptions().run(foo, bar, { valid: [foo], invalid: [] });
+          createRuleTesterWithOptions().run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: {
+          runs: [
+            { valid: 1, invalid: 0 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          describe('one', function() {
+            createRuleTesterWithOptions().run(foo, bar, { valid: [foo], invalid: [] });
+          });
+
+          describe('two', () => {
+            createRuleTesterWithOptions().run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 1, invalid: 0 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions();
+          var bar = createRuleTesterWithOptions();
+          foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions();
+
+          describe('some tests', () => {
+            var bar = createRuleTesterWithOptions();
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+          foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+
+          describe('one set of tests', () => {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          });
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+
+          if (eslintVersion >= 8) {
+            describe('one set of tests', () => {
+              foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            });
+          }
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+
+          describe('one set of tests', () => {
+            if (eslintVersion >= 8) {
+              foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+            }
+          });
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+
+          function testUtilsAgainst(value) {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+
+          const testUtilsAgainst = function(value) {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
+        },
+
+        [`
+          var foo = createRuleTesterWithOptions(), bar = createRuleTesterWithOptions();
+
+          const testUtilsAgainst = (value) => {
+            foo.run(foo, bar, { valid: [foo, bar, baz], invalid: [foo] });
+          };
+
+          testUtilsAgainst(1);
+          testUtilsAgainst(2);
+          testUtilsAgainst(3);
+
+          describe('another set of tests', () => {
+            bar.run(foo, bar, { valid: [], invalid: [foo, bar] });
+          });
+        `]: {
+          runs: [
+            { valid: 3, invalid: 1 },
+            { valid: 0, invalid: 2 },
+          ],
+          settings: settingsCustomCall,
         },
       };
 
       Object.keys(CASES).forEach((testSource) => {
         const runs = CASES[testSource].runs;
-        const settings = CASES[testSource].settings ?? {};
-        it(testSource, () => {
-          const ast = espree.parse(testSource, {
-            ecmaVersion: 6,
-            range: true,
-          }) as unknown as Program;
-          const scopeManager = eslintScope.analyze(ast, {
-            ignoreEval: true,
-            ecmaVersion: 6,
-            sourceType: 'script',
-            nodejsScope: true,
-          });
-          const context = {
-            settings,
-            sourceCode: {
-              getDeclaredVariables:
-                scopeManager.getDeclaredVariables.bind(scopeManager),
-            },
-          } as unknown as Rule.RuleContext; // mock object
-          const testInfo = utils.getTestInfo(context, ast);
+        CASES[testSource].settings.forEach((settings) => {
+          it(`${testSource} with options ${JSON.stringify(settings, (_key, value) => (value instanceof RegExp ? value.toString() : value))}`, () => {
+            const ast = espree.parse(testSource, {
+              ecmaVersion: 6,
+              range: true,
+            }) as unknown as Program;
+            const scopeManager = eslintScope.analyze(ast, {
+              ignoreEval: true,
+              ecmaVersion: 6,
+              sourceType: 'script',
+              nodejsScope: true,
+            });
+            const context = {
+              settings,
+              sourceCode: {
+                getDeclaredVariables:
+                  scopeManager.getDeclaredVariables.bind(scopeManager),
+              },
+            } as unknown as Rule.RuleContext; // mock object
+            const testInfo = utils.getTestInfo(context, ast);
 
-          assert.strictEqual(
-            testInfo.length,
-            runs.length,
-            `Expected to find ${runs.length} test runs but got ${testInfo.length}`,
-          );
+            assert.strictEqual(
+              testInfo.length,
+              runs.length,
+              `Expected to find ${runs.length} test runs but got ${testInfo.length}`,
+            );
 
-          runs.forEach((testRun, index) => {
-            assert.strictEqual(
-              testRun.valid,
-              testInfo[index].valid.length,
-              `On run ${index + 1}, expected ${
-                testRun.valid
-              } valid cases but got ${testInfo[index].valid.length}`,
-            );
-            assert.strictEqual(
-              testRun.invalid,
-              testInfo[index].invalid.length,
-              `On run ${index + 1}, expected ${
-                testRun.invalid
-              } valid cases but got ${testInfo[index].invalid.length}`,
-            );
+            runs.forEach((testRun, index) => {
+              assert.strictEqual(
+                testRun.valid,
+                testInfo[index].valid.length,
+                `On run ${index + 1}, expected ${
+                  testRun.valid
+                } valid cases but got ${testInfo[index].valid.length}`,
+              );
+              assert.strictEqual(
+                testRun.invalid,
+                testInfo[index].invalid.length,
+                `On run ${index + 1}, expected ${
+                  testRun.invalid
+                } valid cases but got ${testInfo[index].invalid.length}`,
+              );
+            });
           });
         });
       });
