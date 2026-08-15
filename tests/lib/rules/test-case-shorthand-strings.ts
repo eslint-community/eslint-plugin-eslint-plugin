@@ -153,7 +153,7 @@ ruleTester.run('test-case-shorthand-strings', rule, {
       name: 'multiple types of strings (options: consistent-as-needed)',
     },
     `
-    new NotRuleTesterInstance().run('foo', bar, {
+    new NotRuleTester().run('foo', bar, {
       valid: [{ code: 'foo' }],
       invalid: []
     });`, // Not RuleTester.

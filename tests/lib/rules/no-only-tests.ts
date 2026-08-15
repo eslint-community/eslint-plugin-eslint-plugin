@@ -45,7 +45,7 @@ ruleTester.run('no-only-tests', rule, {
       });
     `,
     `
-    new NotRuleTesterInstance().run('foo', bar, {
+    new NotRuleTester().run('foo', bar, {
       valid: [{ code: 'foo', only: true },],
       invalid: []
     });`, // Not RuleTester.
