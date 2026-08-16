@@ -11,6 +11,14 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.6.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.6.1...v7.6.2) (2026-08-15)
+
+
+### Bug Fixes
+
+* `getTestInfo` detects `NewExpression` and `CallExpression` depending on `ruleTesterConstructors` settings ([#657](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/657)) ([f277bff](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/f277bffbd74e9b9bcaf1e6478072996e6e184e78))
+* only require meta.messages when rule reports ([#640](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/640)) ([e2c5171](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/e2c5171e232fa7cc4ed1d65e3b70edf98759749e))
+
 ## [7.6.1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.6.0...v7.6.1) (2026-08-05)
 
 
