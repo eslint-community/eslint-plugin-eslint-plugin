@@ -79,10 +79,13 @@ const rule: Rule.RuleModule = {
             const parentPropertyName = (
               (contextId.parent as MemberExpression).property as Identifier
             ).name as keyof typeof DEPRECATED_PASSTHROUGHS;
-            const sourceCodeProperty = parentPropertyName === 'parserServices';
+            const isParserServicesProperty =
+              parentPropertyName === 'parserServices';
             return context.report({
               node: contextId.parent,
-              messageId: sourceCodeProperty ? 'newFormatProperty' : 'newFormat',
+              messageId: isParserServicesProperty
+                ? 'newFormatProperty'
+                : 'newFormat',
               data: {
                 contextName: contextId.name,
                 original: parentPropertyName,
@@ -91,7 +94,7 @@ const rule: Rule.RuleModule = {
               fix: (fixer) => [
                 fixer.insertTextAfter(
                   contextId,
-                  sourceCodeProperty ? '.sourceCode' : '.getSourceCode()',
+                  isParserServicesProperty ? '.sourceCode' : '.getSourceCode()',
                 ),
                 fixer.replaceText(
                   (contextId.parent as MemberExpression).property,

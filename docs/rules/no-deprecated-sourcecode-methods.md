@@ -56,7 +56,7 @@ module.exports = {
 
 ## When Not To Use It
 
-If you need to support very old versions of ESLint where `SourceCode` doesn't exist, you should not enable this rule.
+If you need to support very old versions of ESLint where the replacement methods on `SourceCode` don't exist, you should not enable this rule.
 
 ## Further Reading
 
