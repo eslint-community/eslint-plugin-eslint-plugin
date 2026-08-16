@@ -74,6 +74,7 @@ export default [
 | [meta-property-ordering](docs/rules/meta-property-ordering.md)                                       | enforce the order of meta properties                                                       |     | 🔧  |     |     |
 | [no-deprecated-context-methods](docs/rules/no-deprecated-context-methods.md)                         | disallow usage of deprecated methods on rule context objects                               | ✅  | 🔧  |     |     |
 | [no-deprecated-report-api](docs/rules/no-deprecated-report-api.md)                                   | disallow the version of `context.report()` with multiple arguments                         | ✅  | 🔧  |     |     |
+| [no-deprecated-sourcecode-methods](docs/rules/no-deprecated-sourcecode-methods.md)                   | disallow usage of deprecated methods on source code objects                                | ✅  | 🔧  |     |     |
 | [no-incomplete-meta-schema](docs/rules/no-incomplete-meta-schema.md)                                 | require explicit policy choices in rule options schemas                                    |     |     |     |     |
 | [no-incorrect-meta-schema](docs/rules/no-incorrect-meta-schema.md)                                   | disallow rule options schema constructs that ESLint ignores                                |     |     |     |     |
 | [no-matching-violation-suggest-message-ids](docs/rules/no-matching-violation-suggest-message-ids.md) | require suggestions to have different `messageId` than their parent report                 |     |     |     |     |

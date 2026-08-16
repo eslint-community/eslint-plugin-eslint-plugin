@@ -28,6 +28,11 @@ const DEPRECATED_PASSTHROUGHS = {
   getTokensAfter: 'getTokensAfter',
   getTokensBefore: 'getTokensBefore',
   getTokensBetween: 'getTokensBetween',
+  getAncestors: 'getAncestors',
+  getDeclaredVariables: 'getDeclaredVariables',
+  getScope: 'getScope',
+  markVariableAsUsed: 'markVariableAsUsed',
+  parserServices: 'parserServices',
 } satisfies Record<string, string>;
 
 // ------------------------------------------------------------------------------
@@ -48,6 +53,8 @@ const rule: Rule.RuleModule = {
     messages: {
       newFormat:
         'Use `{{contextName}}.getSourceCode().{{replacement}}` instead of `{{contextName}}.{{original}}`.',
+      newFormatProperty:
+        'Use `{{contextName}}.sourceCode.{{replacement}}` instead of `{{contextName}}.{{original}}`.',
     },
   },
 
@@ -72,16 +79,20 @@ const rule: Rule.RuleModule = {
             const parentPropertyName = (
               (contextId.parent as MemberExpression).property as Identifier
             ).name as keyof typeof DEPRECATED_PASSTHROUGHS;
+            const sourceCodeProperty = parentPropertyName === 'parserServices';
             return context.report({
               node: contextId.parent,
-              messageId: 'newFormat',
+              messageId: sourceCodeProperty ? 'newFormatProperty' : 'newFormat',
               data: {
                 contextName: contextId.name,
                 original: parentPropertyName,
                 replacement: DEPRECATED_PASSTHROUGHS[parentPropertyName],
               },
               fix: (fixer) => [
-                fixer.insertTextAfter(contextId, '.getSourceCode()'),
+                fixer.insertTextAfter(
+                  contextId,
+                  sourceCodeProperty ? '.sourceCode' : '.getSourceCode()',
+                ),
                 fixer.replaceText(
                   (contextId.parent as MemberExpression).property,
                   DEPRECATED_PASSTHROUGHS[parentPropertyName],

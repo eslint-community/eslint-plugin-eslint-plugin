@@ -34,6 +34,18 @@ ruleTester.run('no-deprecated-context-methods', rule, {
     }
     `,
     `module.exports = {};`, // Not a rule.
+    `
+      module.exports = {
+        create(context) {
+          const sourceCode = context.sourceCode;
+          sourceCode.getScope(node);
+          sourceCode.getAncestors(node);
+          sourceCode.getDeclaredVariables(node);
+          sourceCode.markVariableAsUsed('foo', node);
+          sourceCode.parserServices;
+        }
+      }
+    `,
   ],
 
   invalid: [
@@ -114,6 +126,95 @@ ruleTester.run('no-deprecated-context-methods', rule, {
           endColumn: 85,
           endLine: 2,
           line: 2,
+        },
+      ],
+    },
+    {
+      // Scope-related deprecated methods.
+      code: `
+        module.exports = {
+          create(context) {
+            context.getAncestors();
+            context.getDeclaredVariables(node);
+            context.getScope();
+            context.markVariableAsUsed('foo');
+          }
+        }
+      `,
+      output: `
+        module.exports = {
+          create(context) {
+            context.getSourceCode().getAncestors();
+            context.getSourceCode().getDeclaredVariables(node);
+            context.getSourceCode().getScope();
+            context.getSourceCode().markVariableAsUsed('foo');
+          }
+        }
+      `,
+      errors: [
+        {
+          message:
+            'Use `context.getSourceCode().getAncestors` instead of `context.getAncestors`.',
+          type: 'MemberExpression',
+          column: 13,
+          endColumn: 33,
+          endLine: 4,
+          line: 4,
+        },
+        {
+          message:
+            'Use `context.getSourceCode().getDeclaredVariables` instead of `context.getDeclaredVariables`.',
+          type: 'MemberExpression',
+          column: 13,
+          endColumn: 41,
+          endLine: 5,
+          line: 5,
+        },
+        {
+          message:
+            'Use `context.getSourceCode().getScope` instead of `context.getScope`.',
+          type: 'MemberExpression',
+          column: 13,
+          endColumn: 29,
+          endLine: 6,
+          line: 6,
+        },
+        {
+          message:
+            'Use `context.getSourceCode().markVariableAsUsed` instead of `context.markVariableAsUsed`.',
+          type: 'MemberExpression',
+          column: 13,
+          endColumn: 39,
+          endLine: 7,
+          line: 7,
+        },
+      ],
+    },
+    {
+      // The deprecated `parserServices` property.
+      code: `
+        module.exports = {
+          create(context) {
+            const parserServices = context.parserServices;
+          }
+        }
+      `,
+      output: `
+        module.exports = {
+          create(context) {
+            const parserServices = context.sourceCode.parserServices;
+          }
+        }
+      `,
+      errors: [
+        {
+          message:
+            'Use `context.sourceCode.parserServices` instead of `context.parserServices`.',
+          type: 'MemberExpression',
+          column: 36,
+          endColumn: 58,
+          endLine: 4,
+          line: 4,
         },
       ],
     },
