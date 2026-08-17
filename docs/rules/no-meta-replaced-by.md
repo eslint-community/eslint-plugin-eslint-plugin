@@ -4,6 +4,8 @@
 
 💼 This rule is enabled in the ✅ `recommended` [config](https://github.com/eslint-community/eslint-plugin-eslint-plugin#presets).
 
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+
 <!-- end auto-generated rule header -->
 
 As of ESLint v9.21.0, the rule property `meta.deprecated` can be either a boolean or an object of type `DeprecatedInfo`. The `DeprecatedInfo` type includes an optional `replacedBy` array that replaces the now-deprecated `meta.replacedBy` property.
