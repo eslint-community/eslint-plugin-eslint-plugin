@@ -9,7 +9,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'requires the position of errors to be explicitly stated for all expected errors',
+        'Requires the position of errors to be explicitly stated for all expected errors',
       category: 'Tests',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-test-error-positions.md',
