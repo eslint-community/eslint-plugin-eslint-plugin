@@ -77,10 +77,6 @@ module.exports = {
 };
 ```
 
-## When Not To Use It
-
-When using [`eslint-doc-generator`](https://github.com/bmish/eslint-doc-generator) to generate documentation for your rules, you may want to disable this rule to include the `default` property in the generated documentation. This is because `eslint-doc-generator` does not yet support `meta.defaultOptions`, see [bmish/eslint-doc-generator#513](https://github.com/bmish/eslint-doc-generator/issues/513).
-
 ## Further Reading
 
 - [ESLint rule docs: Option Defaults](https://eslint.org/docs/latest/extend/custom-rules#option-defaults)

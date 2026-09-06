@@ -62,5 +62,5 @@ module.exports = {
 ## Further Reading
 
 - [ESLint rule docs: `messageId`s](https://eslint.org/docs/latest/extend/custom-rules#messageids)
-- [no-invalid-message-ids](./no-invalid-message-ids.md) rule
+- [no-unused-message-ids](./no-unused-message-ids.md) rule
 - [no-missing-message-ids](./no-missing-message-ids.md) rule
