@@ -23,7 +23,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'disallow missing placeholders in rule report messages',
+      description: 'Disallow missing placeholders in rule report messages',
       category: 'Rules',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-missing-placeholders.md',

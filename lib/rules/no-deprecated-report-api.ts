@@ -15,7 +15,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'disallow the version of `context.report()` with multiple arguments',
+        'Disallow the version of `context.report()` with multiple arguments',
       category: 'Rules',
       recommended: true,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-deprecated-report-api.md',

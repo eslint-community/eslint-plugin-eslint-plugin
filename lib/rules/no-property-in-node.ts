@@ -52,7 +52,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'disallow using `in` to narrow node types instead of looking at properties',
+        'Disallow using `in` to narrow node types instead of looking at properties',
       category: 'Rules',
       recommended: false,
       // @ts-expect-error -- need to augment the type of `Rule.RuleMetaData` to include `requiresTypeChecking`

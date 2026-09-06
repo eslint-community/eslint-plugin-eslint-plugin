@@ -20,7 +20,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'enforce a consistent format for rule report messages',
+      description: 'Enforce a consistent format for rule report messages',
       category: 'Rules',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/report-message-format.md',
