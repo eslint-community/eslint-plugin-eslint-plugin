@@ -1,4 +1,4 @@
-# eslint-plugin-eslint-plugin ![CI](https://github.com/eslint-community/eslint-plugin-eslint-plugin/workflows/CI/badge.svg) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) <!-- omit from toc -->
+# eslint-plugin-eslint-plugin [![CI](https://github.com/eslint-community/eslint-plugin-eslint-plugin/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/eslint-community/eslint-plugin-eslint-plugin/actions/workflows/main.yml) [![NPM version](https://img.shields.io/npm/v/eslint-plugin-eslint-plugin.svg?style=flat)](https://npmjs.org/package/eslint-plugin-eslint-plugin) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) <!-- omit from toc -->
 
 An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and TypeScript are all supported.
 
@@ -12,6 +12,8 @@ An ESLint plugin for linting ESLint plugins. Rules written in CJS, ESM, and Type
 - [Presets](#presets)
   - [Semantic versioning policy](#semantic-versioning-policy)
   - [Preset usage](#preset-usage)
+- [Settings](#settings)
+  - [`ruleTesterConstructors`](#ruletesterconstructors)
 
 <!-- vscode-markdown-toc-config
 	numbering=false
@@ -164,7 +166,7 @@ export default [
 
 ## <a name='Settings'></a>Settings
 
-You may set the following settings in your `eslint.config.js`
+You may set the following settings in your `eslint.config.js`.
 
 ### <a name='ruleTesterConstructors'></a>`ruleTesterConstructors`
 

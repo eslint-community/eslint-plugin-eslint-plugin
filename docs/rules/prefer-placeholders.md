@@ -17,7 +17,7 @@ context.report({
 Using placeholders is often preferred over using dynamic report messages, for a few reasons:
 
 - They can help enforce a separation of the message and the data.
-- It will be easier to migrate when ESLint starts supporting placing lint messages in metadata (see [#6740](https://github.com/eslint/eslint/issues/6740))
+- They can be used in messages stored in [`meta.messages`](https://eslint.org/docs/latest/extend/custom-rules#messageids) and referenced through `messageId`.
 
 ## Rule Details
 
