@@ -86,7 +86,7 @@ ruleTester.run('require-meta-default-options', rule, {
       `,
       output: `
         module.exports = {
-          meta: { schema: [],  },
+          meta: { schema: []  },
           create(context) {}
         };
       `,
@@ -96,6 +96,64 @@ ruleTester.run('require-meta-default-options', rule, {
           type: 'Property',
           column: 31,
           endColumn: 50,
+          endLine: 3,
+          line: 3,
+        },
+      ],
+    },
+    {
+      // defaultOptions at the beginning of the properties (from issue #660)
+      code: `
+        module.exports = {
+          meta: {
+            defaultOptions: [{}],
+            docs: {},
+            schema: [],
+          },
+          create(context) {}
+        };
+      `,
+      output: `
+        module.exports = {
+          meta: {
+            
+            docs: {},
+            schema: [],
+          },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'unnecessaryDefaultOptions',
+          type: 'Property',
+          column: 13,
+          endColumn: 33,
+          endLine: 4,
+          line: 4,
+        },
+      ],
+    },
+    {
+      // defaultOptions in the middle of the properties
+      code: `
+        module.exports = {
+          meta: { docs: {}, defaultOptions: [1], schema: [] },
+          create(context) {}
+        };
+      `,
+      output: `
+        module.exports = {
+          meta: { docs: {},  schema: [] },
+          create(context) {}
+        };
+      `,
+      errors: [
+        {
+          messageId: 'unnecessaryDefaultOptions',
+          type: 'Property',
+          column: 29,
+          endColumn: 48,
           endLine: 3,
           line: 3,
         },

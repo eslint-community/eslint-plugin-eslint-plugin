@@ -1,3 +1,8 @@
+import {
+  isClosingBraceToken,
+  isCommaToken,
+  isOpeningBraceToken,
+} from '@eslint-community/eslint-utils';
 import type { Rule } from 'eslint';
 
 import {
@@ -58,8 +63,28 @@ const rule: Rule.RuleModule = {
         context.report({
           node: metaDefaultOptions,
           messageId: 'unnecessaryDefaultOptions',
-          fix(fixer) {
-            return fixer.remove(metaDefaultOptions);
+          *fix(fixer) {
+            const tokenBefore = sourceCode.getTokenBefore(metaDefaultOptions);
+            const tokenAfter = sourceCode.getTokenAfter(metaDefaultOptions);
+            if (
+              tokenBefore &&
+              tokenAfter &&
+              ((isCommaToken(tokenBefore) && isCommaToken(tokenAfter)) || // In middle of properties
+                (isOpeningBraceToken(tokenBefore) && isCommaToken(tokenAfter))) // At beginning of properties
+            ) {
+              yield fixer.remove(tokenAfter); // Remove extra comma.
+            }
+            if (
+              tokenBefore &&
+              tokenAfter &&
+              isCommaToken(tokenBefore) &&
+              isClosingBraceToken(tokenAfter)
+            ) {
+              // At end of properties
+              yield fixer.remove(tokenBefore); // Remove extra comma.
+            }
+
+            yield fixer.remove(metaDefaultOptions);
           },
         });
       }
