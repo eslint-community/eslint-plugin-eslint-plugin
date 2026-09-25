@@ -3,7 +3,11 @@
  */
 import type { Rule } from 'eslint';
 
-import { getKeyName, getRuleInfo } from '../utils.ts';
+import {
+  createPropertyReorderFixes,
+  getKeyName,
+  getRuleInfo,
+} from '../utils.ts';
 
 const defaultOrder = [
   'type',
@@ -102,13 +106,10 @@ const rule: Rule.RuleModule = {
               order: knownProps.map(keyNameMapper).join(', '),
             },
             fix(fixer) {
-              const expectedProps = [...knownProps, ...unknownProps];
-              return props.map((prop, k) => {
-                return fixer.replaceText(
-                  prop,
-                  sourceCode.getText(expectedProps[k]),
-                );
-              });
+              return createPropertyReorderFixes(fixer, sourceCode, props, [
+                ...knownProps,
+                ...unknownProps,
+              ]);
             },
           });
         }
