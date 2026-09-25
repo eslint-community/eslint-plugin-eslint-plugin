@@ -27,7 +27,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'enforce the order of meta properties',
+      description: 'Enforce the order of meta properties',
       category: 'Rules',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/meta-property-ordering.md',

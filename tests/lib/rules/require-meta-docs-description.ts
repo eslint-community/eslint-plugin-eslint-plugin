@@ -62,7 +62,7 @@ ruleTester.run('require-meta-docs-description', rule, {
       };
     `,
     `
-      const docs = { description: 'disallow foo' };
+      const docs = { description: 'Disallow foo' };
       module.exports = {
         meta: { docs },
         create(context) {}
@@ -70,7 +70,7 @@ ruleTester.run('require-meta-docs-description', rule, {
     `,
     `
       module.exports = {
-        meta: { docs: { description: 'disallow unused variables' } },
+        meta: { docs: { description: 'Disallow unused variables' } },
         create(context) {}
       };
     `,
@@ -78,7 +78,7 @@ ruleTester.run('require-meta-docs-description', rule, {
       // ESM
       code: `
         export default {
-          meta: { docs: { description: 'disallow unused variables' } },
+          meta: { docs: { description: 'Disallow unused variables' } },
           create(context) {}
         };
       `,
@@ -86,13 +86,13 @@ ruleTester.run('require-meta-docs-description', rule, {
     },
     `
       module.exports = {
-        meta: { docs: { description: 'enforce a maximum line length' } },
+        meta: { docs: { description: 'Enforce a maximum line length' } },
         create(context) {}
       };
     `,
     `
       module.exports = {
-        meta: { docs: { description: 'require or disallow newline at the end of files' } },
+        meta: { docs: { description: 'Require or disallow newline at the end of files' } },
         create(context) {}
       };
     `,
@@ -104,24 +104,24 @@ ruleTester.run('require-meta-docs-description', rule, {
     `,
     `
       module.exports = {
-        meta: { docs: { description: \`enforce with template literal\` } },
+        meta: { docs: { description: \`Enforce with template literal\` } },
         create(context) {}
       };
     `,
     `
       module.exports = {
-        meta: { docs: { description: "enforce" + " " + "something" } },
+        meta: { docs: { description: "Enforce" + " " + "something" } },
         create(context) {}
       };
     `,
     `
       module.exports = {
-        meta: { docs: { description: "enforce " + generateSomething() } },
+        meta: { docs: { description: "Enforce " + generateSomething() } },
         create(context) {}
       };
     `,
     `
-      const DESCRIPTION = 'require foo';
+      const DESCRIPTION = 'Require foo';
       module.exports = {
         meta: { docs: { description: DESCRIPTION } },
         create(context) {}
@@ -156,7 +156,7 @@ ruleTester.run('require-meta-docs-description', rule, {
     },
     // `meta` in variable, `description` present.
     `
-      const meta = { docs: { description: 'enforce foo' } };
+      const meta = { docs: { description: 'Enforce foo' } };
       module.exports = {
         meta,
         create(context) {}
@@ -164,7 +164,7 @@ ruleTester.run('require-meta-docs-description', rule, {
     `,
     // Spread.
     `
-      const extraDocs = { description: 'enforce foo' };
+      const extraDocs = { description: 'Enforce foo' };
       const extraMeta = { docs: { ...extraDocs } };
       module.exports = {
         meta: { ...extraMeta },
@@ -427,7 +427,7 @@ ruleTester.run('require-meta-docs-description', rule, {
     {
       code: `
         module.exports = {
-          meta: { docs: { description: 'enforce something with trailing whitespace ' } },
+          meta: { docs: { description: 'Enforce something with trailing whitespace ' } },
           create(context) {}
         };
       `,
@@ -454,7 +454,7 @@ ruleTester.run('require-meta-docs-description', rule, {
       errors: [
         {
           message:
-            '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.',
+            '`meta.docs.description` must match the regexp /^(Enforce|Require|Disallow)/.',
           type: 'Literal',
           column: 40,
           endColumn: 60,
@@ -474,7 +474,7 @@ ruleTester.run('require-meta-docs-description', rule, {
       errors: [
         {
           message:
-            '`meta.docs.description` must match the regexp /^(enforce|require|disallow)/.',
+            '`meta.docs.description` must match the regexp /^(Enforce|Require|Disallow)/.',
           type: 'BinaryExpression',
           column: 40,
           endColumn: 59,
@@ -517,7 +517,7 @@ ruleTesterTypeScript.run('require-meta-docs-description (TypeScript)', rule, {
   valid: [
     `
       export default createESLintRule<Options, MessageIds>({
-        meta: { docs: { description: 'disallow unused variables' } },
+        meta: { docs: { description: 'Disallow unused variables' } },
         create(context) {}
       });
     `,
