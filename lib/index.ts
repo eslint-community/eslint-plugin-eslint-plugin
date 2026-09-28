@@ -11,6 +11,7 @@ import fixerReturn from './rules/fixer-return.ts';
 import metaPropertyOrdering from './rules/meta-property-ordering.ts';
 import noDeprecatedContextMethods from './rules/no-deprecated-context-methods.ts';
 import noDeprecatedReportApi from './rules/no-deprecated-report-api.ts';
+import noDeprecatedSourcecodeMethods from './rules/no-deprecated-sourcecode-methods.ts';
 import noIdenticalTests from './rules/no-identical-tests.ts';
 import noIncompleteMetaSchema from './rules/no-incomplete-meta-schema.ts';
 import noIncorrectMetaSchema from './rules/no-incorrect-meta-schema.ts';
@@ -96,6 +97,7 @@ const allRules = {
   'meta-property-ordering': metaPropertyOrdering,
   'no-deprecated-context-methods': noDeprecatedContextMethods,
   'no-deprecated-report-api': noDeprecatedReportApi,
+  'no-deprecated-sourcecode-methods': noDeprecatedSourcecodeMethods,
   'no-identical-tests': noIdenticalTests,
   'no-incomplete-meta-schema': noIncompleteMetaSchema,
   'no-incorrect-meta-schema': noIncorrectMetaSchema,

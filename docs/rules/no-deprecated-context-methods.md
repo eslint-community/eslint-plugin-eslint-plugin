@@ -32,6 +32,11 @@ The deprecated methods are:
 - `getTokensAfter`
 - `getTokensBefore`
 - `getTokensBetween`
+- `getAncestors`
+- `getDeclaredVariables`
+- `getScope`
+- `markVariableAsUsed`
+- `parserServices`
 
 Instead of using these methods, you should use the equivalent methods on [`SourceCode`](https://eslint.org/docs/latest/extend/custom-rules#accessing-the-source-code), e.g. `context.sourceCode.getText()` instead of `context.getSource()`.
 
@@ -45,6 +50,8 @@ module.exports = {
     return {
       Program(ast) {
         const firstToken = context.getFirstToken(ast);
+        const scope = context.getScope();
+        const parserServices = context.parserServices;
       },
     };
   },
@@ -56,11 +63,13 @@ Examples of **correct** code for this rule:
 ```js
 module.exports = {
   create(context) {
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       Program(ast) {
         const firstToken = sourceCode.getFirstToken(ast);
+        const scope = sourceCode.getScope(ast);
+        const parserServices = sourceCode.parserServices;
       },
     };
   },
