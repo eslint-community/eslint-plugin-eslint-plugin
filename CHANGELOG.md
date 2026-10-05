@@ -11,6 +11,21 @@
 
 - migrate package to TypeScript and publish types ([#534](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/534)) ([95b859a](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/95b859ab9a263cc623871ac7930c0f83c197163f))
 
+## [7.6.3](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.6.2...v7.6.3) (2026-10-05)
+
+
+### Documentation
+
+* fix outdated and broken ESLint documentation links ([#670](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/670)) ([19bb4e6](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/19bb4e6611cb119b3ee4a477639cc3932155ee94))
+* fix outdated links and documentation ([#664](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/664)) ([41f9414](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/41f9414390cf91567614821e6b7ed87697d8e2bd))
+
+
+### Chores
+
+* update dependency prettier to v3.9.7 ([#667](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/667)) ([6578d4e](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6578d4e3ff9f52cf46808ea7589f805999c94eca))
+* update dependency prettier to v3.9.8 ([#668](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/668)) ([da74f98](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/da74f98779de8ed69e5faa8d5ef403b398be4f40))
+* update dependency prettier to v3.9.9 ([#669](https://github.com/eslint-community/eslint-plugin-eslint-plugin/issues/669)) ([6d3e8e1](https://github.com/eslint-community/eslint-plugin-eslint-plugin/commit/6d3e8e12e2fca5a6abbeb6d38c8239cfadfdde81))
+
 ## [7.6.2](https://github.com/eslint-community/eslint-plugin-eslint-plugin/compare/v7.6.1...v7.6.2) (2026-08-15)
 
 
