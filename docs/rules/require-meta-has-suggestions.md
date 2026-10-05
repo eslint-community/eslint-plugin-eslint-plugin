@@ -8,7 +8,7 @@
 
 <!-- end auto-generated rule header -->
 
-A suggestable ESLint rule should specify the `meta.hasSuggestions` property with a value of `true`. This makes it easier for both humans and tooling to tell whether a rule provides suggestions. [As of ESLint 8](https://eslint.org/blog/2021/06/whats-coming-in-eslint-8.0.0#rules-with-suggestions-now-require-the-metahassuggestions-property), an exception will be thrown if a suggestable rule is missing this property.
+A suggestable ESLint rule should specify the `meta.hasSuggestions` property with a value of `true`. This makes it easier for both humans and tooling to tell whether a rule provides suggestions. [As of ESLint 8](https://eslint.org/blog/2021/06/whats-coming-in-eslint-8.0.0#rules-with-suggestions-now-require-the-meta.hassuggestions-property), an exception will be thrown if a suggestable rule is missing this property.
 
 Likewise, rules that do not report suggestions should not enable the `meta.hasSuggestions` property.
 

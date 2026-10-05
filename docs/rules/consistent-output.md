@@ -8,7 +8,7 @@ When writing tests for fixable rules, the `output` property on each test case ca
 
 Prior to ESLint 7, it was easy to forget to assert the autofix output of a particular test case, resulting in incomplete test coverage and a greater chance of unexpected behavior / bugs.
 
-[As of ESLint 7](https://eslint.org/docs/user-guide/migrating-to-7.0.0#additional-validation-added-to-the-ruletester-class), test cases that trigger an autofix are required by ESLint to provide the `output` property. Thus, it's now acceptable and more concise to omit this property when there's no autofix.
+[As of ESLint 7](https://eslint.org/docs/latest/use/migrating-to-7.0.0#rule-tester-strict), test cases that trigger an autofix are required by ESLint to provide the `output` property. Thus, it's now acceptable and more concise to omit this property when there's no autofix.
 
 ## Rule Details
 

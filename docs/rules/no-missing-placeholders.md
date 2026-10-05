@@ -76,4 +76,4 @@ If you want to use rule messages that actually contain double-curly bracket text
 
 ## Further Reading
 
-- [ESLint rule docs: Using Message Placeholders](https://eslint.org/docs/latest/extend/custom-rules#using-message-placeholders)
+- [ESLint rule docs: Using Message Placeholders](https://eslint.org/docs/latest/extend/custom-rules#use-message-placeholders)
