@@ -60,4 +60,4 @@ If you want to allow unused placeholders, you should turn off this rule.
 ## Further Reading
 
 - [ESLint rule docs: Using Message Placeholders](https://eslint.org/docs/latest/extend/custom-rules#using-message-placeholders)
-- [no-missing-placeholders](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/no-missing-placeholders.md)
+- [no-missing-placeholders](./no-missing-placeholders.md)
