@@ -154,7 +154,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'require explicit policy choices in rule options schemas',
+      description: 'Require explicit policy choices in rule options schemas',
       category: 'Rules',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-incomplete-meta-schema.md',

@@ -30,7 +30,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'require the properties of a test case to be placed in a consistent order',
+        'Require the properties of a test case to be placed in a consistent order',
       category: 'Tests',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/test-case-property-ordering.md',
