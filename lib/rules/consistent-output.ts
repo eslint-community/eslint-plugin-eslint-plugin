@@ -17,7 +17,7 @@ const rule: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description:
-        'enforce consistent use of `output` assertions in rule tests',
+        'Enforce consistent use of `output` assertions in rule tests',
       category: 'Tests',
       recommended: false,
       url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/consistent-output.md',
