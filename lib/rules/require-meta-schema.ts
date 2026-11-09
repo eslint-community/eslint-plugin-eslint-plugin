@@ -21,7 +21,7 @@ const rule: Rule.RuleModule = {
       description: 'require rules to implement a `meta.schema` property',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-schema.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-schema.md',
     },
     hasSuggestions: true,
     schema: [

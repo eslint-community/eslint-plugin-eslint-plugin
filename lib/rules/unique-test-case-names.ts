@@ -10,7 +10,7 @@ const rule: Rule.RuleModule = {
       description: 'enforce that all test cases with names have unique names',
       category: 'Tests',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/unique-test-case-names.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/unique-test-case-names.md',
     },
     schema: [],
     messages: {

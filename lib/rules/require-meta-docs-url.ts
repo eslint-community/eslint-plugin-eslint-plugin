@@ -24,7 +24,7 @@ const rule: Rule.RuleModule = {
       description: 'require rules to implement a `meta.docs.url` property',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-docs-url.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-docs-url.md',
     },
     fixable: 'code',
     schema: [

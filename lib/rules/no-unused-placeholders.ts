@@ -26,7 +26,7 @@ const rule: Rule.RuleModule = {
       description: 'disallow unused placeholders in rule report messages',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-unused-placeholders.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-unused-placeholders.md',
     },
     fixable: undefined,
     schema: [],

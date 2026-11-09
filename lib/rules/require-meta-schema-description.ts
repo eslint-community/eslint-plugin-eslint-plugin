@@ -19,7 +19,7 @@ const rule: Rule.RuleModule = {
         'require rules `meta.schema` properties to include descriptions',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-schema-description.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-schema-description.md',
     },
     schema: [],
     messages: {

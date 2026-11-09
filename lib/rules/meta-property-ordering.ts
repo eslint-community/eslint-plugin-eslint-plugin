@@ -30,7 +30,7 @@ const rule: Rule.RuleModule = {
       description: 'enforce the order of meta properties',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/meta-property-ordering.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/meta-property-ordering.md',
     },
     fixable: 'code',
     schema: [

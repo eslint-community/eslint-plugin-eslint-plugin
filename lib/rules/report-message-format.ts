@@ -23,7 +23,7 @@ const rule: Rule.RuleModule = {
       description: 'enforce a consistent format for rule report messages',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/report-message-format.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/report-message-format.md',
     },
     fixable: undefined,
     schema: [
