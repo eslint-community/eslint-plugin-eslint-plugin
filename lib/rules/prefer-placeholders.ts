@@ -23,7 +23,7 @@ const rule: Rule.RuleModule = {
       description: 'require using placeholders for dynamic report messages',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-placeholders.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/prefer-placeholders.md',
     },
     fixable: undefined,
     schema: [],

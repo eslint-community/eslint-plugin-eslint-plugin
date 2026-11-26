@@ -23,7 +23,7 @@ const rule: Rule.RuleModule = {
       description: 'disallow unused `messageId`s in `meta.messages`',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-unused-message-ids.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-unused-message-ids.md',
     },
     fixable: undefined,
     schema: [],

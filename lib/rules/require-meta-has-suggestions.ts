@@ -21,7 +21,7 @@ const rule: Rule.RuleModule = {
         'require suggestable rules to implement a `meta.hasSuggestions` property',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-has-suggestions.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-has-suggestions.md',
     },
     fixable: 'code',
     schema: [],

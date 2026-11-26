@@ -76,7 +76,7 @@ export default defineConfig([
         'error',
         {
           pattern:
-            'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/{{name}}.md',
+            'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/{{name}}.md',
         },
       ],
     },

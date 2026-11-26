@@ -19,7 +19,7 @@ const rule: Rule.RuleModule = {
       description:
         'require suggestions to have different `messageId` than their parent report',
       category: 'Rules',
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-matching-violation-suggest-message-ids.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-matching-violation-suggest-message-ids.md',
     },
     schema: [],
     messages: {

@@ -16,7 +16,7 @@ const rule: Rule.RuleModule = {
         'require only rules with options to implement a `meta.defaultOptions` property',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-default-options.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-default-options.md',
     },
     fixable: 'code',
     schema: [],

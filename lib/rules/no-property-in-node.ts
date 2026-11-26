@@ -57,7 +57,7 @@ const rule: Rule.RuleModule = {
       recommended: false,
       // @ts-expect-error -- need to augment the type of `Rule.RuleMetaData` to include `requiresTypeChecking`
       requiresTypeChecking: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-property-in-node.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-property-in-node.md',
     },
     schema: [
       {

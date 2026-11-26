@@ -18,7 +18,7 @@ const rule: Rule.RuleModule = {
         'disallow invalid RuleTester test cases where the `output` matches the `code`',
       category: 'Tests',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-output-null.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/prefer-output-null.md',
     },
     fixable: 'code',
     schema: [],

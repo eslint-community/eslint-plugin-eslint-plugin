@@ -23,7 +23,7 @@ const rule: Rule.RuleModule = {
         'require using `messageId` instead of `message` or `desc` to report rule violations',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/prefer-message-ids.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/prefer-message-ids.md',
     },
     fixable: undefined,
     schema: [],

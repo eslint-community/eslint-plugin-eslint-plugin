@@ -20,7 +20,7 @@ const rule: Rule.RuleModule = {
         'enforce consistent use of `output` assertions in rule tests',
       category: 'Tests',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/consistent-output.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/consistent-output.md',
     },
     fixable: undefined, // or "code" or "whitespace"
     schema: [

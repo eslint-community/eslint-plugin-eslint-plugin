@@ -18,7 +18,7 @@ const rule: Rule.RuleModule = {
         'enforce consistent usage of shorthand strings for test cases with no options',
       category: 'Tests',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/test-case-shorthand-strings.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/test-case-shorthand-strings.md',
     },
     fixable: 'code',
     schema: [

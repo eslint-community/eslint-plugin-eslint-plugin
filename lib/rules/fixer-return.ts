@@ -39,7 +39,7 @@ const rule: Rule.RuleModule = {
       description: 'require fixer functions to return a fix',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/fixer-return.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/fixer-return.md',
     },
     fixable: undefined,
     schema: [],

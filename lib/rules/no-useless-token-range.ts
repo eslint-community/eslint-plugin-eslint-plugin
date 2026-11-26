@@ -18,7 +18,7 @@ const rule: Rule.RuleModule = {
         'disallow unnecessary calls to `sourceCode.getFirstToken()` and `sourceCode.getLastToken()`',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-useless-token-range.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-useless-token-range.md',
     },
     fixable: 'code',
     schema: [],

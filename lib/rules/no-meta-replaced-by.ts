@@ -15,7 +15,7 @@ const rule: Rule.RuleModule = {
       description: 'disallow using the `meta.replacedBy` rule property',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-meta-replaced-by.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-meta-replaced-by.md',
     },
     schema: [],
     messages: {

@@ -13,7 +13,7 @@ const rule: Rule.RuleModule = {
         'require rules to implement a `meta.docs.description` property with the correct format',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-docs-description.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-docs-description.md',
     },
     fixable: undefined,
     schema: [

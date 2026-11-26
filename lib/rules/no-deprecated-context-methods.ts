@@ -41,7 +41,7 @@ const rule: Rule.RuleModule = {
         'disallow usage of deprecated methods on rule context objects',
       category: 'Rules',
       recommended: true,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/no-deprecated-context-methods.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/no-deprecated-context-methods.md',
     },
     fixable: 'code',
     schema: [],

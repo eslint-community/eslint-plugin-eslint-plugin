@@ -40,7 +40,7 @@ const rule: Rule.RuleModule = {
         'require rules to implement a `meta.docs.recommended` property',
       category: 'Rules',
       recommended: false,
-      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/tree/HEAD/docs/rules/require-meta-docs-recommended.md',
+      url: 'https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/HEAD/docs/rules/require-meta-docs-recommended.md',
     },
     fixable: undefined,
     hasSuggestions: true,
